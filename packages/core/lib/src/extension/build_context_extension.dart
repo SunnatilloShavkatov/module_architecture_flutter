@@ -37,22 +37,28 @@ extension BuildContextExt on BuildContext {
 // }) =>
 //     AppLocalizations.of(this)!.translate(key, namedArgs: namedArgs);
 
-// AppOptions get options => AppOptions.of(this);
-//
-// void setLocale(Locale locale) {
-//   AppOptions.update(
-//     this,
-//     AppOptions.of(this).copyWith(locale: locale),
-//   );
-// }
-//
-// void setThemeMode(ThemeMode themeMode) {
-//   AppOptions.update(
-//     this,
-//     AppOptions.of(this).copyWith(themeMode: themeMode),
-//   );
-// }
+  AppOptions get options => AppOptions.of(this);
+
+  void setLocale(Locale locale) {
+    AppOptions.update(
+      this,
+      AppOptions.of(this).copyWith(locale: locale),
+    );
+  }
+
+  void setThemeMode(ThemeMode themeMode) {
+    AppOptions.update(
+      this,
+      AppOptions.of(this).copyWith(themeMode: themeMode),
+    );
+  }
+
+  AppLocalizations get localizations => AppLocalizations.of(this)!;
 }
+
+AppLocalizations get localizationsWithContext => AppLocalizations.of(
+      AppInjector.instance.get(instanceName: "navigator_key"),
+    )!;
 
 // extension LocalizationExtension on String {
 //   String tr({

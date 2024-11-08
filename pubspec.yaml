@@ -13,6 +13,8 @@ dependencies:
   # packages
   core:
     path: packages/core
+  base_dependencies:
+    path: packages/base_dependencies
   navigation:
     path: packages/navigation
   # modules
@@ -20,6 +22,8 @@ dependencies:
     path: modules/main
   others:
     path: modules/others
+  more:
+    path: modules/more
 
 dev_dependencies:
   flutter_test:

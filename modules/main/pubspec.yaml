@@ -11,11 +11,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # packages
   core:
     path: ../../packages/core
   navigation:
     path: ../../packages/navigation
-  vector_math: ^2.1.4
+  # modules
+  more:
+    path: ../../modules/more
 
 dev_dependencies:
   flutter_test:

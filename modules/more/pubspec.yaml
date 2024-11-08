@@ -1,4 +1,4 @@
-name: core
+name: more
 description: "A new Flutter project."
 version: 0.0.1
 homepage: "none"
@@ -11,12 +11,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
-  components:
-    path: ../components
-  base_dependencies:
-    path: ../base_dependencies
+  # packages
+  core:
+    path: ../../packages/core
+  navigation:
+    path: ../../packages/navigation
+  # modules
 
 dev_dependencies:
   flutter_test:
@@ -25,11 +25,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-  assets:
-    - assets/fonts/AppIcons.ttf
-
-  fonts:
-    - family: AppIcons
-      fonts:
-        - asset: assets/fonts/AppIcons.ttf

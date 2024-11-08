@@ -3,7 +3,7 @@ import "dart:io";
 import "dart:math" as math;
 
 import "package:base_dependencies/base_dependencies.dart";
-import "package:core/src/theme/themes.dart";
+import "package:core/core.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 

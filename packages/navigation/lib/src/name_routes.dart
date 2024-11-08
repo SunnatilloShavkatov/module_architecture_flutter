@@ -5,4 +5,7 @@ sealed class Routes {
 
   static const String splash = "/";
   static const String main = "/main";
+
+  /// more
+  static const String settings = "/settings";
 }

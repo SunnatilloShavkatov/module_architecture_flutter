@@ -1,6 +1,5 @@
 import "package:core/core.dart";
 import "package:flutter/material.dart";
-import "package:vector_math/vector_math_64.dart" as vector;
 
 class CustomNavigationBar extends StatelessWidget {
   const CustomNavigationBar({
@@ -179,61 +178,6 @@ class _NavItemState extends State<_NavItem> with TickerProviderStateMixin {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _Label extends StatelessWidget {
-  const _Label({
-    required this.colorTween,
-    required this.animation,
-    required this.label,
-    required this.selectedLabelStyle,
-    required this.unselectedLabelStyle,
-  });
-
-  final ColorTween colorTween;
-  final Animation<double> animation;
-  final String label;
-  final TextStyle? selectedLabelStyle;
-  final TextStyle? unselectedLabelStyle;
-
-  @override
-  Widget build(BuildContext context) {
-    final double? selectedFontSize = selectedLabelStyle?.fontSize;
-    final double? unselectedFontSize = unselectedLabelStyle?.fontSize;
-
-    final TextStyle customStyle = TextStyle.lerp(
-      unselectedLabelStyle,
-      selectedLabelStyle,
-      animation.value,
-    )!;
-    final Widget text = DefaultTextStyle.merge(
-      style: customStyle.copyWith(
-        fontSize: selectedFontSize,
-        color: colorTween.evaluate(animation),
-      ),
-      // The font size should grow here when active, but because of the way
-      // font rendering works, it doesn't grow smoothly if we just animate
-      // the font size, so we use a transform instead.
-      child: Transform(
-        transform: Matrix4.diagonal3(
-          vector.Vector3.all(
-            Tween<double>(
-              begin: unselectedFontSize! / selectedFontSize!,
-              end: 1,
-            ).evaluate(animation),
-          ),
-        ),
-        alignment: Alignment.bottomCenter,
-        child: Text(label),
-      ),
-    );
-
-    return Align(
-      alignment: Alignment.bottomCenter,
-      heightFactor: 1,
-      child: text,
     );
   }
 }

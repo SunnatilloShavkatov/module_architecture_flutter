@@ -18,4 +18,6 @@ extension SizeExtension on BuildContext {
   EdgeInsets get viewPadding => MediaQuery.viewPaddingOf(this);
 
   double get devicePixelRatio => MediaQuery.devicePixelRatioOf(this);
+
+  TextScaler get textScaler => MediaQuery.textScalerOf(this);
 }
