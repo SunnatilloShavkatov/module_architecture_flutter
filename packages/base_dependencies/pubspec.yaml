@@ -1,0 +1,60 @@
+name: base_dependencies
+description: "A new Flutter project."
+version: 0.0.1
+homepage: "none"
+publish_to: "none"
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+  flutter: ">=3.24.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  intl: ^0.19.0
+  # di
+  get_it: ^8.0.2
+  # equatable
+  equatable: ^2.0.5
+  # state
+  rxdart: ^0.28.0
+  flutter_bloc: ^8.1.6
+  # hive
+  hive: ^2.2.3
+  # path
+  path_provider: ^2.1.5
+  # rest api
+  dio: ^5.7.0
+  dio_retry_plus: ^2.0.7
+  # chuck
+  chuck_interceptor: ^2.2.0
+  # box
+  gap: ^3.0.1
+  vector_math: ^2.1.4
+  # url launchers
+  url_launcher: ^6.3.1
+  # otp autofill
+  pinput: ^5.0.0
+  sms_autofill: ^2.4.0
+  # connectivity plus
+  connectivity_plus: ^6.1.0
+  # package info
+  package_info_plus: ^8.1.1
+  # cached network image
+  cached_network_image: ^3.4.1
+  flutter_cache_manager: ^3.4.1
+  # firebase
+#  firebase_core: ^3.7.0
+#  firebase_analytics: ^11.3.4
+#  firebase_messaging: ^15.1.4
+#  firebase_remote_config: ^5.1.4
+  # local notification
+  flutter_local_notifications: ^18.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
