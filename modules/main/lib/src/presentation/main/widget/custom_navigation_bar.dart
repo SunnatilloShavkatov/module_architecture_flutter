@@ -22,10 +22,10 @@ class CustomNavigationBar extends StatelessWidget {
         key: const Key("custom_navigation_bar_container"),
         height: 64,
         clipBehavior: Clip.antiAlias,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(64)),
-          boxShadow: [BoxShadow(color: Colors.white, offset: Offset(0, 4))],
+        decoration: BoxDecoration(
+          borderRadius: Dimensions.kBorderRadius48,
+          color: context.theme.bottomNavigationBarTheme.backgroundColor,
+          boxShadow: const [BoxShadow(color: Colors.white, offset: Offset(0, 4))],
         ),
         child: Row(
           key: const Key("custom_navigation_bar"),
@@ -49,16 +49,16 @@ class CustomNavigationBar extends StatelessWidget {
 class _NavItem extends StatefulWidget {
   const _NavItem({
     super.key,
-    required this.item,
     this.onTap,
+    required this.item,
     required this.isActive,
     this.selectedLabelStyle,
     this.unselectedLabelStyle,
   });
 
-  final CustomNavigationBarItem item;
-  final VoidCallback? onTap;
   final bool isActive;
+  final VoidCallback? onTap;
+  final CustomNavigationBarItem item;
   final TextStyle? selectedLabelStyle;
   final TextStyle? unselectedLabelStyle;
 
@@ -69,23 +69,18 @@ class _NavItem extends StatefulWidget {
 class _NavItemState extends State<_NavItem> with TickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 300),
+    duration: const Duration(milliseconds: 240),
   );
-  late final AnimationController _iconPositionController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 150),
-  );
-  late final Animation<double> _circleScaleAnimation;
-  late final Animation<double> _iconPositionAnimation;
+  late final Animation<double> _scaleAnimation;
+  late final Animation<double> _positionAnimation;
 
   @override
   void initState() {
     super.initState();
-    _circleScaleAnimation = Tween<double>(begin: 0, end: 20).animate(_controller);
-    _iconPositionAnimation = Tween<double>(begin: 8, end: 0).animate(_iconPositionController);
+    _scaleAnimation = Tween<double>(begin: 0, end: 20).animate(_controller);
+    _positionAnimation = Tween<double>(begin: 8, end: 0).animate(_controller);
     if (widget.isActive) {
       _controller.forward();
-      _iconPositionController.forward();
     }
   }
 
@@ -94,84 +89,80 @@ class _NavItemState extends State<_NavItem> with TickerProviderStateMixin {
     super.didUpdateWidget(oldWidget);
     if (widget.isActive) {
       _controller.forward();
-      _iconPositionController.forward();
     } else {
       _controller.reverse();
-      _iconPositionController.reverse();
     }
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _iconPositionController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle? selectedLabelStyle =
-        widget.selectedLabelStyle ?? context.theme.bottomNavigationBarTheme.selectedLabelStyle;
-    final TextStyle? unselectedLabelStyle =
+    final activeColor = context.theme.bottomNavigationBarTheme.selectedItemColor;
+    final inactiveColor = context.theme.bottomNavigationBarTheme.unselectedItemColor;
+    final unselectedLabelStyle =
         widget.unselectedLabelStyle ?? context.theme.bottomNavigationBarTheme.unselectedLabelStyle;
-    final Color? iconColor = widget.isActive
-        ? context.theme.bottomNavigationBarTheme.selectedItemColor
-        : context.theme.bottomNavigationBarTheme.unselectedItemColor;
-    final TextStyle? mergedLabelStyle = TextStyle.lerp(
-      unselectedLabelStyle,
-      selectedLabelStyle,
-      _controller.value,
-    )?.copyWith(color: iconColor);
+    final iconColor = widget.isActive ? activeColor : inactiveColor;
     return Expanded(
       child: InkWell(
         onTap: widget.onTap,
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
         customBorder: const CircleBorder(),
-        child: Tooltip(
-          preferBelow: false,
-          excludeFromSemantics: true,
-          message: widget.item.label,
-          child: Stack(
+        child: AnimatedBuilder(
+          animation: _controller,
+          child: IconTheme(
+            key: const Key("icon"),
+            data: IconThemeData(size: 24, color: iconColor),
+            child: widget.item.icon,
+          ),
+          builder: (context, child) => Stack(
+            key: const Key("stack"),
             alignment: Alignment.center,
             children: [
-              AnimatedBuilder(
-                animation: _controller,
-                builder: (context, child) => Container(
-                  width: 30 + _circleScaleAnimation.value,
-                  height: 30 + _circleScaleAnimation.value,
-                  decoration: BoxDecoration(
-                    color: widget.isActive ? context.colorScheme.primary : Colors.transparent,
-                    shape: BoxShape.circle,
-                  ),
+              Container(
+                key: const Key("container"),
+                width: 30 + _scaleAnimation.value,
+                height: 30 + _scaleAnimation.value,
+                decoration: BoxDecoration(
+                  color: widget.isActive ? context.colorScheme.primary : Colors.transparent,
+                  shape: BoxShape.circle,
                 ),
               ),
               Align(
-                child: AnimatedBuilder(
-                  animation: _controller,
-                  builder: (context, child) => Padding(
-                    padding: EdgeInsets.only(bottom: _iconPositionAnimation.value),
-                    child: IconTheme(
-                      data: IconThemeData(size: 24, color: iconColor),
-                      child: widget.item.icon,
-                    ),
-                  ),
+                key: const Key("icon_align"),
+                child: Padding(
+                  key: const Key("padding"),
+                  padding: EdgeInsets.only(bottom: _positionAnimation.value),
+                  child: child,
                 ),
               ),
               Positioned(
+                key: const Key("positioned"),
                 left: 0,
                 right: 0,
                 bottom: 8,
                 child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
+                  key: const Key("animated_switcher"),
+                  duration: const Duration(milliseconds: 180),
                   transitionBuilder: (Widget child, Animation<double> animation) => FadeTransition(
+                    key: const Key("fade"),
                     opacity: animation,
                     child: SlideTransition(
-                      position: Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero).animate(animation),
+                      key: const Key("slide"),
+                      position: Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(animation),
                       child: child,
                     ),
                   ),
-                  child: widget.isActive ? const SizedBox.shrink() : Text(widget.item.label, style: mergedLabelStyle),
+                  child: widget.isActive
+                      ? Dimensions.kGap
+                      : Text(
+                          key: const Key("label"),
+                          widget.item.label,
+                          style: unselectedLabelStyle?.copyWith(color: inactiveColor),
+                        ),
                 ),
               ),
             ],

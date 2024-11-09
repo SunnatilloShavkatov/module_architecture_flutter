@@ -1,5 +1,6 @@
 import "package:core/core.dart";
 import "package:flutter/material.dart";
+import "package:navigation/navigation.dart";
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -19,6 +20,7 @@ class SettingsPage extends StatelessWidget {
                     children: [
                       ListTile(
                         onTap: () {
+                          localSource.setLocale("en");
                           context.setLocale(const Locale("en"));
                           Navigator.of(context).pop();
                         },
@@ -26,6 +28,7 @@ class SettingsPage extends StatelessWidget {
                       ),
                       ListTile(
                         onTap: () {
+                          localSource.setLocale("uz");
                           context.setLocale(const Locale("uz"));
                           Navigator.of(context).pop();
                         },
@@ -33,6 +36,7 @@ class SettingsPage extends StatelessWidget {
                       ),
                       ListTile(
                         onTap: () {
+                          localSource.setLocale("ru");
                           context.setLocale(const Locale("ru"));
                           Navigator.of(context).pop();
                         },
@@ -43,7 +47,7 @@ class SettingsPage extends StatelessWidget {
                 ),
               );
             },
-            child: const Text("Locale"),
+            child: Text("Locale ${navigatorObserver.routes}"),
           ),
         ),
       );

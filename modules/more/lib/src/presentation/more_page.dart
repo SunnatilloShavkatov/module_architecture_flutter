@@ -8,14 +8,25 @@ class MorePage extends StatelessWidget {
   const MorePage({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Center(
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, Routes.settings);
-            },
-            child: Text(context.localizations.settings),
-          ),
+  Widget build(BuildContext context) {
+    logMessage("MorePage");
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      body: Center(
+        child: GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.settings);
+          },
+          child: Text(context.localizations.settings),
         ),
-      );
+      ),
+      bottomNavigationBar: SafeArea(
+        minimum: Dimensions.kPaddingAll16,
+        child: Text(
+          "${packageInfo.version} (${packageInfo.buildNumber})",
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
 }

@@ -55,8 +55,8 @@ class ThemeTextStyles extends ThemeExtension<ThemeTextStyles> {
 
   static const ThemeTextStyles light = ThemeTextStyles(
     appBarTitle: TextStyle(
-      color: Colors.black,
       fontSize: 20,
+      color: Colors.black,
       fontWeight: FontWeight.w600,
     ),
     buttonStyle: TextStyle(

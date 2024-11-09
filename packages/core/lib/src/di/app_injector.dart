@@ -46,13 +46,13 @@ class AppInjector implements Injector {
   }
 
   @override
-  Future<void> registerSingletonAsync<T extends Object>(
+  void registerSingletonAsync<T extends Object>(
     AsyncFunc<T> factoryFunc, {
     String? instanceName,
     Iterable<Type>? dependsOn,
     bool? signalsReady,
     DisposableFunc<T>? dispose,
-  }) async {
+  }) {
     if (!_getIt.isRegistered<T>()) {
       _getIt.registerSingletonAsync<T>(
         factoryFunc,
@@ -63,4 +63,8 @@ class AppInjector implements Injector {
       );
     }
   }
+
+  @override
+  bool isReadySync<T extends Object>({Object? instance, String? instanceName}) =>
+      _getIt.isReadySync<T>(instance: instance, instanceName: instanceName);
 }

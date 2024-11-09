@@ -2,16 +2,17 @@ part of "themes.dart";
 
 const SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
   statusBarColor: Colors.transparent,
-  systemNavigationBarColor: Color.fromRGBO(28, 30, 33, 0.95),
+  systemNavigationBarColor: Colors.white,
   // ios
-  statusBarBrightness: Brightness.dark,
+  statusBarBrightness: Brightness.light,
   // android
-  statusBarIconBrightness: Brightness.light,
-  systemNavigationBarIconBrightness: Brightness.light,
+  statusBarIconBrightness: Brightness.dark,
+  systemNavigationBarIconBrightness: Brightness.dark,
 );
 
 final ThemeData lightTheme = ThemeData(
   useMaterial3: true,
+  brightness: Brightness.light,
   applyElevationOverlayColor: true,
   extensions: const <ThemeExtension<dynamic>>[
     ThemeColors.light,
@@ -25,25 +26,18 @@ final ThemeData lightTheme = ThemeData(
       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
     },
   ),
-  splashFactory: Platform.isAndroid ? InkRipple.splashFactory : NoSplash.splashFactory,
-  visualDensity: VisualDensity.standard,
-  materialTapTargetSize: MaterialTapTargetSize.padded,
-  textButtonTheme: const TextButtonThemeData(
-    style: ButtonStyle(
-      padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.zero),
-    ),
-  ),
-  primaryColor: colorLightScheme.primary,
   colorScheme: colorLightScheme,
-  dialogBackgroundColor: colorLightScheme.surface,
-  scaffoldBackgroundColor: ThemeColors.light.background,
   cardColor: colorLightScheme.surface,
+  visualDensity: VisualDensity.standard,
   canvasColor: colorLightScheme.surface,
-  shadowColor: const Color(0xFF343434),
+  primaryColor: colorLightScheme.primary,
+  dialogBackgroundColor: colorLightScheme.surface,
+  materialTapTargetSize: MaterialTapTargetSize.padded,
+  scaffoldBackgroundColor: ThemeColors.light.background,
+  splashFactory: Platform.isAndroid ? InkRipple.splashFactory : NoSplash.splashFactory,
   progressIndicatorTheme: ProgressIndicatorThemeData(
-    color: colorLightScheme.primary,
     linearMinHeight: 3,
-    linearTrackColor: const Color(0xFF343434),
+    color: colorLightScheme.primary,
     circularTrackColor: Colors.white,
   ),
   dividerTheme: const DividerThemeData(
@@ -53,17 +47,11 @@ final ThemeData lightTheme = ThemeData(
   dialogTheme: DialogTheme(
     backgroundColor: colorLightScheme.surface,
     surfaceTintColor: colorLightScheme.surface,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(10)),
-    ),
+    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
   ),
-  scrollbarTheme: ScrollbarThemeData(
+  scrollbarTheme: const ScrollbarThemeData(
     interactive: true,
-    thumbColor: WidgetStatePropertyAll<Color>(
-      ThemeColors.light.main,
-    ),
-    thickness: const WidgetStatePropertyAll<double>(5),
-    minThumbLength: 100,
+    thickness: WidgetStatePropertyAll<double>(5),
   ),
   bottomAppBarTheme: const BottomAppBarTheme(
     elevation: 1,
@@ -79,6 +67,9 @@ final ThemeData lightTheme = ThemeData(
     hoverElevation: 0,
     highlightElevation: 0,
     shape: CircleBorder(),
+  ),
+  textButtonTheme: const TextButtonThemeData(
+    style: ButtonStyle(padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.zero)),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
@@ -155,30 +146,18 @@ final ThemeData lightTheme = ThemeData(
     backgroundColor: Colors.white,
     surfaceTintColor: Colors.white,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(24),
-        topRight: Radius.circular(24),
-      ),
+      borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
     ),
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     elevation: 0,
-    backgroundColor: const Color.fromRGBO(28, 30, 33, 0.95),
-    type: BottomNavigationBarType.fixed,
     showSelectedLabels: true,
-    selectedLabelStyle: const TextStyle(
-      fontSize: 12,
-      color: Colors.white,
-      fontWeight: FontWeight.w500,
-    ),
-    unselectedLabelStyle: const TextStyle(
-      fontSize: 12,
-      color: Color(0xFF909090),
-      fontWeight: FontWeight.w500,
-    ),
-    unselectedItemColor: const Color(0xFF909090),
-    selectedItemColor: colorLightScheme.onPrimary,
-    selectedIconTheme: IconThemeData(color: colorLightScheme.primary),
+    backgroundColor: Colors.white,
+    type: BottomNavigationBarType.fixed,
+    selectedLabelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+    unselectedLabelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+    selectedItemColor: Colors.white,
+    unselectedItemColor: Color(0xFF69D7C7),
   ),
   tabBarTheme: TabBarTheme(
     tabAlignment: TabAlignment.start,
@@ -187,20 +166,9 @@ final ThemeData lightTheme = ThemeData(
     unselectedLabelColor: const Color(0xFFB3BBCD),
     dividerColor: Colors.transparent,
     overlayColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
-    labelStyle: const TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-    ),
-    unselectedLabelStyle: const TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-    ),
-    indicator: UnderlineTabIndicator(
-      borderSide: BorderSide(
-        width: 2.5,
-        color: colorLightScheme.primary,
-      ),
-    ),
+    labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+    unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+    indicator: UnderlineTabIndicator(borderSide: BorderSide(width: 2.5, color: colorLightScheme.primary)),
   ),
   navigationBarTheme: NavigationBarThemeData(
     elevation: 0,
@@ -219,76 +187,79 @@ final ThemeData lightTheme = ThemeData(
     elevation: 0,
     scrolledUnderElevation: 0,
     systemOverlayStyle: systemUiOverlayStyle,
-    iconTheme: const IconThemeData(color: Colors.white),
-    shadowColor: const Color(0xFF343434),
+    iconTheme: const IconThemeData(color: Colors.black),
+    actionsIconTheme: const IconThemeData(color: Colors.black),
     titleTextStyle: const TextStyle(
       fontSize: 18,
-      color: Colors.white,
+      color: Colors.black,
       fontWeight: FontWeight.w500,
     ),
+    backgroundColor: Colors.white,
+    surfaceTintColor: Colors.white,
     toolbarTextStyle: ThemeTextStyles.light.appBarTitle,
-    backgroundColor: const Color.fromRGBO(28, 30, 33, 0.95),
-    surfaceTintColor: const Color.fromRGBO(28, 30, 33, 0.95),
   ),
   actionIconTheme: ActionIconThemeData(
     backButtonIconBuilder: (BuildContext context) => IconButton(
       onPressed: () => Navigator.maybePop(context),
-      icon: Platform.isAndroid ? const Icon(Icons.arrow_back) : const Icon(Icons.arrow_back_ios_new_rounded),
+      icon: Platform.isAndroid ? const Icon(Icons.arrow_back_rounded) : const Icon(Icons.arrow_back_ios_new_rounded),
     ),
   ),
   listTileTheme: const ListTileThemeData(
-    tileColor: Color.fromRGBO(28, 30, 33, 0.95),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(8)),
-    ),
+    tileColor: Colors.white,
+    textColor: Colors.black,
   ),
   textTheme: const TextTheme(
     titleLarge: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w400,
       fontSize: 34,
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
     ),
 
     /// text field title style
     titleMedium: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w400,
       fontSize: 17,
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
     ),
     titleSmall: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w400,
       fontSize: 17,
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
     ),
 
     /// list tile title style
     bodyLarge: TextStyle(
-      color: Colors.white,
       fontSize: 20,
+      color: Colors.black,
       fontWeight: FontWeight.w600,
     ),
 
     /// list tile subtitle style
     bodyMedium: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w600,
       fontSize: 17,
+      color: Colors.black,
+      fontWeight: FontWeight.w600,
     ),
     bodySmall: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w600,
       fontSize: 15,
+      color: Colors.black,
+      fontWeight: FontWeight.w600,
     ),
     displayLarge: TextStyle(
-      color: Colors.white,
+      color: Colors.black,
     ),
     displayMedium: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w600,
       fontSize: 17,
+      color: Colors.black,
+      fontWeight: FontWeight.w600,
     ),
-    displaySmall: TextStyle(
-      color: Colors.white,
+    displaySmall: TextStyle(color: Colors.black),
+
+    /// label style
+    labelLarge: TextStyle(
+      fontSize: 34,
+      color: Colors.black,
+      fontWeight: FontWeight.w600,
     ),
   ),
 );

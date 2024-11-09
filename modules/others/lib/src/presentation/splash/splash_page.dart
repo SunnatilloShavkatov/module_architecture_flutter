@@ -1,5 +1,7 @@
 // ignore_for_file: discarded_futures
 
+import "package:base_dependencies/base_dependencies.dart";
+import "package:core/core.dart";
 import "package:flutter/material.dart";
 import "package:navigation/navigation.dart";
 
@@ -17,6 +19,7 @@ class _SplashPageState extends State<SplashPage> {
     Future.delayed(
       const Duration(seconds: 2),
       () {
+        AppInjector.instance.isReadySync<PackageInfo>();
         if (mounted) {
           Navigator.of(context).pushReplacementNamed(Routes.main);
         }
@@ -25,7 +28,13 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   @override
-  Widget build(BuildContext context) => const Scaffold(
-        body: Center(child: Text("Logo")),
+  Widget build(BuildContext context) => Scaffold(
+        backgroundColor: context.colorScheme.primary,
+        body: Center(
+          child: Text(
+            "Logo",
+            style: context.textTheme.labelLarge?.copyWith(color: context.colorScheme.onPrimary),
+          ),
+        ),
       );
 }

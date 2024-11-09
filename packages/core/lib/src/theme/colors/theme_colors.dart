@@ -3,16 +3,32 @@ part of "package:core/src/theme/themes.dart";
 /// A set of colors for the entire app.
 const ColorScheme colorLightScheme = ColorScheme(
   brightness: Brightness.light,
-  primary: Color(0xFF2277F6),
+
+  /// primary color
+  primary: Color(0xFF0FB8D3),
   onPrimary: Colors.white,
-  surface: Color(0xFF27292C),
-  onSurface: Colors.white,
+  primaryContainer: Color(0xFF3700B3),
+  onPrimaryContainer: Color.fromRGBO(15, 184, 211, 0.1),
+
+  /// secondary color
   secondary: Color(0xFF69D7C7),
-  onSecondary: Color(0xFF020000),
-  error: Color(0xFFFF6C6C),
+  onSecondary: Colors.black,
+  secondaryContainer: Color(0xFF018786),
+  onSecondaryContainer: Color.fromRGBO(105, 215, 199, 0.1),
+
+  /// error color
+  error: Color(0xFFD93F2F),
   onError: Colors.white,
+  onErrorContainer: Color.fromRGBO(217, 63, 47, 0.1),
+
+  /// surface color
+  surface: Colors.white,
+  onSurface: Color(0xFF000000),
   surfaceContainerHighest: Color(0xFFF5F5F5),
-  secondaryContainer: Color(0xFF343434),
+
+  /// outline color
+  outline: Color(0xFFE0E0E0),
+  outlineVariant: Color(0xFF909090),
 );
 
 ///
@@ -37,8 +53,6 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
     required this.main,
     required this.cardColor,
     required this.green,
-    required this.whiteOpacity05,
-    required this.whiteOpacity5,
   });
 
   final Color background;
@@ -46,17 +60,13 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
   final Color main;
   final Color cardColor;
   final Color green;
-  final Color whiteOpacity05;
-  final Color whiteOpacity5;
 
   static const ThemeColors light = ThemeColors(
-    background: Color(0xFF1C1E21),
+    background: Color(0xFFF5F5F5),
     onBackground: Color(0xFF909090),
     main: Color(0xFF27292C),
     green: Color(0xFF32B141),
     cardColor: Colors.white,
-    whiteOpacity05: Color.fromRGBO(255, 255, 255, 0.05),
-    whiteOpacity5: Color.fromRGBO(255, 255, 255, 0.5),
   );
 
   static const ThemeColors dark = ThemeColors(
@@ -65,8 +75,6 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
     main: Color(0xFF27292C),
     green: Color(0xFF32B141),
     cardColor: Color(0xFF1E1E1E),
-    whiteOpacity05: Color.fromRGBO(255, 255, 255, 0.05),
-    whiteOpacity5: Color.fromRGBO(255, 255, 255, 0.5),
   );
 
   @override
@@ -76,8 +84,6 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
     Color? cardColor,
     Color? main,
     Color? green,
-    Color? whiteOpacity05,
-    Color? whiteOpacity5,
   }) =>
       ThemeColors(
         background: background ?? this.background,
@@ -85,8 +91,6 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
         green: green ?? this.green,
         cardColor: cardColor ?? this.cardColor,
         main: main ?? this.main,
-        whiteOpacity05: whiteOpacity05 ?? this.whiteOpacity05,
-        whiteOpacity5: whiteOpacity5 ?? this.whiteOpacity5,
       );
 
   @override
@@ -100,11 +104,9 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
     return ThemeColors(
       background: Color.lerp(background, other.background, t)!,
       onBackground: Color.lerp(onBackground, other.onBackground, t)!,
-      whiteOpacity5: Color.lerp(whiteOpacity5, other.whiteOpacity5, t)!,
       green: Color.lerp(green, other.green, t)!,
       main: Color.lerp(main, other.main, t)!,
       cardColor: Color.lerp(cardColor, other.cardColor, t)!,
-      whiteOpacity05: Color.lerp(whiteOpacity05, other.whiteOpacity05, t)!,
     );
   }
 }

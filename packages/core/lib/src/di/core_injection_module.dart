@@ -3,12 +3,19 @@ import "dart:async";
 import "dart:io";
 
 import "package:base_dependencies/base_dependencies.dart";
+import "package:core/core.dart";
 import "package:core/src/connectivity/network_info.dart";
-import "package:core/src/core_abstractions/injection.dart";
-import "package:core/src/di/injector.dart";
-import "package:core/src/local_source/local_source.dart";
 
 late Box<dynamic> _box;
+
+/// internet connection
+NetworkInfo get networkInfo => AppInjector.instance.get<NetworkInfo>();
+
+Connectivity get connectivity => AppInjector.instance.get<Connectivity>();
+
+PackageInfo get packageInfo => AppInjector.instance.get<PackageInfo>();
+
+LocalSource get localSource => AppInjector.instance.get<LocalSource>();
 
 class CoreInjectionModule implements Injection {
   const CoreInjectionModule();
@@ -23,15 +30,6 @@ class CoreInjectionModule implements Injection {
       ..registerLazySingleton(InternetConnectionChecker.createInstance)
       ..registerSingletonAsync<PackageInfo>(PackageInfo.fromPlatform)
       ..registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(di.get()));
-    //
-    //   // register network provider for refresh token
-    //   ..registerLazySingleton<NetworkProvider>(
-    //     () => NetworkProvider(withRefreshTokenInterceptor: false),
-    //     instanceName: "refresh_token",
-    //   )
-    //   ..registerLazySingleton<CoreRefresh>(() => CoreRefresh())
-    //   ..registerLazySingleton<MyIdService>(() => MyIdService())
-    //   ..registerSingleton<AnalyticsService>(AnalyticsService()..init());
   }
 }
 

@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:main/src/presentation/main_page.dart";
+import "package:main/src/presentation/main/main_page.dart";
 import "package:navigation/navigation.dart";
 
 class MainRouter extends AppRouter {

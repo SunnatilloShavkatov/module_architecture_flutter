@@ -14,7 +14,7 @@ class Dot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CustomPaint(
-        painter: _DotPainter(size / 2, color ?? context.color.whiteOpacity5),
+        painter: _DotPainter(size / 2, color ?? context.colorScheme.outline),
         size: Size(size, size),
       );
 

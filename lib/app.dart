@@ -29,7 +29,9 @@ class App extends StatelessWidget {
         /// route
         initialRoute: Routes.splash,
         navigatorKey: AppRoutes.navigatorKey,
-        onGenerateRoute: AppRoutes.getRoutes,
+        onUnknownRoute: AppRoutes.unknownRoute,
+        onGenerateRoute: AppRoutes.generateRoutes,
+        navigatorObservers: [navigatorObserver],
 
         /// text scale factor
         builder: (context, child) => MediaQuery(

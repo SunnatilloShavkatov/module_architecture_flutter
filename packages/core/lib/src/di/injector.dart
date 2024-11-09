@@ -6,7 +6,7 @@ typedef DisposableFunc<T> = FutureOr Function(T param);
 abstract class Injector {
   void registerLazySingleton<T extends Object>(T Function() function, {String? instanceName});
 
-  Future<void> registerSingletonAsync<T extends Object>(
+  void registerSingletonAsync<T extends Object>(
     AsyncFunc<T> factoryFunc, {
     String? instanceName,
     Iterable<Type>? dependsOn,
@@ -21,4 +21,9 @@ abstract class Injector {
   T get<T extends Object>({String? instanceName});
 
   void unregister<T extends Object>();
+
+  bool isReadySync<T extends Object>({
+    Object? instance,
+    String? instanceName,
+  });
 }

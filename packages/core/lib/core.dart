@@ -1,4 +1,3 @@
-export "src/app_options/app_options.dart";
 export "src/constants/constants.dart";
 export "src/core_abstractions/injection.dart";
 export "src/di/app_injector.dart";
@@ -9,5 +8,6 @@ export "src/icons/app_icons.dart";
 export "src/l10n/app_localizations.dart";
 export "src/local_source/local_source.dart";
 export "src/native_splash/flutter_native_splash.dart";
+export "src/options/app_options.dart";
 export "src/theme/themes.dart";
 export "src/utils/utils.dart";
