@@ -79,7 +79,7 @@ final ThemeData lightTheme = ThemeData(
       backgroundColor: WidgetStateProperty.resolveWith(
         (Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
-            return colorLightScheme.primary.withOpacity(0.4);
+            return colorLightScheme.primary.withValues(alpha: 0.4);
           }
           return colorLightScheme.primary;
         },
@@ -156,7 +156,7 @@ final ThemeData lightTheme = ThemeData(
     type: BottomNavigationBarType.fixed,
     selectedLabelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
     unselectedLabelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
-    selectedItemColor: Colors.white,
+    selectedItemColor: Colors.black,
     unselectedItemColor: Color(0xFF69D7C7),
   ),
   tabBarTheme: TabBarTheme(
@@ -342,7 +342,7 @@ final ThemeData darkTheme = ThemeData(
       backgroundColor: WidgetStateProperty.resolveWith(
         (Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
-            return colorDarkScheme.primary.withOpacity(0.4);
+            return colorDarkScheme.primary.withValues(alpha: 0.4);
           }
           return colorDarkScheme.primary;
         },

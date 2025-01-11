@@ -1,6 +1,5 @@
 import "package:core/core.dart";
 import "package:flutter/material.dart";
-import "package:main/src/presentation/main/widget/custom_navigation_bar.dart";
 import "package:main/src/presentation/main/widget/offstage_stack.dart";
 import "package:more/more.dart";
 
@@ -60,33 +59,30 @@ class _MainPageState extends State<MainPage> with MainMixin {
             ],
           ),
         ),
-        bottomNavigationBar: SafeArea(
-          minimum: Dimensions.kPaddingAll16,
-          child: ValueListenableBuilder(
-            valueListenable: _currentIndexNotifier,
-            builder: (_, int currentIndex, __) => CustomNavigationBar(
-              key: const Key("custom_navigation_bar"),
-              currentIndex: currentIndex,
-              onTap: _onTabTapped,
-              items: [
-                CustomNavigationBarItem(
-                  label: context.localizations.home,
-                  icon: const Icon(AppIcons.home),
-                ),
-                CustomNavigationBarItem(
-                  label: context.localizations.units,
-                  icon: const Icon(AppIcons.routing),
-                ),
-                CustomNavigationBarItem(
-                  label: context.localizations.resources,
-                  icon: const Icon(AppIcons.book_saved),
-                ),
-                CustomNavigationBarItem(
-                  label: context.localizations.more,
-                  icon: const Icon(AppIcons.more),
-                ),
-              ],
-            ),
+        bottomNavigationBar: ValueListenableBuilder(
+          valueListenable: _currentIndexNotifier,
+          builder: (_, int currentIndex, __) => BottomNavigationBar(
+            key: const Key("custom_navigation_bar"),
+            currentIndex: currentIndex,
+            onTap: _onTabTapped,
+            items: [
+              BottomNavigationBarItem(
+                label: context.localizations.home,
+                icon: const Icon(Icons.home),
+              ),
+              const BottomNavigationBarItem(
+                label: "Route",
+                icon: Icon(Icons.route),
+              ),
+              BottomNavigationBarItem(
+                label: context.localizations.resources,
+                icon: const Icon(Icons.book_rounded),
+              ),
+              const BottomNavigationBarItem(
+                label: "Profile",
+                icon: Icon(Icons.person_rounded),
+              ),
+            ],
           ),
         ),
       );
