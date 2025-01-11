@@ -1,0 +1,36 @@
+name: merge_dependencies
+description: "A new Flutter project."
+version: 0.0.1
+homepage: "none"
+publish_to: "none"
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+  flutter: ">=3.24.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # packages
+  core:
+    path: ../core
+  navigation:
+    path: ../navigation
+  base_dependencies:
+    path: ../base_dependencies
+  # modules
+  main:
+    path: ../../modules/main
+  others:
+    path: ../../modules/others
+  more:
+    path: ../../modules/more
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+
+  uses-material-design: true

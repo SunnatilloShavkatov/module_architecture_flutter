@@ -14,8 +14,12 @@ dependencies:
   # packages
   core:
     path: ../../packages/core
+  components:
+    path: ../../packages/components
   navigation:
     path: ../../packages/navigation
+  base_dependencies:
+    path: ../../packages/base_dependencies
   # modules
   more:
     path: ../../modules/more

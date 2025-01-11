@@ -16,6 +16,8 @@ dependencies:
   # packages
   components:
     path: ../components
+  navigation:
+    path: ../navigation
   base_dependencies:
     path: ../base_dependencies
 

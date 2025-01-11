@@ -1,1 +1,1 @@
-export "package:main/src/routes/main_router.dart";
+export "package:main/src/main_container.dart";

@@ -1,5 +1,3 @@
-part of "router.dart";
-
 sealed class Routes {
   const Routes._();
 
@@ -13,11 +11,4 @@ sealed class Routes {
 
   /// more
   static const String settings = "/settings";
-}
-
-sealed class RouteKeys {
-  const RouteKeys._();
-
-  static const String navigatorKey = "navigator_key";
-  static const String navigatorObserver = "navigator_observer";
 }

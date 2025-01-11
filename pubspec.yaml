@@ -11,19 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   # packages
-  core:
-    path: packages/core
-  base_dependencies:
-    path: packages/base_dependencies
-  navigation:
-    path: packages/navigation
-  # modules
-  main:
-    path: modules/main
-  others:
-    path: modules/others
-  more:
-    path: modules/more
+  merge_dependencies:
+    path: packages/merge_dependencies
 
 dev_dependencies:
   flutter_test:

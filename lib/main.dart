@@ -1,14 +1,14 @@
 import "dart:io";
 
-import "package:base_dependencies/base_dependencies.dart";
-import "package:core/core.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
+import "package:merge_dependencies/merge_dependencies.dart";
 import "package:module_architecture_flutter/app.dart";
-import "package:module_architecture_flutter/di/injector_container.dart";
 
 Future<void> main() async {
+  /// init environment
+  Merge.initEnvironment(env: Environment.prod);
   /// flutter_native_splash
   final WidgetsBinding binding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: binding);
@@ -23,10 +23,10 @@ Future<void> main() async {
       ),
 
       /// notification initialize
-      // NotificationService.initialize(),
+      // NotificationService.initialize(DefaultFirebaseOptions.currentPlatform),
 
       /// di initialize
-      initDI(),
+      Merge.registerModules(),
     ],
   );
 

@@ -1,7 +1,5 @@
-import "package:core/core.dart";
 import "package:flutter/material.dart";
-import "package:module_architecture_flutter/router/app_routes.dart";
-import "package:navigation/navigation.dart";
+import "package:merge_dependencies/merge_dependencies.dart";
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -28,9 +26,9 @@ class App extends StatelessWidget {
 
         /// route
         initialRoute: Routes.splash,
-        navigatorKey: AppRoutes.navigatorKey,
-        onUnknownRoute: AppRoutes.unknownRoute,
-        onGenerateRoute: AppRoutes.generateRoutes,
+        navigatorKey: rootNavigatorKey,
+        onUnknownRoute: Merge.unknownRoute,
+        onGenerateRoute: Merge.generateRoutes,
         navigatorObservers: [navigatorObserver],
 
         /// text scale factor

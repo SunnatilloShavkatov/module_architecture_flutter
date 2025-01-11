@@ -14,9 +14,12 @@ dependencies:
   # packages
   core:
     path: ../../packages/core
+  components:
+    path: ../../packages/components
   navigation:
     path: ../../packages/navigation
-  # modules
+  base_dependencies:
+    path: ../../packages/base_dependencies
 
 dev_dependencies:
   flutter_test:
