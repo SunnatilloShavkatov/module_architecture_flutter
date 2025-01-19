@@ -11,4 +11,5 @@ sealed class Routes {
 
   /// more
   static const String settings = '/settings';
+  static const String chooseThemeModeSheet = '/choose-theme-mode-sheet';
 }

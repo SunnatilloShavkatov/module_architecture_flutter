@@ -207,6 +207,15 @@ final ThemeData lightTheme = ThemeData(
   listTileTheme: const ListTileThemeData(
     tileColor: Colors.white,
     textColor: Colors.black,
+    minVerticalPadding: 0,
+    horizontalTitleGap: 10,
+    contentPadding: Dimensions.kPaddingHor10,
+    style: ListTileStyle.list,
+    titleTextStyle: TextStyle(
+      fontSize: 14,
+      color: Colors.black,
+      fontWeight: FontWeight.w500,
+    ),
   ),
   textTheme: const TextTheme(
     titleLarge: TextStyle(
@@ -491,9 +500,6 @@ final ThemeData darkTheme = ThemeData(
     contentPadding: Dimensions.kPaddingHor10,
     tileColor: Color(0xFF27292C),
     style: ListTileStyle.list,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(8)),
-    ),
     titleTextStyle: TextStyle(
       fontSize: 14,
       color: Colors.white,

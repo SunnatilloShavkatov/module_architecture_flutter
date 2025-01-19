@@ -41,7 +41,7 @@ Future<void> main() async {
   runApp(
     ModelBinding(
       initialModel: AppOptions(
-        themeMode: ThemeMode.light,
+        themeMode: localSource.themeMode,
         locale: Locale(localSource.locale),
       ),
       child: const App(),

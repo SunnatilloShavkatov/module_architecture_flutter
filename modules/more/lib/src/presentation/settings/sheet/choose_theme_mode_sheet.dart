@@ -1,4 +1,3 @@
-import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 
@@ -13,30 +12,30 @@ class ChooseThemeModeSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
-              context.localizations.theme,
+              'Choose theme mode',
               style: context.textTheme.headlineLarge,
               textAlign: TextAlign.center,
             ),
             Dimensions.kGap32,
-            CustomOutlinedButton(
+            ElevatedButton(
               onPressed: () {
                 Navigator.pop(context, ThemeMode.system);
               },
-              child: Text(context.localizations.device_mode),
+              child: const Text('Device mode'),
             ),
             Dimensions.kGap16,
-            CustomOutlinedButton(
+            ElevatedButton(
               onPressed: () {
                 Navigator.pop(context, ThemeMode.dark);
               },
-              child: Text(context.localizations.dark_mode),
+              child: const Text('Dark mode'),
             ),
             Dimensions.kGap16,
-            CustomOutlinedButton(
+            ElevatedButton(
               onPressed: () {
                 Navigator.pop(context, ThemeMode.light);
               },
-              child: Text(context.localizations.light_mode),
+              child: const Text('Light mode'),
             ),
           ],
         ),
