@@ -13,15 +13,22 @@ export 'src/core_abstractions/module_container.dart';
 export 'src/core_container.dart';
 export 'src/di/app_injector.dart';
 export 'src/di/core_injection.dart';
+export 'src/either/either.dart';
+export 'src/enums/rest_types.dart';
+export 'src/error/exceptions.dart';
+export 'src/error/failure.dart';
+export 'src/error/server_error.dart';
 export 'src/extension/extension.dart';
 export 'src/icons/app_icons.dart';
 export 'src/l10n/app_localizations.dart';
 export 'src/local_source/local_source.dart';
 export 'src/native_splash/flutter_native_splash.dart';
+export 'src/network/network_provider.dart';
 export 'src/options/app_options.dart';
 export 'src/services/base_listener_types.dart';
 export 'src/services/notification_service.dart';
 export 'src/theme/themes.dart';
+export 'src/usecase/usecase.dart';
 export 'src/utils/utils.dart';
 
 /// internet connection

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:core/src/constants/env.dart';
 
 sealed class Constants {
-  Constants._();
+  const Constants._();
 
   static String get baseUrl => AppEnvironment.instance.config.baseUrl;
 
@@ -22,7 +22,7 @@ sealed class Constants {
 }
 
 class Validations {
-  Validations._();
+  const Validations._();
 
   static const String emailEmpty = 'Email cannot be empty';
   static const String notEmail = 'This is not email';
@@ -41,7 +41,7 @@ class Validations {
 }
 
 sealed class AppKeys {
-  AppKeys._();
+  const AppKeys._();
 
   static const String locale = 'locale';
   static const String hasProfile = 'has_profile';
@@ -55,25 +55,11 @@ sealed class AppKeys {
 }
 
 sealed class Urls {
-  Urls._();
+  const Urls._();
 
   static const String sendCode = '/v2/send-code';
   static const String loginWithOption = '/v2/login/with-option';
   static const String register = '/v2/register';
 
   static const String objectSlim = '/v1/object-slim';
-}
-
-sealed class Slugs {
-  Slugs._();
-
-  static const String patients = '/patients';
-}
-
-sealed class DatabaseKeys {
-  DatabaseKeys._();
-
-  static const String categoryList = 'category_list/';
-  static const String guidList = 'guid_list/';
-  static const String article = 'article/';
 }

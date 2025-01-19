@@ -1,9 +1,23 @@
-// ignore_for_file: unused_field
-
 part of 'more_remote_data_source.dart';
 
-class MoreRemoteDataSourceImpl implements MoreRemoteDataSource {
-  const MoreRemoteDataSourceImpl(this._dio);
+final class MoreRemoteDataSourceImpl implements MoreRemoteDataSource {
+  const MoreRemoteDataSourceImpl(this._networkProvider);
 
-  final Dio _dio;
+  final NetworkProvider _networkProvider;
+
+  @override
+  Future<void> getMoreData() async {
+    try {
+      await _networkProvider.fetchMethod(
+        methodType: RMethodTypes.get,
+        Constants.baseUrl + Urls.loginWithOption,
+        headers: {'Authorization': localSource.accessToken},
+      );
+      return;
+    } on ServerError {
+      rethrow;
+    } on Exception catch (error, _) {
+      throw ServerError.withException(error: error);
+    }
+  }
 }
