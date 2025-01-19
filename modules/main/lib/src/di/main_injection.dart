@@ -1,9 +1,9 @@
-import "dart:async";
+import 'dart:async';
 
-import "package:core/core.dart";
-import "package:main/src/data/datasource/local/main_local_data_source_impl.dart";
-import "package:main/src/data/datasource/remote/main_remote_data_source.dart";
-import "package:main/src/domain/repository/main_repository.dart";
+import 'package:core/core.dart';
+import 'package:main/src/data/datasource/local/main_local_data_source_impl.dart';
+import 'package:main/src/data/datasource/remote/main_remote_data_source.dart';
+import 'package:main/src/domain/repository/main_repository.dart';
 
 final class MainInjection implements Injection {
   const MainInjection();

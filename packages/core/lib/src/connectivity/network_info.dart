@@ -1,9 +1,9 @@
-import "dart:async";
-import "dart:io";
+import 'dart:async';
+import 'dart:io';
 
-import "package:flutter/foundation.dart";
+import 'package:flutter/foundation.dart';
 
-part "internet_connection_checker.dart";
+part 'internet_connection_checker.dart';
 
 abstract class NetworkInfo {
   const NetworkInfo();
@@ -21,7 +21,7 @@ class NetworkInfoImpl implements NetworkInfo {
   Future<bool> get isConnected => internetConnection.hasConnection;
 
   @override
-  String toString() => "NetworkInfoImpl($internetConnection)";
+  String toString() => 'NetworkInfoImpl($internetConnection)';
 
   @override
   bool operator ==(Object other) {

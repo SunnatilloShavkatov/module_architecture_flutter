@@ -1,4 +1,4 @@
-part of "themes.dart";
+part of 'themes.dart';
 
 const SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
   statusBarColor: Colors.transparent,

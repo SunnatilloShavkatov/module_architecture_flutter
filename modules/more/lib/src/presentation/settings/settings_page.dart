@@ -1,6 +1,6 @@
-import "package:core/core.dart";
-import "package:flutter/material.dart";
-import "package:navigation/navigation.dart";
+import 'package:core/core.dart';
+import 'package:flutter/material.dart';
+import 'package:navigation/navigation.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -20,34 +20,34 @@ class SettingsPage extends StatelessWidget {
                     children: [
                       ListTile(
                         onTap: () {
-                          localSource.setLocale("en");
-                          context.setLocale(const Locale("en"));
+                          localSource.setLocale('en');
+                          context.setLocale(const Locale('en'));
                           Navigator.of(context).pop();
                         },
-                        title: const Text("English"),
+                        title: const Text('English'),
                       ),
                       ListTile(
                         onTap: () {
-                          localSource.setLocale("uz");
-                          context.setLocale(const Locale("uz"));
+                          localSource.setLocale('uz');
+                          context.setLocale(const Locale('uz'));
                           Navigator.of(context).pop();
                         },
                         title: const Text("O'zbekcha"),
                       ),
                       ListTile(
                         onTap: () {
-                          localSource.setLocale("ru");
-                          context.setLocale(const Locale("ru"));
+                          localSource.setLocale('ru');
+                          context.setLocale(const Locale('ru'));
                           Navigator.of(context).pop();
                         },
-                        title: const Text("Russian"),
+                        title: const Text('Russian'),
                       ),
                     ],
                   ),
                 ),
               );
             },
-            child: Text("Locale ${navigatorObserver.routes}"),
+            child: Text('Locale ${navigatorObserver.currentRoutes}'),
           ),
         ),
       );

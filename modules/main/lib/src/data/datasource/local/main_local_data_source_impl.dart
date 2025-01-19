@@ -1,6 +1,6 @@
-import "package:core/core.dart";
+import 'package:core/core.dart';
 
-part "main_local_data_source.dart";
+part 'main_local_data_source.dart';
 
 class MainLocalDataSourceImpl implements MainLocalDataSource {
   MainLocalDataSourceImpl(this.localSource);

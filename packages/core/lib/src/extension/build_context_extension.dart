@@ -1,4 +1,4 @@
-part of "extension.dart";
+part of 'extension.dart';
 
 extension BuildContextExt on BuildContext {
   Locale get locale => Localizations.localeOf(this);
@@ -57,7 +57,7 @@ extension BuildContextExt on BuildContext {
 }
 
 AppLocalizations get localizationsWithContext => AppLocalizations.of(
-      AppInjector.instance.get(instanceName: "navigator_key"),
+      AppInjector.instance.get(instanceName: 'navigator_key'),
     )!;
 
 // extension LocalizationExtension on String {

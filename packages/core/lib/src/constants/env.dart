@@ -16,7 +16,7 @@ class DevEnvironment extends AppConfig {
   String get apiToken => devApiToken;
 
   @override
-  String get appName => "App Name Dev";
+  String get appName => 'App Name Dev';
 }
 
 class ProdEnvironment extends AppConfig {
@@ -27,7 +27,7 @@ class ProdEnvironment extends AppConfig {
   String get apiToken => prodApiToken;
 
   @override
-  String get appName => "App Name";
+  String get appName => 'App Name';
 }
 
 class AppEnvironment {
@@ -58,12 +58,12 @@ class AppEnvironment {
 }
 
 /// prod
-const String prodBaseUrl = "";
-const String prodApiToken = "";
+const String prodBaseUrl = '';
+const String prodApiToken = '';
 
 /// dev
-const String devBaseUrl = "";
-const String devApiToken = "";
+const String devBaseUrl = '';
+const String devApiToken = '';
 
 ///
 ///

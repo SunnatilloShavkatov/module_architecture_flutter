@@ -1,4 +1,4 @@
-part of "../main_page.dart";
+part of '../main_page.dart';
 
 mixin MainMixin on State<MainPage> {
   final ValueNotifier<int> _currentIndexNotifier = ValueNotifier<int>(0);

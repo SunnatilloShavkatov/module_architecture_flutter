@@ -1,4 +1,4 @@
-part of "utils.dart";
+part of 'utils.dart';
 
 void logMessage(String message, {StackTrace? stackTrace, Object? error}) {
   if (kDebugMode) {

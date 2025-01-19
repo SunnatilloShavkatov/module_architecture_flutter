@@ -1,5 +1,5 @@
-import "package:core/core.dart";
-import "package:flutter/material.dart";
+import 'package:core/core.dart';
+import 'package:flutter/material.dart';
 
 class OffstageStack extends StatelessWidget {
   const OffstageStack({super.key, required this.child, required this.isVisited});

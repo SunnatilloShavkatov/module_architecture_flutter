@@ -1,4 +1,4 @@
-part of "extension.dart";
+part of 'extension.dart';
 
 extension SizeExtension on BuildContext {
   bool get isMobile => kSize.width < 600 && (Platform.isAndroid || Platform.isIOS);

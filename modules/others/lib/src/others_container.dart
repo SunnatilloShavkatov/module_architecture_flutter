@@ -1,5 +1,5 @@
-import "package:core/core.dart";
-import "package:others/src/router/others_router.dart";
+import 'package:core/core.dart';
+import 'package:others/src/router/others_router.dart';
 
 final class OthersContainer implements ModuleContainer {
   const OthersContainer();

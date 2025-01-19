@@ -1,21 +1,21 @@
 // ignore_for_file: discarded_futures, unawaited_futures
-import "dart:async";
+import 'dart:async';
 
-import "package:base_dependencies/base_dependencies.dart";
-import "package:core/core.dart";
+import 'package:base_dependencies/base_dependencies.dart';
+import 'package:core/core.dart';
 
 /// flutter local notification
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  "high_importance_channel",
-  "High Importance Notifications",
-  description: "This channel is used for important notifications.",
+  'high_importance_channel',
+  'High Importance Notifications',
+  description: 'This channel is used for important notifications.',
   importance: Importance.high,
 );
 const InitializationSettings initializationSettings = InitializationSettings(
-  android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+  android: AndroidInitializationSettings('@mipmap/ic_launcher'),
   iOS: DarwinInitializationSettings(),
   macOS: DarwinInitializationSettings(),
-  linux: LinuxInitializationSettings(defaultActionName: "default"),
+  linux: LinuxInitializationSettings(defaultActionName: 'default'),
 );
 
 /// flutter local notification
@@ -33,7 +33,7 @@ sealed class NotificationService {
       await Firebase.initializeApp(options: options);
       FirebaseMessaging.instance.getAPNSToken();
     } on Exception catch (e, s) {
-      logMessage("Firebase initialize error: $e $s", stackTrace: s);
+      logMessage('Firebase initialize error: $e $s', stackTrace: s);
     }
     await setupFlutterNotifications();
     await foregroundNotification();
@@ -52,27 +52,27 @@ sealed class NotificationService {
       final apnsToken = await firebaseMessaging.getAPNSToken();
       if (apnsToken != null) {
         final result = await firebaseMessaging.getToken();
-        logMessage("FCM token :$result");
+        logMessage('FCM token :$result');
       }
-      logMessage("User granted permission: ${settings.authorizationStatus}");
+      logMessage('User granted permission: ${settings.authorizationStatus}');
     } on Exception catch (e, s) {
-      logMessage("Notification permission error: $e $s");
+      logMessage('Notification permission error: $e $s');
     }
   }
 
   static void showFlutterNotification(RemoteMessage message) {
-    if (message.data.containsKey("title") && message.data.containsKey("body")) {
+    if (message.data.containsKey('title') && message.data.containsKey('body')) {
       notifications.show(
         message.hashCode,
-        message.data["title"],
-        message.data["body"],
+        message.data['title'],
+        message.data['body'],
         NotificationDetails(
           android: AndroidNotificationDetails(
             channel.id,
             channel.name,
             channelDescription: channel.description,
-            styleInformation: BigTextStyleInformation(message.data["body"] ?? "", contentTitle: message.data["title"]),
-            icon: "@mipmap/ic_launcher",
+            styleInformation: BigTextStyleInformation(message.data['body'] ?? '', contentTitle: message.data['title']),
+            icon: '@mipmap/ic_launcher',
             priority: Priority.high,
             importance: Importance.high,
             visibility: NotificationVisibility.public,
@@ -81,7 +81,7 @@ sealed class NotificationService {
             presentAlert: true,
             presentBadge: true,
             presentSound: true,
-            sound: "default",
+            sound: 'default',
           ),
         ),
         payload: "${message.data["chat_id"]}+${message.data["chat_type"]}",
@@ -151,7 +151,7 @@ sealed class NotificationService {
   }
 }
 
-@pragma("vm:entry-point")
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   await NotificationService.setupFlutterNotifications();

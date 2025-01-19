@@ -1,9 +1,9 @@
 // ignore_for_file: discarded_futures
 
-import "package:base_dependencies/base_dependencies.dart";
-import "package:core/core.dart";
-import "package:flutter/material.dart";
-import "package:navigation/navigation.dart";
+import 'package:base_dependencies/base_dependencies.dart';
+import 'package:core/core.dart';
+import 'package:flutter/material.dart';
+import 'package:navigation/navigation.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -32,7 +32,7 @@ class _SplashPageState extends State<SplashPage> {
         backgroundColor: context.colorScheme.primary,
         body: Center(
           child: Text(
-            "Logo",
+            'Logo',
             style: context.textTheme.labelLarge?.copyWith(color: context.colorScheme.onPrimary),
           ),
         ),

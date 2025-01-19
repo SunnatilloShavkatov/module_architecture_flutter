@@ -1,6 +1,6 @@
-import "package:core/core.dart";
-import "package:main/src/di/main_injection.dart";
-import "package:main/src/router/main_router.dart";
+import 'package:core/core.dart';
+import 'package:main/src/di/main_injection.dart';
+import 'package:main/src/router/main_router.dart';
 
 final class MainContainer implements ModuleContainer {
   const MainContainer();

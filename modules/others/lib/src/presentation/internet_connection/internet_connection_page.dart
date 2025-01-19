@@ -1,8 +1,8 @@
-import "dart:async";
-import "package:base_dependencies/base_dependencies.dart";
-import "package:components/components.dart";
-import "package:core/core.dart";
-import "package:flutter/material.dart";
+import 'dart:async';
+import 'package:base_dependencies/base_dependencies.dart';
+import 'package:components/components.dart';
+import 'package:core/core.dart';
+import 'package:flutter/material.dart';
 
 class InternetConnectionPage extends StatefulWidget {
   const InternetConnectionPage({super.key});
@@ -36,7 +36,7 @@ class InternetConnectionPageState extends State<InternetConnectionPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                "Нет доступа к интернету",
+                'Нет доступа к интернету',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
@@ -45,7 +45,7 @@ class InternetConnectionPageState extends State<InternetConnectionPage> {
               ),
               SizedBox(height: 12),
               Text(
-                "Проверьте подключение к интернету",
+                'Проверьте подключение к интернету',
                 style: TextStyle(
                   fontSize: 17,
                   color: Color(0xff818C99),
@@ -61,7 +61,7 @@ class InternetConnectionPageState extends State<InternetConnectionPage> {
               valueListenable: _isLoaded,
               builder: (_, bool isLoading, __) => CustomLoadingButton(
                 isLoading: isLoading,
-                child: const Text("Попробовать снова"),
+                child: const Text('Попробовать снова'),
                 onPressed: () async {
                   _isLoaded.value = true;
                   Future<void>.delayed(

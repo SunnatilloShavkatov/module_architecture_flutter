@@ -1,4 +1,4 @@
-import "dart:async";
+import 'dart:async';
 
 typedef AsyncFunc<T> = Future<T> Function();
 typedef DisposableFunc<T> = FutureOr Function(T param);

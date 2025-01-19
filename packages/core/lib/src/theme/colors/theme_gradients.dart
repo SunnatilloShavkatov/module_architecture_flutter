@@ -1,4 +1,4 @@
-part of "package:core/src/theme/themes.dart";
+part of 'package:core/src/theme/themes.dart';
 
 class ThemeGradients extends ThemeExtension<ThemeGradients> {
   const ThemeGradients({

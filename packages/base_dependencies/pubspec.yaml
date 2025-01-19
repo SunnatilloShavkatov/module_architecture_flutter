@@ -11,35 +11,31 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.19.0
+  intl: any
   # di
   get_it: ^8.0.3
   # equatable
   equatable: ^2.0.7
   # state
   rxdart: ^0.28.0
-  flutter_bloc: ^8.1.6
+  flutter_bloc: ^9.0.0
   # hive
   hive: ^2.2.3
   # path
   path_provider: ^2.1.5
   # rest api
   dio: ^5.7.0
-  dio_retry_plus: ^2.0.7
-  # chuck
-  chuck_interceptor: ^2.2.1
   # box
   gap: ^3.0.1
-  vector_math: ^2.1.4
   # url launchers
   url_launcher: ^6.3.1
   # otp autofill
-  pinput: ^5.0.0
+  pinput: ^5.0.1
   sms_autofill: ^2.4.1
   # connectivity plus
-  connectivity_plus: ^6.1.1
+  connectivity_plus: ^6.1.2
   # package info
-  package_info_plus: ^8.1.2
+  package_info_plus: ^8.1.3
   # cached network image
   cached_network_image: ^3.4.1
   flutter_cache_manager: ^3.4.1

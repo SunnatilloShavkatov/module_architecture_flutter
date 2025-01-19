@@ -1,4 +1,4 @@
-part of "themes.dart";
+part of 'themes.dart';
 
 class ThemeTextStyles extends ThemeExtension<ThemeTextStyles> {
   const ThemeTextStyles({

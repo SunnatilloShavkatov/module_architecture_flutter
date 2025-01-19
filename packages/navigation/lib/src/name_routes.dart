@@ -2,13 +2,13 @@ sealed class Routes {
   const Routes._();
 
   /// others
-  static const String splash = "/";
-  static const String noInternet = "/no-internet";
-  static const String notFound = "/not-found";
+  static const String splash = '/';
+  static const String noInternet = '/no-internet';
+  static const String notFound = '/not-found';
 
   /// main
-  static const String main = "/main";
+  static const String main = '/main';
 
   /// more
-  static const String settings = "/settings";
+  static const String settings = '/settings';
 }

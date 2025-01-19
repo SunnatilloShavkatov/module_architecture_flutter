@@ -1,4 +1,4 @@
-import "package:flutter/widgets.dart";
+import 'package:flutter/widgets.dart';
 
 sealed class FlutterNativeSplash {
   static WidgetsBinding? _widgetsBinding;

@@ -1,4 +1,4 @@
-part of "themes.dart";
+part of 'themes.dart';
 
 class ThemeCustomShapes extends ThemeExtension<ThemeCustomShapes> {
   const ThemeCustomShapes({

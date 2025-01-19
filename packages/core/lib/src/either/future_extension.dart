@@ -1,4 +1,4 @@
-part of "either.dart";
+part of 'either.dart';
 
 extension FutureEither<L, R> on Future<Either<L, R>> {
   Future<bool> get isLeft => then((Either<L, R> either) => either.isLeft);

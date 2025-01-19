@@ -1,66 +1,68 @@
-import "package:base_dependencies/base_dependencies.dart";
-import "package:core/core.dart";
-import "package:flutter/material.dart";
+import 'package:base_dependencies/base_dependencies.dart';
+import 'package:core/core.dart';
+import 'package:flutter/material.dart';
 
 final class LocalSource {
-  LocalSource(this.box);
+  LocalSource(this._box, this._cacheBox);
 
-  final Box<dynamic> box;
+  final Box<dynamic> _box;
+  final Box<dynamic> _cacheBox;
 
-  bool get hasProfile => box.get(AppKeys.hasProfile, defaultValue: false);
+  bool get hasProfile => _box.get(AppKeys.hasProfile, defaultValue: false);
 
   Future<void> setHasProfile({required bool value}) async {
-    await box.put(AppKeys.hasProfile, value);
+    await _box.put(AppKeys.hasProfile, value);
   }
 
   Future<void> setLocale(String locale) async {
-    await box.put(AppKeys.locale, locale);
+    await _box.put(AppKeys.locale, locale);
   }
 
-  String get locale => box.get(AppKeys.locale, defaultValue: defaultLocale);
+  String get locale => _box.get(AppKeys.locale, defaultValue: defaultLocale);
 
-  ThemeMode get themeMode => switch (box.get(AppKeys.themeMode)) {
-        "system" => ThemeMode.system,
-        "light" => ThemeMode.light,
-        "dark" => ThemeMode.dark,
+  ThemeMode get themeMode => switch (_box.get(AppKeys.themeMode)) {
+        'system' => ThemeMode.system,
+        'light' => ThemeMode.light,
+        'dark' => ThemeMode.dark,
         _ => ThemeMode.system,
       };
 
   Future<void> setThemeMode(ThemeMode mode) async {
-    await box.put(AppKeys.themeMode, mode.name);
+    await _box.put(AppKeys.themeMode, mode.name);
   }
 
   Future<void> setAccessToken(String accessToken) async {
-    await box.put(AppKeys.accessToken, accessToken);
+    await _box.put(AppKeys.accessToken, accessToken);
   }
 
-  String get accessToken => box.get(AppKeys.accessToken, defaultValue: "");
+  String get accessToken => _box.get(AppKeys.accessToken, defaultValue: '');
 
   Future<void> setFirstName(String firstName) async {
-    await box.put(AppKeys.firstname, firstName);
+    await _box.put(AppKeys.firstname, firstName);
   }
 
-  String getFirstName() => box.get(AppKeys.firstname, defaultValue: "");
+  String getFirstName() => _box.get(AppKeys.firstname, defaultValue: '');
 
   Future<void> setLastName(String lastName) async {
-    await box.put(AppKeys.lastname, lastName);
+    await _box.put(AppKeys.lastname, lastName);
   }
 
-  String getLastName() => box.get(AppKeys.lastname, defaultValue: "");
+  String getLastName() => _box.get(AppKeys.lastname, defaultValue: '');
 
   Future<void> setEmail(String email) async {
-    await box.put(AppKeys.email, email);
+    await _box.put(AppKeys.email, email);
   }
 
-  String get email => box.get(AppKeys.email, defaultValue: "");
+  String get email => _box.get(AppKeys.email, defaultValue: '');
 
   Future<void> setPassword(String password) async {
-    await box.put(AppKeys.password, password);
+    await _box.put(AppKeys.password, password);
   }
 
-  String? get password => box.get(AppKeys.password);
+  String? get password => _box.get(AppKeys.password);
 
   Future<void> clear() async {
-    await box.clear();
+    await _box.clear();
+    await _cacheBox.clear();
   }
 }

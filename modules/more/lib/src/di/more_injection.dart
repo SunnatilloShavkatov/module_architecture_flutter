@@ -1,9 +1,9 @@
-import "dart:async";
+import 'dart:async';
 
-import "package:core/core.dart";
-import "package:more/src/data/datasource/local/more_local_data_source_impl.dart";
-import "package:more/src/data/datasource/remote/more_remote_data_source.dart";
-import "package:more/src/domain/repository/more_repository.dart";
+import 'package:core/core.dart';
+import 'package:more/src/data/datasource/local/more_local_data_source_impl.dart';
+import 'package:more/src/data/datasource/remote/more_remote_data_source.dart';
+import 'package:more/src/domain/repository/more_repository.dart';
 
 final class MoreInjection implements Injection {
   const MoreInjection();

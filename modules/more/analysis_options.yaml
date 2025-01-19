@@ -23,16 +23,9 @@ dart_code_metrics:
     - no-equal-then-else
 
 analyzer:
-  enable-experiment:
-    - macros
-  language:
-    strict-casts: false
-    strict-inference: true
-    strict-raw-types: false
-  exclude: [ build/**, "**/*.freezed.dart", "**/*.g.dart", "**/*.gr.dart", "**/*.gen.dart" ]
+  exclude: [ lib/src/l10n/**, "**/*.freezed.dart", "**/*.g.dart", "**/*.gr.dart", "**/*.gen.dart" ]
 
   errors:
-    always_use_package_imports: error
     # Built-in rules
     body_might_complete_normally_nullable: error
     # Error rules
@@ -161,7 +154,6 @@ analyzer:
     throw_in_finally: error
     unnecessary_statements: error
     unrelated_type_equality_checks: error
-    unsafe_html: error
     prefer_void_to_null: error
     cascade_invocations: error
     overridden_fields: error
@@ -209,7 +201,6 @@ linter:
   rules:
     - always_declare_return_types
     - always_put_control_body_on_new_line
-    - always_use_package_imports
     - annotate_overrides
     - annotate_redeclares
     - avoid_annotating_with_dynamic
@@ -320,7 +311,7 @@ linter:
     - prefer_const_literals_to_create_immutables
     - prefer_constructors_over_static_methods
     - prefer_contains
-    - prefer_double_quotes
+    - prefer_single_quotes
     - prefer_expression_function_bodies
     - prefer_final_fields
     - prefer_final_in_for_each
@@ -386,7 +377,6 @@ linter:
     - unnecessary_this
     - unnecessary_to_list_in_spreads
     - unrelated_type_equality_checks
-    - unsafe_html
     - use_build_context_synchronously
     - use_colored_box
     - use_decorated_box

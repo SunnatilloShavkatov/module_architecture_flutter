@@ -1,11 +1,11 @@
-import "package:base_dependencies/base_dependencies.dart";
-import "package:core/src/core_abstractions/injector.dart";
-import "package:flutter/foundation.dart";
+import 'package:base_dependencies/base_dependencies.dart';
+import 'package:core/src/core_abstractions/injector.dart';
+import 'package:flutter/foundation.dart';
 
 @protected
 final GetIt _getIt = GetIt.instance;
 
-class AppInjector implements Injector {
+final class AppInjector implements Injector {
   const AppInjector._();
 
   static const Injector instance = AppInjector._();

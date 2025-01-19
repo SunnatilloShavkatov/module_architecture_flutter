@@ -1,1 +1,1 @@
-export "package:main/src/main_container.dart";
+export 'package:main/src/main_container.dart';

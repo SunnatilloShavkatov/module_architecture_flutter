@@ -1,4 +1,4 @@
-import "package:base_dependencies/base_dependencies.dart";
+import 'package:base_dependencies/base_dependencies.dart';
 
 sealed class Failure extends Equatable {
   const Failure({required this.message});

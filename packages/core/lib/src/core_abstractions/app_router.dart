@@ -1,5 +1,5 @@
-import "package:core/src/core_abstractions/injector.dart";
-import "package:flutter/material.dart";
+import 'package:core/src/core_abstractions/injector.dart';
+import 'package:flutter/material.dart';
 
 abstract class AppRouter {
   const AppRouter();

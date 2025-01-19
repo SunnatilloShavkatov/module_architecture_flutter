@@ -1,4 +1,4 @@
-part of "extension.dart";
+part of 'extension.dart';
 
 extension SliverCountExtension on int {
   int get doubleTheListCount => math.max(0, (this * 2) - 1);

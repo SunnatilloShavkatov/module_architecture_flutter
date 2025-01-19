@@ -1,8 +1,8 @@
-import "package:base_dependencies/base_dependencies.dart";
-import "package:components/components.dart";
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
-import "package:flutter/services.dart" show DiagnosticPropertiesBuilder, SystemUiOverlayStyle;
+import 'package:base_dependencies/base_dependencies.dart';
+import 'package:components/components.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show DiagnosticPropertiesBuilder, SystemUiOverlayStyle;
 
 class AppOptions extends Equatable {
   const AppOptions({
@@ -66,7 +66,7 @@ class _ModelBindingScope extends InheritedWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<_ModelBindingState>("modelBindingState", modelBindingState));
+    properties.add(DiagnosticsProperty<_ModelBindingState>('modelBindingState', modelBindingState));
   }
 }
 
@@ -86,7 +86,7 @@ class ModelBinding extends StatefulWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<AppOptions>("initialModel", initialModel));
+    properties.add(DiagnosticsProperty<AppOptions>('initialModel', initialModel));
   }
 }
 
@@ -118,6 +118,6 @@ class _ModelBindingState extends State<ModelBinding> {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<AppOptions>("currentModel", currentModel));
+    properties.add(DiagnosticsProperty<AppOptions>('currentModel', currentModel));
   }
 }

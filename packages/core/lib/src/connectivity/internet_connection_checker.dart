@@ -1,4 +1,4 @@
-part of "network_info.dart";
+part of 'network_info.dart';
 
 @immutable
 class AddressCheckResult {
@@ -8,7 +8,7 @@ class AddressCheckResult {
   final bool isSuccess;
 
   @override
-  String toString() => "AddressCheckResult($options, $isSuccess)";
+  String toString() => 'AddressCheckResult($options, $isSuccess)';
 
   @override
   int get hashCode => Object.hashAll(<Object?>[options, isSuccess]);
@@ -27,7 +27,7 @@ class AddressCheckOptions {
     this.timeout = InternetConnectionChecker.defaultTimeout,
   }) : assert(
           (address != null || hostname != null) && ((address != null) != (hostname != null)),
-          "Either address or hostname must be provided, but not both.",
+          'Either address or hostname must be provided, but not both.',
         );
 
   final InternetAddress? address;
@@ -36,7 +36,7 @@ class AddressCheckOptions {
   final Duration timeout;
 
   @override
-  String toString() => "AddressCheckOptions($address, $port, $timeout, $hostname)";
+  String toString() => 'AddressCheckOptions($address, $port, $timeout, $hostname)';
 
   @override
   int get hashCode => Object.hashAll(<Object?>[address, port, timeout]);
@@ -80,12 +80,12 @@ class InternetConnectionChecker {
   /// | 208.67.220.220 | OpenDNS    | https://use.opendns.com/                        |
   static final List<AddressCheckOptions> defaultAddresses = List<AddressCheckOptions>.unmodifiable(
     <AddressCheckOptions>[
-      AddressCheckOptions(address: InternetAddress("1.1.1.1", type: InternetAddressType.IPv4)),
-      AddressCheckOptions(address: InternetAddress("2606:4700:4700::1111", type: InternetAddressType.IPv6)),
-      AddressCheckOptions(address: InternetAddress("8.8.4.4", type: InternetAddressType.IPv4)),
-      AddressCheckOptions(address: InternetAddress("2001:4860:4860::8888", type: InternetAddressType.IPv6)),
-      AddressCheckOptions(address: InternetAddress("208.67.222.222", type: InternetAddressType.IPv4)),
-      AddressCheckOptions(address: InternetAddress("2620:0:ccc::2", type: InternetAddressType.IPv6)),
+      AddressCheckOptions(address: InternetAddress('1.1.1.1', type: InternetAddressType.IPv4)),
+      AddressCheckOptions(address: InternetAddress('2606:4700:4700::1111', type: InternetAddressType.IPv6)),
+      AddressCheckOptions(address: InternetAddress('8.8.4.4', type: InternetAddressType.IPv4)),
+      AddressCheckOptions(address: InternetAddress('2001:4860:4860::8888', type: InternetAddressType.IPv6)),
+      AddressCheckOptions(address: InternetAddress('208.67.222.222', type: InternetAddressType.IPv4)),
+      AddressCheckOptions(address: InternetAddress('2620:0:ccc::2', type: InternetAddressType.IPv6)),
     ],
   );
 
