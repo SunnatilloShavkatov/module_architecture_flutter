@@ -1,8 +1,8 @@
 name: navigation
-description: "A new Flutter project."
 version: 0.0.1
 homepage: "none"
 publish_to: "none"
+description: "A new Flutter project."
 
 environment:
   sdk: ">=3.5.0 <4.0.0"
@@ -12,11 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
   # external packages
-  sheet:
-    git:
-      url: https://github.com/SunnatilloShavkatov/sheet.git
-      ref: main
-  chuck_interceptor: ^2.2.2
+  sheet: ^1.0.0
+  smooth_sheets: ^0.10.2
+  chuck_interceptor: ^2.2.3
 
 dev_dependencies:
   flutter_test:

@@ -4,7 +4,7 @@ import 'package:more/src/presentation/settings/settings_page.dart';
 import 'package:more/src/presentation/settings/sheet/choose_theme_mode_sheet.dart';
 import 'package:navigation/navigation.dart';
 
-class MoreRouter extends AppRouter {
+final class MoreRouter extends AppRouter {
   const MoreRouter();
 
   @override

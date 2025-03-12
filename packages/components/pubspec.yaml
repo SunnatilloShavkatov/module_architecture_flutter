@@ -1,8 +1,8 @@
 name: components
-description: "A new Flutter project."
 version: 0.0.1
 homepage: "none"
 publish_to: "none"
+description: "A new Flutter project."
 
 environment:
   sdk: ">=3.5.0 <4.0.0"

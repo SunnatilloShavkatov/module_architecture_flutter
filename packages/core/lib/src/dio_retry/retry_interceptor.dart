@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:base_dependencies/base_dependencies.dart';
 
@@ -7,7 +6,6 @@ part 'http_status_codes.dart';
 
 typedef RetryEvaluator = FutureOr<bool> Function(DioException error, int attempt);
 typedef RefreshTokenFunction = Future<void> Function();
-typedef CertificateVerifyFailedFunction = Future<void> Function();
 typedef AccessTokenGetter = String Function();
 typedef ForbiddenFunction = Future<void> Function();
 typedef ToNoInternetPageNavigator = Future<void> Function();
@@ -21,16 +19,12 @@ class RetryInterceptor extends InterceptorsWrapper {
     this.refreshTokenFunction,
     this.accessTokenGetter,
     this.forbiddenFunction,
-    required this.certificateVerifyFailedFunction,
     required this.toNoInternetPageNavigator,
-    this.retryDelays = const <Duration>[Duration(seconds: 1)],
+    this.retryDelays = const [Duration(seconds: 1)],
   });
 
   /// The original dio
   final Dio dio;
-
-  /// certificate verify failed functions get api client
-  final CertificateVerifyFailedFunction certificateVerifyFailedFunction;
 
   ///refresh token functions get api client
   final RefreshTokenFunction? refreshTokenFunction;
@@ -61,10 +55,7 @@ class RetryInterceptor extends InterceptorsWrapper {
   /// a bas status code.
   Future<bool> defaultRetryEvaluator(DioException error, int attempt) async {
     bool shouldRetry = false;
-    if (error.type == DioExceptionType.unknown && error.error is HandshakeException) {
-      await certificateVerifyFailedFunction.call();
-      shouldRetry = true;
-    } else if (error.type == DioExceptionType.badResponse) {
+    if (error.type == DioExceptionType.badResponse) {
       final int statusCode = error.response?.statusCode ?? 500;
       shouldRetry = isRetryAble(statusCode);
       if (statusCode == 401) {

@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sheet/route.dart';
-import 'package:sheet/sheet.dart';
+import 'package:smooth_sheets/smooth_sheets.dart';
 
-class MaterialSheetRoute<T> extends SheetRoute<T> {
-  MaterialSheetRoute({
+class UniversalSheetRoute extends ModalSheetRoute {
+  UniversalSheetRoute({
     required super.settings,
     required WidgetBuilder builder,
-    super.barrierColor = Colors.black54,
-    super.fit = SheetFit.loose,
-    super.barrierDismissible,
-    bool enableDrag = true,
-    super.stops,
-    double initialStop = 1,
-    super.duration = const Duration(milliseconds: 300),
+    super.swipeDismissible = true,
+    super.swipeDismissSensitivity = const SwipeDismissSensitivity(),
   }) : super(
           builder: (context) => ConstrainedBox(
             constraints: BoxConstraints(
@@ -21,7 +15,7 @@ class MaterialSheetRoute<T> extends SheetRoute<T> {
             child: Material(
               clipBehavior: Clip.antiAlias,
               shape: Theme.of(context).bottomSheetTheme.shape,
-              child: SheetMediaQuery(
+              child: DraggableSheet(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisSize: MainAxisSize.min,
@@ -43,7 +37,5 @@ class MaterialSheetRoute<T> extends SheetRoute<T> {
               ),
             ),
           ),
-          draggable: enableDrag,
-          initialExtent: initialStop,
         );
 }

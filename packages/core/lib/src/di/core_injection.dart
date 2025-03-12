@@ -13,7 +13,7 @@ import 'package:core/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
 
-class CoreInjection implements Injection {
+final class CoreInjection implements Injection {
   const CoreInjection();
 
   @override
@@ -57,7 +57,6 @@ class CoreInjection implements Injection {
       <Interceptor>[
         RetryInterceptor(
           dio: di.get<Dio>(),
-          certificateVerifyFailedFunction: () async {},
           toNoInternetPageNavigator: () async {
             if (navigatorObserver.currentRoutes.contains(Routes.noInternet)) {
               return;

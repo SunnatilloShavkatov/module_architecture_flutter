@@ -79,7 +79,7 @@ final ThemeData lightTheme = ThemeData(
       backgroundColor: WidgetStateProperty.resolveWith(
         (Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
-            return colorLightScheme.primary.withValues(alpha: 0.4);
+            return colorLightScheme.primary.withOpacity(0.4);
           }
           return colorLightScheme.primary;
         },
@@ -351,7 +351,7 @@ final ThemeData darkTheme = ThemeData(
       backgroundColor: WidgetStateProperty.resolveWith(
         (Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
-            return colorDarkScheme.primary.withValues(alpha: 0.4);
+            return colorDarkScheme.primary.withOpacity(0.4);
           }
           return colorDarkScheme.primary;
         },

@@ -3,7 +3,7 @@ import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 
 final class LocalSource {
-  LocalSource(this._box, this._cacheBox);
+  const LocalSource(this._box, this._cacheBox);
 
   final Box<dynamic> _box;
   final Box<dynamic> _cacheBox;

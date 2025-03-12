@@ -12,7 +12,7 @@ export 'package:flutter_cache_manager/flutter_cache_manager.dart';
 export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 export 'package:gap/gap.dart';
 export 'package:get_it/get_it.dart';
-export 'package:hive/hive.dart';
+export 'package:hive_ce/hive.dart';
 export 'package:intl/intl.dart';
 export 'package:package_info_plus/package_info_plus.dart';
 export 'package:path_provider/path_provider.dart';

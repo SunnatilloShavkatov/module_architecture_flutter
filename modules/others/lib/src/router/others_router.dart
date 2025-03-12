@@ -4,7 +4,7 @@ import 'package:navigation/navigation.dart';
 import 'package:others/src/presentation/internet_connection/internet_connection_page.dart';
 import 'package:others/src/presentation/splash/splash_page.dart';
 
-class OthersRouter extends AppRouter {
+final class OthersRouter extends AppRouter {
   const OthersRouter();
 
   @override
