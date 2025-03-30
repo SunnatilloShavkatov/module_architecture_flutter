@@ -31,7 +31,6 @@ final ThemeData lightTheme = ThemeData(
   visualDensity: VisualDensity.standard,
   canvasColor: colorLightScheme.surface,
   primaryColor: colorLightScheme.primary,
-  dialogBackgroundColor: colorLightScheme.surface,
   materialTapTargetSize: MaterialTapTargetSize.padded,
   scaffoldBackgroundColor: ThemeColors.light.background,
   splashFactory: Platform.isAndroid ? InkRipple.splashFactory : NoSplash.splashFactory,
@@ -47,6 +46,10 @@ final ThemeData lightTheme = ThemeData(
   dialogTheme: DialogTheme(
     backgroundColor: colorLightScheme.surface,
     surfaceTintColor: colorLightScheme.surface,
+    data: DialogThemeData(
+      backgroundColor: colorLightScheme.surface,
+      surfaceTintColor: colorLightScheme.surface,
+    ),
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
   ),
   scrollbarTheme: const ScrollbarThemeData(
@@ -79,7 +82,7 @@ final ThemeData lightTheme = ThemeData(
       backgroundColor: WidgetStateProperty.resolveWith(
         (Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
-            return colorLightScheme.primary.withOpacity(0.4);
+            return colorLightScheme.primary.withValues(alpha: 0.4);
           }
           return colorLightScheme.primary;
         },
@@ -293,7 +296,6 @@ final ThemeData darkTheme = ThemeData(
   materialTapTargetSize: MaterialTapTargetSize.padded,
   primaryColor: colorDarkScheme.primary,
   colorScheme: colorDarkScheme,
-  dialogBackgroundColor: colorDarkScheme.surface,
   scaffoldBackgroundColor: ThemeColors.dark.background,
   cardColor: colorDarkScheme.surface,
   canvasColor: colorDarkScheme.surface,
@@ -311,6 +313,10 @@ final ThemeData darkTheme = ThemeData(
   dialogTheme: DialogTheme(
     backgroundColor: colorDarkScheme.surface,
     surfaceTintColor: colorDarkScheme.surface,
+    data: DialogThemeData(
+      backgroundColor: colorDarkScheme.surface,
+      surfaceTintColor: colorDarkScheme.surface,
+    ),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(10)),
     ),
@@ -351,7 +357,7 @@ final ThemeData darkTheme = ThemeData(
       backgroundColor: WidgetStateProperty.resolveWith(
         (Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
-            return colorDarkScheme.primary.withOpacity(0.4);
+            return colorDarkScheme.primary.withValues(alpha: 0.4);
           }
           return colorDarkScheme.primary;
         },

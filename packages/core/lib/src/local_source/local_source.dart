@@ -3,24 +3,25 @@ import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 
 final class LocalSource {
-  const LocalSource(this._box, this._cacheBox);
+  const LocalSource(this._box, this._cacheBox, this._preferences);
 
   final Box<dynamic> _box;
   final Box<dynamic> _cacheBox;
+  final SharedPreferencesWithCache _preferences;
 
-  bool get hasProfile => _box.get(AppKeys.hasProfile, defaultValue: false);
+  bool get hasProfile => _preferences.getBool(AppKeys.hasProfile) ?? false;
 
   Future<void> setHasProfile({required bool value}) async {
-    await _box.put(AppKeys.hasProfile, value);
+    await _preferences.setBool(AppKeys.hasProfile, value);
   }
 
   Future<void> setLocale(String locale) async {
-    await _box.put(AppKeys.locale, locale);
+    await _preferences.setString(AppKeys.locale, locale);
   }
 
-  String get locale => _box.get(AppKeys.locale, defaultValue: defaultLocale);
+  String get locale => _preferences.getString(AppKeys.locale) ?? defaultLocale;
 
-  ThemeMode get themeMode => switch (_box.get(AppKeys.themeMode)) {
+  ThemeMode get themeMode => switch (_preferences.getString(AppKeys.themeMode)) {
         'system' => ThemeMode.system,
         'light' => ThemeMode.light,
         'dark' => ThemeMode.dark,
@@ -28,14 +29,14 @@ final class LocalSource {
       };
 
   Future<void> setThemeMode(ThemeMode mode) async {
-    await _box.put(AppKeys.themeMode, mode.name);
+    await _preferences.setString(AppKeys.themeMode, mode.name);
   }
 
   Future<void> setAccessToken(String accessToken) async {
-    await _box.put(AppKeys.accessToken, accessToken);
+    await _preferences.setString(AppKeys.accessToken, accessToken);
   }
 
-  String get accessToken => _box.get(AppKeys.accessToken, defaultValue: '');
+  String get accessToken => _preferences.getString(AppKeys.accessToken) ?? '';
 
   Future<void> setFirstName(String firstName) async {
     await _box.put(AppKeys.firstname, firstName);
@@ -62,7 +63,11 @@ final class LocalSource {
   String? get password => _box.get(AppKeys.password);
 
   Future<void> clear() async {
-    await _box.clear();
-    await _cacheBox.clear();
+    await Future.wait([
+      _preferences.remove(AppKeys.hasProfile),
+      _preferences.remove(AppKeys.accessToken),
+      _box.clear(),
+      _cacheBox.clear(),
+    ]);
   }
 }
