@@ -69,7 +69,6 @@ analyzer:
     no_leading_underscores_for_local_identifiers: error
     null_closures: error
     omit_local_variable_types: error
-    package_api_docs: error
     prefer_adjacent_string_concatenation: error
     prefer_equal_for_default_values: error
     prefer_if_null_operators: error
@@ -161,7 +160,6 @@ analyzer:
     throw_in_finally: error
     unnecessary_statements: error
     unrelated_type_equality_checks: error
-    unsafe_html: error
     prefer_void_to_null: error
     cascade_invocations: error
     overridden_fields: error
@@ -306,7 +304,6 @@ linter:
     - null_closures
     - only_throw_errors
     - overridden_fields
-    - package_api_docs
     - package_names
     - parameter_assignments
     - prefer_adjacent_string_concatenation
@@ -386,7 +383,6 @@ linter:
     - unnecessary_this
     - unnecessary_to_list_in_spreads
     - unrelated_type_equality_checks
-    - unsafe_html
     - use_build_context_synchronously
     - use_colored_box
     - use_decorated_box

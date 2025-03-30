@@ -1,4 +1,4 @@
-import 'package:chuck_interceptor/chuck.dart';
+import 'package:chuck_interceptor/chuck_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/src/observer/route_navigation_observer.dart';
 

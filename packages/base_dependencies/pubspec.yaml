@@ -21,6 +21,7 @@ dependencies:
   flutter_bloc: ^9.1.0
   # hive
   hive_ce: ^2.10.1
+  shared_preferences: ^2.5.3
   # path
   path_provider: ^2.1.5
   # rest api
@@ -45,7 +46,7 @@ dependencies:
   firebase_messaging: ^15.2.4
   firebase_remote_config: ^5.4.2
   # local notification
-  flutter_local_notifications: ^18.0.1
+  flutter_local_notifications: ^19.0.0
 
 dev_dependencies:
   flutter_test:

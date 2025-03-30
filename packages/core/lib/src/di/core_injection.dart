@@ -29,7 +29,6 @@ final class CoreInjection implements Injection {
             sendTimeout: const Duration(seconds: 30),
             connectTimeout: const Duration(seconds: 30),
             receiveTimeout: const Duration(seconds: 30),
-            // headers: {'api-token': Constants.apiToken},
           )
           ..httpClientAdapter = IOHttpClientAdapter(
             createHttpClient: () => HttpClient(context: SecurityContext(withTrustedRoots: true))
@@ -37,7 +36,7 @@ final class CoreInjection implements Injection {
           )
           ..interceptors.addAll(
             <Interceptor>[
-              chuck.getDioInterceptor(),
+              chuck.dioInterceptor,
               LogInterceptor(
                 requestBody: true,
                 responseBody: true,
@@ -77,13 +76,17 @@ final class CoreInjection implements Injection {
 }
 
 Future<void> _initHive({required Injector di}) async {
+  /// init shared preferences
+  final SharedPreferencesWithCache prefs = await SharedPreferencesWithCache.create(
+    cacheOptions: const SharedPreferencesWithCacheOptions(),
+  );
   /// init hive
   const String boxName = 'module_architecture_mobile_box';
   final Directory directory = await getApplicationCacheDirectory();
   Hive.init(directory.path);
   final Box<dynamic> box = await Hive.openBox<dynamic>(boxName);
   final Box<dynamic> cacheBox = await Hive.openBox<dynamic>('cache_$boxName');
-  di.registerSingleton<LocalSource>(LocalSource(box, cacheBox));
+  di.registerSingleton<LocalSource>(LocalSource(box, cacheBox, prefs));
 }
 
 Future<void> _onLogout() async {

@@ -18,5 +18,6 @@ export 'package:package_info_plus/package_info_plus.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:pinput/pinput.dart';
 export 'package:rxdart/rxdart.dart';
+export 'package:shared_preferences/shared_preferences.dart';
 export 'package:sms_autofill/sms_autofill.dart';
 export 'package:url_launcher/url_launcher.dart';
