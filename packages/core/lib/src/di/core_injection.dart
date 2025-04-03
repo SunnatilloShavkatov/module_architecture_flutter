@@ -37,11 +37,11 @@ final class CoreInjection implements Injection {
           )
           ..interceptors.addAll(
             <Interceptor>[
-              chuck.getDioInterceptor(),
+              chuck.dioInterceptor,
               LogInterceptor(
                 requestBody: true,
                 responseBody: true,
-                logPrint: (Object object) {
+                logPrint: (object) {
                   logMessage('dio: $object');
                 },
               ),

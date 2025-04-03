@@ -15,9 +15,9 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: binding);
 
   await Future.wait(
-    <Future<void>>[
+    [
       /// set orientation
-      SystemChrome.setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.portraitUp]),
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
       SystemChrome.setEnabledSystemUIMode(
         SystemUiMode.manual,
         overlays: <SystemUiOverlay>[SystemUiOverlay.top, SystemUiOverlay.bottom],
