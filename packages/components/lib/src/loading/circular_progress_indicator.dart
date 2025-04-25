@@ -1,8 +1,8 @@
-import "dart:math" as math;
+import 'dart:math' as math;
 
-import "package:flutter/cupertino.dart";
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 const double _kMinCircularProgressIndicatorSize = 36;
 const int _kIndeterminateLinearDuration = 1800;
@@ -41,17 +41,17 @@ abstract class _CircularProgressIndicator extends StatefulWidget {
     properties
       ..add(
         PercentProperty(
-          "value",
+          'value',
           value,
           showName: false,
-          ifNull: "<indeterminate>",
+          ifNull: '<indeterminate>',
         ),
       )
-      ..add(ColorProperty("backgroundColor", backgroundColor))
-      ..add(ColorProperty("color", color))
-      ..add(DiagnosticsProperty<Animation<Color?>?>("valueColor", valueColor))
-      ..add(StringProperty("semanticsLabel", semanticsLabel))
-      ..add(StringProperty("semanticsValue", semanticsValue));
+      ..add(ColorProperty('backgroundColor', backgroundColor))
+      ..add(ColorProperty('color', color))
+      ..add(DiagnosticsProperty<Animation<Color?>?>('valueColor', valueColor))
+      ..add(StringProperty('semanticsLabel', semanticsLabel))
+      ..add(StringProperty('semanticsValue', semanticsValue));
   }
 
   Widget _buildSemanticsWrapper({
@@ -60,7 +60,7 @@ abstract class _CircularProgressIndicator extends StatefulWidget {
   }) {
     String? expandedSemanticsValue = semanticsValue;
     if (value != null) {
-      expandedSemanticsValue ??= "${(value! * 100).round()}%";
+      expandedSemanticsValue ??= '${(value! * 100).round()}%';
     }
     return Semantics(
       label: semanticsLabel,
@@ -186,7 +186,7 @@ class LinearCappedProgressIndicator extends _CircularProgressIndicator {
     super.semanticsValue,
   }) : assert(
           minHeight == null || minHeight > 0,
-          "minHeight must be null or positive",
+          'minHeight must be null or positive',
         );
 
   /// Color of the track being filled by the linear indicator.
@@ -219,8 +219,8 @@ class LinearCappedProgressIndicator extends _CircularProgressIndicator {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DoubleProperty("minHeight", minHeight))
-      ..add(DoubleProperty("cornerRadius", cornerRadius));
+      ..add(DoubleProperty('minHeight', minHeight))
+      ..add(DoubleProperty('cornerRadius', cornerRadius));
   }
 }
 
@@ -463,8 +463,8 @@ class CustomCircularProgressIndicator extends _CircularProgressIndicator {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DoubleProperty("strokeWidth", strokeWidth))
-      ..add(EnumProperty<StrokeCap>("strokeCap", strokeCap));
+      ..add(DoubleProperty('strokeWidth', strokeWidth))
+      ..add(EnumProperty<StrokeCap>('strokeCap', strokeCap));
   }
 }
 

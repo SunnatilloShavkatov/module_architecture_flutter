@@ -1,5 +1,5 @@
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class KeepAliveWidget extends StatefulWidget {
   const KeepAliveWidget({
@@ -17,7 +17,7 @@ class KeepAliveWidget extends StatefulWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<bool>("keepAlive", keepAlive));
+    properties.add(DiagnosticsProperty<bool>('keepAlive', keepAlive));
   }
 }
 

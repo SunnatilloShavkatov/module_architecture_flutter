@@ -8,7 +8,7 @@ final class OthersRouter extends AppRouter {
   const OthersRouter();
 
   @override
-  Map<String, PageRoute> getRoutes(RouteSettings settings, Injector di) => {
+  Map<String, PageRoute<dynamic>> getRoutes(RouteSettings settings, Injector di) => {
         Routes.splash: MaterialPageRoute(settings: settings, builder: (_) => const SplashPage()),
         Routes.noInternet: MaterialPageRoute(settings: settings, builder: (_) => const InternetConnectionPage()),
       };

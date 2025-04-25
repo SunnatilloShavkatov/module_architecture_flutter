@@ -1,7 +1,7 @@
-import "package:base_dependencies/base_dependencies.dart";
-import "package:core/core.dart";
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
+import 'package:base_dependencies/base_dependencies.dart';
+import 'package:core/core.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class CustomCachedNetworkImage extends StatelessWidget {
   const CustomCachedNetworkImage({
@@ -54,14 +54,14 @@ class CustomCachedNetworkImage extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(StringProperty("imageUrl", imageUrl))
-      ..add(DoubleProperty("width", width))
-      ..add(DoubleProperty("height", height))
-      ..add(EnumProperty<BoxFit?>("fit", fit))
-      ..add(ObjectFlagProperty<ImageWidgetBuilder?>.has("imageBuilder", imageBuilder))
-      ..add(ObjectFlagProperty<PlaceholderWidgetBuilder?>.has("placeholder", placeholder))
-      ..add(ObjectFlagProperty<ProgressIndicatorBuilder?>.has("progressIndicatorBuilder", progressIndicatorBuilder))
-      ..add(ObjectFlagProperty<LoadingErrorWidgetBuilder?>.has("errorWidget", errorWidget));
+      ..add(StringProperty('imageUrl', imageUrl))
+      ..add(DoubleProperty('width', width))
+      ..add(DoubleProperty('height', height))
+      ..add(EnumProperty<BoxFit?>('fit', fit))
+      ..add(ObjectFlagProperty<ImageWidgetBuilder?>.has('imageBuilder', imageBuilder))
+      ..add(ObjectFlagProperty<PlaceholderWidgetBuilder?>.has('placeholder', placeholder))
+      ..add(ObjectFlagProperty<ProgressIndicatorBuilder?>.has('progressIndicatorBuilder', progressIndicatorBuilder))
+      ..add(ObjectFlagProperty<LoadingErrorWidgetBuilder?>.has('errorWidget', errorWidget));
   }
 }
 

@@ -1,5 +1,5 @@
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class BouncingButton extends StatefulWidget {
   /// BouncingWidget constructor
@@ -37,10 +37,10 @@ class BouncingButton extends StatefulWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(ObjectFlagProperty<VoidCallback>.has("onPressed", onPressed))
-      ..add(DiagnosticsProperty<Duration>("duration", duration))
-      ..add(DoubleProperty("scaleFactor", scaleFactor))
-      ..add(DiagnosticsProperty<bool>("stayOnBottom", stayOnBottom));
+      ..add(ObjectFlagProperty<VoidCallback>.has('onPressed', onPressed))
+      ..add(DiagnosticsProperty<Duration>('duration', duration))
+      ..add(DoubleProperty('scaleFactor', scaleFactor))
+      ..add(DiagnosticsProperty<bool>('stayOnBottom', stayOnBottom));
   }
 }
 
@@ -209,8 +209,8 @@ class _BouncingButtonState extends State<BouncingButton>
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(ObjectFlagProperty<VoidCallback>.has("onPressed", onPressed))
-      ..add(DoubleProperty("scaleFactor", scaleFactor))
-      ..add(DiagnosticsProperty<Duration>("duration", duration));
+      ..add(ObjectFlagProperty<VoidCallback>.has('onPressed', onPressed))
+      ..add(DoubleProperty('scaleFactor', scaleFactor))
+      ..add(DiagnosticsProperty<Duration>('duration', duration));
   }
 }

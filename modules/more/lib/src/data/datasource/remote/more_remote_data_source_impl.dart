@@ -8,7 +8,7 @@ final class MoreRemoteDataSourceImpl implements MoreRemoteDataSource {
   @override
   Future<void> getMoreData() async {
     try {
-      await _networkProvider.fetchMethod(
+      await _networkProvider.fetchMethod<DataMap>(
         methodType: RMethodTypes.get,
         Constants.baseUrl + Urls.loginWithOption,
         headers: {'Authorization': localSource.accessToken},

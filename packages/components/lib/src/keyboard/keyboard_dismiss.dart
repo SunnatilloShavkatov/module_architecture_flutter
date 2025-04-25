@@ -1,6 +1,6 @@
-import "package:flutter/foundation.dart";
-import "package:flutter/gestures.dart";
-import "package:flutter/widgets.dart";
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/widgets.dart';
 
 enum GestureType {
   onTapDown,
@@ -134,9 +134,9 @@ class KeyboardDismiss extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(IterableProperty<GestureType>("gestures", gestures))
-      ..add(EnumProperty<DragStartBehavior>("dragStartBehavior", dragStartBehavior))
-      ..add(EnumProperty<HitTestBehavior?>("behavior", behavior))
-      ..add(DiagnosticsProperty<bool>("excludeFromSemantics", excludeFromSemantics));
+      ..add(IterableProperty<GestureType>('gestures', gestures))
+      ..add(EnumProperty<DragStartBehavior>('dragStartBehavior', dragStartBehavior))
+      ..add(EnumProperty<HitTestBehavior?>('behavior', behavior))
+      ..add(DiagnosticsProperty<bool>('excludeFromSemantics', excludeFromSemantics));
   }
 }

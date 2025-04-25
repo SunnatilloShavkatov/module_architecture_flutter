@@ -1,6 +1,6 @@
-import "dart:math";
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
+import 'dart:math';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 /// Double pi.
 const double _doublePi = 2 * pi;
@@ -118,23 +118,23 @@ class SimpleCircularProgressBar extends StatefulWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DoubleProperty("size", size))
-      ..add(DoubleProperty("maxValue", maxValue))
-      ..add(DoubleProperty("startAngle", startAngle))
-      ..add(DoubleProperty("progressStrokeWidth", progressStrokeWidth))
-      ..add(DoubleProperty("backStrokeWidth", backStrokeWidth))
-      ..add(IterableProperty<Color>("progressColors", progressColors))
-      ..add(ColorProperty("fullProgressColor", fullProgressColor))
-      ..add(ColorProperty("backColor", backColor))
-      ..add(IntProperty("animationDuration", animationDuration))
-      ..add(DiagnosticsProperty<bool>("mergeMode", mergeMode))
+      ..add(DoubleProperty('size', size))
+      ..add(DoubleProperty('maxValue', maxValue))
+      ..add(DoubleProperty('startAngle', startAngle))
+      ..add(DoubleProperty('progressStrokeWidth', progressStrokeWidth))
+      ..add(DoubleProperty('backStrokeWidth', backStrokeWidth))
+      ..add(IterableProperty<Color>('progressColors', progressColors))
+      ..add(ColorProperty('fullProgressColor', fullProgressColor))
+      ..add(ColorProperty('backColor', backColor))
+      ..add(IntProperty('animationDuration', animationDuration))
+      ..add(DiagnosticsProperty<bool>('mergeMode', mergeMode))
       ..add(
         DiagnosticsProperty<ValueNotifier<double>?>(
-          "valueNotifier",
+          'valueNotifier',
           valueNotifier,
         ),
       )
-      ..add(ObjectFlagProperty<OnGetCenterText?>.has("onGetText", onGetText));
+      ..add(ObjectFlagProperty<OnGetCenterText?>.has('onGetText', onGetText));
   }
 }
 
@@ -334,29 +334,29 @@ class _SimpleCircularProgressBarState extends State<SimpleCircularProgressBar>
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DoubleProperty("minSweepAngle", minSweepAngle))
-      ..add(DoubleProperty("circleLength", circleLength))
-      ..add(DoubleProperty("maxValue", maxValue))
-      ..add(DoubleProperty("widgetSize", widgetSize))
-      ..add(DoubleProperty("startAngle", startAngle))
-      ..add(DoubleProperty("correctAngle", correctAngle))
-      ..add(DiagnosticsProperty<SweepGradient>("sweepGradient", sweepGradient))
+      ..add(DoubleProperty('minSweepAngle', minSweepAngle))
+      ..add(DoubleProperty('circleLength', circleLength))
+      ..add(DoubleProperty('maxValue', maxValue))
+      ..add(DoubleProperty('widgetSize', widgetSize))
+      ..add(DoubleProperty('startAngle', startAngle))
+      ..add(DoubleProperty('correctAngle', correctAngle))
+      ..add(DiagnosticsProperty<SweepGradient>('sweepGradient', sweepGradient))
       ..add(
         DiagnosticsProperty<AnimationController>(
-          "animationController",
+          'animationController',
           animationController,
         ),
       )
-      ..add(ColorProperty("fullProgressColor", fullProgressColor))
+      ..add(ColorProperty('fullProgressColor', fullProgressColor))
       ..add(
         DiagnosticsProperty<ValueNotifier<double>>(
-          "valueNotifier",
+          'valueNotifier',
           valueNotifier,
         ),
       )
       ..add(
         DiagnosticsProperty<ValueNotifier<double>?>(
-          "defaultValueNotifier",
+          'defaultValueNotifier',
           defaultValueNotifier,
         ),
       );

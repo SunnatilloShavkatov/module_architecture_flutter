@@ -3,36 +3,24 @@ part of 'extension.dart';
 
 /// Flutter extensions for boxes.
 extension BoxX<T> on Box<T> {
-  /// Returns a [ValueListenable] which notifies its listeners when an entry
-  /// in the box changes.
-  ///
-  /// If [keys] filter is provided, only changes to entries with the
-  /// specified keys notify the listeners.
-  ValueListenable<Box<T>> listenable({List<dynamic>? keys}) =>
-      _BoxListenable(this, keys?.toSet());
+  ValueListenable<Box<T>> listenable({List<String>? keys}) => _BoxListenable(this, keys?.toSet());
 }
 
 /// Flutter extensions for lazy boxes.
 extension LazyBoxX<T> on LazyBox<T> {
-  /// Returns a [ValueListenable] which notifies its listeners when an entry
-  /// in the box changes.
-  ///
-  /// If [keys] filter is provided, only changes to entries with the
-  /// specified keys notify the listeners.
-  ValueListenable<LazyBox<T>> listenable({List<dynamic>? keys}) =>
-      _BoxListenable(this, keys?.toSet());
+  ValueListenable<LazyBox<T>> listenable({List<String>? keys}) => _BoxListenable(this, keys?.toSet());
 }
 
-class _BoxListenable<B extends BoxBase> extends ValueListenable<B> {
+class _BoxListenable<B extends BoxBase<dynamic>> extends ValueListenable<B> {
   _BoxListenable(this.box, this.keys);
 
   final B box;
 
-  final Set<dynamic>? keys;
+  final Set<String>? keys;
 
   final List<VoidCallback> _listeners = <VoidCallback>[];
 
-  StreamSubscription? _subscription;
+  StreamSubscription<BoxEvent>? _subscription;
 
   @override
   void addListener(VoidCallback listener) {

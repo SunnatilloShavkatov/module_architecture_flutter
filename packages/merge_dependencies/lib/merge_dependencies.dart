@@ -1,12 +1,12 @@
-import "package:flutter/material.dart";
-import "package:main/main.dart";
-import "package:merge_dependencies/merge_dependencies.dart";
-import "package:more/more.dart";
-import "package:others/others.dart";
+import 'package:flutter/material.dart';
+import 'package:main/main.dart';
+import 'package:merge_dependencies/merge_dependencies.dart';
+import 'package:more/more.dart';
+import 'package:others/others.dart';
 
-export "package:base_dependencies/base_dependencies.dart";
-export "package:core/core.dart";
-export "package:navigation/navigation.dart";
+export 'package:base_dependencies/base_dependencies.dart';
+export 'package:core/core.dart';
+export 'package:navigation/navigation.dart';
 
 sealed class Merge {
   const Merge._();
@@ -39,7 +39,7 @@ sealed class Merge {
   }
 
   static Route<dynamic>? generateRoutes(RouteSettings settings) {
-    final Map<String, PageRoute> routes = {};
+    final Map<String, PageRoute<dynamic>> routes = {};
     for (int i = 0; i < _allRouters.length; i++) {
       routes.addAll(_allRouters[i].getRoutes(settings, AppInjector.instance));
     }

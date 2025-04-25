@@ -8,7 +8,7 @@ final class MoreRouter extends AppRouter {
   const MoreRouter();
 
   @override
-  Map<String, PageRoute> getRoutes(RouteSettings settings, Injector di) => {
+  Map<String, PageRoute<dynamic>> getRoutes(RouteSettings settings, Injector di) => {
         Routes.settings: MaterialPageRoute(settings: settings, builder: (_) => const SettingsPage()),
         Routes.chooseThemeModeSheet: MaterialSheetRoute(
           settings: settings,

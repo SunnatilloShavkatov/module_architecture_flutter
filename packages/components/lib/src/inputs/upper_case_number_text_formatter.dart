@@ -1,4 +1,4 @@
-import "package:flutter/services.dart";
+import 'package:flutter/services.dart';
 
 class UpperCaseNumberTextFormatter extends TextInputFormatter {
   @override
@@ -7,17 +7,17 @@ class UpperCaseNumberTextFormatter extends TextInputFormatter {
     TextEditingValue newValue,
   ) {
     // Agar matn faqat sonlardan iborat bo'lsa, eski qiymatni qaytarish
-    if (RegExp(r"^\d+$").hasMatch(newValue.text)) {
+    if (RegExp(r'^\d+$').hasMatch(newValue.text)) {
       return oldValue;
     }
 
     // Agar matn ichida raqamlar bo'lsa, eski qiymatni qaytarish
-    if (RegExp("[0-9]").hasMatch(newValue.text)) {
+    if (RegExp('[0-9]').hasMatch(newValue.text)) {
       return oldValue;
     }
 
     // Agar matn ichida rus harflari bo'lsa, eski qiymatni qaytarish
-    if (RegExp("[а-яА-ЯёЁ]").hasMatch(newValue.text)) {
+    if (RegExp('[а-яА-ЯёЁ]').hasMatch(newValue.text)) {
       return oldValue;
     }
 
@@ -31,13 +31,13 @@ class UpperCaseNumberTextFormatter extends TextInputFormatter {
 
 String capitalizeWords(String value) {
   if (value.trim().isEmpty) {
-    return ""; // Bo'sh satrlar uchun
+    return ''; // Bo'sh satrlar uchun
   }
 
-  return value.split(" ").map((String word) {
+  return value.split(' ').map((String word) {
     if (word.isEmpty) {
       return word; // Bo'sh so'zlar uchun
     }
     return "${word[0].toUpperCase()}${word.substring(1)}";
-  }).join(" ");
+  }).join(' ');
 }

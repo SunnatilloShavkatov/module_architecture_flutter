@@ -4,5 +4,5 @@ import 'package:flutter/material.dart';
 abstract class AppRouter {
   const AppRouter();
 
-  Map<String, PageRoute> getRoutes(RouteSettings settings, Injector di);
+  Map<String, PageRoute<dynamic>> getRoutes(RouteSettings settings, Injector di);
 }

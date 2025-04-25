@@ -1,8 +1,8 @@
 import 'package:base_dependencies/base_dependencies.dart';
 
-import 'src/connectivity/network_info.dart';
-import 'src/di/app_injector.dart';
-import 'src/local_source/local_source.dart';
+import 'package:core/src/connectivity/network_info.dart';
+import 'package:core/src/di/app_injector.dart';
+import 'package:core/src/local_source/local_source.dart';
 
 export 'src/constants/constants.dart';
 export 'src/constants/env.dart';

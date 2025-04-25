@@ -1,7 +1,7 @@
 import 'dart:async';
 
 typedef AsyncFunc<T> = Future<T> Function();
-typedef DisposableFunc<T> = FutureOr Function(T param);
+typedef DisposableFunc<T> = FutureOr<T> Function(T param);
 
 abstract class Injector {
   const Injector();

@@ -1,7 +1,7 @@
 // ignore_for_file: cascade_invocations
 
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class Logo extends StatelessWidget {
   const Logo({
@@ -23,8 +23,8 @@ class Logo extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(ColorProperty("color", color))
-      ..add(DoubleProperty("size", size));
+      ..add(ColorProperty('color', color))
+      ..add(DoubleProperty('size', size));
   }
 }
 

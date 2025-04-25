@@ -14,13 +14,12 @@ dependencies:
   # external packages
   sheet: ^1.0.0
   smooth_sheets: ^0.10.2
-  chuck_interceptor: ^2.2.4
+  chuck_interceptor: ^2.2.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  analysis_lints: ^1.0.0
 
 flutter:
-
   uses-material-design: true

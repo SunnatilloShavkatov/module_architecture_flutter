@@ -1,6 +1,6 @@
-import "dart:math" as math;
+import 'dart:math' as math;
 
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 const List<SlideTransform> slideTransforms = <SlideTransform>[
   CubeTransform(),

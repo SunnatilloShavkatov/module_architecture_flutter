@@ -1,7 +1,7 @@
-import "package:components/src/inputs/masked_text_input_formatter.dart";
-import "package:core/core.dart";
-import "package:flutter/material.dart";
-import "package:flutter/services.dart";
+import 'package:components/src/inputs/masked_text_input_formatter.dart';
+import 'package:core/core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomPhoneTextField extends StatefulWidget {
   const CustomPhoneTextField({
@@ -83,9 +83,9 @@ class _CustomPhoneTextFieldState extends State<CustomPhoneTextField> {
   void initState() {
     super.initState();
     focusNode.addListener(listener);
-    if ((widget.controller?.text ?? "").isNotEmpty) {
+    if ((widget.controller?.text ?? '').isNotEmpty) {
       setState(() {
-        _prefixText = "+998 ";
+        _prefixText = '+998 ';
       });
     }
   }
@@ -93,7 +93,7 @@ class _CustomPhoneTextFieldState extends State<CustomPhoneTextField> {
   void listener() {
     if (focusNode.hasFocus) {
       setState(() {
-        _prefixText = "+998 ";
+        _prefixText = '+998 ';
       });
     } else {
       if (widget.controller!.text.isEmpty) {
@@ -113,7 +113,7 @@ class _CustomPhoneTextFieldState extends State<CustomPhoneTextField> {
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
               child: Text(
-                "${widget.titleText}",
+                '${widget.titleText}',
                 style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -125,9 +125,9 @@ class _CustomPhoneTextFieldState extends State<CustomPhoneTextField> {
             autovalidateMode: AutovalidateMode.onUnfocus,
             inputFormatters: <TextInputFormatter>[
               MaskedTextInputFormatter(
-                mask: "## ### ## ##",
-                separator: " ",
-                filter: RegExp("[0-9]"),
+                mask: '## ### ## ##',
+                separator: ' ',
+                filter: RegExp('[0-9]'),
               ),
             ],
             style: const TextStyle(
@@ -148,7 +148,7 @@ class _CustomPhoneTextFieldState extends State<CustomPhoneTextField> {
               focusNode,
               widget.nextFocus,
             ),
-            obscuringCharacter: "*",
+            obscuringCharacter: '*',
             textInputAction: widget.inputAction,
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
@@ -161,7 +161,7 @@ class _CustomPhoneTextFieldState extends State<CustomPhoneTextField> {
                 maxWidth: _prefixText != null ? 56 : 12,
                 minWidth: _prefixText != null ? 48 : 12,
               ),
-              hintText: _prefixText == null ? widget.hintText : "",
+              hintText: _prefixText == null ? widget.hintText : '',
               errorText: widget.showError ?? false ? widget.errorText : null,
             ),
             cursorColor: context.colorScheme.primary,

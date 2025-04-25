@@ -7,7 +7,7 @@ final class MainRouter extends AppRouter {
   const MainRouter();
 
   @override
-  Map<String, PageRoute> getRoutes(RouteSettings settings, Injector di) => {
+  Map<String, PageRoute<dynamic>> getRoutes(RouteSettings settings, Injector di) => {
         Routes.main: MaterialPageRoute(settings: settings, builder: (_) => const MainPage()),
       };
 }

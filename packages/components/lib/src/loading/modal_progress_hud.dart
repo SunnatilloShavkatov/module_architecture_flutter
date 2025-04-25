@@ -1,6 +1,6 @@
-import "package:components/src/loading/circular_progress_indicator.dart";
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
+import 'package:components/src/loading/circular_progress_indicator.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class ModalProgressHUD extends StatelessWidget {
   const ModalProgressHUD({
@@ -43,9 +43,9 @@ class ModalProgressHUD extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty<bool>("inAsyncCall", inAsyncCall))
-      ..add(DoubleProperty("opacity", opacity))
-      ..add(ColorProperty("color", color))
-      ..add(DiagnosticsProperty<bool>("dismissible", dismissible));
+      ..add(DiagnosticsProperty<bool>('inAsyncCall', inAsyncCall))
+      ..add(DoubleProperty('opacity', opacity))
+      ..add(ColorProperty('color', color))
+      ..add(DiagnosticsProperty<bool>('dismissible', dismissible));
   }
 }

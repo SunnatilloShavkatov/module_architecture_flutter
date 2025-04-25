@@ -1,5 +1,5 @@
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class CustomLoadingButton extends StatelessWidget {
   const CustomLoadingButton({
@@ -29,7 +29,7 @@ class CustomLoadingButton extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(ObjectFlagProperty<void Function()?>.has("onPressed", onPressed))
-      ..add(DiagnosticsProperty<bool>("isLoading", isLoading));
+      ..add(ObjectFlagProperty<void Function()?>.has('onPressed', onPressed))
+      ..add(DiagnosticsProperty<bool>('isLoading', isLoading));
   }
 }

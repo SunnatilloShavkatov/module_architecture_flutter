@@ -1,4 +1,4 @@
-import "package:flutter/services.dart";
+import 'package:flutter/services.dart';
 
 class MaskedTextInputFormatter extends TextInputFormatter {
   MaskedTextInputFormatter({
@@ -17,7 +17,7 @@ class MaskedTextInputFormatter extends TextInputFormatter {
     TextEditingValue newValue,
   ) {
     final String text = newValue.text;
-    final String cleanText = text.replaceAll(separator, "");
+    final String cleanText = text.replaceAll(separator, '');
     final Iterable<Match> matches = filter.allMatches(cleanText);
 
     // Agar matn filtrga mos kelmasa, eski qiymatni qaytarish
@@ -45,7 +45,7 @@ class MaskedTextInputFormatter extends TextInputFormatter {
         }
 
         // Matn butunlay to'ldirilganda separatorlar bilan formatlash
-        if (text.length == mask.replaceAll(separator, "").length &&
+        if (text.length == mask.replaceAll(separator, '').length &&
             oldValue.text.isEmpty) {
           final StringBuffer formattedText = StringBuffer();
           int t = 0;

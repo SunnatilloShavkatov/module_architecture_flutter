@@ -1,9 +1,9 @@
-import "dart:ui" show lerpDouble;
+import 'dart:ui' show lerpDouble;
 
-import "package:components/src/painter/line_painter.dart";
-import "package:core/core.dart";
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
+import 'package:components/src/painter/line_painter.dart';
+import 'package:core/core.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 
 class BottomIndicatorBar extends StatelessWidget {
@@ -55,7 +55,7 @@ class BottomIndicatorBar extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(IntProperty("currentIndex", currentIndex))
-      ..add(IntProperty("length", length));
+      ..add(IntProperty('currentIndex', currentIndex))
+      ..add(IntProperty('length', length));
   }
 }

@@ -10,8 +10,8 @@ class BaseUpdateListenerData<T> {
 }
 
 class BaseUpdateListener {
-  final StreamController<BaseUpdateListenerData> updateListenerStream =
-      StreamController<BaseUpdateListenerData>.broadcast();
+  final StreamController<BaseUpdateListenerData<dynamic>> updateListenerStream =
+      StreamController<BaseUpdateListenerData<dynamic>>.broadcast();
 
   BaseListenerTypes? _lastType;
 

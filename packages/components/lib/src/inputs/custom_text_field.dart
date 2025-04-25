@@ -1,7 +1,7 @@
-import "package:core/core.dart";
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
-import "package:flutter/services.dart";
+import 'package:core/core.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 typedef Validator = String? Function(String?);
 typedef OnChanged = void Function(String);
@@ -139,48 +139,48 @@ class CustomTextField extends StatelessWidget {
     super.debugFillProperties(properties);
     properties
       ..add(
-        DiagnosticsProperty<TextEditingController>("controller", controller),
+        DiagnosticsProperty<TextEditingController>('controller', controller),
       )
       ..add(
         DiagnosticsProperty<EdgeInsetsGeometry?>(
-          "contentPadding",
+          'contentPadding',
           contentPadding,
         ),
       )
-      ..add(ObjectFlagProperty<Validator?>.has("validator", validator))
-      ..add(ObjectFlagProperty<OnChanged>.has("onChanged", onChanged))
-      ..add(DiagnosticsProperty<TextInputType>("textInputType", textInputType))
-      ..add(DiagnosticsProperty<FocusNode>("focusNode", focusNode))
-      ..add(DiagnosticsProperty<FocusNode?>("nextFocusNode", nextFocusNode))
+      ..add(ObjectFlagProperty<Validator?>.has('validator', validator))
+      ..add(ObjectFlagProperty<OnChanged>.has('onChanged', onChanged))
+      ..add(DiagnosticsProperty<TextInputType>('textInputType', textInputType))
+      ..add(DiagnosticsProperty<FocusNode>('focusNode', focusNode))
+      ..add(DiagnosticsProperty<FocusNode?>('nextFocusNode', nextFocusNode))
       ..add(
         EnumProperty<TextCapitalization>(
-          "textCapitalization",
+          'textCapitalization',
           textCapitalization,
         ),
       )
-      ..add(ColorProperty("cursorColor", cursorColor))
-      ..add(DiagnosticsProperty<bool>("enabled", enabled))
-      ..add(DiagnosticsProperty<bool>("obscure", obscure))
+      ..add(ColorProperty('cursorColor', cursorColor))
+      ..add(DiagnosticsProperty<bool>('enabled', enabled))
+      ..add(DiagnosticsProperty<bool>('obscure', obscure))
       ..add(
         DiagnosticsProperty<TextInputFormatter?>(
-          "textInputFormatter",
+          'textInputFormatter',
           textInputFormatter,
         ),
       )
-      ..add(EnumProperty<TextInputAction>("textInputAction", textInputAction))
-      ..add(StringProperty("hintText", hintText))
-      ..add(StringProperty("errorText", errorText))
-      ..add(DiagnosticsProperty<TextStyle?>("prefixTextStyle", prefixTextStyle))
-      ..add(DiagnosticsProperty<TextStyle?>("suffixTextStyle", suffixTextStyle))
-      ..add(DiagnosticsProperty<TextStyle?>("labelTextStyle", labelTextStyle))
-      ..add(StringProperty("labelText", labelText))
-      ..add(StringProperty("prefixText", prefixText))
-      ..add(StringProperty("suffixText", suffixText))
-      ..add(DiagnosticsProperty<bool>("labelInTextField", labelInTextField))
-      ..add(DoubleProperty("cursorHeight", cursorHeight))
+      ..add(EnumProperty<TextInputAction>('textInputAction', textInputAction))
+      ..add(StringProperty('hintText', hintText))
+      ..add(StringProperty('errorText', errorText))
+      ..add(DiagnosticsProperty<TextStyle?>('prefixTextStyle', prefixTextStyle))
+      ..add(DiagnosticsProperty<TextStyle?>('suffixTextStyle', suffixTextStyle))
+      ..add(DiagnosticsProperty<TextStyle?>('labelTextStyle', labelTextStyle))
+      ..add(StringProperty('labelText', labelText))
+      ..add(StringProperty('prefixText', prefixText))
+      ..add(StringProperty('suffixText', suffixText))
+      ..add(DiagnosticsProperty<bool>('labelInTextField', labelInTextField))
+      ..add(DoubleProperty('cursorHeight', cursorHeight))
       ..add(
         ObjectFlagProperty<OnFieldSubmitted?>.has(
-          "onFieldSubmitted",
+          'onFieldSubmitted',
           onFieldSubmitted,
         ),
       );

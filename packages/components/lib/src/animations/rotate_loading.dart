@@ -1,5 +1,5 @@
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class RotateLoading extends StatelessWidget {
   const RotateLoading({
@@ -29,7 +29,7 @@ class RotateIcon extends StatefulWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Duration>("duration", duration));
+    properties.add(DiagnosticsProperty<Duration>('duration', duration));
   }
 }
 

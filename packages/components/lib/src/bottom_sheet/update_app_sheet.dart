@@ -1,6 +1,6 @@
-import "package:core/core.dart";
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
+import 'package:core/core.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class AppUpdateBottomSheetWidget extends StatelessWidget {
   const AppUpdateBottomSheetWidget({
@@ -23,18 +23,18 @@ class AppUpdateBottomSheetWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const Text(
-                "New version",
+                'New version',
                 textAlign: TextAlign.center,
               ),
               Dimensions.kGap8,
               const Text(
-                "App Name has become even more convenient",
+                'App Name has become even more convenient',
                 textAlign: TextAlign.center,
               ),
               Dimensions.kGap16,
               ElevatedButton(
                 onPressed: onTap,
-                child: const Text("Update"),
+                child: const Text('Update'),
               ),
               if (!isForceUpdate) Dimensions.kGap8,
               if (!isForceUpdate)
@@ -42,7 +42,7 @@ class AppUpdateBottomSheetWidget extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text("Later"),
+                  child: const Text('Later'),
                 ),
             ],
           ),
@@ -53,7 +53,7 @@ class AppUpdateBottomSheetWidget extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(ObjectFlagProperty<void Function()?>.has("onTap", onTap))
-      ..add(DiagnosticsProperty<bool>("isForceUpdate", isForceUpdate));
+      ..add(ObjectFlagProperty<void Function()?>.has('onTap', onTap))
+      ..add(DiagnosticsProperty<bool>('isForceUpdate', isForceUpdate));
   }
 }

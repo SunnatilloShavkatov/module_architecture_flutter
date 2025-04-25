@@ -8,7 +8,7 @@ final class RouteNavigationObserver extends NavigatorObserver {
   List<String> get currentRoutes => _routes;
 
   @override
-  void didPush(Route route, Route? previousRoute) {
+  void didPush(Route<void> route, Route<void>? previousRoute) {
     super.didPush(route, previousRoute);
     if (route.settings.name != null) {
       _routes.add(route.settings.name!);
@@ -16,7 +16,7 @@ final class RouteNavigationObserver extends NavigatorObserver {
   }
 
   @override
-  void didPop(Route route, Route? previousRoute) {
+  void didPop(Route<void> route, Route<void>? previousRoute) {
     super.didPop(route, previousRoute);
     if (route.settings.name != null) {
       _routes.remove(route.settings.name);
@@ -24,7 +24,7 @@ final class RouteNavigationObserver extends NavigatorObserver {
   }
 
   @override
-  void didRemove(Route route, Route? previousRoute) {
+  void didRemove(Route<void> route, Route<void>? previousRoute) {
     super.didRemove(route, previousRoute);
     if (route.settings.name != null) {
       _routes.remove(route.settings.name);
@@ -32,7 +32,7 @@ final class RouteNavigationObserver extends NavigatorObserver {
   }
 
   @override
-  void didReplace({Route? newRoute, Route? oldRoute}) {
+  void didReplace({Route<void>? newRoute, Route<void>? oldRoute}) {
     super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
     if (oldRoute?.settings.name != null) {
       _routes.remove(oldRoute!.settings.name);

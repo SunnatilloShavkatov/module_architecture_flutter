@@ -1,11 +1,11 @@
-import "dart:async";
+import 'dart:async';
 
-import "package:components/src/animations/carousel_slider.dart";
-import "package:flutter/foundation.dart";
-import "package:flutter/gestures.dart";
-import "package:flutter/material.dart";
+import 'package:components/src/animations/carousel_slider.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 
-export "carousel_slider_transforms.dart";
+export 'carousel_slider_transforms.dart';
 
 const int _kMaxValue = 200000000000;
 const int _kMiddleValue = 100000;
@@ -86,50 +86,50 @@ class CarouselSlider extends StatefulWidget {
     properties
       ..add(
         ObjectFlagProperty<CarouselSlideBuilder?>.has(
-          "slideBuilder",
+          'slideBuilder',
           slideBuilder,
         ),
       )
-      ..add(IntProperty("itemCount", itemCount))
+      ..add(IntProperty('itemCount', itemCount))
       ..add(
-        DiagnosticsProperty<SlideTransform>("slideTransform", slideTransform),
+        DiagnosticsProperty<SlideTransform>('slideTransform', slideTransform),
       )
-      ..add(DoubleProperty("viewportFraction", viewportFraction))
-      ..add(DiagnosticsProperty<bool>("enableAutoSlider", enableAutoSlider))
-      ..add(DiagnosticsProperty<Duration>("autoSliderDelay", autoSliderDelay))
+      ..add(DoubleProperty('viewportFraction', viewportFraction))
+      ..add(DiagnosticsProperty<bool>('enableAutoSlider', enableAutoSlider))
+      ..add(DiagnosticsProperty<Duration>('autoSliderDelay', autoSliderDelay))
       ..add(
         DiagnosticsProperty<Duration>(
-          "autoSliderTransitionTime",
+          'autoSliderTransitionTime',
           autoSliderTransitionTime,
         ),
       )
       ..add(
         DiagnosticsProperty<Curve>(
-          "autoSliderTransitionCurve",
+          'autoSliderTransitionCurve',
           autoSliderTransitionCurve,
         ),
       )
-      ..add(DiagnosticsProperty<bool>("unlimitedMode", unlimitedMode))
-      ..add(DiagnosticsProperty<bool>("keepPage", keepPage))
-      ..add(DiagnosticsProperty<ScrollPhysics>("scrollPhysics", scrollPhysics))
-      ..add(EnumProperty<Axis>("scrollDirection", scrollDirection))
-      ..add(IntProperty("initialPage", initialPage))
+      ..add(DiagnosticsProperty<bool>('unlimitedMode', unlimitedMode))
+      ..add(DiagnosticsProperty<bool>('keepPage', keepPage))
+      ..add(DiagnosticsProperty<ScrollPhysics>('scrollPhysics', scrollPhysics))
+      ..add(EnumProperty<Axis>('scrollDirection', scrollDirection))
+      ..add(IntProperty('initialPage', initialPage))
       ..add(
         ObjectFlagProperty<ValueChanged<int>?>.has(
-          "onSlideChanged",
+          'onSlideChanged',
           onSlideChanged,
         ),
       )
-      ..add(EnumProperty<Clip>("clipBehavior", clipBehavior))
+      ..add(EnumProperty<Clip>('clipBehavior', clipBehavior))
       ..add(
         DiagnosticsProperty<CarouselSliderController?>(
-          "controller",
+          'controller',
           controller,
         ),
       )
       ..add(
         ObjectFlagProperty<ChildIndexGetter?>.has(
-          "findChildIndexCallback",
+          'findChildIndexCallback',
           findChildIndexCallback,
         ),
       );

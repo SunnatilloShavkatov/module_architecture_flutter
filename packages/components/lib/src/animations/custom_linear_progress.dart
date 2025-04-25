@@ -1,5 +1,5 @@
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class CustomLinearProgress extends StatelessWidget {
   const CustomLinearProgress({
@@ -59,11 +59,11 @@ class CustomLinearProgress extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(ColorProperty("valueColor", valueColor))
-      ..add(ColorProperty("backgroundColor", backgroundColor))
-      ..add(DoubleProperty("percent", percent))
-      ..add(DoubleProperty("strokeWidth", strokeWidth))
-      ..add(DiagnosticsProperty<bool>("isAnimate", isAnimate));
+      ..add(ColorProperty('valueColor', valueColor))
+      ..add(ColorProperty('backgroundColor', backgroundColor))
+      ..add(DoubleProperty('percent', percent))
+      ..add(DoubleProperty('strokeWidth', strokeWidth))
+      ..add(DiagnosticsProperty<bool>('isAnimate', isAnimate));
   }
 }
 

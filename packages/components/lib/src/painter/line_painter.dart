@@ -1,6 +1,6 @@
-import "package:core/core.dart";
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
+import 'package:core/core.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class Line extends StatelessWidget {
   const Line({
@@ -27,9 +27,9 @@ class Line extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(ColorProperty("color", color))
-      ..add(DoubleProperty("strokeHeight", strokeHeight))
-      ..add(DoubleProperty("width", width));
+      ..add(ColorProperty('color', color))
+      ..add(DoubleProperty('strokeHeight', strokeHeight))
+      ..add(DoubleProperty('width', width));
   }
 }
 

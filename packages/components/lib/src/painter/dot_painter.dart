@@ -1,6 +1,6 @@
-import "package:core/core.dart";
-import "package:flutter/foundation.dart";
-import "package:flutter/material.dart";
+import 'package:core/core.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class Dot extends StatelessWidget {
   const Dot({
@@ -22,8 +22,8 @@ class Dot extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DoubleProperty("size", size))
-      ..add(ColorProperty("color", color));
+      ..add(DoubleProperty('size', size))
+      ..add(ColorProperty('color', color));
   }
 }
 

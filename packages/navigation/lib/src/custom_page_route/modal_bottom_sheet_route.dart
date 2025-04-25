@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_sheets/smooth_sheets.dart';
 
-class UniversalSheetRoute extends ModalSheetRoute {
+class UniversalSheetRoute<T> extends ModalSheetRoute<T> {
   UniversalSheetRoute({
     required super.settings,
     required WidgetBuilder builder,
