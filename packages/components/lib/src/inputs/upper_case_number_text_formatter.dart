@@ -38,6 +38,6 @@ String capitalizeWords(String value) {
     if (word.isEmpty) {
       return word; // Bo'sh so'zlar uchun
     }
-    return "${word[0].toUpperCase()}${word.substring(1)}";
+    return '${word[0].toUpperCase()}${word.substring(1)}';
   }).join(' ');
 }

@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   # external packages
   sheet: ^1.0.0
-  smooth_sheets: ^0.10.2
+  smooth_sheets: ^0.11.3
   chuck_interceptor: ^2.2.5
 
 dev_dependencies:

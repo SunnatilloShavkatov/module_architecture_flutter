@@ -20,7 +20,6 @@ dev_dependencies:
   analysis_lints: ^1.0.0
 
 flutter:
-
   uses-material-design: true
 
   assets:

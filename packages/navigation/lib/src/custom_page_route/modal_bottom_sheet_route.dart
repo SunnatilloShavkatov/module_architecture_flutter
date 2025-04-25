@@ -15,25 +15,23 @@ class UniversalSheetRoute<T> extends ModalSheetRoute<T> {
             child: Material(
               clipBehavior: Clip.antiAlias,
               shape: Theme.of(context).bottomSheetTheme.shape,
-              child: DraggableSheet(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Align(
-                      child: Container(
-                        height: 4,
-                        width: 48,
-                        margin: const EdgeInsets.only(top: 12, bottom: 6),
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(2)),
-                          color: Theme.of(context).bottomSheetTheme.dragHandleColor,
-                        ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Align(
+                    child: Container(
+                      height: 4,
+                      width: 48,
+                      margin: const EdgeInsets.only(top: 12, bottom: 6),
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(2)),
+                        color: Theme.of(context).bottomSheetTheme.dragHandleColor,
                       ),
                     ),
-                    Flexible(child: Builder(builder: builder)),
-                  ],
-                ),
+                  ),
+                  Flexible(child: Builder(builder: builder)),
+                ],
               ),
             ),
           ),

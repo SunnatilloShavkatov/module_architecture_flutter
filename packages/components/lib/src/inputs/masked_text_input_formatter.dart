@@ -37,7 +37,7 @@ class MaskedTextInputFormatter extends TextInputFormatter {
         if (text.length < mask.length && mask[text.length - 1] == separator) {
           return TextEditingValue(
             text:
-                "${oldValue.text}$separator${text.substring(text.length - 1)}",
+                '${oldValue.text}$separator${text.substring(text.length - 1)}',
             selection: TextSelection.collapsed(
               offset: newValue.selection.end + 1,
             ),
