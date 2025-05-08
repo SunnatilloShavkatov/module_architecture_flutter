@@ -39,17 +39,14 @@ final ThemeData lightTheme = ThemeData(
     color: colorLightScheme.primary,
     circularTrackColor: Colors.white,
   ),
-  dividerTheme: const DividerThemeData(
-    thickness: 1,
-    color: Color(0xFF343434),
-  ),
+  dividerTheme: const DividerThemeData(thickness: 1, color: Color(0xFF343434)),
   dialogTheme: DialogTheme(
     backgroundColor: colorLightScheme.surface,
     surfaceTintColor: colorLightScheme.surface,
-    data: DialogThemeData(
-      backgroundColor: colorLightScheme.surface,
-      surfaceTintColor: colorLightScheme.surface,
-    ),
+    // data: DialogThemeData(
+    //   backgroundColor: colorLightScheme.surface,
+    //   surfaceTintColor: colorLightScheme.surface,
+    // ),
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
   ),
   scrollbarTheme: const ScrollbarThemeData(
@@ -82,7 +79,7 @@ final ThemeData lightTheme = ThemeData(
       backgroundColor: WidgetStateProperty.resolveWith(
         (Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
-            return colorLightScheme.primary.withValues(alpha: 0.4);
+            return colorLightScheme.primary.withOpacity(0.4);
           }
           return colorLightScheme.primary;
         },
@@ -313,10 +310,10 @@ final ThemeData darkTheme = ThemeData(
   dialogTheme: DialogTheme(
     backgroundColor: colorDarkScheme.surface,
     surfaceTintColor: colorDarkScheme.surface,
-    data: DialogThemeData(
-      backgroundColor: colorDarkScheme.surface,
-      surfaceTintColor: colorDarkScheme.surface,
-    ),
+    // data: DialogThemeData(
+    //   backgroundColor: colorDarkScheme.surface,
+    //   surfaceTintColor: colorDarkScheme.surface,
+    // ),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(10)),
     ),
@@ -357,7 +354,7 @@ final ThemeData darkTheme = ThemeData(
       backgroundColor: WidgetStateProperty.resolveWith(
         (Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
-            return colorDarkScheme.primary.withValues(alpha: 0.4);
+            return colorDarkScheme.primary.withOpacity(0.4);
           }
           return colorDarkScheme.primary;
         },
