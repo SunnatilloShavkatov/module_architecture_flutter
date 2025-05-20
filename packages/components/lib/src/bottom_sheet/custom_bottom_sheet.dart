@@ -58,8 +58,7 @@ Future<T?> customModalBottomSheet<T>({
             minChildSize: 0.5,
             expand: false,
             snap: true,
-            builder: (BuildContext context, ScrollController controller) =>
-                builder(context, controller),
+            builder: (context, ScrollController controller) => builder(context, controller),
           );
         } else {
           return builder(context, null);

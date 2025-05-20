@@ -319,8 +319,7 @@ class RectClipper extends CustomClipper<Rect> {
   final double leftClip;
 
   @override
-  Rect getClip(Size size) =>
-      Rect.fromLTRB(leftClip, 0, size.width, size.height);
+  Rect getClip(Size size) => Rect.fromLTRB(leftClip, 0, size.width, size.height);
 
   @override
   bool shouldReclip(CustomClipper<Rect> oldClipper) => true;
@@ -441,8 +440,7 @@ class RotateUpTransform implements SlideTransform {
     } else if (index == currentPage! + 1) {
       return Transform(
         alignment: Alignment.topCenter,
-        transform: Matrix4.identity()
-          ..rotateZ(-rotationAngle * (1 - pageDelta)),
+        transform: Matrix4.identity()..rotateZ(-rotationAngle * (1 - pageDelta)),
         child: page,
       );
     } else {
@@ -470,18 +468,15 @@ class ZoomOutSlideTransform implements SlideTransform {
     int itemCount,
   ) {
     if (index == currentPage) {
-      final double scale = 1 - pageDelta < zoomOutScale
-          ? zoomOutScale
-          : zoomOutScale + ((1 - pageDelta) - zoomOutScale);
+      final double scale =
+          1 - pageDelta < zoomOutScale ? zoomOutScale : zoomOutScale + ((1 - pageDelta) - zoomOutScale);
       return Transform(
         alignment: Alignment.center,
         transform: Matrix4.identity()..scale(scale, scale),
         child: enableOpacity ? Opacity(opacity: scale, child: page) : page,
       );
     } else if (index == currentPage! + 1) {
-      final double scale = pageDelta < zoomOutScale
-          ? zoomOutScale
-          : zoomOutScale + (pageDelta - zoomOutScale);
+      final double scale = pageDelta < zoomOutScale ? zoomOutScale : zoomOutScale + (pageDelta - zoomOutScale);
       return Transform(
         alignment: Alignment.center,
         transform: Matrix4.identity()..scale(scale, scale),

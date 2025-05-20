@@ -33,8 +33,7 @@ class RotateIcon extends StatefulWidget {
   }
 }
 
-class _RotateIconState extends State<RotateIcon>
-    with SingleTickerProviderStateMixin {
+class _RotateIconState extends State<RotateIcon> with SingleTickerProviderStateMixin {
   /// Controller to animate the children
   late AnimationController _animationController;
 

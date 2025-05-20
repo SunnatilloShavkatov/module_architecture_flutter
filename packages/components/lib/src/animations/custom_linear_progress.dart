@@ -19,10 +19,8 @@ class CustomLinearProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProgressIndicatorThemeData indicatorTheme =
-        ProgressIndicatorTheme.of(context);
-    final Color trackColor =
-        backgroundColor ?? indicatorTheme.linearTrackColor ?? Colors.grey;
+    final ProgressIndicatorThemeData indicatorTheme = ProgressIndicatorTheme.of(context);
+    final Color trackColor = backgroundColor ?? indicatorTheme.linearTrackColor ?? Colors.grey;
     if (isAnimate) {
       return TweenAnimationBuilder<double>(
         duration: const Duration(milliseconds: 1000),

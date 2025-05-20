@@ -51,16 +51,13 @@ class CustomRectangleBorder extends OutlinedBorder {
     ..close();
 
   @override
-  Path getInnerPath(Rect rect, {TextDirection? textDirection}) =>
-      _getPath(rect);
+  Path getInnerPath(Rect rect, {TextDirection? textDirection}) => _getPath(rect);
 
   @override
-  Path getOuterPath(Rect rect, {TextDirection? textDirection}) =>
-      _getPath(rect);
+  Path getOuterPath(Rect rect, {TextDirection? textDirection}) => _getPath(rect);
 
   @override
-  CustomRectangleBorder copyWith({BorderSide? side}) =>
-      CustomRectangleBorder(side: side ?? this.side);
+  CustomRectangleBorder copyWith({BorderSide? side}) => CustomRectangleBorder(side: side ?? this.side);
 
   @override
   void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {
@@ -95,16 +92,12 @@ class CustomRectangleBorder extends OutlinedBorder {
     if (other.runtimeType != runtimeType) {
       return false;
     }
-    return other is CustomRectangleBorder &&
-        other.side == side &&
-        other.isTop == isTop &&
-        other.isBottom == isBottom;
+    return other is CustomRectangleBorder && other.side == side && other.isTop == isTop && other.isBottom == isBottom;
   }
 
   @override
   int get hashCode => side.hashCode ^ isTop.hashCode ^ isBottom.hashCode;
 
   @override
-  String toString() =>
-      '${(this, 'ContinuousRectangleBorder')}($side,$isTop,$isBottom)';
+  String toString() => '${(this, 'ContinuousRectangleBorder')}($side,$isTop,$isBottom)';
 }

@@ -80,6 +80,7 @@ Future<void> _initHive({required Injector di}) async {
   final SharedPreferencesWithCache prefs = await SharedPreferencesWithCache.create(
     cacheOptions: const SharedPreferencesWithCacheOptions(),
   );
+
   /// init hive
   const String boxName = 'module_architecture_mobile_box';
   final Directory directory = await getApplicationCacheDirectory();

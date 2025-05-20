@@ -366,18 +366,12 @@ class ThemeTextStyles extends ThemeExtension<ThemeTextStyles> {
       buttonStyle: TextStyle.lerp(buttonStyle, other.buttonStyle, t)!,
       regularBody: TextStyle.lerp(regularBody, other.regularBody, t)!,
       regularCallout: TextStyle.lerp(regularCallout, other.regularCallout, t)!,
-      regularCaption1:
-          TextStyle.lerp(regularCaption1, other.regularCaption1, t)!,
-      regularCaption2:
-          TextStyle.lerp(regularCaption2, other.regularCaption2, t)!,
-      regularFootnote:
-          TextStyle.lerp(regularFootnote, other.regularFootnote, t)!,
-      regularHeadline:
-          TextStyle.lerp(regularHeadline, other.regularHeadline, t)!,
-      regularLargeTitle:
-          TextStyle.lerp(regularLargeTitle, other.regularLargeTitle, t)!,
-      regularSubheadline:
-          TextStyle.lerp(regularSubheadline, other.regularSubheadline, t)!,
+      regularCaption1: TextStyle.lerp(regularCaption1, other.regularCaption1, t)!,
+      regularCaption2: TextStyle.lerp(regularCaption2, other.regularCaption2, t)!,
+      regularFootnote: TextStyle.lerp(regularFootnote, other.regularFootnote, t)!,
+      regularHeadline: TextStyle.lerp(regularHeadline, other.regularHeadline, t)!,
+      regularLargeTitle: TextStyle.lerp(regularLargeTitle, other.regularLargeTitle, t)!,
+      regularSubheadline: TextStyle.lerp(regularSubheadline, other.regularSubheadline, t)!,
       regularTitle1: TextStyle.lerp(regularTitle1, other.regularTitle1, t)!,
       regularTitle2: TextStyle.lerp(regularTitle2, other.regularTitle2, t)!,
       regularTitle3: TextStyle.lerp(regularTitle3, other.regularTitle3, t)!,
@@ -388,8 +382,7 @@ class ThemeTextStyles extends ThemeExtension<ThemeTextStyles> {
       bodyFootnote: TextStyle.lerp(bodyFootnote, other.bodyFootnote, t)!,
       bodyHeadline: TextStyle.lerp(bodyHeadline, other.bodyHeadline, t)!,
       bodyLargeTitle: TextStyle.lerp(bodyLargeTitle, other.bodyLargeTitle, t)!,
-      bodySubheadline:
-          TextStyle.lerp(bodySubheadline, other.bodySubheadline, t)!,
+      bodySubheadline: TextStyle.lerp(bodySubheadline, other.bodySubheadline, t)!,
       bodyTitle1: TextStyle.lerp(bodyTitle1, other.bodyTitle1, t)!,
       bodyTitle2: TextStyle.lerp(bodyTitle2, other.bodyTitle2, t)!,
       bodyTitle3: TextStyle.lerp(bodyTitle3, other.bodyTitle3, t)!,

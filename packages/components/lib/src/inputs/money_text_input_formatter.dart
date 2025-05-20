@@ -15,10 +15,8 @@ class MoneyTextInputFormatter extends TextInputFormatter {
     if (newValue.text.isEmpty) {
       return newValue.copyWith(text: '');
     } else if (newValue.text.compareTo(oldValue.text) != 0) {
-      final int selectionIndexFromTheRight =
-          newValue.text.length - newValue.selection.extentOffset;
-      final String reversedText =
-          String.fromCharCodes(newValue.text.runes.toList().reversed);
+      final int selectionIndexFromTheRight = newValue.text.length - newValue.selection.extentOffset;
+      final String reversedText = String.fromCharCodes(newValue.text.runes.toList().reversed);
       final List<String> chars = reversedText.replaceAll(' ', '').split('');
       final StringBuffer reversedNewStringBuffer = StringBuffer();
       for (int i = 0; i < chars.length; i++) {

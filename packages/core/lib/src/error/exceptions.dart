@@ -1,8 +1,7 @@
 class ServerException implements Exception {
   const ServerException({required this.message});
 
-  factory ServerException.fromJson(Map<String, dynamic> json) =>
-      ServerException(message: json['detail']);
+  factory ServerException.fromJson(Map<String, dynamic> json) => ServerException(message: json['detail']);
   final String message;
 }
 

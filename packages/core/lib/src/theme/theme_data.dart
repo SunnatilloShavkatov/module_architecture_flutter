@@ -40,13 +40,9 @@ final ThemeData lightTheme = ThemeData(
     circularTrackColor: Colors.white,
   ),
   dividerTheme: const DividerThemeData(thickness: 1, color: Color(0xFF343434)),
-  dialogTheme: DialogTheme(
+  dialogTheme: DialogThemeData(
     backgroundColor: colorLightScheme.surface,
     surfaceTintColor: colorLightScheme.surface,
-    // data: DialogThemeData(
-    //   backgroundColor: colorLightScheme.surface,
-    //   surfaceTintColor: colorLightScheme.surface,
-    // ),
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
   ),
   scrollbarTheme: const ScrollbarThemeData(
@@ -79,7 +75,7 @@ final ThemeData lightTheme = ThemeData(
       backgroundColor: WidgetStateProperty.resolveWith(
         (Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
-            return colorLightScheme.primary.withOpacity(0.4);
+            return colorLightScheme.primary.withValues(alpha: 0.4);
           }
           return colorLightScheme.primary;
         },
@@ -159,7 +155,7 @@ final ThemeData lightTheme = ThemeData(
     selectedItemColor: Colors.black,
     unselectedItemColor: Color(0xFF69D7C7),
   ),
-  tabBarTheme: TabBarTheme(
+  tabBarTheme: TabBarThemeData(
     tabAlignment: TabAlignment.start,
     indicatorColor: colorLightScheme.primary,
     labelColor: const Color(0xFF17171C),
@@ -307,13 +303,9 @@ final ThemeData darkTheme = ThemeData(
     thickness: 1,
     color: Color(0xFF343434),
   ),
-  dialogTheme: DialogTheme(
+  dialogTheme: DialogThemeData(
     backgroundColor: colorDarkScheme.surface,
     surfaceTintColor: colorDarkScheme.surface,
-    // data: DialogThemeData(
-    //   backgroundColor: colorDarkScheme.surface,
-    //   surfaceTintColor: colorDarkScheme.surface,
-    // ),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(10)),
     ),
@@ -354,7 +346,7 @@ final ThemeData darkTheme = ThemeData(
       backgroundColor: WidgetStateProperty.resolveWith(
         (Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
-            return colorDarkScheme.primary.withOpacity(0.4);
+            return colorDarkScheme.primary.withValues(alpha: 0.4);
           }
           return colorDarkScheme.primary;
         },
@@ -444,7 +436,7 @@ final ThemeData darkTheme = ThemeData(
     selectedItemColor: colorDarkScheme.onPrimary,
     selectedIconTheme: IconThemeData(color: colorDarkScheme.primary),
   ),
-  tabBarTheme: TabBarTheme(
+  tabBarTheme: TabBarThemeData(
     indicatorColor: colorDarkScheme.primary,
     labelColor: Colors.white,
     dividerHeight: 0,

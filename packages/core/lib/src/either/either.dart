@@ -137,8 +137,7 @@ class Left<L, R> extends Either<L, R> {
       Left<TL, TR>(fnL(value));
 
   @override
-  Either<L, TR> then<TR>(Either<L, TR> Function(R right) fnR) =>
-      Left<L, TR>(value);
+  Either<L, TR> then<TR>(Either<L, TR> Function(R right) fnR) => Left<L, TR>(value);
 
   @override
   Future<Either<L, TR>> thenAsync<TR>(
@@ -188,8 +187,7 @@ class Right<L, R> extends Either<L, R> {
       Future<Either<L, TR>>.value(fnR(value));
 
   @override
-  Either<TL, R> thenLeft<TL>(Either<TL, R> Function(L left) fnL) =>
-      Right<TL, R>(value);
+  Either<TL, R> thenLeft<TL>(Either<TL, R> Function(L left) fnL) => Right<TL, R>(value);
 
   @override
   Future<Either<TL, R>> thenLeftAsync<TL>(

@@ -17,11 +17,11 @@ class App extends StatelessWidget {
         themeMode: context.options.themeMode,
         themeAnimationCurve: Curves.easeInOut,
         themeAnimationDuration: const Duration(milliseconds: 300),
-        themeAnimationStyle: AnimationStyle(
+        themeAnimationStyle: const AnimationStyle(
           curve: Curves.easeInOut,
-          duration: const Duration(milliseconds: 300),
+          duration: Duration(milliseconds: 300),
           reverseCurve: Curves.easeInOut,
-          reverseDuration: const Duration(milliseconds: 300),
+          reverseDuration: Duration(milliseconds: 300),
         ),
 
         /// route

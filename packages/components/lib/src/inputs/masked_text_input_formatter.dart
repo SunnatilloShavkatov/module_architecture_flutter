@@ -36,8 +36,7 @@ class MaskedTextInputFormatter extends TextInputFormatter {
         // Agar qo'shish kerak bo'lsa va yangi belgidan oldin separator kiritish kerak bo'lsa
         if (text.length < mask.length && mask[text.length - 1] == separator) {
           return TextEditingValue(
-            text:
-                '${oldValue.text}$separator${text.substring(text.length - 1)}',
+            text: '${oldValue.text}$separator${text.substring(text.length - 1)}',
             selection: TextSelection.collapsed(
               offset: newValue.selection.end + 1,
             ),
@@ -45,8 +44,7 @@ class MaskedTextInputFormatter extends TextInputFormatter {
         }
 
         // Matn butunlay to'ldirilganda separatorlar bilan formatlash
-        if (text.length == mask.replaceAll(separator, '').length &&
-            oldValue.text.isEmpty) {
+        if (text.length == mask.replaceAll(separator, '').length && oldValue.text.isEmpty) {
           final StringBuffer formattedText = StringBuffer();
           int t = 0;
           for (int i = 0; i < text.length; i++) {

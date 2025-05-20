@@ -44,8 +44,7 @@ class BouncingButton extends StatefulWidget {
   }
 }
 
-class _BouncingButtonState extends State<BouncingButton>
-    with SingleTickerProviderStateMixin {
+class _BouncingButtonState extends State<BouncingButton> with SingleTickerProviderStateMixin {
   //// Animation controller
   late AnimationController _controller;
 
@@ -116,14 +115,11 @@ class _BouncingButtonState extends State<BouncingButton>
     return GestureDetector(
       onTapDown: _onTapDown,
       onTapUp: _onTapUp,
-      onLongPressEnd: (LongPressEndDetails details) =>
-          _onLongPressEnd(details, context),
+      onLongPressEnd: (LongPressEndDetails details) => _onLongPressEnd(details, context),
       onHorizontalDragEnd: _onDragEnd,
       onVerticalDragEnd: _onDragEnd,
-      onHorizontalDragUpdate: (DragUpdateDetails details) =>
-          _onDragUpdate(details, context),
-      onVerticalDragUpdate: (DragUpdateDetails details) =>
-          _onDragUpdate(details, context),
+      onHorizontalDragUpdate: (DragUpdateDetails details) => _onDragUpdate(details, context),
+      onVerticalDragUpdate: (DragUpdateDetails details) => _onDragUpdate(details, context),
       child: Transform.scale(
         key: _childKey,
         scale: _scale,
@@ -191,8 +187,7 @@ class _BouncingButtonState extends State<BouncingButton>
   /// the given
   /// child render box
   bool _isOutsideChildBox(Offset touchPosition) {
-    final RenderBox? childRenderBox =
-        _childKey.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? childRenderBox = _childKey.currentContext?.findRenderObject() as RenderBox?;
     if (childRenderBox == null) {
       return true;
     }

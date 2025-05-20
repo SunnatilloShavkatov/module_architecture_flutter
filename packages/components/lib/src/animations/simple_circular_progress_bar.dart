@@ -111,8 +111,7 @@ class SimpleCircularProgressBar extends StatefulWidget {
   final OnGetCenterText? onGetText;
 
   @override
-  State<SimpleCircularProgressBar> createState() =>
-      _SimpleCircularProgressBarState();
+  State<SimpleCircularProgressBar> createState() => _SimpleCircularProgressBarState();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -138,8 +137,7 @@ class SimpleCircularProgressBar extends StatefulWidget {
   }
 }
 
-class _SimpleCircularProgressBarState extends State<SimpleCircularProgressBar>
-    with SingleTickerProviderStateMixin {
+class _SimpleCircularProgressBarState extends State<SimpleCircularProgressBar> with SingleTickerProviderStateMixin {
   final double minSweepAngle = 0.015;
 
   late double circleLength;
@@ -202,13 +200,10 @@ class _SimpleCircularProgressBarState extends State<SimpleCircularProgressBar>
       colors: progressColors,
     );
 
-    fullProgressColor = (widget.fullProgressColor == null)
-        ? progressColors.last
-        : widget.fullProgressColor!;
+    fullProgressColor = (widget.fullProgressColor == null) ? progressColors.last : widget.fullProgressColor!;
 
     // Create animation.
-    final int animationDuration =
-        (widget.animationDuration < 0) ? 0 : widget.animationDuration;
+    final int animationDuration = (widget.animationDuration < 0) ? 0 : widget.animationDuration;
 
     animationController = AnimationController(
       vsync: this,
@@ -251,8 +246,7 @@ class _SimpleCircularProgressBarState extends State<SimpleCircularProgressBar>
               // [MAIN LOGIC]
 
               if ((value != animationController.upperBound) &&
-                  (animationController.value >=
-                      animationController.upperBound)) {
+                  (animationController.value >= animationController.upperBound)) {
                 animationController
                   ..reset()
                   ..animateTo(value);
@@ -278,8 +272,8 @@ class _SimpleCircularProgressBarState extends State<SimpleCircularProgressBar>
               // If mergeMode is on and the current value is equal to the
               //maximum value, we should draw a full circle with the specified
               // color.
-              final bool isFullProgress = widget.mergeMode &
-                  (animationController.value == animationController.upperBound);
+              final bool isFullProgress =
+                  widget.mergeMode & (animationController.value == animationController.upperBound);
 
               // Create center text widget.
               // If no callback is defined, create an empty widget.
@@ -501,6 +495,5 @@ class _SimpleCircularProgressBarPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_SimpleCircularProgressBarPainter oldDelegate) =>
-      oldDelegate.currentLength != currentLength;
+  bool shouldRepaint(_SimpleCircularProgressBarPainter oldDelegate) => oldDelegate.currentLength != currentLength;
 }

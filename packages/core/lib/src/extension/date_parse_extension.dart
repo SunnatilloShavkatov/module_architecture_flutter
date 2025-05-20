@@ -3,8 +3,7 @@ part of 'extension.dart';
 extension ParseString on DateTime {
   String get formatDate => DateFormat('dd.MM.yyyy').format(this);
 
-  String get formatDateTime =>
-      DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(this);
+  String get formatDateTime => DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(this);
 
   String timeZone() {
     String date = toIso8601String().split('.')[0];

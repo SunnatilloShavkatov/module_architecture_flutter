@@ -17,22 +17,13 @@ extension MoneyFormatExtension on num {
       final String text = value.round().toString();
       return (t ? '-' : '') + text;
     } else if (value >= 1000 && value < 1000000) {
-      return (t ? '-' : '') +
-          NumberFormat.compactCurrency(decimalDigits: 3, symbol: '')
-              .format(value.round());
+      return (t ? '-' : '') + NumberFormat.compactCurrency(decimalDigits: 3, symbol: '').format(value.round());
     } else if (value >= 1000000 && value < (1000000 * 1000)) {
-      return (t ? '-' : '') +
-          NumberFormat.compactCurrency(decimalDigits: 6, symbol: '')
-              .format(value.round());
+      return (t ? '-' : '') + NumberFormat.compactCurrency(decimalDigits: 6, symbol: '').format(value.round());
     } else if (value >= (1000000 * 1000) && value < (1000000 * 1000 * 100)) {
-      return (t ? '-' : '') +
-          NumberFormat.compactCurrency(decimalDigits: 9, symbol: '')
-              .format(value.round());
-    } else if (value >= (1000000 * 1000 * 1000) &&
-        value < (1000000 * 1000 * 1000 * 1000)) {
-      return (t ? '-' : '') +
-          NumberFormat.compactCurrency(decimalDigits: 12, symbol: '')
-              .format(value.round());
+      return (t ? '-' : '') + NumberFormat.compactCurrency(decimalDigits: 9, symbol: '').format(value.round());
+    } else if (value >= (1000000 * 1000 * 1000) && value < (1000000 * 1000 * 1000 * 1000)) {
+      return (t ? '-' : '') + NumberFormat.compactCurrency(decimalDigits: 12, symbol: '').format(value.round());
     } else {
       return '';
     }

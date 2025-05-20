@@ -30,10 +30,7 @@ abstract class _CircularProgressIndicator extends StatefulWidget {
   final String? semanticsValue;
 
   Color _getValueColor(BuildContext context) =>
-      valueColor?.value ??
-      color ??
-      ProgressIndicatorTheme.of(context).color ??
-      Theme.of(context).colorScheme.primary;
+      valueColor?.value ?? color ?? ProgressIndicatorTheme.of(context).color ?? Theme.of(context).colorScheme.primary;
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -151,12 +148,10 @@ class _LinearCappedProgressIndicatorPainter extends CustomPainter {
       drawBar(0, clampDouble(value!, 0, 1) * size.width);
     } else {
       final double x1 = size.width * line1Tail.transform(animationValue);
-      final double width1 =
-          size.width * line1Head.transform(animationValue) - x1;
+      final double width1 = size.width * line1Head.transform(animationValue) - x1;
 
       final double x2 = size.width * line2Tail.transform(animationValue);
-      final double width2 =
-          size.width * line2Head.transform(animationValue) - x2;
+      final double width2 = size.width * line2Head.transform(animationValue) - x2;
 
       drawBar(x1, width1);
       drawBar(x2, width2);
@@ -212,8 +207,7 @@ class LinearCappedProgressIndicator extends _CircularProgressIndicator {
   final double? cornerRadius;
 
   @override
-  State<LinearCappedProgressIndicator> createState() =>
-      _LinearCappedProgressIndicatorState();
+  State<LinearCappedProgressIndicator> createState() => _LinearCappedProgressIndicatorState();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -224,8 +218,7 @@ class LinearCappedProgressIndicator extends _CircularProgressIndicator {
   }
 }
 
-class _LinearCappedProgressIndicatorState
-    extends State<LinearCappedProgressIndicator>
+class _LinearCappedProgressIndicatorState extends State<LinearCappedProgressIndicator>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
@@ -262,13 +255,10 @@ class _LinearCappedProgressIndicatorState
     double animationValue,
     TextDirection textDirection,
   ) {
-    final ProgressIndicatorThemeData indicatorTheme =
-        ProgressIndicatorTheme.of(context);
-    final Color trackColor = widget.backgroundColor ??
-        indicatorTheme.linearTrackColor ??
-        Theme.of(context).colorScheme.surface;
-    final double minHeight =
-        widget.minHeight ?? indicatorTheme.linearMinHeight ?? 4.0;
+    final ProgressIndicatorThemeData indicatorTheme = ProgressIndicatorTheme.of(context);
+    final Color trackColor =
+        widget.backgroundColor ?? indicatorTheme.linearTrackColor ?? Theme.of(context).colorScheme.surface;
+    final double minHeight = widget.minHeight ?? indicatorTheme.linearMinHeight ?? 4.0;
 
     return widget._buildSemanticsWrapper(
       context: context,
@@ -303,8 +293,7 @@ class _LinearCappedProgressIndicatorState
 
     return AnimatedBuilder(
       animation: _controller.view,
-      builder: (BuildContext context, Widget? child) =>
-          _buildIndicator(context, _controller.value, textDirection),
+      builder: (BuildContext context, Widget? child) => _buildIndicator(context, _controller.value, textDirection),
     );
   }
 }
@@ -322,10 +311,7 @@ class _CircularCappedProgressIndicatorPainter extends CustomPainter {
     this.backgroundColor,
   })  : arcStart = value != null
             ? _startAngle
-            : _startAngle +
-                tailValue * 3 / 2 * math.pi +
-                rotationValue * math.pi * 2.0 +
-                offsetValue * 0.5 * math.pi,
+            : _startAngle + tailValue * 3 / 2 * math.pi + rotationValue * math.pi * 2.0 + offsetValue * 0.5 * math.pi,
         arcSweep = value != null
             ? clampDouble(value, 0, 1) * _sweep
             : math.max(
@@ -456,8 +442,7 @@ class CustomCircularProgressIndicator extends _CircularProgressIndicator {
   final StrokeCap strokeCap;
 
   @override
-  State<CustomCircularProgressIndicator> createState() =>
-      _CircularCappedProgressIndicatorState();
+  State<CustomCircularProgressIndicator> createState() => _CircularCappedProgressIndicatorState();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -468,8 +453,7 @@ class CustomCircularProgressIndicator extends _CircularProgressIndicator {
   }
 }
 
-class _CircularCappedProgressIndicatorState
-    extends State<CustomCircularProgressIndicator>
+class _CircularCappedProgressIndicatorState extends State<CustomCircularProgressIndicator>
     with SingleTickerProviderStateMixin {
   static const int _pathCount = _kIndeterminateCircularDuration ~/ 1333;
   static const int _rotationCount = _kIndeterminateCircularDuration ~/ 2222;
@@ -488,10 +472,8 @@ class _CircularCappedProgressIndicatorState
       curve: const SawTooth(_pathCount),
     ),
   );
-  static final Animatable<double> _offsetTween =
-      CurveTween(curve: const SawTooth(_pathCount));
-  static final Animatable<double> _rotationTween =
-      CurveTween(curve: const SawTooth(_rotationCount));
+  static final Animatable<double> _offsetTween = CurveTween(curve: const SawTooth(_pathCount));
+  static final Animatable<double> _rotationTween = CurveTween(curve: const SawTooth(_rotationCount));
 
   late AnimationController _controller;
 
@@ -535,8 +517,7 @@ class _CircularCappedProgressIndicatorState
     double offsetValue,
     double rotationValue,
   ) {
-    final Color? trackColor = widget.backgroundColor ??
-        ProgressIndicatorTheme.of(context).circularTrackColor;
+    final Color? trackColor = widget.backgroundColor ?? ProgressIndicatorTheme.of(context).circularTrackColor;
 
     return widget._buildSemanticsWrapper(
       context: context,
@@ -566,8 +547,7 @@ class _CircularCappedProgressIndicatorState
 
   Widget _buildAnimation() => AnimatedBuilder(
         animation: _controller,
-        builder: (BuildContext context, Widget? child) =>
-            _buildMaterialIndicator(
+        builder: (BuildContext context, Widget? child) => _buildMaterialIndicator(
           context,
           _strokeHeadTween.evaluate(_controller),
           _strokeTailTween.evaluate(_controller),

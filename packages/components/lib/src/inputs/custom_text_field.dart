@@ -111,9 +111,7 @@ class CustomTextField extends StatelessWidget {
                 focusNode.unfocus();
               }
             },
-            inputFormatters: textInputFormatter != null
-                ? <TextInputFormatter>[textInputFormatter!]
-                : null,
+            inputFormatters: textInputFormatter != null ? <TextInputFormatter>[textInputFormatter!] : null,
             decoration: InputDecoration(
               labelText: labelInTextField ? labelText : null,
               labelStyle: labelTextStyle,
