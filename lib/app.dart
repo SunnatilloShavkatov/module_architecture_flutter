@@ -6,7 +6,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        key: const Key('material_app'),
+        key: const Key('materialApp'),
         title: 'Module',
         onGenerateTitle: (_) => 'Module',
         debugShowCheckedModeBanner: false,
