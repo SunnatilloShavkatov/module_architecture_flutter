@@ -157,7 +157,6 @@ final class NetworkProvider {
             queryParameters: queryParameters,
             options: headers != null ? Options(headers: headers) : null,
           );
-          return _dio.post(path);
       }
     } on DioException catch (e) {
       throw ServerError.withDioException(error: e);
