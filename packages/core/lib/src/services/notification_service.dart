@@ -156,7 +156,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   await NotificationService.setupFlutterNotifications();
 
-  /// notification data empty enable this line
+  /// If the remote message does not have a title and text, a notification will be displayed.
   if (message.notification?.title == null && message.notification?.body == null) {
     NotificationService.showFlutterNotification(message);
   }

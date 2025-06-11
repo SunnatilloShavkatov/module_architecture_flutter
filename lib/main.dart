@@ -36,7 +36,7 @@ Future<void> main() async {
     Bloc.observer = LogBlocObserver();
   }
 
-  /// global CERTIFICATE_VERIFY_FAILEd_KEY
+  /// global CERTIFICATE_VERIFY_FAILED_KEY
   HttpOverrides.global = _HttpOverrides();
   runApp(
     ModelBinding(
