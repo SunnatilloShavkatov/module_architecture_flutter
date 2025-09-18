@@ -9,10 +9,7 @@ final class MoreRouter implements AppRouter {
 
   @override
   Map<String, ModalRoute<dynamic>> getRoutes(RouteSettings settings, Injector di) => {
-        Routes.settings: MaterialPageRoute(settings: settings, builder: (_) => const SettingsPage()),
-        Routes.chooseThemeModeSheet: MaterialSheetRoute(
-          settings: settings,
-          builder: (_) => const ChooseThemeModeSheet(),
-        ),
-      };
+    Routes.settings: MaterialPageRoute(settings: settings, builder: (_) => const SettingsPage()),
+    Routes.chooseThemeModeSheet: MaterialSheetRoute(settings: settings, builder: (_) => const ChooseThemeModeSheet()),
+  };
 }

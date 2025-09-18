@@ -80,15 +80,10 @@ class _BouncingButtonState extends State<BouncingButton> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: duration,
-      upperBound: 0.1,
-    )..addListener(
-        () {
-          setState(() {});
-        },
-      );
+    _controller = AnimationController(vsync: this, duration: duration, upperBound: 0.1)
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
@@ -122,11 +117,7 @@ class _BouncingButtonState extends State<BouncingButton> with SingleTickerProvid
       onVerticalDragEnd: _onDragEnd,
       onHorizontalDragUpdate: (DragUpdateDetails details) => _onDragUpdate(details, context),
       onVerticalDragUpdate: (DragUpdateDetails details) => _onDragUpdate(details, context),
-      child: Transform.scale(
-        key: _childKey,
-        scale: _scale,
-        child: child,
-      ),
+      child: Transform.scale(key: _childKey, scale: _scale, child: child),
     );
   }
 

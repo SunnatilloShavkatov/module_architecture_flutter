@@ -20,8 +20,8 @@ const InitializationSettings initializationSettings = InitializationSettings(
 
 /// flutter local notification
 final FlutterLocalNotificationsPlugin notifications = FlutterLocalNotificationsPlugin();
-final AndroidFlutterLocalNotificationsPlugin? androidNotification =
-    notifications.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+final AndroidFlutterLocalNotificationsPlugin? androidNotification = notifications
+    .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
 
 final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 

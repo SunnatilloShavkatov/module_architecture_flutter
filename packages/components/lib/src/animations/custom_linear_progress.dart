@@ -85,11 +85,7 @@ class LinearProgressPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = strokeWidth
       ..color = backgroundColor;
-    canvas.drawLine(
-      Offset(0, strokeWidth / 2),
-      Offset(size.width, strokeWidth / 2),
-      paint,
-    );
+    canvas.drawLine(Offset(0, strokeWidth / 2), Offset(size.width, strokeWidth / 2), paint);
 
     /// progress
     final Paint progress = Paint()
@@ -100,10 +96,7 @@ class LinearProgressPainter extends CustomPainter {
     if (percent != 0) {
       canvas.drawLine(
         Offset(0, strokeWidth / 2),
-        Offset(
-          (size.width * percent / 100).truncateToDouble(),
-          strokeWidth / 2,
-        ),
+        Offset((size.width * percent / 100).truncateToDouble(), strokeWidth / 2),
         progress,
       );
     }

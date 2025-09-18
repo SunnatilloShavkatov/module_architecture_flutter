@@ -15,10 +15,7 @@ class BaseUpdateListener {
 
   BaseListenerTypes? _lastType;
 
-  void sinkUpdateListener<T>({
-    BaseListenerTypes type = BaseListenerTypes.initial,
-    T? object,
-  }) {
+  void sinkUpdateListener<T>({BaseListenerTypes type = BaseListenerTypes.initial, T? object}) {
     _lastType = type;
     updateListenerStream.add(BaseUpdateListenerData(type: type, object: object));
   }

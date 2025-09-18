@@ -26,9 +26,9 @@ class AddressCheckOptions {
     this.port = InternetConnectionChecker.defaultPort,
     this.timeout = InternetConnectionChecker.defaultTimeout,
   }) : assert(
-          (address != null || hostname != null) && ((address != null) != (hostname != null)),
-          'Either address or hostname must be provided, but not both.',
-        );
+         (address != null || hostname != null) && ((address != null) != (hostname != null)),
+         'Either address or hostname must be provided, but not both.',
+       );
 
   final InternetAddress? address;
   final String? hostname;
@@ -52,7 +52,8 @@ class InternetConnectionChecker {
   factory InternetConnectionChecker() => _instance;
 
   InternetConnectionChecker.createInstance({List<AddressCheckOptions>? addresses}) {
-    this.addresses = addresses ??
+    this.addresses =
+        addresses ??
         defaultAddresses
             .map((AddressCheckOptions e) => AddressCheckOptions(address: e.address, hostname: e.hostname, port: e.port))
             .toList();
@@ -78,16 +79,15 @@ class InternetConnectionChecker {
   /// | 8.8.4.4        | Google     | https://developers.google.com/speed/public-dns/ |
   /// | 208.67.222.222 | OpenDNS    | https://use.opendns.com/                        |
   /// | 208.67.220.220 | OpenDNS    | https://use.opendns.com/                        |
-  static final List<AddressCheckOptions> defaultAddresses = List<AddressCheckOptions>.unmodifiable(
-    <AddressCheckOptions>[
-      AddressCheckOptions(address: InternetAddress('1.1.1.1', type: InternetAddressType.IPv4)),
-      AddressCheckOptions(address: InternetAddress('2606:4700:4700::1111', type: InternetAddressType.IPv6)),
-      AddressCheckOptions(address: InternetAddress('8.8.4.4', type: InternetAddressType.IPv4)),
-      AddressCheckOptions(address: InternetAddress('2001:4860:4860::8888', type: InternetAddressType.IPv6)),
-      AddressCheckOptions(address: InternetAddress('208.67.222.222', type: InternetAddressType.IPv4)),
-      AddressCheckOptions(address: InternetAddress('2620:0:ccc::2', type: InternetAddressType.IPv6)),
-    ],
-  );
+  static final List<AddressCheckOptions> defaultAddresses =
+      List<AddressCheckOptions>.unmodifiable(<AddressCheckOptions>[
+        AddressCheckOptions(address: InternetAddress('1.1.1.1', type: InternetAddressType.IPv4)),
+        AddressCheckOptions(address: InternetAddress('2606:4700:4700::1111', type: InternetAddressType.IPv6)),
+        AddressCheckOptions(address: InternetAddress('8.8.4.4', type: InternetAddressType.IPv4)),
+        AddressCheckOptions(address: InternetAddress('2001:4860:4860::8888', type: InternetAddressType.IPv6)),
+        AddressCheckOptions(address: InternetAddress('208.67.222.222', type: InternetAddressType.IPv4)),
+        AddressCheckOptions(address: InternetAddress('2620:0:ccc::2', type: InternetAddressType.IPv6)),
+      ]);
 
   late List<AddressCheckOptions> _addresses;
 
@@ -118,18 +118,16 @@ class InternetConnectionChecker {
     int length = addresses.length;
 
     for (final AddressCheckOptions addressOptions in addresses) {
-      await isHostReachable(addressOptions).then(
-        (AddressCheckResult request) {
-          length -= 1;
-          if (!result.isCompleted) {
-            if (request.isSuccess) {
-              result.complete(true);
-            } else if (length == 0) {
-              result.complete(false);
-            }
+      await isHostReachable(addressOptions).then((AddressCheckResult request) {
+        length -= 1;
+        if (!result.isCompleted) {
+          if (request.isSuccess) {
+            result.complete(true);
+          } else if (length == 0) {
+            result.complete(false);
           }
-        },
-      );
+        }
+      });
     }
 
     return result.future;

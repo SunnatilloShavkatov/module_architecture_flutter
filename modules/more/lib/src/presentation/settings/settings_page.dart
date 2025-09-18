@@ -9,23 +9,23 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: Text(context.localizations.settings)),
-        body: Center(
-          child: Column(
-            children: [
-              Text('Locale ${navigatorObserver.currentRoutes}'),
-              ListTile(
-                title: const Text('Choose theme mode'),
-                onTap: () async {
-                  final themeMode = await Navigator.pushNamed(context, Routes.chooseThemeModeSheet);
-                  if (themeMode != null && themeMode is ThemeMode && context.mounted) {
-                    context.setThemeMode(themeMode);
-                    unawaited(localSource.setThemeMode(themeMode));
-                  }
-                },
-              ),
-            ],
+    appBar: AppBar(title: Text(context.localizations.settings)),
+    body: Center(
+      child: Column(
+        children: [
+          Text('Locale ${navigatorObserver.currentRoutes}'),
+          ListTile(
+            title: const Text('Choose theme mode'),
+            onTap: () async {
+              final themeMode = await Navigator.pushNamed(context, Routes.chooseThemeModeSheet);
+              if (themeMode != null && themeMode is ThemeMode && context.mounted) {
+                context.setThemeMode(themeMode);
+                unawaited(localSource.setThemeMode(themeMode));
+              }
+            },
           ),
-        ),
-      );
+        ],
+      ),
+    ),
+  );
 }

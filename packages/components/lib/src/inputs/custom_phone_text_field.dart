@@ -106,76 +106,54 @@ class _CustomPhoneTextFieldState extends State<CustomPhoneTextField> {
 
   @override
   Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          if (widget.titleText != null)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Text(
-                '${widget.titleText}',
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-          TextFormField(
-            validator: widget.validator,
-            autovalidateMode: AutovalidateMode.onUnfocus,
-            inputFormatters: <TextInputFormatter>[
-              MaskedTextInputFormatter(
-                mask: '## ### ## ##',
-                separator: ' ',
-                filter: RegExp('[0-9]'),
-              ),
-            ],
-            style: const TextStyle(
-              fontSize: 14,
-              height: 16 / 14,
-              fontWeight: FontWeight.w400,
-            ),
-            obscureText: widget.obscureText ?? false,
-            readOnly: widget.readOnly,
-            controller: widget.controller,
-            focusNode: focusNode,
-            onTap: widget.onTap,
-            scrollPadding: EdgeInsets.zero,
-            autofocus: widget.autoFocus,
-            onChanged: widget.onChanged,
-            onFieldSubmitted: (String term) => _fieldFocusChange(
-              context,
-              focusNode,
-              widget.nextFocus,
-            ),
-            obscuringCharacter: '*',
-            textInputAction: widget.inputAction,
-            textAlignVertical: TextAlignVertical.center,
-            decoration: InputDecoration(
-              fillColor: widget.fillColor,
-              filled: widget.filled,
-              suffixIcon: widget.suffixIcon,
-              labelText: widget.labelText,
-              prefixText: _prefixText,
-              prefixIconConstraints: BoxConstraints(
-                maxWidth: _prefixText != null ? 56 : 12,
-                minWidth: _prefixText != null ? 48 : 12,
-              ),
-              hintText: _prefixText == null ? widget.hintText : '',
-              errorText: widget.showError ?? false ? widget.errorText : null,
-            ),
-            cursorColor: context.colorScheme.primary,
-            keyboardType: TextInputType.phone,
-            onEditingComplete: widget.onComplete,
-          ),
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    mainAxisSize: MainAxisSize.min,
+    children: <Widget>[
+      if (widget.titleText != null)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: Text('${widget.titleText}', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
+        ),
+      TextFormField(
+        validator: widget.validator,
+        autovalidateMode: AutovalidateMode.onUnfocus,
+        inputFormatters: <TextInputFormatter>[
+          MaskedTextInputFormatter(mask: '## ### ## ##', separator: ' ', filter: RegExp('[0-9]')),
         ],
-      );
+        style: const TextStyle(fontSize: 14, height: 16 / 14, fontWeight: FontWeight.w400),
+        obscureText: widget.obscureText ?? false,
+        readOnly: widget.readOnly,
+        controller: widget.controller,
+        focusNode: focusNode,
+        onTap: widget.onTap,
+        scrollPadding: EdgeInsets.zero,
+        autofocus: widget.autoFocus,
+        onChanged: widget.onChanged,
+        onFieldSubmitted: (String term) => _fieldFocusChange(context, focusNode, widget.nextFocus),
+        obscuringCharacter: '*',
+        textInputAction: widget.inputAction,
+        textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          fillColor: widget.fillColor,
+          filled: widget.filled,
+          suffixIcon: widget.suffixIcon,
+          labelText: widget.labelText,
+          prefixText: _prefixText,
+          prefixIconConstraints: BoxConstraints(
+            maxWidth: _prefixText != null ? 56 : 12,
+            minWidth: _prefixText != null ? 48 : 12,
+          ),
+          hintText: _prefixText == null ? widget.hintText : '',
+          errorText: widget.showError ?? false ? widget.errorText : null,
+        ),
+        cursorColor: context.colorScheme.primary,
+        keyboardType: TextInputType.phone,
+        onEditingComplete: widget.onComplete,
+      ),
+    ],
+  );
 
-  void _fieldFocusChange(
-    BuildContext context,
-    FocusNode? currentFocus,
-    FocusNode? nextFocus,
-  ) {
+  void _fieldFocusChange(BuildContext context, FocusNode? currentFocus, FocusNode? nextFocus) {
     if (currentFocus != null && nextFocus != null) {
       currentFocus.unfocus();
       FocusScope.of(context).requestFocus(nextFocus);

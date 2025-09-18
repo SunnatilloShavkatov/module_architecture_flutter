@@ -3,20 +3,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Dot extends StatelessWidget {
-  const Dot({
-    super.key,
-    this.size = 2,
-    this.color,
-  });
+  const Dot({super.key, this.size = 2, this.color});
 
   final double size;
   final Color? color;
 
   @override
-  Widget build(BuildContext context) => CustomPaint(
-        painter: _DotPainter(size / 2, color ?? context.colorScheme.outline),
-        size: Size(size, size),
-      );
+  Widget build(BuildContext context) =>
+      CustomPaint(painter: _DotPainter(size / 2, color ?? context.colorScheme.outline), size: Size(size, size));
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -40,11 +34,7 @@ class _DotPainter extends CustomPainter {
     final Paint paint = Paint()
       ..color = color
       ..style = PaintingStyle.fill;
-    canvas.drawCircle(
-      Offset(centerX, centerY),
-      radius,
-      paint,
-    );
+    canvas.drawCircle(Offset(centerX, centerY), radius, paint);
   }
 
   @override

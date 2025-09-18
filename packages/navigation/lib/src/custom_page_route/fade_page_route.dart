@@ -21,11 +21,7 @@ class FadePageRoute<T> extends PageRoute<T> {
   Duration get transitionDuration => const Duration(milliseconds: 350);
 
   @override
-  Widget buildPage(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-  ) =>
+  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) =>
       builder(context);
 
   @override
@@ -34,6 +30,5 @@ class FadePageRoute<T> extends PageRoute<T> {
     Animation<double> animation,
     Animation<double> secondaryAnimation,
     Widget child,
-  ) =>
-      FadeTransition(opacity: animation, child: child);
+  ) => FadeTransition(opacity: animation, child: child);
 }

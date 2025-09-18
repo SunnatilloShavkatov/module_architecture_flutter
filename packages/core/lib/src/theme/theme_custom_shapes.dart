@@ -36,25 +36,13 @@ class ThemeCustomShapes extends ThemeExtension<ThemeCustomShapes> {
         end: Alignment.bottomCenter,
       ),
       boxShadow: <BoxShadow>[
-        BoxShadow(
-          color: Color.fromRGBO(255, 255, 255, 0.25),
-          offset: Offset(0, 1),
-          blurStyle: BlurStyle.inner,
-        ),
-        BoxShadow(
-          color: Color.fromRGBO(0, 0, 0, 0.25),
-          offset: Offset(0, -1),
-          blurStyle: BlurStyle.inner,
-        ),
+        BoxShadow(color: Color.fromRGBO(255, 255, 255, 0.25), offset: Offset(0, 1), blurStyle: BlurStyle.inner),
+        BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25), offset: Offset(0, -1), blurStyle: BlurStyle.inner),
       ],
     ),
     favoriteButtonStyle: ButtonStyle(
-      backgroundColor: WidgetStatePropertyAll<Color>(
-        Color.fromRGBO(0, 0, 0, 0.4),
-      ),
-      fixedSize: WidgetStatePropertyAll<Size>(
-        Size.square(24),
-      ),
+      backgroundColor: WidgetStatePropertyAll<Color>(Color.fromRGBO(0, 0, 0, 0.4)),
+      fixedSize: WidgetStatePropertyAll<Size>(Size.square(24)),
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       padding: WidgetStatePropertyAll<EdgeInsets>(EdgeInsets.zero),
     ),
@@ -83,25 +71,13 @@ class ThemeCustomShapes extends ThemeExtension<ThemeCustomShapes> {
         end: Alignment.bottomCenter,
       ),
       boxShadow: <BoxShadow>[
-        BoxShadow(
-          color: Color.fromRGBO(255, 255, 255, 0.25),
-          offset: Offset(0, 1),
-          blurStyle: BlurStyle.inner,
-        ),
-        BoxShadow(
-          color: Color.fromRGBO(0, 0, 0, 0.25),
-          offset: Offset(0, -1),
-          blurStyle: BlurStyle.inner,
-        ),
+        BoxShadow(color: Color.fromRGBO(255, 255, 255, 0.25), offset: Offset(0, 1), blurStyle: BlurStyle.inner),
+        BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.25), offset: Offset(0, -1), blurStyle: BlurStyle.inner),
       ],
     ),
     favoriteButtonStyle: ButtonStyle(
-      backgroundColor: WidgetStatePropertyAll<Color>(
-        Color.fromRGBO(0, 0, 0, 0.4),
-      ),
-      fixedSize: WidgetStatePropertyAll<Size>(
-        Size.square(24),
-      ),
+      backgroundColor: WidgetStatePropertyAll<Color>(Color.fromRGBO(0, 0, 0, 0.4)),
+      fixedSize: WidgetStatePropertyAll<Size>(Size.square(24)),
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       padding: WidgetStatePropertyAll<EdgeInsets>(EdgeInsets.zero),
     ),
@@ -112,18 +88,14 @@ class ThemeCustomShapes extends ThemeExtension<ThemeCustomShapes> {
     Decoration? buttonDecoration,
     Decoration? buttonsShadowDecoration,
     ButtonStyle? favoriteButtonStyle,
-  }) =>
-      ThemeCustomShapes(
-        buttonDecoration: buttonDecoration ?? this.buttonDecoration,
-        buttonsShadowDecoration: buttonsShadowDecoration ?? this.buttonsShadowDecoration,
-        favoriteButtonStyle: favoriteButtonStyle ?? this.favoriteButtonStyle,
-      );
+  }) => ThemeCustomShapes(
+    buttonDecoration: buttonDecoration ?? this.buttonDecoration,
+    buttonsShadowDecoration: buttonsShadowDecoration ?? this.buttonsShadowDecoration,
+    favoriteButtonStyle: favoriteButtonStyle ?? this.favoriteButtonStyle,
+  );
 
   @override
-  ThemeExtension<ThemeCustomShapes> lerp(
-    ThemeExtension<ThemeCustomShapes>? other,
-    double t,
-  ) {
+  ThemeExtension<ThemeCustomShapes> lerp(ThemeExtension<ThemeCustomShapes>? other, double t) {
     if (other is! ThemeCustomShapes) {
       return this;
     }

@@ -38,14 +38,7 @@ abstract class _CircularProgressIndicator extends StatefulWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(
-        PercentProperty(
-          'value',
-          value,
-          showName: false,
-          ifNull: '<indeterminate>',
-        ),
-      )
+      ..add(PercentProperty('value', value, showName: false, ifNull: '<indeterminate>'))
       ..add(ColorProperty('backgroundColor', backgroundColor))
       ..add(ColorProperty('color', color))
       ..add(DiagnosticsProperty<Animation<Color?>?>('valueColor', valueColor))
@@ -53,19 +46,12 @@ abstract class _CircularProgressIndicator extends StatefulWidget {
       ..add(StringProperty('semanticsValue', semanticsValue));
   }
 
-  Widget _buildSemanticsWrapper({
-    required BuildContext context,
-    required Widget child,
-  }) {
+  Widget _buildSemanticsWrapper({required BuildContext context, required Widget child}) {
     String? expandedSemanticsValue = semanticsValue;
     if (value != null) {
       expandedSemanticsValue ??= '${(value! * 100).round()}%';
     }
-    return Semantics(
-      label: semanticsLabel,
-      value: expandedSemanticsValue,
-      child: child,
-    );
+    return Semantics(label: semanticsLabel, value: expandedSemanticsValue, child: child);
   }
 }
 
@@ -89,11 +75,7 @@ class _LinearCappedProgressIndicatorPainter extends CustomPainter {
   // The indeterminate progress animation displays two lines
   // whose leading (head)
   // and trailing (tail) endpoints are defined by the following four curves.
-  static const Curve line1Head = Interval(
-    0,
-    750.0 / _kIndeterminateLinearDuration,
-    curve: Cubic(0.2, 0, 0.8, 1),
-  );
+  static const Curve line1Head = Interval(0, 750.0 / _kIndeterminateLinearDuration, curve: Cubic(0.2, 0, 0.8, 1));
   static const Curve line1Tail = Interval(
     333.0 / _kIndeterminateLinearDuration,
     (333.0 + 750.0) / _kIndeterminateLinearDuration,
@@ -116,10 +98,7 @@ class _LinearCappedProgressIndicatorPainter extends CustomPainter {
       ..color = backgroundColor
       ..style = PaintingStyle.fill;
     canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Offset.zero & size,
-        Radius.circular(cornerRadius ?? size.height / 2),
-      ),
+      RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(cornerRadius ?? size.height / 2)),
       paint,
     );
 
@@ -181,10 +160,7 @@ class LinearCappedProgressIndicator extends _CircularProgressIndicator {
     this.cornerRadius,
     super.semanticsLabel,
     super.semanticsValue,
-  }) : assert(
-          minHeight == null || minHeight > 0,
-          'minHeight must be null or positive',
-        );
+  }) : assert(minHeight == null || minHeight > 0, 'minHeight must be null or positive');
 
   /// Color of the track being filled by the linear indicator.
   ///
@@ -252,11 +228,7 @@ class _LinearCappedProgressIndicatorState extends State<LinearCappedProgressIndi
     super.dispose();
   }
 
-  Widget _buildIndicator(
-    BuildContext context,
-    double animationValue,
-    TextDirection textDirection,
-  ) {
+  Widget _buildIndicator(BuildContext context, double animationValue, TextDirection textDirection) {
     final ProgressIndicatorThemeData indicatorTheme = ProgressIndicatorTheme.of(context);
     final Color trackColor =
         widget.backgroundColor ?? indicatorTheme.linearTrackColor ?? Theme.of(context).colorScheme.surface;
@@ -265,10 +237,7 @@ class _LinearCappedProgressIndicatorState extends State<LinearCappedProgressIndi
     return widget._buildSemanticsWrapper(
       context: context,
       child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minWidth: double.infinity,
-          minHeight: minHeight,
-        ),
+        constraints: BoxConstraints(minWidth: double.infinity, minHeight: minHeight),
         child: CustomPaint(
           painter: _LinearCappedProgressIndicatorPainter(
             backgroundColor: trackColor,
@@ -311,15 +280,12 @@ class _CircularCappedProgressIndicatorPainter extends CustomPainter {
     required this.strokeWidth,
     required this.strokeCap,
     this.backgroundColor,
-  })  : arcStart = value != null
-            ? _startAngle
-            : _startAngle + tailValue * 3 / 2 * math.pi + rotationValue * math.pi * 2.0 + offsetValue * 0.5 * math.pi,
-        arcSweep = value != null
-            ? clampDouble(value, 0, 1) * _sweep
-            : math.max(
-                headValue * 3 / 2 * math.pi - tailValue * 3 / 2 * math.pi,
-                _epsilon,
-              );
+  }) : arcStart = value != null
+           ? _startAngle
+           : _startAngle + tailValue * 3 / 2 * math.pi + rotationValue * math.pi * 2.0 + offsetValue * 0.5 * math.pi,
+       arcSweep = value != null
+           ? clampDouble(value, 0, 1) * _sweep
+           : math.max(headValue * 3 / 2 * math.pi - tailValue * 3 / 2 * math.pi, _epsilon);
 
   final Color? backgroundColor;
   final Color valueColor;
@@ -462,18 +428,10 @@ class _CircularCappedProgressIndicatorState extends State<CustomCircularProgress
 
   static final Animatable<double> _strokeHeadTween = CurveTween(
     curve: const Interval(0, 0.5, curve: Curves.fastOutSlowIn),
-  ).chain(
-    CurveTween(
-      curve: const SawTooth(_pathCount),
-    ),
-  );
+  ).chain(CurveTween(curve: const SawTooth(_pathCount)));
   static final Animatable<double> _strokeTailTween = CurveTween(
     curve: const Interval(0.5, 1, curve: Curves.fastOutSlowIn),
-  ).chain(
-    CurveTween(
-      curve: const SawTooth(_pathCount),
-    ),
-  );
+  ).chain(CurveTween(curve: const SawTooth(_pathCount)));
   static final Animatable<double> _offsetTween = CurveTween(curve: const SawTooth(_pathCount));
   static final Animatable<double> _rotationTween = CurveTween(curve: const SawTooth(_rotationCount));
 
@@ -548,15 +506,15 @@ class _CircularCappedProgressIndicatorState extends State<CustomCircularProgress
   }
 
   Widget _buildAnimation() => AnimatedBuilder(
-        animation: _controller,
-        builder: (BuildContext context, Widget? child) => _buildMaterialIndicator(
-          context,
-          _strokeHeadTween.evaluate(_controller),
-          _strokeTailTween.evaluate(_controller),
-          _offsetTween.evaluate(_controller),
-          _rotationTween.evaluate(_controller),
-        ),
-      );
+    animation: _controller,
+    builder: (BuildContext context, Widget? child) => _buildMaterialIndicator(
+      context,
+      _strokeHeadTween.evaluate(_controller),
+      _strokeTailTween.evaluate(_controller),
+      _offsetTween.evaluate(_controller),
+      _rotationTween.evaluate(_controller),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {

@@ -71,100 +71,79 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          if (labelText != null && !labelInTextField)
-            Text(
-              labelText!,
-              style: labelTextStyle,
-            ),
-          if (labelText != null && !labelInTextField) Dimensions.kGap6,
-          TextFormField(
-            key: key,
-            style: context.textStyle.regularBody,
-            controller: controller,
-            validator: validator,
-            onChanged: onChanged,
-            keyboardType: textInputType,
-            focusNode: focusNode,
-            textCapitalization: textCapitalization,
-            cursorColor: cursorColor ?? context.colorScheme.primary,
-            enableInteractiveSelection: true,
-            obscureText: obscure,
-            enabled: enabled,
-            textInputAction: textInputAction,
-            onEditingComplete: () {
-              if (nextFocusNode != null) {
-                nextFocusNode?.requestFocus();
-              } else {
-                focusNode.unfocus();
-              }
-            },
-            onFieldSubmitted: (String value) {
-              if (onFieldSubmitted != null) {
-                onFieldSubmitted?.call(value);
-              }
-              if (nextFocusNode != null) {
-                nextFocusNode?.requestFocus();
-              } else {
-                focusNode.unfocus();
-              }
-            },
-            inputFormatters: textInputFormatter != null ? <TextInputFormatter>[textInputFormatter!] : null,
-            decoration: InputDecoration(
-              labelText: labelInTextField ? labelText : null,
-              labelStyle: labelTextStyle,
-              hintText: hintText,
-              errorText: errorText,
-              contentPadding: contentPadding ?? EdgeInsets.zero,
-              suffix: suffix,
-              suffixIcon: suffixIcon,
-              prefix: prefix,
-              prefixIcon: prefixIcon,
-              prefixText: prefixText,
-              prefixStyle: prefixTextStyle,
-              suffixText: suffixText,
-              suffixStyle: suffixTextStyle,
-            ),
-            cursorHeight: cursorHeight,
-          ),
-        ],
-      );
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    mainAxisSize: MainAxisSize.min,
+    children: <Widget>[
+      if (labelText != null && !labelInTextField) Text(labelText!, style: labelTextStyle),
+      if (labelText != null && !labelInTextField) Dimensions.kGap6,
+      TextFormField(
+        key: key,
+        style: context.textStyle.regularBody,
+        controller: controller,
+        validator: validator,
+        onChanged: onChanged,
+        keyboardType: textInputType,
+        focusNode: focusNode,
+        textCapitalization: textCapitalization,
+        cursorColor: cursorColor ?? context.colorScheme.primary,
+        enableInteractiveSelection: true,
+        obscureText: obscure,
+        enabled: enabled,
+        textInputAction: textInputAction,
+        onEditingComplete: () {
+          if (nextFocusNode != null) {
+            nextFocusNode?.requestFocus();
+          } else {
+            focusNode.unfocus();
+          }
+        },
+        onFieldSubmitted: (String value) {
+          if (onFieldSubmitted != null) {
+            onFieldSubmitted?.call(value);
+          }
+          if (nextFocusNode != null) {
+            nextFocusNode?.requestFocus();
+          } else {
+            focusNode.unfocus();
+          }
+        },
+        inputFormatters: textInputFormatter != null ? <TextInputFormatter>[textInputFormatter!] : null,
+        decoration: InputDecoration(
+          labelText: labelInTextField ? labelText : null,
+          labelStyle: labelTextStyle,
+          hintText: hintText,
+          errorText: errorText,
+          contentPadding: contentPadding ?? EdgeInsets.zero,
+          suffix: suffix,
+          suffixIcon: suffixIcon,
+          prefix: prefix,
+          prefixIcon: prefixIcon,
+          prefixText: prefixText,
+          prefixStyle: prefixTextStyle,
+          suffixText: suffixText,
+          suffixStyle: suffixTextStyle,
+        ),
+        cursorHeight: cursorHeight,
+      ),
+    ],
+  );
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(
-        DiagnosticsProperty<TextEditingController>('controller', controller),
-      )
-      ..add(
-        DiagnosticsProperty<EdgeInsetsGeometry?>(
-          'contentPadding',
-          contentPadding,
-        ),
-      )
+      ..add(DiagnosticsProperty<TextEditingController>('controller', controller))
+      ..add(DiagnosticsProperty<EdgeInsetsGeometry?>('contentPadding', contentPadding))
       ..add(ObjectFlagProperty<Validator?>.has('validator', validator))
       ..add(ObjectFlagProperty<OnChanged>.has('onChanged', onChanged))
       ..add(DiagnosticsProperty<TextInputType>('textInputType', textInputType))
       ..add(DiagnosticsProperty<FocusNode>('focusNode', focusNode))
       ..add(DiagnosticsProperty<FocusNode?>('nextFocusNode', nextFocusNode))
-      ..add(
-        EnumProperty<TextCapitalization>(
-          'textCapitalization',
-          textCapitalization,
-        ),
-      )
+      ..add(EnumProperty<TextCapitalization>('textCapitalization', textCapitalization))
       ..add(ColorProperty('cursorColor', cursorColor))
       ..add(DiagnosticsProperty<bool>('enabled', enabled))
       ..add(DiagnosticsProperty<bool>('obscure', obscure))
-      ..add(
-        DiagnosticsProperty<TextInputFormatter?>(
-          'textInputFormatter',
-          textInputFormatter,
-        ),
-      )
+      ..add(DiagnosticsProperty<TextInputFormatter?>('textInputFormatter', textInputFormatter))
       ..add(EnumProperty<TextInputAction>('textInputAction', textInputAction))
       ..add(StringProperty('hintText', hintText))
       ..add(StringProperty('errorText', errorText))
@@ -176,11 +155,6 @@ class CustomTextField extends StatelessWidget {
       ..add(StringProperty('suffixText', suffixText))
       ..add(DiagnosticsProperty<bool>('labelInTextField', labelInTextField))
       ..add(DoubleProperty('cursorHeight', cursorHeight))
-      ..add(
-        ObjectFlagProperty<OnFieldSubmitted?>.has(
-          'onFieldSubmitted',
-          onFieldSubmitted,
-        ),
-      );
+      ..add(ObjectFlagProperty<OnFieldSubmitted?>.has('onFieldSubmitted', onFieldSubmitted));
   }
 }

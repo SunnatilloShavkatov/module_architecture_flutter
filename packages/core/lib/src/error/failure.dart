@@ -10,10 +10,7 @@ sealed class Failure extends Equatable {
 }
 
 class ServerFailure extends Failure {
-  const ServerFailure({
-    required super.message,
-    this.statusCode,
-  });
+  const ServerFailure({required super.message, this.statusCode});
 
   final int? statusCode;
 

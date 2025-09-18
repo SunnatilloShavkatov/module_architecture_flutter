@@ -8,6 +8,6 @@ final class MainRouter implements AppRouter {
 
   @override
   Map<String, ModalRoute<dynamic>> getRoutes(RouteSettings settings, Injector di) => {
-        Routes.main: MaterialPageRoute(settings: settings, builder: (_) => const MainPage()),
-      };
+    Routes.main: MaterialPageRoute(settings: settings, builder: (_) => const MainPage()),
+  };
 }

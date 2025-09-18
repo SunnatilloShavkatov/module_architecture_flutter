@@ -1,9 +1,7 @@
 part of 'package:core/src/theme/themes.dart';
 
 class ThemeGradients extends ThemeExtension<ThemeGradients> {
-  const ThemeGradients({
-    required this.buttonLinearGradient,
-  });
+  const ThemeGradients({required this.buttonLinearGradient});
 
   final LinearGradient buttonLinearGradient;
 
@@ -25,27 +23,16 @@ class ThemeGradients extends ThemeExtension<ThemeGradients> {
   );
 
   @override
-  ThemeExtension<ThemeGradients> copyWith({
-    LinearGradient? buttonLinearGradient,
-  }) =>
-      ThemeGradients(
-        buttonLinearGradient: buttonLinearGradient ?? this.buttonLinearGradient,
-      );
+  ThemeExtension<ThemeGradients> copyWith({LinearGradient? buttonLinearGradient}) =>
+      ThemeGradients(buttonLinearGradient: buttonLinearGradient ?? this.buttonLinearGradient);
 
   @override
-  ThemeExtension<ThemeGradients> lerp(
-    ThemeExtension<ThemeGradients>? other,
-    double t,
-  ) {
+  ThemeExtension<ThemeGradients> lerp(ThemeExtension<ThemeGradients>? other, double t) {
     if (other is! ThemeGradients) {
       return this;
     }
     return ThemeGradients(
-      buttonLinearGradient: LinearGradient.lerp(
-        buttonLinearGradient,
-        other.buttonLinearGradient,
-        t,
-      )!,
+      buttonLinearGradient: LinearGradient.lerp(buttonLinearGradient, other.buttonLinearGradient, t)!,
     );
   }
 }

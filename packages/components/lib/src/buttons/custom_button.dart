@@ -5,14 +5,7 @@ import 'package:flutter/material.dart';
 enum CustomLabelButton { label, icon }
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({
-    required this.label,
-    super.key,
-    this.leftIcon,
-    this.rightIcon,
-    this.onPressed,
-    this.height = 48,
-  });
+  const CustomButton({required this.label, super.key, this.leftIcon, this.rightIcon, this.onPressed, this.height = 48});
 
   final Widget label;
   final Widget? leftIcon;
@@ -26,12 +19,7 @@ class CustomButton extends StatelessWidget {
 
     /// Label
     final Widget labelA = DefaultTextStyle(
-      style: const TextStyle(
-        height: 20 / 15,
-        fontSize: 15,
-        color: Colors.white,
-        fontWeight: FontWeight.w500,
-      ),
+      style: const TextStyle(height: 20 / 15, fontSize: 15, color: Colors.white, fontWeight: FontWeight.w500),
       child: label,
     );
 

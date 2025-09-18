@@ -1,17 +1,12 @@
 import 'package:flutter/services.dart';
 
 class MoneyTextInputFormatter extends TextInputFormatter {
-  MoneyTextInputFormatter({
-    this.isUsd = false,
-  });
+  const MoneyTextInputFormatter({this.isUsd = false});
 
   final bool isUsd;
 
   @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.text.isEmpty) {
       return newValue.copyWith(text: '');
     } else if (newValue.text.compareTo(oldValue.text) != 0) {
@@ -25,15 +20,11 @@ class MoneyTextInputFormatter extends TextInputFormatter {
         }
         reversedNewStringBuffer.write(chars[i]);
       }
-      String newString = String.fromCharCodes(
-        reversedNewStringBuffer.toString().runes.toList().reversed,
-      );
+      String newString = String.fromCharCodes(reversedNewStringBuffer.toString().runes.toList().reversed);
       newString = isUsd ? '\$$newString' : newString;
       return TextEditingValue(
         text: newString,
-        selection: TextSelection.collapsed(
-          offset: newString.length - selectionIndexFromTheRight,
-        ),
+        selection: TextSelection.collapsed(offset: newString.length - selectionIndexFromTheRight),
       );
     } else {
       return newValue;

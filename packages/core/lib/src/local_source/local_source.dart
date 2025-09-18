@@ -22,11 +22,11 @@ final class LocalSource {
   String get locale => _preferences.getString(AppKeys.locale) ?? defaultLocale;
 
   ThemeMode get themeMode => switch (_preferences.getString(AppKeys.themeMode)) {
-        'system' => ThemeMode.system,
-        'light' => ThemeMode.light,
-        'dark' => ThemeMode.dark,
-        _ => ThemeMode.system,
-      };
+    'system' => ThemeMode.system,
+    'light' => ThemeMode.light,
+    'dark' => ThemeMode.dark,
+    _ => ThemeMode.system,
+  };
 
   Future<void> setThemeMode(ThemeMode mode) async {
     await _preferences.setString(AppKeys.themeMode, mode.name);

@@ -11,11 +11,9 @@ final class MainInjection implements Injection {
   @override
   FutureOr<void> registerDependencies({required Injector di}) {
     di
-
       /// data sources
       ..registerLazySingleton<MainRemoteDataSource>(() => MainRemoteDataSourceImpl(di.get()))
       ..registerLazySingleton<MainLocalDataSource>(() => MainLocalDataSourceImpl(di.get()))
-
       /// repositories
       ..registerLazySingleton<MainRepository>(() => MainRepositoryImpl(di.get(), di.get()));
 

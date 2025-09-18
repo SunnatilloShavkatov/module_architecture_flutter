@@ -31,8 +31,8 @@ class CarouselSlider extends StatefulWidget {
     this.controller,
     this.clipBehavior = Clip.hardEdge,
     this.findChildIndexCallback,
-  })  : slideBuilder = null,
-        itemCount = children.length;
+  }) : slideBuilder = null,
+       itemCount = children.length;
 
   const CarouselSlider.builder({
     required this.slideBuilder,
@@ -84,55 +84,23 @@ class CarouselSlider extends StatefulWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(
-        ObjectFlagProperty<CarouselSlideBuilder?>.has(
-          'slideBuilder',
-          slideBuilder,
-        ),
-      )
+      ..add(ObjectFlagProperty<CarouselSlideBuilder?>.has('slideBuilder', slideBuilder))
       ..add(IntProperty('itemCount', itemCount))
-      ..add(
-        DiagnosticsProperty<SlideTransform>('slideTransform', slideTransform),
-      )
+      ..add(DiagnosticsProperty<SlideTransform>('slideTransform', slideTransform))
       ..add(DoubleProperty('viewportFraction', viewportFraction))
       ..add(DiagnosticsProperty<bool>('enableAutoSlider', enableAutoSlider))
       ..add(DiagnosticsProperty<Duration>('autoSliderDelay', autoSliderDelay))
-      ..add(
-        DiagnosticsProperty<Duration>(
-          'autoSliderTransitionTime',
-          autoSliderTransitionTime,
-        ),
-      )
-      ..add(
-        DiagnosticsProperty<Curve>(
-          'autoSliderTransitionCurve',
-          autoSliderTransitionCurve,
-        ),
-      )
+      ..add(DiagnosticsProperty<Duration>('autoSliderTransitionTime', autoSliderTransitionTime))
+      ..add(DiagnosticsProperty<Curve>('autoSliderTransitionCurve', autoSliderTransitionCurve))
       ..add(DiagnosticsProperty<bool>('unlimitedMode', unlimitedMode))
       ..add(DiagnosticsProperty<bool>('keepPage', keepPage))
       ..add(DiagnosticsProperty<ScrollPhysics>('scrollPhysics', scrollPhysics))
       ..add(EnumProperty<Axis>('scrollDirection', scrollDirection))
       ..add(IntProperty('initialPage', initialPage))
-      ..add(
-        ObjectFlagProperty<ValueChanged<int>?>.has(
-          'onSlideChanged',
-          onSlideChanged,
-        ),
-      )
+      ..add(ObjectFlagProperty<ValueChanged<int>?>.has('onSlideChanged', onSlideChanged))
       ..add(EnumProperty<Clip>('clipBehavior', clipBehavior))
-      ..add(
-        DiagnosticsProperty<CarouselSliderController?>(
-          'controller',
-          controller,
-        ),
-      )
-      ..add(
-        ObjectFlagProperty<ChildIndexGetter?>.has(
-          'findChildIndexCallback',
-          findChildIndexCallback,
-        ),
-      );
+      ..add(DiagnosticsProperty<CarouselSliderController?>('controller', controller))
+      ..add(ObjectFlagProperty<ChildIndexGetter?>.has('findChildIndexCallback', findChildIndexCallback));
   }
 }
 
@@ -151,9 +119,7 @@ class CarouselSliderController {
     }
   }
 
-  void setAutoSliderEnabled({
-    required bool isEnabled,
-  }) {
+  void setAutoSliderEnabled({required bool isEnabled}) {
     if (_state != null && _state!.mounted) {
       _state!._setAutoSliderEnabled(isEnabled);
     }
@@ -175,37 +141,26 @@ class _CarouselSliderState extends State<CarouselSlider> {
 
   @override
   Widget build(BuildContext context) => PageView.builder(
-        onPageChanged: (int val) {
-          widget.onSlideChanged?.call(val);
-        },
-        clipBehavior: widget.clipBehavior,
-        scrollBehavior: ScrollConfiguration.of(context).copyWith(
-          scrollbars: false,
-          overscroll: false,
-          dragDevices: <PointerDeviceKind>{
-            PointerDeviceKind.touch,
-            PointerDeviceKind.mouse,
-          },
-        ),
-        itemCount: widget.unlimitedMode ? _kMaxValue : widget.itemCount,
-        controller: _pageController,
-        scrollDirection: widget.scrollDirection,
-        physics: widget.scrollPhysics,
-        findChildIndexCallback: widget.findChildIndexCallback,
-        itemBuilder: (BuildContext context, int index) {
-          final int slideIndex = index % widget.itemCount;
-          final Widget slide =
-              widget.children == null ? widget.slideBuilder!(slideIndex) : widget.children![slideIndex];
-          return widget.slideTransform.transform(
-            context,
-            slide,
-            index,
-            _currentPage,
-            _pageDelta,
-            widget.itemCount,
-          );
-        },
-      );
+    onPageChanged: (int val) {
+      widget.onSlideChanged?.call(val);
+    },
+    clipBehavior: widget.clipBehavior,
+    scrollBehavior: ScrollConfiguration.of(context).copyWith(
+      scrollbars: false,
+      overscroll: false,
+      dragDevices: <PointerDeviceKind>{PointerDeviceKind.touch, PointerDeviceKind.mouse},
+    ),
+    itemCount: widget.unlimitedMode ? _kMaxValue : widget.itemCount,
+    controller: _pageController,
+    scrollDirection: widget.scrollDirection,
+    physics: widget.scrollPhysics,
+    findChildIndexCallback: widget.findChildIndexCallback,
+    itemBuilder: (BuildContext context, int index) {
+      final int slideIndex = index % widget.itemCount;
+      final Widget slide = widget.children == null ? widget.slideBuilder!(slideIndex) : widget.children![slideIndex];
+      return widget.slideTransform.transform(context, slide, index, _currentPage, _pageDelta, widget.itemCount);
+    },
+  );
 
   @override
   void didUpdateWidget(covariant CarouselSlider oldWidget) {
@@ -248,14 +203,12 @@ class _CarouselSliderState extends State<CarouselSlider> {
       keepPage: widget.keepPage,
       initialPage: widget.unlimitedMode ? _kMiddleValue * widget.itemCount + _currentPage! : _currentPage!,
     );
-    _pageController.addListener(
-      () {
-        setState(() {
-          _currentPage = _pageController.page!.floor();
-          _pageDelta = _pageController.page! - _pageController.page!.floor();
-        });
-      },
-    );
+    _pageController.addListener(() {
+      setState(() {
+        _currentPage = _pageController.page!.floor();
+        _pageDelta = _pageController.page! - _pageController.page!.floor();
+      });
+    });
   }
 
   Future<void> _nextPage(Duration? transitionDuration) async {
@@ -277,15 +230,12 @@ class _CarouselSliderState extends State<CarouselSlider> {
       _timer?.cancel();
     }
     if (isEnabled) {
-      _timer = Timer.periodic(
-        widget.autoSliderDelay,
-        (Timer timer) async {
-          await _pageController.nextPage(
-            duration: widget.autoSliderTransitionTime,
-            curve: widget.autoSliderTransitionCurve,
-          );
-        },
-      );
+      _timer = Timer.periodic(widget.autoSliderDelay, (Timer timer) async {
+        await _pageController.nextPage(
+          duration: widget.autoSliderTransitionTime,
+          curve: widget.autoSliderTransitionCurve,
+        );
+      });
     }
   }
 }

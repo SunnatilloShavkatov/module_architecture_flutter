@@ -91,8 +91,7 @@ final class NetworkProvider {
     required String urlPath,
     required String savePath,
     void Function(int, int)? onReceiveProgress,
-  }) async =>
-      _dio.download(urlPath, savePath, onReceiveProgress: onReceiveProgress, cancelToken: _cancelToken);
+  }) async => _dio.download(urlPath, savePath, onReceiveProgress: onReceiveProgress, cancelToken: _cancelToken);
 
   Future<Response<T>> uploadFile<T>(
     String path, {

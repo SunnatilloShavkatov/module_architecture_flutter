@@ -22,22 +22,22 @@ class ModalProgressHUD extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Stack(
-        children: <Widget>[
-          child,
-          Offstage(
-            offstage: !inAsyncCall,
-            child: AnimatedOpacity(
-              opacity: opacity,
-              duration: const Duration(milliseconds: 100),
-              child: ModalBarrier(dismissible: dismissible, color: color),
-            ),
-          ),
-          Offstage(
-            offstage: !inAsyncCall,
-            child: Center(child: progressIndicator),
-          ),
-        ],
-      );
+    children: <Widget>[
+      child,
+      Offstage(
+        offstage: !inAsyncCall,
+        child: AnimatedOpacity(
+          opacity: opacity,
+          duration: const Duration(milliseconds: 100),
+          child: ModalBarrier(dismissible: dismissible, color: color),
+        ),
+      ),
+      Offstage(
+        offstage: !inAsyncCall,
+        child: Center(child: progressIndicator),
+      ),
+    ],
+  );
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {

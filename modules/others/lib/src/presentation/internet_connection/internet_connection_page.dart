@@ -29,58 +29,48 @@ class InternetConnectionPageState extends State<InternetConnectionPage> {
 
   @override
   Widget build(BuildContext context) => PopScope(
-        canPop: false,
-        child: Scaffold(
-          body: const Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Нет доступа к интернету',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 12),
-              Text(
-                'Проверьте подключение к интернету',
-                style: TextStyle(
-                  fontSize: 17,
-                  color: Color(0xff818C99),
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
+    canPop: false,
+    child: Scaffold(
+      body: const Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Нет доступа к интернету',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            textAlign: TextAlign.center,
           ),
-          bottomNavigationBar: SafeArea(
-            minimum: const EdgeInsets.all(16),
-            child: ValueListenableBuilder<bool>(
-              valueListenable: _isLoaded,
-              builder: (_, bool isLoading, _) => CustomLoadingButton(
-                isLoading: isLoading,
-                child: const Text('Попробовать снова'),
-                onPressed: () async {
-                  _isLoaded.value = true;
-                  Future<void>.delayed(
-                    const Duration(milliseconds: 1),
-                    () async {
-                      final bool isConnected = await networkInfo.isConnected;
-                      if (isConnected && context.mounted) {
-                        Navigator.of(context).pop();
-                      } else if (mounted) {
-                        _isLoaded.value = false;
-                      }
-                    },
-                  );
-                },
-              ),
-            ),
+          SizedBox(height: 12),
+          Text(
+            'Проверьте подключение к интернету',
+            style: TextStyle(fontSize: 17, color: Color(0xff818C99), fontWeight: FontWeight.w400),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+      bottomNavigationBar: SafeArea(
+        minimum: const EdgeInsets.all(16),
+        child: ValueListenableBuilder<bool>(
+          valueListenable: _isLoaded,
+          builder: (_, bool isLoading, _) => CustomLoadingButton(
+            isLoading: isLoading,
+            child: const Text('Попробовать снова'),
+            onPressed: () async {
+              _isLoaded.value = true;
+              Future<void>.delayed(const Duration(milliseconds: 1), () async {
+                final bool isConnected = await networkInfo.isConnected;
+                if (isConnected && context.mounted) {
+                  Navigator.of(context).pop();
+                } else if (mounted) {
+                  _isLoaded.value = false;
+                }
+              });
+            },
           ),
         ),
-      );
+      ),
+    ),
+  );
 
   @override
   void dispose() {

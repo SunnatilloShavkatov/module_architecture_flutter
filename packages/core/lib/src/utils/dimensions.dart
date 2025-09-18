@@ -82,16 +82,10 @@ sealed class Dimensions {
 
   static const RoundedRectangleBorder kShapeZero = RoundedRectangleBorder();
   static const RoundedRectangleBorder kShapeTop8 = RoundedRectangleBorder(
-    borderRadius: BorderRadius.only(
-      topLeft: Radius.circular(8),
-      topRight: Radius.circular(8),
-    ),
+    borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
   );
   static const RoundedRectangleBorder kShapeBottom8 = RoundedRectangleBorder(
-    borderRadius: BorderRadius.only(
-      bottomLeft: Radius.circular(8),
-      bottomRight: Radius.circular(8),
-    ),
+    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
   );
   static const RoundedRectangleBorder kShapeAll8 = RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -111,15 +105,10 @@ sealed class Dimensions {
   // );
 
   ///
-  static const BoxConstraints kBoxConstraints24 = BoxConstraints.tightFor(
-    width: 24,
-    height: 24,
-  );
+  static const BoxConstraints kBoxConstraints24 = BoxConstraints.tightFor(width: 24, height: 24);
 
   static void showSnackBar(BuildContext context, String text) {
-    final SnackBar snackBar = SnackBar(
-      content: Text(text, style: const TextStyle(fontSize: 24)),
-    );
+    final SnackBar snackBar = SnackBar(content: Text(text, style: const TextStyle(fontSize: 24)));
 
     ScaffoldMessenger.of(context)
       ..removeCurrentSnackBar()

@@ -4,18 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class RotateLoading extends StatelessWidget {
-  const RotateLoading({
-    required this.child,
-    super.key,
-  });
+  const RotateLoading({required this.child, super.key});
 
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => RotateIcon(
-        duration: const Duration(seconds: 1),
-        child: child,
-      );
+  Widget build(BuildContext context) => RotateIcon(duration: const Duration(seconds: 1), child: child);
 }
 
 /// Class use to render an animated icon with rotation
@@ -42,10 +36,7 @@ class _RotateIconState extends State<RotateIcon> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
+    _animationController = AnimationController(vsync: this, duration: widget.duration);
     _animationController.repeat();
   }
 
@@ -57,11 +48,8 @@ class _RotateIconState extends State<RotateIcon> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) => AnimatedBuilder(
-        animation: _animationController,
-        child: widget.child,
-        builder: (_, Widget? widget) => Transform.rotate(
-          angle: _animationController.value * 6.3,
-          child: widget,
-        ),
-      );
+    animation: _animationController,
+    child: widget.child,
+    builder: (_, Widget? widget) => Transform.rotate(angle: _animationController.value * 6.3, child: widget),
+  );
 }

@@ -22,10 +22,7 @@ class MorePage extends StatelessWidget {
       ),
       bottomNavigationBar: SafeArea(
         minimum: Dimensions.kPaddingAll16,
-        child: Text(
-          '${packageInfo.version} (${packageInfo.buildNumber})',
-          textAlign: TextAlign.center,
-        ),
+        child: Text('${packageInfo.version} (${packageInfo.buildNumber})', textAlign: TextAlign.center),
       ),
     );
   }

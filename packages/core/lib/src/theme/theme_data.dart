@@ -45,10 +45,7 @@ final ThemeData lightTheme = ThemeData(
     surfaceTintColor: colorLightScheme.surface,
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
   ),
-  scrollbarTheme: const ScrollbarThemeData(
-    interactive: true,
-    thickness: WidgetStatePropertyAll<double>(5),
-  ),
+  scrollbarTheme: const ScrollbarThemeData(interactive: true, thickness: WidgetStatePropertyAll<double>(5)),
   bottomAppBarTheme: const BottomAppBarThemeData(
     elevation: 1,
     color: Colors.white,
@@ -69,42 +66,28 @@ final ThemeData lightTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      foregroundColor: WidgetStateProperty.resolveWith(
-        (Set<WidgetState> states) => Colors.white,
-      ),
-      backgroundColor: WidgetStateProperty.resolveWith(
-        (Set<WidgetState> states) {
-          if (states.contains(WidgetState.disabled)) {
-            return colorLightScheme.primary.withValues(alpha: 0.4);
-          }
-          return colorLightScheme.primary;
-        },
-      ),
-      textStyle: WidgetStatePropertyAll<TextStyle>(
-        ThemeTextStyles.light.buttonStyle,
-      ),
+      foregroundColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) => Colors.white),
+      backgroundColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
+          return colorLightScheme.primary.withValues(alpha: 0.4);
+        }
+        return colorLightScheme.primary;
+      }),
+      textStyle: WidgetStatePropertyAll<TextStyle>(ThemeTextStyles.light.buttonStyle),
       elevation: const WidgetStatePropertyAll<double>(0),
       shape: const WidgetStatePropertyAll<OutlinedBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
+        RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
       ),
       fixedSize: const WidgetStatePropertyAll<Size>(Size.fromHeight(48)),
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: ButtonStyle(
-      foregroundColor: WidgetStateProperty.resolveWith(
-        (Set<WidgetState> states) => Colors.black,
-      ),
-      textStyle: WidgetStatePropertyAll<TextStyle>(
-        ThemeTextStyles.light.buttonStyle,
-      ),
+      foregroundColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) => Colors.black),
+      textStyle: WidgetStatePropertyAll<TextStyle>(ThemeTextStyles.light.buttonStyle),
       elevation: const WidgetStatePropertyAll<double>(0),
       shape: const WidgetStatePropertyAll<OutlinedBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
+        RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
       ),
       fixedSize: const WidgetStatePropertyAll<Size>(Size.fromHeight(48)),
     ),
@@ -170,9 +153,7 @@ final ThemeData lightTheme = ThemeData(
     backgroundColor: Colors.white,
     height: kToolbarHeight,
     iconTheme: WidgetStateProperty.resolveWith<IconThemeData>(
-      (Set<WidgetState> states) => const IconThemeData(
-        color: Colors.black,
-      ),
+      (Set<WidgetState> states) => const IconThemeData(color: Colors.black),
     ),
     labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>(
       (Set<WidgetState> states) => ThemeTextStyles.light.appBarTitle,
@@ -184,11 +165,7 @@ final ThemeData lightTheme = ThemeData(
     systemOverlayStyle: systemUiOverlayStyle,
     iconTheme: const IconThemeData(color: Colors.black),
     actionsIconTheme: const IconThemeData(color: Colors.black),
-    titleTextStyle: const TextStyle(
-      fontSize: 18,
-      color: Colors.black,
-      fontWeight: FontWeight.w500,
-    ),
+    titleTextStyle: const TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
     backgroundColor: Colors.white,
     surfaceTintColor: Colors.white,
     toolbarTextStyle: ThemeTextStyles.light.appBarTitle,
@@ -206,65 +183,27 @@ final ThemeData lightTheme = ThemeData(
     horizontalTitleGap: 10,
     contentPadding: Dimensions.kPaddingHor10,
     style: ListTileStyle.list,
-    titleTextStyle: TextStyle(
-      fontSize: 14,
-      color: Colors.black,
-      fontWeight: FontWeight.w500,
-    ),
+    titleTextStyle: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
   ),
   textTheme: const TextTheme(
-    titleLarge: TextStyle(
-      fontSize: 34,
-      color: Colors.black,
-      fontWeight: FontWeight.w400,
-    ),
+    titleLarge: TextStyle(fontSize: 34, color: Colors.black, fontWeight: FontWeight.w400),
 
     /// text field title style
-    titleMedium: TextStyle(
-      fontSize: 17,
-      color: Colors.black,
-      fontWeight: FontWeight.w400,
-    ),
-    titleSmall: TextStyle(
-      fontSize: 17,
-      color: Colors.black,
-      fontWeight: FontWeight.w400,
-    ),
+    titleMedium: TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.w400),
+    titleSmall: TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.w400),
 
     /// list tile title style
-    bodyLarge: TextStyle(
-      fontSize: 20,
-      color: Colors.black,
-      fontWeight: FontWeight.w600,
-    ),
+    bodyLarge: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600),
 
     /// list tile subtitle style
-    bodyMedium: TextStyle(
-      fontSize: 17,
-      color: Colors.black,
-      fontWeight: FontWeight.w600,
-    ),
-    bodySmall: TextStyle(
-      fontSize: 15,
-      color: Colors.black,
-      fontWeight: FontWeight.w600,
-    ),
-    displayLarge: TextStyle(
-      color: Colors.black,
-    ),
-    displayMedium: TextStyle(
-      fontSize: 17,
-      color: Colors.black,
-      fontWeight: FontWeight.w600,
-    ),
+    bodyMedium: TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.w600),
+    bodySmall: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w600),
+    displayLarge: TextStyle(color: Colors.black),
+    displayMedium: TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.w600),
     displaySmall: TextStyle(color: Colors.black),
 
     /// label style
-    labelLarge: TextStyle(
-      fontSize: 34,
-      color: Colors.black,
-      fontWeight: FontWeight.w600,
-    ),
+    labelLarge: TextStyle(fontSize: 34, color: Colors.black, fontWeight: FontWeight.w600),
   ),
 );
 
@@ -298,27 +237,18 @@ final ThemeData darkTheme = ThemeData(
     linearTrackColor: Colors.transparent,
     circularTrackColor: Colors.transparent,
   ),
-  dividerTheme: const DividerThemeData(
-    thickness: 1,
-    color: Color(0xFF343434),
-  ),
+  dividerTheme: const DividerThemeData(thickness: 1, color: Color(0xFF343434)),
   dialogTheme: DialogThemeData(
     backgroundColor: colorDarkScheme.surface,
     surfaceTintColor: colorDarkScheme.surface,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(10)),
-    ),
+    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
   ),
   textButtonTheme: const TextButtonThemeData(
-    style: ButtonStyle(
-      padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.zero),
-    ),
+    style: ButtonStyle(padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.zero)),
   ),
   scrollbarTheme: ScrollbarThemeData(
     interactive: true,
-    thumbColor: WidgetStatePropertyAll<Color>(
-      ThemeColors.light.main,
-    ),
+    thumbColor: WidgetStatePropertyAll<Color>(ThemeColors.light.main),
     thickness: const WidgetStatePropertyAll<double>(5),
     minThumbLength: 100,
   ),
@@ -339,40 +269,28 @@ final ThemeData darkTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      foregroundColor: WidgetStateProperty.resolveWith(
-        (Set<WidgetState> states) => Colors.white,
-      ),
-      backgroundColor: WidgetStateProperty.resolveWith(
-        (Set<WidgetState> states) {
-          if (states.contains(WidgetState.disabled)) {
-            return colorDarkScheme.primary.withValues(alpha: 0.4);
-          }
-          return colorDarkScheme.primary;
-        },
-      ),
+      foregroundColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) => Colors.white),
+      backgroundColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
+          return colorDarkScheme.primary.withValues(alpha: 0.4);
+        }
+        return colorDarkScheme.primary;
+      }),
       textStyle: WidgetStatePropertyAll<TextStyle>(ThemeTextStyles.dark.buttonStyle),
       elevation: const WidgetStatePropertyAll<double>(0),
       shape: const WidgetStatePropertyAll<OutlinedBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
+        RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
       ),
       fixedSize: const WidgetStatePropertyAll<Size>(Size.fromHeight(48)),
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: ButtonStyle(
-      foregroundColor: WidgetStateProperty.resolveWith(
-        (Set<WidgetState> states) => Colors.black,
-      ),
-      textStyle: WidgetStatePropertyAll<TextStyle>(
-        ThemeTextStyles.dark.buttonStyle,
-      ),
+      foregroundColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) => Colors.black),
+      textStyle: WidgetStatePropertyAll<TextStyle>(ThemeTextStyles.dark.buttonStyle),
       elevation: const WidgetStatePropertyAll<double>(0),
       shape: const WidgetStatePropertyAll<OutlinedBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
+        RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
       ),
       fixedSize: const WidgetStatePropertyAll<Size>(Size.fromHeight(48)),
     ),
@@ -410,26 +328,15 @@ final ThemeData darkTheme = ThemeData(
     backgroundColor: Colors.white,
     surfaceTintColor: Colors.white,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(24),
-        topRight: Radius.circular(24),
-      ),
+      borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
     ),
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 0,
     backgroundColor: const Color.fromRGBO(28, 30, 33, 0.95),
     showSelectedLabels: true,
-    selectedLabelStyle: const TextStyle(
-      fontSize: 12,
-      color: Colors.white,
-      fontWeight: FontWeight.w500,
-    ),
-    unselectedLabelStyle: const TextStyle(
-      fontSize: 12,
-      color: Color(0xFF909090),
-      fontWeight: FontWeight.w500,
-    ),
+    selectedLabelStyle: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w500),
+    unselectedLabelStyle: const TextStyle(fontSize: 12, color: Color(0xFF909090), fontWeight: FontWeight.w500),
     unselectedItemColor: const Color(0xFF909090),
     selectedItemColor: colorDarkScheme.onPrimary,
     selectedIconTheme: IconThemeData(color: colorDarkScheme.primary),
@@ -443,14 +350,8 @@ final ThemeData darkTheme = ThemeData(
     labelPadding: Dimensions.kPaddingHor6,
     dividerColor: Colors.transparent,
     overlayColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
-    labelStyle: const TextStyle(
-      fontSize: 13,
-      fontWeight: FontWeight.w500,
-    ),
-    unselectedLabelStyle: const TextStyle(
-      fontSize: 13,
-      fontWeight: FontWeight.w500,
-    ),
+    labelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+    unselectedLabelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
     indicatorSize: TabBarIndicatorSize.label,
   ),
   navigationBarTheme: NavigationBarThemeData(
@@ -458,9 +359,7 @@ final ThemeData darkTheme = ThemeData(
     backgroundColor: Colors.white,
     height: kToolbarHeight,
     iconTheme: WidgetStateProperty.resolveWith<IconThemeData>(
-      (Set<WidgetState> states) => const IconThemeData(
-        color: Colors.black,
-      ),
+      (Set<WidgetState> states) => const IconThemeData(color: Colors.black),
     ),
     labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>(
       (Set<WidgetState> states) => ThemeTextStyles.dark.appBarTitle,
@@ -471,12 +370,7 @@ final ThemeData darkTheme = ThemeData(
     scrolledUnderElevation: 0,
     systemOverlayStyle: systemUiOverlayStyle,
     iconTheme: const IconThemeData(color: Colors.white),
-    titleTextStyle: const TextStyle(
-      fontSize: 15,
-      height: 20 / 15,
-      color: Colors.white,
-      fontWeight: FontWeight.w500,
-    ),
+    titleTextStyle: const TextStyle(fontSize: 15, height: 20 / 15, color: Colors.white, fontWeight: FontWeight.w500),
     toolbarTextStyle: ThemeTextStyles.dark.appBarTitle,
     backgroundColor: const Color.fromRGBO(28, 30, 33, 0.95),
     surfaceTintColor: const Color.fromRGBO(28, 30, 33, 0.95),
@@ -493,59 +387,23 @@ final ThemeData darkTheme = ThemeData(
     contentPadding: Dimensions.kPaddingHor10,
     tileColor: Color(0xFF27292C),
     style: ListTileStyle.list,
-    titleTextStyle: TextStyle(
-      fontSize: 14,
-      color: Colors.white,
-      fontWeight: FontWeight.w500,
-    ),
+    titleTextStyle: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w500),
   ),
   textTheme: const TextTheme(
-    titleLarge: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w400,
-      fontSize: 34,
-    ),
+    titleLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 34),
 
     /// text field title style
-    titleMedium: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w400,
-      fontSize: 17,
-    ),
-    titleSmall: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w400,
-      fontSize: 17,
-    ),
+    titleMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 17),
+    titleSmall: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 17),
 
     /// list tile title style
-    bodyLarge: TextStyle(
-      color: Colors.white,
-      fontSize: 20,
-      fontWeight: FontWeight.w600,
-    ),
+    bodyLarge: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
 
     /// list tile subtitle style
-    bodyMedium: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w600,
-      fontSize: 17,
-    ),
-    bodySmall: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w600,
-      fontSize: 15,
-    ),
-    displayLarge: TextStyle(
-      color: Colors.white,
-    ),
-    displayMedium: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w600,
-      fontSize: 17,
-    ),
-    displaySmall: TextStyle(
-      color: Colors.white,
-    ),
+    bodyMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 17),
+    bodySmall: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 15),
+    displayLarge: TextStyle(color: Colors.white),
+    displayMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 17),
+    displaySmall: TextStyle(color: Colors.white),
   ),
 );

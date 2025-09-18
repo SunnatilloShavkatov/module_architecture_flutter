@@ -3,9 +3,7 @@ import 'package:flutter/widgets.dart';
 sealed class FlutterNativeSplash {
   static WidgetsBinding? _widgetsBinding;
 
-  static void preserve({
-    required WidgetsBinding widgetsBinding,
-  }) {
+  static void preserve({required WidgetsBinding widgetsBinding}) {
     _widgetsBinding = widgetsBinding;
     _widgetsBinding?.deferFirstFrame();
   }

@@ -1,21 +1,14 @@
 import 'package:flutter/services.dart';
 
 class MaskedTextInputFormatter extends TextInputFormatter {
-  MaskedTextInputFormatter({
-    required this.mask,
-    required this.separator,
-    required this.filter,
-  });
+  const MaskedTextInputFormatter({required this.mask, required this.separator, required this.filter});
 
   final String mask;
   final String separator;
   final RegExp filter;
 
   @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     final String text = newValue.text;
     final String cleanText = text.replaceAll(separator, '');
     final Iterable<Match> matches = filter.allMatches(cleanText);
@@ -37,9 +30,7 @@ class MaskedTextInputFormatter extends TextInputFormatter {
         if (text.length < mask.length && mask[text.length - 1] == separator) {
           return TextEditingValue(
             text: '${oldValue.text}$separator${text.substring(text.length - 1)}',
-            selection: TextSelection.collapsed(
-              offset: newValue.selection.end + 1,
-            ),
+            selection: TextSelection.collapsed(offset: newValue.selection.end + 1),
           );
         }
 
@@ -56,9 +47,7 @@ class MaskedTextInputFormatter extends TextInputFormatter {
           }
           return TextEditingValue(
             text: formattedText.toString(),
-            selection: TextSelection.collapsed(
-              offset: formattedText.toString().length,
-            ),
+            selection: TextSelection.collapsed(offset: formattedText.toString().length),
           );
         }
       } else {
@@ -66,9 +55,7 @@ class MaskedTextInputFormatter extends TextInputFormatter {
         if (text.endsWith(separator)) {
           return TextEditingValue(
             text: text.substring(0, text.length - 1),
-            selection: TextSelection.collapsed(
-              offset: newValue.selection.end - 1,
-            ),
+            selection: TextSelection.collapsed(offset: newValue.selection.end - 1),
           );
         }
       }

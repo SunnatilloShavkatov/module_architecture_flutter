@@ -14,11 +14,11 @@ final class AppOptions {
 
   static AppOptions of(BuildContext context, {bool listen = true}) {
     if (listen) {
-      final scope = context.dependOnInheritedWidgetOfExactType<_ModelBindingScope>();
+      final _ModelBindingScope? scope = context.dependOnInheritedWidgetOfExactType<_ModelBindingScope>();
       assert(scope != null, 'AppOptions.of: ModelBinding not found.');
       return scope!.model;
     } else {
-      final element = context.getElementForInheritedWidgetOfExactType<_ModelBindingScope>();
+      final InheritedElement? element = context.getElementForInheritedWidgetOfExactType<_ModelBindingScope>();
       final widget = element?.widget as _ModelBindingScope?;
       assert(widget != null, 'AppOptions.of(listen:false): ModelBinding not found.');
       return widget!.model;
@@ -26,7 +26,7 @@ final class AppOptions {
   }
 
   static void update(BuildContext context, AppOptions newModel) {
-    final state = context.findAncestorStateOfType<_ModelBindingState>();
+    final _ModelBindingState? state = context.findAncestorStateOfType<_ModelBindingState>();
     assert(state != null, 'AppOptions.update: ModelBinding not found.');
     state!.updateModel(newModel);
   }

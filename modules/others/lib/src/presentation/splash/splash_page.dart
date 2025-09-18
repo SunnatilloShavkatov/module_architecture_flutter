@@ -16,25 +16,19 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-      const Duration(seconds: 2),
-      () {
-        AppInjector.instance.isReadySync<PackageInfo>();
-        if (mounted) {
-          Navigator.of(context).pushReplacementNamed(Routes.main);
-        }
-      },
-    );
+    Future.delayed(const Duration(seconds: 2), () {
+      AppInjector.instance.isReadySync<PackageInfo>();
+      if (mounted) {
+        Navigator.of(context).pushReplacementNamed(Routes.main);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: context.colorScheme.primary,
-        body: Center(
-          child: Text(
-            'Logo',
-            style: context.textTheme.labelLarge?.copyWith(color: context.colorScheme.onPrimary),
-          ),
-        ),
-      );
+    backgroundColor: context.colorScheme.primary,
+    body: Center(
+      child: Text('Logo', style: context.textTheme.labelLarge?.copyWith(color: context.colorScheme.onPrimary)),
+    ),
+  );
 }

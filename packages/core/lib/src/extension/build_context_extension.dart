@@ -17,14 +17,10 @@ extension BuildContextExt on BuildContext {
 
   ThemeCustomShapes get shapes => theme.extension<ThemeCustomShapes>()!;
 
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> Function(
-    SnackBar snackBar,
-  ) get showSnackBar => ScaffoldMessenger.of(this).showSnackBar;
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> Function(SnackBar snackBar) get showSnackBar =>
+      ScaffoldMessenger.of(this).showSnackBar;
 
-  void fieldFocusChange(
-    FocusNode? currentFocus,
-    FocusNode? nextFocus,
-  ) {
+  void fieldFocusChange(FocusNode? currentFocus, FocusNode? nextFocus) {
     if (currentFocus != null && nextFocus != null) {
       currentFocus.unfocus();
       FocusScope.of(this).requestFocus(nextFocus);
@@ -34,25 +30,15 @@ extension BuildContextExt on BuildContext {
   AppOptions get options => AppOptions.of(this);
 
   void setLocale(Locale locale) {
-    AppOptions.update(
-      this,
-      AppOptions.of(this, listen: false).copyWith(locale: locale),
-    );
+    AppOptions.update(this, AppOptions.of(this, listen: false).copyWith(locale: locale));
   }
 
   void setThemeMode(ThemeMode themeMode) {
-    AppOptions.update(
-      this,
-      AppOptions.of(this, listen: false).copyWith(themeMode: themeMode),
-    );
+    AppOptions.update(this, AppOptions.of(this, listen: false).copyWith(themeMode: themeMode));
   }
 
   AppLocalizations get localizations => AppLocalizations.of(this)!;
 }
-
-AppLocalizations get localizationsWithContext => AppLocalizations.of(
-      AppInjector.instance.get(instanceName: 'navigator_key'),
-    )!;
 
 // extension LocalizationExtension on String {
 //   String tr({

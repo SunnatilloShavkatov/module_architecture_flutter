@@ -2,20 +2,13 @@ import 'package:flutter/material.dart';
 
 class CustomRectangleBorder extends OutlinedBorder {
   /// Creates a [CustomRectangleBorder].
-  const CustomRectangleBorder({
-    super.side,
-    this.isTop = false,
-    this.isBottom = false,
-  });
+  const CustomRectangleBorder({super.side, this.isTop = false, this.isBottom = false});
 
   final bool isTop;
   final bool isBottom;
 
   @override
-  EdgeInsetsGeometry get dimensions => EdgeInsets.only(
-        top: isTop ? side.width : 0,
-        bottom: isBottom ? side.width : 0,
-      );
+  EdgeInsetsGeometry get dimensions => EdgeInsets.only(top: isTop ? side.width : 0, bottom: isBottom ? side.width : 0);
 
   @override
   ShapeBorder scale(double t) => CustomRectangleBorder(side: side.scale(t));
@@ -80,10 +73,7 @@ class CustomRectangleBorder extends OutlinedBorder {
             ..lineTo(rect.right, rect.top)
             ..close();
         }
-        canvas.drawPath(
-          path ?? _getPath(rect),
-          side.toPaint(),
-        );
+        canvas.drawPath(path ?? _getPath(rect), side.toPaint());
     }
   }
 

@@ -10,14 +10,11 @@ final class MoreInjection implements Injection {
   @override
   void registerDependencies({required Injector di}) {
     di
-
       /// data sources
       ..registerLazySingleton<MoreLocalDataSource>(() => MoreLocalDataSourceImpl(di.get()))
       ..registerLazySingleton<MoreRemoteDataSource>(() => MoreRemoteDataSourceImpl(di.get()))
-
       /// repositories
       ..registerLazySingleton<MoreRepository>(() => MoreRepositoryImpl(di.get(), di.get()))
-
       /// usecases
       ..registerFactory(() => GetMoreData(di.get()));
 

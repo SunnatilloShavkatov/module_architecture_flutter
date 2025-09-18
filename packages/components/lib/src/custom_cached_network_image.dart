@@ -67,15 +67,15 @@ class CustomCachedNetworkImage extends StatelessWidget {
 
 class CustomImageCacheManager extends CacheManager with ImageCacheManager {
   CustomImageCacheManager._internal()
-      : super(
-          Config(
-            AppKeys.imageCache,
-            maxNrOfCacheObjects: 500,
-            fileService: HttpFileService(),
-            stalePeriod: const Duration(days: 30),
-            repo: JsonCacheInfoRepository(databaseName: AppKeys.imageCache),
-          ),
-        );
+    : super(
+        Config(
+          AppKeys.imageCache,
+          maxNrOfCacheObjects: 500,
+          fileService: HttpFileService(),
+          stalePeriod: const Duration(days: 30),
+          repo: JsonCacheInfoRepository(databaseName: AppKeys.imageCache),
+        ),
+      );
 
   static CacheManager instance = _instance;
 

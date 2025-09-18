@@ -4,20 +4,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Logo extends StatelessWidget {
-  const Logo({
-    super.key,
-    this.color = Colors.white,
-    this.size = 14,
-  });
+  const Logo({super.key, this.color = Colors.white, this.size = 14});
 
   final Color color;
   final double size;
 
   @override
   Widget build(BuildContext context) => CustomPaint(
-        painter: _LogoPainter(color: color),
-        size: Size(7 * size, 2 * size),
-      );
+    painter: _LogoPainter(color: color),
+    size: Size(7 * size, 2 * size),
+  );
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {

@@ -3,12 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Line extends StatelessWidget {
-  const Line({
-    super.key,
-    this.color,
-    this.strokeHeight = 1,
-    this.width = double.infinity,
-  });
+  const Line({super.key, this.color, this.strokeHeight = 1, this.width = double.infinity});
 
   final Color? color;
   final double strokeHeight;
@@ -16,12 +11,9 @@ class Line extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CustomPaint(
-        painter: _LinePainter(
-          color: color ?? context.colorScheme.secondaryContainer,
-          strokeWidth: strokeHeight,
-        ),
-        size: Size(width, strokeHeight),
-      );
+    painter: _LinePainter(color: color ?? context.colorScheme.secondaryContainer, strokeWidth: strokeHeight),
+    size: Size(width, strokeHeight),
+  );
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -34,10 +26,7 @@ class Line extends StatelessWidget {
 }
 
 class _LinePainter extends CustomPainter {
-  const _LinePainter({
-    required this.color,
-    required this.strokeWidth,
-  });
+  const _LinePainter({required this.color, required this.strokeWidth});
 
   final Color color;
   final double strokeWidth;

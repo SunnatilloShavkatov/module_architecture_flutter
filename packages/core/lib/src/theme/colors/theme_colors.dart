@@ -84,20 +84,16 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
     Color? cardColor,
     Color? main,
     Color? green,
-  }) =>
-      ThemeColors(
-        background: background ?? this.background,
-        onBackground: onBackground ?? this.onBackground,
-        green: green ?? this.green,
-        cardColor: cardColor ?? this.cardColor,
-        main: main ?? this.main,
-      );
+  }) => ThemeColors(
+    background: background ?? this.background,
+    onBackground: onBackground ?? this.onBackground,
+    green: green ?? this.green,
+    cardColor: cardColor ?? this.cardColor,
+    main: main ?? this.main,
+  );
 
   @override
-  ThemeExtension<ThemeColors> lerp(
-    ThemeExtension<ThemeColors>? other,
-    double t,
-  ) {
+  ThemeExtension<ThemeColors> lerp(ThemeExtension<ThemeColors>? other, double t) {
     if (other is! ThemeColors) {
       return this;
     }
