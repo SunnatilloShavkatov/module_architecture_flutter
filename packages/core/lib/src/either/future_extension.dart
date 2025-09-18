@@ -20,5 +20,5 @@ extension FutureEither<L, R> on Future<Either<L, R>> {
       then((Either<L, R> either) => either.fold(fnL, fnR));
 
   /// Swap [Left] and [Right]
-  Future<Either<R, L>> swap() => this.fold<Either<R, L>>(Right.new, Left.new);
+  Future<Either<R, L>> swap() => fold<Either<R, L>>(Right.new, Left.new);
 }

@@ -14,22 +14,20 @@ Future<void> main() async {
   final WidgetsBinding binding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: binding);
 
-  await Future.wait(
-    [
-      /// set orientation
-      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
-      SystemChrome.setEnabledSystemUIMode(
-        SystemUiMode.manual,
-        overlays: <SystemUiOverlay>[SystemUiOverlay.top, SystemUiOverlay.bottom],
-      ),
+  await Future.wait([
+    /// set orientation
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: <SystemUiOverlay>[SystemUiOverlay.top, SystemUiOverlay.bottom],
+    ),
 
-      /// notification initialize
-      // NotificationService.initialize(DefaultFirebaseOptions.currentPlatform),
+    /// notification initialize
+    // NotificationService.initialize(DefaultFirebaseOptions.currentPlatform),
 
-      /// di initialize
-      Merge.registerModules(),
-    ],
-  );
+    /// di initialize
+    Merge.registerModules(),
+  ]);
 
   /// bloc logger
   if (kDebugMode) {
@@ -40,10 +38,7 @@ Future<void> main() async {
   HttpOverrides.global = _HttpOverrides();
   runApp(
     ModelBinding(
-      initialModel: AppOptions(
-        themeMode: localSource.themeMode,
-        locale: Locale(localSource.locale),
-      ),
+      initialModel: AppOptions(themeMode: localSource.themeMode, locale: Locale(localSource.locale)),
       child: const App(),
     ),
   );
@@ -53,5 +48,5 @@ Future<void> main() async {
 class _HttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) =>
-      super.createHttpClient(context)..badCertificateCallback = (_, __, ___) => true;
+      super.createHttpClient(context)..badCertificateCallback = (_, _, _) => true;
 }

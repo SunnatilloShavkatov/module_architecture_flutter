@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
@@ -18,6 +20,7 @@ class SettingsPage extends StatelessWidget {
                   final themeMode = await Navigator.pushNamed(context, Routes.chooseThemeModeSheet);
                   if (themeMode != null && themeMode is ThemeMode && context.mounted) {
                     context.setThemeMode(themeMode);
+                    unawaited(localSource.setThemeMode(themeMode));
                   }
                 },
               ),

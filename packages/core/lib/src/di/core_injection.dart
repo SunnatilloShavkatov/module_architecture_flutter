@@ -31,46 +31,43 @@ final class CoreInjection implements Injection {
             receiveTimeout: const Duration(seconds: 30),
           )
           ..httpClientAdapter = IOHttpClientAdapter(
-            createHttpClient: () => HttpClient(context: SecurityContext(withTrustedRoots: true))
-              ..badCertificateCallback = (_, __, ___) => false,
+            createHttpClient: () =>
+                HttpClient(context: SecurityContext(withTrustedRoots: true))
+                  ..badCertificateCallback = (_, _, _) => false,
           )
-          ..interceptors.addAll(
-            <Interceptor>[
-              chuck.dioInterceptor,
-              LogInterceptor(
-                requestBody: true,
-                responseBody: true,
-                logPrint: (object) {
-                  logMessage('dio: $object');
-                },
-              ),
-            ],
-          ),
+          ..interceptors.addAll(<Interceptor>[
+            chuck.dioInterceptor,
+            LogInterceptor(
+              requestBody: true,
+              responseBody: true,
+              logPrint: (object) {
+                logMessage('dio: $object');
+              },
+            ),
+          ]),
       )
       ..registerLazySingleton<Connectivity>(Connectivity.new)
       ..registerLazySingleton(InternetConnectionChecker.createInstance)
       ..registerSingletonAsync<PackageInfo>(PackageInfo.fromPlatform)
       ..registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(di.get()));
 
-    di.get<Dio>().interceptors.addAll(
-      <Interceptor>[
-        RetryInterceptor(
-          dio: di.get<Dio>(),
-          toNoInternetPageNavigator: () async {
-            if (navigatorObserver.currentRoutes.contains(Routes.noInternet)) {
-              return;
-            }
-            await Navigator.pushNamed(rootNavigatorKey.currentContext!, Routes.noInternet);
-          },
-          accessTokenGetter: () => di.get<LocalSource>().accessToken,
-          forbiddenFunction: () async {},
-          refreshTokenFunction: _onLogout,
-          logPrint: (String message) {
-            logMessage('dio: $message');
-          },
-        ),
-      ],
-    );
+    di.get<Dio>().interceptors.addAll(<Interceptor>[
+      RetryInterceptor(
+        dio: di.get<Dio>(),
+        toNoInternetPageNavigator: () async {
+          if (navigatorObserver.currentRoutes.contains(Routes.noInternet)) {
+            return;
+          }
+          await Navigator.pushNamed(rootNavigatorKey.currentContext!, Routes.noInternet);
+        },
+        accessTokenGetter: () => di.get<LocalSource>().accessToken,
+        forbiddenFunction: () async {},
+        refreshTokenFunction: _onLogout,
+        logPrint: (String message) {
+          logMessage('dio: $message');
+        },
+      ),
+    ]);
     di.registerLazySingleton(() => NetworkProvider(di.get<Dio>()));
   }
 }
@@ -92,12 +89,10 @@ Future<void> _initHive({required Injector di}) async {
 
 Future<void> _onLogout() async {
   try {
-    await Future.wait(
-      <Future<void>>[
-        // FirebaseAuth.instance.signOut(),
-        // FirebaseSubscriptions.instance.unsubscribeFromAllTopics(),
-      ],
-    ).timeout(const Duration(seconds: 5), onTimeout: () => throw TimeoutException('Timeout Exception 5 seconds'));
+    await Future.wait(<Future<void>>[
+      // FirebaseAuth.instance.signOut(),
+      // FirebaseSubscriptions.instance.unsubscribeFromAllTopics(),
+    ]).timeout(const Duration(seconds: 5), onTimeout: () => throw TimeoutException('Timeout Exception 5 seconds'));
   } on Exception catch (e, s) {
     logMessage('Error: ', error: e, stackTrace: s);
   }

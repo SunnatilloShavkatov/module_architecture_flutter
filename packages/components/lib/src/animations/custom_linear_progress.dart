@@ -26,7 +26,7 @@ class CustomLinearProgress extends StatelessWidget {
         duration: const Duration(milliseconds: 1000),
         curve: Curves.easeInOut,
         tween: Tween<double>(begin: 0, end: percent),
-        builder: (_, double value, __) => ConstrainedBox(
+        builder: (_, double value, _) => ConstrainedBox(
           constraints: BoxConstraints(minHeight: strokeWidth),
           child: CustomPaint(
             painter: LinearProgressPainter(

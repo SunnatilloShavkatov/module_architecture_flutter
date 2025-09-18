@@ -8,7 +8,7 @@ export 'package:base_dependencies/base_dependencies.dart';
 export 'package:core/core.dart';
 export 'package:navigation/navigation.dart';
 
-sealed class Merge {
+final class Merge {
   const Merge._();
 
   static const List<ModuleContainer> _allContainer = [
@@ -39,7 +39,7 @@ sealed class Merge {
   }
 
   static Route<dynamic>? generateRoutes(RouteSettings settings) {
-    final Map<String, PageRoute<dynamic>> routes = {};
+    final Map<String, ModalRoute<dynamic>> routes = {};
     for (int i = 0; i < _allRouters.length; i++) {
       routes.addAll(_allRouters[i].getRoutes(settings, AppInjector.instance));
     }

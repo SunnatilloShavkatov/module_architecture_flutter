@@ -1,72 +1,59 @@
-import 'package:base_dependencies/base_dependencies.dart';
 import 'package:components/components.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show DiagnosticPropertiesBuilder, SystemUiOverlayStyle;
 
-class AppOptions extends Equatable {
-  const AppOptions({
-    required this.themeMode,
-    required this.locale,
-  });
+@immutable
+final class AppOptions {
+  const AppOptions({required this.themeMode, required this.locale});
 
-  final ThemeMode themeMode;
   final Locale locale;
+  final ThemeMode themeMode;
 
-  /// Returns a [SystemUiOverlayStyle] based on the [ThemeMode] setting.
-  /// In other words, if the theme is dark, returns light; if the theme is
-  /// light, returns dark.
-  SystemUiOverlayStyle resolvedSystemUiOverlayStyle() {
-    Brightness brightness;
-    switch (themeMode) {
-      case ThemeMode.light:
-        brightness = Brightness.light;
-      case ThemeMode.dark:
-        brightness = Brightness.dark;
-      case ThemeMode.system:
-        brightness = WidgetsBinding.instance.platformDispatcher.platformBrightness;
+  AppOptions copyWith({ThemeMode? themeMode, Locale? locale}) =>
+      AppOptions(themeMode: themeMode ?? this.themeMode, locale: locale ?? this.locale);
+
+  static AppOptions of(BuildContext context, {bool listen = true}) {
+    if (listen) {
+      final scope = context.dependOnInheritedWidgetOfExactType<_ModelBindingScope>();
+      assert(scope != null, 'AppOptions.of: ModelBinding not found.');
+      return scope!.model;
+    } else {
+      final element = context.getElementForInheritedWidgetOfExactType<_ModelBindingScope>();
+      final widget = element?.widget as _ModelBindingScope?;
+      assert(widget != null, 'AppOptions.of(listen:false): ModelBinding not found.');
+      return widget!.model;
     }
-
-    final SystemUiOverlayStyle overlayStyle =
-        brightness == Brightness.dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
-
-    return overlayStyle;
-  }
-
-  AppOptions copyWith({ThemeMode? themeMode, Locale? locale}) => AppOptions(
-        themeMode: themeMode ?? this.themeMode,
-        locale: locale ?? this.locale,
-      );
-
-  static AppOptions of(BuildContext context) {
-    final _ModelBindingScope scope = context.dependOnInheritedWidgetOfExactType<_ModelBindingScope>()!;
-    return scope.modelBindingState.currentModel;
   }
 
   static void update(BuildContext context, AppOptions newModel) {
-    final _ModelBindingScope scope = context.dependOnInheritedWidgetOfExactType<_ModelBindingScope>()!;
-    scope.modelBindingState.updateModel(newModel);
+    final state = context.findAncestorStateOfType<_ModelBindingState>();
+    assert(state != null, 'AppOptions.update: ModelBinding not found.');
+    state!.updateModel(newModel);
   }
 
   @override
-  List<Object> get props => <Object>[themeMode, locale];
+  int get hashCode => Object.hash(themeMode, locale);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || (other is AppOptions && other.themeMode == themeMode && other.locale == locale);
+
+  @override
+  String toString() => 'AppOptions(themeMode: $themeMode, locale: $locale)';
 }
 
 class _ModelBindingScope extends InheritedWidget {
-  const _ModelBindingScope({
-    required this.modelBindingState,
-    required super.child,
-  });
+  const _ModelBindingScope({required this.model, required super.child});
 
-  final _ModelBindingState modelBindingState;
+  final AppOptions model;
 
   @override
-  bool updateShouldNotify(_ModelBindingScope oldWidget) => true;
+  bool updateShouldNotify(_ModelBindingScope oldWidget) => model != oldWidget.model;
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<_ModelBindingState>('modelBindingState', modelBindingState));
+    properties.add(DiagnosticsProperty<AppOptions>('model', model));
   }
 }
 
@@ -78,42 +65,42 @@ class ModelBinding extends StatefulWidget {
 
   @override
   State<ModelBinding> createState() => _ModelBindingState();
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<AppOptions>('initialModel', initialModel));
-  }
 }
 
 class _ModelBindingState extends State<ModelBinding> {
-  late AppOptions currentModel;
+  late AppOptions _currentModel;
 
   @override
   void initState() {
     super.initState();
-    currentModel = widget.initialModel;
+    _currentModel = widget.initialModel;
   }
 
   void updateModel(AppOptions newModel) {
-    if (newModel != currentModel) {
+    if (newModel != _currentModel) {
       setState(() {
-        currentModel = newModel;
+        _currentModel = newModel;
       });
     }
   }
 
   @override
+  void didUpdateWidget(covariant ModelBinding oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialModel != oldWidget.initialModel) {
+      _currentModel = widget.initialModel;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) => KeyboardDismiss(
-        child: _ModelBindingScope(
-          modelBindingState: this,
-          child: widget.child,
-        ),
-      );
+    key: const Key('keyboardDismiss'),
+    child: _ModelBindingScope(model: _currentModel, child: widget.child),
+  );
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<AppOptions>('currentModel', currentModel));
+    properties.add(DiagnosticsProperty<AppOptions>('currentModel', _currentModel));
   }
 }

@@ -31,25 +31,19 @@ extension BuildContextExt on BuildContext {
     }
   }
 
-// String tr(
-//   String key, {
-//   Map<String, String>? namedArgs,
-// }) =>
-//     AppLocalizations.of(this)!.translate(key, namedArgs: namedArgs);
-
   AppOptions get options => AppOptions.of(this);
 
   void setLocale(Locale locale) {
     AppOptions.update(
       this,
-      AppOptions.of(this).copyWith(locale: locale),
+      AppOptions.of(this, listen: false).copyWith(locale: locale),
     );
   }
 
   void setThemeMode(ThemeMode themeMode) {
     AppOptions.update(
       this,
-      AppOptions.of(this).copyWith(themeMode: themeMode),
+      AppOptions.of(this, listen: false).copyWith(themeMode: themeMode),
     );
   }
 

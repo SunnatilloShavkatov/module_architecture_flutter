@@ -6,42 +6,41 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        key: const Key('materialApp'),
-        title: 'Module',
-        onGenerateTitle: (_) => 'Module',
-        debugShowCheckedModeBanner: false,
+    key: const Key('materialApp'),
+    onGenerateTitle: (_) => 'Module',
+    debugShowCheckedModeBanner: false,
 
-        /// theme style
-        theme: lightTheme,
-        darkTheme: darkTheme,
-        themeMode: context.options.themeMode,
-        themeAnimationCurve: Curves.easeInOut,
-        themeAnimationDuration: const Duration(milliseconds: 300),
-        themeAnimationStyle: const AnimationStyle(
-          curve: Curves.easeInOut,
-          duration: Duration(milliseconds: 300),
-          reverseCurve: Curves.easeInOut,
-          reverseDuration: Duration(milliseconds: 300),
-        ),
+    /// theme style
+    theme: lightTheme,
+    darkTheme: darkTheme,
+    themeMode: context.options.themeMode,
+    themeAnimationCurve: Curves.easeInOut,
+    themeAnimationDuration: const Duration(milliseconds: 300),
+    themeAnimationStyle: const AnimationStyle(
+      curve: Curves.easeInOut,
+      duration: Duration(milliseconds: 300),
+      reverseCurve: Curves.easeInOut,
+      reverseDuration: Duration(milliseconds: 300),
+    ),
 
-        /// route
-        initialRoute: Routes.splash,
-        navigatorKey: rootNavigatorKey,
-        onUnknownRoute: Merge.unknownRoute,
-        onGenerateRoute: Merge.generateRoutes,
-        navigatorObservers: [navigatorObserver],
+    /// route
+    initialRoute: Routes.splash,
+    navigatorKey: rootNavigatorKey,
+    onUnknownRoute: Merge.unknownRoute,
+    onGenerateRoute: Merge.generateRoutes,
+    navigatorObservers: [navigatorObserver],
 
-        /// text scale factor
-        builder: (context, child) => MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            textScaler: context.textScaler.clamp(minScaleFactor: 1, maxScaleFactor: 1.5),
-          ),
-          child: child ?? Dimensions.kGap,
-        ),
+    /// text scale factor
+    // builder: (context, child) => MediaQuery(
+    //   data: MediaQuery.of(
+    //     context,
+    //   ).copyWith(textScaler: context.textScaler.clamp(minScaleFactor: 1, maxScaleFactor: 1.5)),
+    //   child: child ?? Dimensions.kGap,
+    // ),
 
-        /// locale
-        locale: context.options.locale,
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-      );
+    /// locale
+    locale: context.options.locale,
+    supportedLocales: AppLocalizations.supportedLocales,
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+  );
 }

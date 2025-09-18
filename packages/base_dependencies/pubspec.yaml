@@ -5,48 +5,48 @@ publish_to: "none"
 description: "A new Flutter project."
 
 environment:
-  sdk: ">=3.5.0 <4.0.0"
-  flutter: ">=3.24.0"
+  sdk: ">=3.9.0 <4.0.0"
+  flutter: ">=3.35.0"
 
 dependencies:
   flutter:
     sdk: flutter
   intl: ^0.20.2
   # di
-  get_it: ^8.0.3
+  get_it: ^8.2.0
   # equatable
   equatable: ^2.0.7
   # state
   rxdart: ^0.28.0
   flutter_bloc: ^9.1.1
   # hive
-  hive_ce: ^2.11.3
+  hive_ce: ^2.13.2
   shared_preferences: ^2.5.3
   # path
   path_provider: ^2.1.5
   # rest api
-  dio: ^5.8.0+1
+  dio: ^5.9.0
   # box
   gap: ^3.0.1
   # url launchers
-  url_launcher: ^6.3.1
+  url_launcher: ^6.3.2
   # otp autofill
-  pinput: ^5.0.1
+  pinput: ^5.0.2
   sms_autofill: ^2.4.1
   # connectivity plus
-  connectivity_plus: ^6.1.4
+  connectivity_plus: ^7.0.0
   # package info
-  package_info_plus: ^8.3.0
+  package_info_plus: ^9.0.0
   # cached network image
   cached_network_image: ^3.4.1
   flutter_cache_manager: ^3.4.1
   # firebase
-  firebase_core: ^3.13.1
-  firebase_analytics: ^11.4.6
-  firebase_messaging: ^15.2.6
-  firebase_remote_config: ^5.4.4
+  firebase_core: ^4.1.0
+  firebase_analytics: ^12.0.1
+  firebase_messaging: ^16.0.1
+  firebase_remote_config: ^6.0.1
   # local notification
-  flutter_local_notifications: ^19.2.1
+  flutter_local_notifications: ^19.4.2
 
 dev_dependencies:
   flutter_test:

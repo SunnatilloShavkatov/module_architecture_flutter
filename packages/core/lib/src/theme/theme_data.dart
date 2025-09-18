@@ -49,7 +49,7 @@ final ThemeData lightTheme = ThemeData(
     interactive: true,
     thickness: WidgetStatePropertyAll<double>(5),
   ),
-  bottomAppBarTheme: const BottomAppBarTheme(
+  bottomAppBarTheme: const BottomAppBarThemeData(
     elevation: 1,
     color: Colors.white,
     surfaceTintColor: Colors.white,
@@ -149,7 +149,6 @@ final ThemeData lightTheme = ThemeData(
     elevation: 0,
     showSelectedLabels: true,
     backgroundColor: Colors.white,
-    type: BottomNavigationBarType.fixed,
     selectedLabelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
     unselectedLabelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
     selectedItemColor: Colors.black,
@@ -323,7 +322,7 @@ final ThemeData darkTheme = ThemeData(
     thickness: const WidgetStatePropertyAll<double>(5),
     minThumbLength: 100,
   ),
-  bottomAppBarTheme: const BottomAppBarTheme(
+  bottomAppBarTheme: const BottomAppBarThemeData(
     elevation: 1,
     color: Colors.white,
     surfaceTintColor: Colors.white,
@@ -420,7 +419,6 @@ final ThemeData darkTheme = ThemeData(
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 0,
     backgroundColor: const Color.fromRGBO(28, 30, 33, 0.95),
-    type: BottomNavigationBarType.fixed,
     showSelectedLabels: true,
     selectedLabelStyle: const TextStyle(
       fontSize: 12,

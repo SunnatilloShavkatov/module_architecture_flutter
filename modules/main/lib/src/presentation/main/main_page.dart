@@ -19,7 +19,7 @@ class _MainPageState extends State<MainPage> with MainMixin {
         extendBody: true,
         body: ValueListenableBuilder(
           valueListenable: _currentIndexNotifier,
-          builder: (_, int currentIndex, __) => IndexedStack(
+          builder: (_, int currentIndex, _) => IndexedStack(
             key: const Key('main_stack'),
             index: currentIndex,
             children: [
@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> with MainMixin {
                         itemBuilder: (_, int index) => ListTile(
                           title: Text('$index'),
                         ),
-                        separatorBuilder: (_, __) => Dimensions.kGap8,
+                        separatorBuilder: (_, _) => Dimensions.kGap8,
                         itemCount: 100,
                       ),
                     ),
@@ -61,8 +61,7 @@ class _MainPageState extends State<MainPage> with MainMixin {
         ),
         bottomNavigationBar: ValueListenableBuilder(
           valueListenable: _currentIndexNotifier,
-          builder: (_, int currentIndex, __) => BottomNavigationBar(
-            key: const Key('custom_navigation_bar'),
+          builder: (_, int currentIndex, _) => BottomNavigationBar(
             currentIndex: currentIndex,
             onTap: _onTabTapped,
             items: [

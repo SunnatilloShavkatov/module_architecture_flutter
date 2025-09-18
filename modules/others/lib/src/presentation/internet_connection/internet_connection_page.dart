@@ -59,7 +59,7 @@ class InternetConnectionPageState extends State<InternetConnectionPage> {
             minimum: const EdgeInsets.all(16),
             child: ValueListenableBuilder<bool>(
               valueListenable: _isLoaded,
-              builder: (_, bool isLoading, __) => CustomLoadingButton(
+              builder: (_, bool isLoading, _) => CustomLoadingButton(
                 isLoading: isLoading,
                 child: const Text('Попробовать снова'),
                 onPressed: () async {

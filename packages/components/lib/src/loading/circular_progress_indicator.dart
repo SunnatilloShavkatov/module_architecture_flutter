@@ -1,3 +1,5 @@
+// ignore_for_file: discarded_futures
+
 import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
