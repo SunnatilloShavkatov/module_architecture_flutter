@@ -39,16 +39,3 @@ extension BuildContextExt on BuildContext {
 
   AppLocalizations get localizations => AppLocalizations.of(this)!;
 }
-
-// extension LocalizationExtension on String {
-//   String tr({
-//     BuildContext? context,
-//     Map<String, String>? namedArgs,
-//   }) =>
-//       context == null
-//           ? AppLocalizations.of(rootNavigatorKey.currentContext!)!.translate(
-//               this,
-//               namedArgs: namedArgs,
-//             )
-//           : AppLocalizations.of(context)!.translate(this, namedArgs: namedArgs);
-// }

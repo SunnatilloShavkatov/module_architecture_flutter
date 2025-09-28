@@ -21,3 +21,11 @@ extension SizeExtension on BuildContext {
 
   TextScaler get textScaler => MediaQuery.textScalerOf(this);
 }
+
+extension SizeX on Size {
+  bool get isSmallDevice => height <= 740;
+
+  bool get isMobile => width < 600 && (isAndroid || isIOS || isMacOS);
+
+  bool get isTablet => width > 600 && (isAndroid || isIOS || isMacOS);
+}

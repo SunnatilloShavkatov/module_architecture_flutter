@@ -5,29 +5,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:merge_dependencies/merge_dependencies.dart';
 import 'package:module_architecture_flutter/app.dart';
+import 'package:module_architecture_flutter/firebase_options.dart';
 
 Future<void> main() async {
   /// init environment
-  Merge.initEnvironment(env: Environment.prod);
+  MergeDependencies.initEnvironment(env: Environment.prod);
 
   /// flutter_native_splash
   final WidgetsBinding binding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: binding);
 
+  /// set orientation, system UI mode
   await Future.wait([
-    /// set orientation
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: <SystemUiOverlay>[SystemUiOverlay.top, SystemUiOverlay.bottom],
-    ),
-
-    /// notification initialize
-    // NotificationService.initialize(DefaultFirebaseOptions.currentPlatform),
-
-    /// di initialize
-    Merge.registerModules(),
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      if (mediaView.size.isTablet) ...[DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight],
+    ]),
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]),
   ]);
+
+  /// di initialize
+  await MergeDependencies.instance.registerModules();
+
+  /// background message handler
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+  /// notification initialize
+  await NotificationService.instance.initialize(DefaultFirebaseOptions.currentPlatform);
 
   /// bloc logger
   if (kDebugMode) {
@@ -36,13 +41,26 @@ Future<void> main() async {
 
   /// global CERTIFICATE_VERIFY_FAILED_KEY
   HttpOverrides.global = _HttpOverrides();
+
+  /// widget error
+  FlutterError.onError = (errorDetails) {
+    logMessage('widget error: $errorDetails ${errorDetails.stack}', stackTrace: errorDetails.stack);
+  };
+
+  /// platform dispatcher error
+  PlatformDispatcher.instance.onError = (error, stack) {
+    logMessage('platform dispatcher error: $error', stackTrace: stack);
+    return true;
+  };
   runApp(
     ModelBinding(
-      initialModel: AppOptions(themeMode: localSource.themeMode, locale: Locale(localSource.locale)),
+      initialModel: AppOptions(themeMode: localSource.themeMode, locale: Locale(localSource.locale ?? defaultLocale)),
       child: const App(),
     ),
   );
-  FlutterNativeSplash.remove();
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    FlutterNativeSplash.remove();
+  });
 }
 
 class _HttpOverrides extends HttpOverrides {

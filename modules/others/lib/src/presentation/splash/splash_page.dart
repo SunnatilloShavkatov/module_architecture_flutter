@@ -1,5 +1,3 @@
-// ignore_for_file: discarded_futures
-
 import 'package:base_dependencies/base_dependencies.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
@@ -16,19 +14,16 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () async {
       AppInjector.instance.isReadySync<PackageInfo>();
       if (mounted) {
-        Navigator.of(context).pushReplacementNamed(Routes.main);
+        await Navigator.pushReplacementNamed(context, Routes.main);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    backgroundColor: context.colorScheme.primary,
-    body: Center(
-      child: Text('Logo', style: context.textTheme.labelLarge?.copyWith(color: context.colorScheme.onPrimary)),
-    ),
+    body: Center(child: Text('Logo', style: context.textTheme.labelLarge)),
   );
 }

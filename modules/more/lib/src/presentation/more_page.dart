@@ -1,5 +1,6 @@
 // ignore_for_file: discarded_futures
 
+import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
@@ -11,13 +12,25 @@ class MorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     logMessage('MorePage');
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      body: Center(
-        child: GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, Routes.settings);
-          },
-          child: Text(context.localizations.settings),
+      appBar: AppBar(title: const Text('More')),
+      body: SafeAreaWithMinimum(
+        minimum: Dimensions.kPaddingAll16,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, Routes.settings);
+              },
+              child: Text(context.localizations.settings),
+            ),
+            CustomLoadingButton(
+              child: const Text('Settings'),
+              onPressed: () async {
+                await Navigator.pushNamed(context, Routes.settings);
+              },
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: SafeArea(

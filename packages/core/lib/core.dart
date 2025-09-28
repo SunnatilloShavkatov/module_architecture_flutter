@@ -1,5 +1,4 @@
 import 'package:base_dependencies/base_dependencies.dart';
-
 import 'package:core/src/connectivity/network_info.dart';
 import 'package:core/src/di/app_injector.dart';
 import 'package:core/src/local_source/local_source.dart';

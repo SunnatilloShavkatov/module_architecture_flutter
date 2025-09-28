@@ -19,7 +19,7 @@ final class LocalSource {
     await _preferences.setString(AppKeys.locale, locale);
   }
 
-  String get locale => _preferences.getString(AppKeys.locale) ?? defaultLocale;
+  String? get locale => _preferences.getString(AppKeys.locale);
 
   ThemeMode get themeMode => switch (_preferences.getString(AppKeys.themeMode)) {
     'system' => ThemeMode.system,

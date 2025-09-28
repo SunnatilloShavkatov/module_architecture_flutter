@@ -21,3 +21,11 @@ String phoneFormat(String phone) {
     return phone;
   }
 }
+
+MediaQueryData get mediaView {
+  final views = WidgetsBinding.instance.platformDispatcher.views;
+  if (views.isEmpty) {
+    return const MediaQueryData();
+  }
+  return MediaQueryData.fromView(views.first);
+}

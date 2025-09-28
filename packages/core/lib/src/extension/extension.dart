@@ -20,3 +20,5 @@ part 'size_extension.dart';
 part 'sliver_count_extension.dart';
 
 part 'version_extension.dart';
+
+part 'platform_extension.dart';

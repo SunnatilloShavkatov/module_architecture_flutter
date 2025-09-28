@@ -8,8 +8,12 @@ export 'package:base_dependencies/base_dependencies.dart';
 export 'package:core/core.dart';
 export 'package:navigation/navigation.dart';
 
-final class Merge {
-  const Merge._();
+final class MergeDependencies {
+  const MergeDependencies._();
+
+  static MergeDependencies get instance => _instance;
+
+  static const MergeDependencies _instance = MergeDependencies._();
 
   static const List<ModuleContainer> _allContainer = [
     CoreContainer(),
@@ -18,27 +22,17 @@ final class Merge {
     OthersContainer(),
   ];
 
-  static List<Injection> get _injections {
-    final List<Injection> injections = <Injection>[];
-    for (final resolver in _allContainer) {
-      if (resolver.injection != null) {
-        injections.add(resolver.injection!);
-      }
-    }
-    return injections;
-  }
+  static final List<Injection> _injections = _allContainer
+      .where((c) => c.injection != null)
+      .map((c) => c.injection!)
+      .toList();
 
-  static List<AppRouter> get _allRouters {
-    final List<AppRouter> routers = <AppRouter>[];
-    for (final resolver in _allContainer) {
-      if (resolver.router != null) {
-        routers.add(resolver.router!);
-      }
-    }
-    return routers;
-  }
+  static final List<AppRouter> _allRouters = _allContainer
+      .where((c) => c.router != null)
+      .map((c) => c.router!)
+      .toList();
 
-  static Route<dynamic>? generateRoutes(RouteSettings settings) {
+  Route<dynamic>? generateRoutes(RouteSettings settings) {
     final Map<String, ModalRoute<dynamic>> routes = {};
     for (int i = 0; i < _allRouters.length; i++) {
       routes.addAll(_allRouters[i].getRoutes(settings, AppInjector.instance));
@@ -46,17 +40,13 @@ final class Merge {
     return routes[settings.name];
   }
 
-  static Future<void> registerModules() async {
-    for (final injection in _injections) {
-      await injection.registerDependencies(di: AppInjector.instance);
-    }
-  }
+  Route<dynamic>? unknownRoute(RouteSettings settings) =>
+      MaterialPageRoute(builder: (_) => NotFoundPage(settings: settings));
+
+  Future<void> registerModules() async =>
+      Future.wait(_injections.map((i) async => i.registerDependencies(di: AppInjector.instance)));
 
   static void initEnvironment({required Environment env}) {
     AppEnvironment.instance.initEnvironment(env: env);
   }
-
-  static Route<dynamic>? unknownRoute(RouteSettings settings) => MaterialPageRoute<void>(
-        builder: (_) => NotFoundPage(settings: settings),
-      );
 }

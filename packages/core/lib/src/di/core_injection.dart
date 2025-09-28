@@ -97,8 +97,8 @@ Future<void> _onLogout() async {
     logMessage('Error: ', error: e, stackTrace: s);
   }
   await AppInjector.instance.get<LocalSource>().clear();
-  if (navigatorObserver.currentRoutes.contains(Routes.splash)) {
+  if (navigatorObserver.currentRoutes.contains(Routes.initial)) {
     return;
   }
-  unawaited(Navigator.pushNamedAndRemoveUntil(rootNavigatorKey.currentContext!, Routes.splash, (_) => false));
+  unawaited(Navigator.pushNamedAndRemoveUntil(rootNavigatorKey.currentContext!, Routes.initial, (_) => false));
 }

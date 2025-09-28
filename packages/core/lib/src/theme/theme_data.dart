@@ -3,11 +3,25 @@ part of 'themes.dart';
 const SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
   statusBarColor: Colors.transparent,
   systemNavigationBarColor: Colors.white,
+  systemNavigationBarContrastEnforced: false,
+  systemNavigationBarDividerColor: Colors.transparent,
   // ios
   statusBarBrightness: Brightness.light,
   // android
   statusBarIconBrightness: Brightness.dark,
   systemNavigationBarIconBrightness: Brightness.dark,
+);
+
+const SystemUiOverlayStyle systemDarkUiOverlayStyle = SystemUiOverlayStyle(
+  statusBarColor: Colors.transparent,
+  systemNavigationBarColor: Colors.black,
+  systemNavigationBarContrastEnforced: false,
+  systemNavigationBarDividerColor: Colors.transparent,
+  // ios
+  statusBarBrightness: Brightness.dark,
+  // android
+  statusBarIconBrightness: Brightness.light,
+  systemNavigationBarIconBrightness: Brightness.light,
 );
 
 final ThemeData lightTheme = ThemeData(
@@ -128,14 +142,17 @@ final ThemeData lightTheme = ThemeData(
       borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
     ),
   ),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 0,
     showSelectedLabels: true,
     backgroundColor: Colors.white,
-    selectedLabelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
-    unselectedLabelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
-    selectedItemColor: Colors.black,
-    unselectedItemColor: Color(0xFF69D7C7),
+    type: BottomNavigationBarType.fixed,
+    selectedItemColor: colorLightScheme.primary,
+    unselectedItemColor: const Color(0xFF667085),
+    selectedIconTheme: IconThemeData(color: colorLightScheme.primary, size: 24),
+    unselectedIconTheme: const IconThemeData(color: Color(0xFF667085), size: 24),
+    selectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+    unselectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
   ),
   tabBarTheme: TabBarThemeData(
     tabAlignment: TabAlignment.start,
@@ -159,19 +176,18 @@ final ThemeData lightTheme = ThemeData(
       (Set<WidgetState> states) => ThemeTextStyles.light.appBarTitle,
     ),
   ),
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     elevation: 0,
     scrolledUnderElevation: 0,
-    systemOverlayStyle: systemUiOverlayStyle,
-    iconTheme: const IconThemeData(color: Colors.black),
-    actionsIconTheme: const IconThemeData(color: Colors.black),
-    titleTextStyle: const TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
     backgroundColor: Colors.white,
     surfaceTintColor: Colors.white,
-    toolbarTextStyle: ThemeTextStyles.light.appBarTitle,
+    systemOverlayStyle: systemUiOverlayStyle,
+    iconTheme: IconThemeData(color: Colors.black),
+    actionsIconTheme: IconThemeData(color: Colors.black),
+    titleTextStyle: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w600),
   ),
   actionIconTheme: ActionIconThemeData(
-    backButtonIconBuilder: (BuildContext context) => IconButton(
+    backButtonIconBuilder: (context) => IconButton(
       onPressed: () => Navigator.maybePop(context),
       icon: Platform.isAndroid ? const Icon(Icons.arrow_back_rounded) : const Icon(Icons.arrow_back_ios_new_rounded),
     ),
@@ -333,13 +349,13 @@ final ThemeData darkTheme = ThemeData(
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 0,
-    backgroundColor: const Color.fromRGBO(28, 30, 33, 0.95),
     showSelectedLabels: true,
-    selectedLabelStyle: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w500),
-    unselectedLabelStyle: const TextStyle(fontSize: 12, color: Color(0xFF909090), fontWeight: FontWeight.w500),
-    unselectedItemColor: const Color(0xFF909090),
-    selectedItemColor: colorDarkScheme.onPrimary,
-    selectedIconTheme: IconThemeData(color: colorDarkScheme.primary),
+    backgroundColor: Colors.black,
+    type: BottomNavigationBarType.fixed,
+    selectedItemColor: colorDarkScheme.primary,
+    unselectedItemColor: const Color(0xFF667085),
+    selectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+    unselectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
   ),
   tabBarTheme: TabBarThemeData(
     indicatorColor: colorDarkScheme.primary,
@@ -365,20 +381,19 @@ final ThemeData darkTheme = ThemeData(
       (Set<WidgetState> states) => ThemeTextStyles.dark.appBarTitle,
     ),
   ),
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     elevation: 0,
     scrolledUnderElevation: 0,
-    systemOverlayStyle: systemUiOverlayStyle,
-    iconTheme: const IconThemeData(color: Colors.white),
-    titleTextStyle: const TextStyle(fontSize: 15, height: 20 / 15, color: Colors.white, fontWeight: FontWeight.w500),
-    toolbarTextStyle: ThemeTextStyles.dark.appBarTitle,
-    backgroundColor: const Color.fromRGBO(28, 30, 33, 0.95),
-    surfaceTintColor: const Color.fromRGBO(28, 30, 33, 0.95),
+    systemOverlayStyle: systemDarkUiOverlayStyle,
+    iconTheme: IconThemeData(color: Colors.white),
+    backgroundColor: Color.fromRGBO(28, 30, 33, 0.95),
+    surfaceTintColor: Color.fromRGBO(28, 30, 33, 0.95),
+    titleTextStyle: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
   ),
   actionIconTheme: ActionIconThemeData(
-    backButtonIconBuilder: (BuildContext context) => IconButton(
+    backButtonIconBuilder: (context) => IconButton(
       onPressed: () => Navigator.maybePop(context),
-      icon: Platform.isAndroid ? const Icon(Icons.arrow_back) : const Icon(Icons.arrow_back_ios_new_rounded),
+      icon: Platform.isAndroid ? const Icon(Icons.arrow_back_rounded) : const Icon(Icons.arrow_back_ios_new_rounded),
     ),
   ),
   listTileTheme: const ListTileThemeData(

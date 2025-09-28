@@ -5,7 +5,7 @@ const ColorScheme colorLightScheme = ColorScheme(
   brightness: Brightness.light,
 
   /// primary color
-  primary: Color(0xFF0FB8D3),
+  primary: Color(0xFFE21E25),
   onPrimary: Colors.white,
   primaryContainer: Color(0xFF3700B3),
   onPrimaryContainer: Color.fromRGBO(15, 184, 211, 0.1),
@@ -23,7 +23,7 @@ const ColorScheme colorLightScheme = ColorScheme(
 
   /// surface color
   surface: Colors.white,
-  onSurface: Color(0xFF000000),
+  onSurface: Color(0xFF101828),
   surfaceContainerHighest: Color(0xFFF5F5F5),
 
   /// outline color
@@ -34,7 +34,7 @@ const ColorScheme colorLightScheme = ColorScheme(
 ///
 const ColorScheme colorDarkScheme = ColorScheme(
   brightness: Brightness.dark,
-  primary: Color(0xFF2277F6),
+  primary: Color(0xFFE21E25),
   onPrimary: Colors.white,
   surface: Color(0xFF27292C),
   onSurface: Colors.white,
@@ -46,7 +46,7 @@ const ColorScheme colorDarkScheme = ColorScheme(
   secondaryContainer: Color(0xFF343434),
 );
 
-class ThemeColors extends ThemeExtension<ThemeColors> {
+final class ThemeColors extends ThemeExtension<ThemeColors> {
   const ThemeColors({
     required this.background,
     required this.onBackground,

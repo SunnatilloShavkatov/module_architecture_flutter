@@ -14,8 +14,6 @@ class App extends StatelessWidget {
     theme: lightTheme,
     darkTheme: darkTheme,
     themeMode: context.options.themeMode,
-    themeAnimationCurve: Curves.easeInOut,
-    themeAnimationDuration: const Duration(milliseconds: 300),
     themeAnimationStyle: const AnimationStyle(
       curve: Curves.easeInOut,
       duration: Duration(milliseconds: 300),
@@ -24,11 +22,11 @@ class App extends StatelessWidget {
     ),
 
     /// route
-    initialRoute: Routes.splash,
+    initialRoute: Routes.initial,
     navigatorKey: rootNavigatorKey,
-    onUnknownRoute: Merge.unknownRoute,
-    onGenerateRoute: Merge.generateRoutes,
     navigatorObservers: [navigatorObserver],
+    onUnknownRoute: MergeDependencies.instance.unknownRoute,
+    onGenerateRoute: MergeDependencies.instance.generateRoutes,
 
     /// text scale factor
     // builder: (context, child) => MediaQuery(
