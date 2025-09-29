@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:merge_dependencies/merge_dependencies.dart';
-import 'package:module_architecture_flutter/app.dart';
-import 'package:module_architecture_flutter/firebase_options.dart';
+import 'package:module_architecture_mobile/app.dart';
+import 'package:module_architecture_mobile/firebase_options.dart';
 
 Future<void> main() async {
   /// init environment
@@ -52,6 +52,8 @@ Future<void> main() async {
     logMessage('platform dispatcher error: $error', stackTrace: stack);
     return true;
   };
+
+  /// run app
   runApp(
     ModelBinding(
       initialModel: AppOptions(themeMode: localSource.themeMode, locale: Locale(localSource.locale ?? defaultLocale)),
