@@ -41,17 +41,17 @@ dependencies:
   cached_network_image: ^3.4.1
   flutter_cache_manager: ^3.4.1
   # firebase
-  firebase_core: ^4.1.0
-  firebase_analytics: ^12.0.1
-  firebase_messaging: ^16.0.1
-  firebase_remote_config: ^6.0.1
+  firebase_core: ^4.1.1
+  firebase_analytics: ^12.0.2
+  firebase_messaging: ^16.0.2
+  firebase_remote_config: ^6.0.2
   # local notification
   flutter_local_notifications: ^19.4.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  analysis_lints: ^1.0.2
+  analysis_lints: ^1.0.3
 
 flutter:
   uses-material-design: true

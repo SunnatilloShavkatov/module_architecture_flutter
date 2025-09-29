@@ -1,4 +1,4 @@
-# module_architecture_flutter
+# module_architecture_mobile
 
 A new Flutter project.
 
