@@ -3,6 +3,7 @@ import 'package:core/src/connectivity/network_info.dart';
 import 'package:core/src/di/app_injector.dart';
 import 'package:core/src/local_source/local_source.dart';
 
+export 'src/constants/api_paths.dart';
 export 'src/constants/constants.dart';
 export 'src/constants/env.dart';
 export 'src/core_abstractions/app_router.dart';
@@ -14,7 +15,6 @@ export 'src/di/app_injector.dart';
 export 'src/di/core_injection.dart';
 export 'src/either/either.dart';
 export 'src/enums/rest_types.dart';
-export 'src/error/exceptions.dart';
 export 'src/error/failure.dart';
 export 'src/error/server_error.dart';
 export 'src/extension/extension.dart';

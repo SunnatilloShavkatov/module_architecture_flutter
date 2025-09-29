@@ -60,7 +60,7 @@ final class CoreInjection implements Injection {
           }
           await Navigator.pushNamed(rootNavigatorKey.currentContext!, Routes.noInternet);
         },
-        accessTokenGetter: () => di.get<LocalSource>().accessToken,
+        accessTokenGetter: () => di.get<LocalSource>().accessToken ?? '',
         forbiddenFunction: () async {},
         refreshTokenFunction: _onLogout,
         logPrint: (String message) {
@@ -68,7 +68,7 @@ final class CoreInjection implements Injection {
         },
       ),
     ]);
-    di.registerLazySingleton(() => NetworkProvider(di.get<Dio>()));
+    di.registerLazySingleton<NetworkProvider>(() => NetworkProviderImpl(di.get<Dio>(), di.get<LocalSource>()));
   }
 }
 

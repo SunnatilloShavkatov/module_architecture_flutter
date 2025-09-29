@@ -1,165 +1,218 @@
-import 'dart:io';
+import 'dart:async';
 
 import 'package:base_dependencies/base_dependencies.dart';
+import 'package:core/src/constants/api_paths.dart';
+import 'package:core/src/constants/env.dart' show AppEnvironment;
 import 'package:core/src/enums/rest_types.dart';
 import 'package:core/src/error/server_error.dart';
+import 'package:core/src/l10n/localized_messages.dart';
+import 'package:core/src/local_source/local_source.dart';
 import 'package:core/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 @protected
 CancelToken _cancelToken = CancelToken();
 
-final class NetworkProvider {
-  const NetworkProvider(this._dio);
+abstract class NetworkProvider {
+  const NetworkProvider();
+
+  Future<Response<T>> fetchMethod<T>(
+    String path, {
+    Object? data,
+    String? contentType,
+    Map<String, dynamic>? headers,
+    required RMethodTypes methodType,
+    Map<String, dynamic>? queryParameters,
+  });
+
+  Future<void> downloadFile({
+    required String urlPath,
+    required String savePath,
+    void Function(int, int)? onReceiveProgress,
+  });
+
+  void cancelPreviousRequest();
+
+  void changeEnv();
+
+  void setLocaleHeaders();
+
+  String? get locale;
+
+  Map<String, String>? get tokenHeaders;
+}
+
+final class NetworkProviderImpl extends NetworkProvider {
+  const NetworkProviderImpl(this._dio, this._localSource);
 
   final Dio _dio;
+  final LocalSource _localSource;
 
+  @override
   void cancelPreviousRequest() {
     _cancelToken.cancel();
     _cancelToken = CancelToken();
   }
 
-  void removeRefreshTokenInterceptor() {
-    _dio.interceptors.removeWhere((element) => element is QueuedInterceptorsWrapper);
+  @override
+  void changeEnv() {
+    _dio.options.baseUrl = AppEnvironment.instance.config.baseUrl;
+    _dio.options.headers = {..._dio.options.headers, 'api-token': AppEnvironment.instance.config.apiToken};
   }
 
-  Future<Response<T>> fetchMethodWithOptions<T>(RequestOptions options) async => _dio.fetch(options);
+  @override
+  void setLocaleHeaders() {
+    if (_localSource.locale == null) {
+      return;
+    }
+    _dio.options.headers = {..._dio.options.headers, 'Accept-Language': _localSource.locale};
+  }
 
+  @override
   Future<Response<T>> fetchMethod<T>(
     String path, {
-    required RMethodTypes methodType,
     Object? data,
-    Map<String, dynamic>? queryParameters,
+    String? contentType,
     Map<String, dynamic>? headers,
-    CancelToken? cancelToken,
+    required RMethodTypes methodType,
+    Map<String, dynamic>? queryParameters,
   }) async {
+    if (!ApiPaths.unauthenticatedPaths.contains(path) && !path.contains('https') && headers == null) {
+      return Future.error(
+        ServerException.withLocaleException(message: LocalizationKeys.notAccessToken, locale: _localSource.locale),
+      );
+    }
     late Response<T> response;
     try {
       switch (methodType) {
+        case RMethodTypes.head:
+          response = await _dio.head<T>(
+            path,
+            data: data,
+            cancelToken: _cancelToken,
+            queryParameters: queryParameters,
+            options: headers != null ? Options(headers: headers, contentType: contentType) : null,
+          );
         case RMethodTypes.get:
           response = await _dio.get<T>(
             path,
             data: data,
-            cancelToken: cancelToken,
+            cancelToken: _cancelToken,
             queryParameters: queryParameters,
-            options: headers != null ? Options(headers: headers) : null,
+            options: headers != null ? Options(headers: headers, contentType: contentType) : null,
           );
         case RMethodTypes.post:
           response = await _dio.post<T>(
             path,
             data: data,
-            cancelToken: cancelToken,
+            cancelToken: _cancelToken,
             queryParameters: queryParameters,
-            options: headers != null ? Options(headers: headers) : null,
+            options: headers != null ? Options(headers: headers, contentType: contentType) : null,
           );
         case RMethodTypes.patch:
           response = await _dio.patch<T>(
             path,
             data: data,
-            cancelToken: cancelToken,
+            cancelToken: _cancelToken,
             queryParameters: queryParameters,
-            options: headers != null ? Options(headers: headers) : null,
+            options: headers != null ? Options(headers: headers, contentType: contentType) : null,
           );
         case RMethodTypes.put:
           response = await _dio.put<T>(
             path,
             data: data,
-            cancelToken: cancelToken,
+            cancelToken: _cancelToken,
             queryParameters: queryParameters,
-            options: headers != null ? Options(headers: headers) : null,
+            options: headers != null ? Options(headers: headers, contentType: contentType) : null,
           );
         case RMethodTypes.delete:
           response = await _dio.delete<T>(
             path,
             data: data,
-            cancelToken: cancelToken,
+            cancelToken: _cancelToken,
             queryParameters: queryParameters,
-            options: headers != null ? Options(headers: headers) : null,
+            options: headers != null ? Options(headers: headers, contentType: contentType) : null,
           );
       }
       return response;
     } on DioException catch (error, stackTrace) {
-      logMessage('Exception occurred: ', stackTrace: stackTrace, error: error);
-      throw ServerError.withDioException(error: error);
+      if (CancelToken.isCancel(error)) {
+        logMessage('Request was cancelled: $path');
+        throw ServerException.withException(error: error);
+      } else {
+        logMessage('Exception occurred: ', stackTrace: stackTrace, error: error);
+        throw ServerException.withException(error: error);
+      }
     } on Exception catch (error, stackTrace) {
       logMessage('Exception occurred: ', stackTrace: stackTrace, error: error);
-      throw ServerError.withException(error: error);
+      rethrow;
     }
   }
 
-  Future<dynamic> downloadFile({
+  @override
+  Future<void> downloadFile({
     required String urlPath,
     required String savePath,
     void Function(int, int)? onReceiveProgress,
-  }) async => _dio.download(urlPath, savePath, onReceiveProgress: onReceiveProgress, cancelToken: _cancelToken);
-
-  Future<Response<T>> uploadFile<T>(
-    String path, {
-    required File file,
-    required String mediaType,
-    Options? options,
-    CancelToken? cancelToken,
-    Map<String, dynamic>? headers,
-    required RMethodTypes methodType,
-    Map<String, dynamic>? queryParameters,
   }) async {
-    late Response<T> response;
-    final data = FormData();
-    data.files.add(
-      MapEntry(
-        'file',
-        MultipartFile.fromFileSync(
-          file.path,
-          contentType: DioMediaType.parse(mediaType),
-          filename: file.path.split(Platform.pathSeparator).last,
-        ),
-      ),
-    );
     try {
-      switch (methodType) {
-        case RMethodTypes.get:
-          response = await _dio.get<T>(
-            path,
-            data: data,
-            queryParameters: queryParameters,
-            options: headers != null ? Options(headers: headers) : null,
-          );
-        case RMethodTypes.post:
-          response = await _dio.post<T>(
-            path,
-            data: data,
-            cancelToken: cancelToken,
-            queryParameters: queryParameters,
-            options: headers != null ? Options(headers: headers) : null,
-          );
-        case RMethodTypes.patch:
-          response = await _dio.patch<T>(
-            path,
-            data: data,
-            cancelToken: cancelToken,
-            queryParameters: queryParameters,
-            options: headers != null ? Options(headers: headers) : null,
-          );
-        case RMethodTypes.put:
-          response = await _dio.put<T>(
-            path,
-            data: data,
-            cancelToken: cancelToken,
-            queryParameters: queryParameters,
-            options: headers != null ? Options(headers: headers) : null,
-          );
-        case RMethodTypes.delete:
-          response = await _dio.delete<T>(
-            path,
-            data: data,
-            cancelToken: cancelToken,
-            queryParameters: queryParameters,
-            options: headers != null ? Options(headers: headers) : null,
-          );
+      await _dio.download(urlPath, savePath, onReceiveProgress: onReceiveProgress, cancelToken: _cancelToken);
+    } on DioException catch (error, stackTrace) {
+      if (CancelToken.isCancel(error)) {
+        logMessage('Request was cancelled: $urlPath');
+        throw ServerException.withException(error: error);
+      } else {
+        logMessage('Exception occurred: ', stackTrace: stackTrace, error: error);
+        throw ServerException.withException(error: error);
       }
-    } on DioException catch (e) {
-      throw ServerError.withDioException(error: e);
     }
-    return response;
   }
+
+  // void _logErrorMessage(DioException err, StackTrace stackTrace) {
+  //   if (isMacOS) {
+  //     return;
+  //   }
+  //   final String? contentType = err.requestOptions.headers['content-type']?.toString();
+  //   if (contentType != null && contentType.contains('multipart/form-data')) {
+  //     logMessage('Multipart request, skipping error logging');
+  //     return;
+  //   }
+  //   try {
+  //     final Map<String, String> json = <String, String>{
+  //       'app_version': _packageInfo.version,
+  //       'platform': defaultTargetPlatform.name,
+  //       'end_time': DateTime.now().toString(),
+  //       'build_number': _packageInfo.buildNumber,
+  //       if (_localSource.fullname.isNotEmpty) 'fullname': _localSource.fullname,
+  //       if (_localSource.userUuid != null) 'user_uuid': _localSource.userUuid ?? '',
+  //       'os_version': Platform.isAndroid
+  //           ? (_deviceInfo as AndroidDeviceInfo).version.release
+  //           : (_deviceInfo as IosDeviceInfo).systemVersion,
+  //       'name': Platform.isAndroid
+  //           ? '${(_deviceInfo as AndroidDeviceInfo).brand} ${_deviceInfo.model}'
+  //           : (_deviceInfo as IosDeviceInfo).name,
+  //       'request': {
+  //         'method': err.requestOptions.method,
+  //         'url': err.requestOptions.uri.toString(),
+  //         'query_parameters': err.requestOptions.queryParameters,
+  //         if (err.requestOptions.data != null) 'data': err.requestOptions.data.toString(),
+  //       }.toString(),
+  //       'dio_exception_type': err.type.name,
+  //       'error_stack_trace': err.stackTrace.toString(),
+  //       if (err.error != null) 'error': (err.error ?? '').toString(),
+  //       if (err.response?.data != null) 'error_data': (err.response?.data ?? '').toString(),
+  //       if (err.response?.statusCode != null) 'status_code': (err.response?.statusCode ?? 0).toString(),
+  //     };
+  //     AnalyticsService.instance.reportEvent(AnalyticsKeys.networkError, parameters: json);
+  //   } on Exception catch (e) {
+  //     logMessage('Analytics error: ', stackTrace: stackTrace, error: e);
+  //   }
+  // }
+
+  @override
+  String? get locale => _localSource.locale;
+
+  @override
+  Map<String, String>? get tokenHeaders =>
+      _localSource.accessToken != null ? {'Authorization': _localSource.accessToken!} : null;
 }

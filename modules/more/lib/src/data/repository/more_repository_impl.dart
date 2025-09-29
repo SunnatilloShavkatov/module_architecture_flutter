@@ -13,12 +13,10 @@ final class MoreRepositoryImpl implements MoreRepository {
     try {
       final result = await _remoteSource.getMoreData();
       return Right<Failure, void>(result);
-    } on ServerError catch (e, s) {
-      logMessage('Error ', stackTrace: s, error: e);
-      return Left<Failure, void>(e.failure);
-    } on Exception catch (e, s) {
-      logMessage('Error ', stackTrace: s, error: e);
-      return Left<Failure, void>(ServerError.withError(message: e.toString()).failure);
+    } on ServerException catch (error, _) {
+      return Left(error.failure);
+    } on Exception catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 }

@@ -9,7 +9,7 @@ final class LocalSource {
   final Box<dynamic> _cacheBox;
   final SharedPreferencesWithCache _preferences;
 
-  bool get hasProfile => _preferences.getBool(AppKeys.hasProfile) ?? false;
+  bool get hasProfile => accessToken != null;
 
   Future<void> setHasProfile({required bool value}) async {
     await _preferences.setBool(AppKeys.hasProfile, value);
@@ -36,7 +36,7 @@ final class LocalSource {
     await _preferences.setString(AppKeys.accessToken, accessToken);
   }
 
-  String get accessToken => _preferences.getString(AppKeys.accessToken) ?? '';
+  String? get accessToken => _preferences.getString(AppKeys.accessToken);
 
   Future<void> setFirstName(String firstName) async {
     await _box.put(AppKeys.firstname, firstName);

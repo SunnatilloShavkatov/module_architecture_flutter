@@ -9,15 +9,24 @@ final class MoreRemoteDataSourceImpl implements MoreRemoteDataSource {
   Future<void> getMoreData() async {
     try {
       await _networkProvider.fetchMethod<DataMap>(
-        methodType: RMethodTypes.get,
         Constants.baseUrl + Urls.loginWithOption,
-        headers: {'Authorization': localSource.accessToken},
+        methodType: RMethodTypes.get,
+        headers: _networkProvider.tokenHeaders,
       );
       return;
-    } on ServerError {
+    } on FormatException {
+      throw ServerException.formatException(locale: _networkProvider.locale);
+    } on ServerException {
       rethrow;
-    } on Exception catch (error, _) {
-      throw ServerError.withException(error: error);
+    } on Exception {
+      rethrow;
+    } on Error catch (error, stackTrace) {
+      logMessage('ERROR: ', error: error, stackTrace: stackTrace);
+      if (error is TypeError) {
+        throw ServerException.typeError(locale: _networkProvider.locale);
+      } else {
+        throw ServerException.unknownError(locale: _networkProvider.locale);
+      }
     }
   }
 }

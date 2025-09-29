@@ -1,10 +1,17 @@
 final class Routes {
   const Routes._();
 
-  /// others
+  /// initial
   static const String initial = '/';
+
+  /// system
   static const String noInternet = '/no-internet';
   static const String notFound = '/not-found';
+
+  /// auth
+  static const String login = '/login';
+  static const String forgotPassword = '/forgot-password';
+  static const String confirmCode = '/confirm-code';
 
   /// main
   static const String main = '/main';
