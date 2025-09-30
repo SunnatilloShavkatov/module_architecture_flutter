@@ -1,0 +1,30 @@
+name: platform_methods
+version: 0.0.1
+homepage: "none"
+publish_to: "none"
+description: "A Flutter plugin to demonstrate platform method calls."
+
+environment:
+  sdk: ">=3.9.0 <4.0.0"
+  flutter: ">=3.35.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.1.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.4
+  analysis_lints: ^1.0.3
+
+flutter:
+
+  plugin:
+    platforms:
+      android:
+        package: uz.nasiya.platform_methods
+        pluginClass: PlatformMethodsPlugin
+      ios:
+        pluginClass: PlatformMethodsPlugin

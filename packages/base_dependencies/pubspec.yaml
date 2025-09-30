@@ -20,7 +20,7 @@ dependencies:
   rxdart: ^0.28.0
   flutter_bloc: ^9.1.1
   # hive
-  hive_ce: ^2.13.2
+  hive_ce: ^2.14.0
   shared_preferences: ^2.5.3
   # path
   path_provider: ^2.1.5

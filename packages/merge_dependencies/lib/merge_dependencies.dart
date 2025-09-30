@@ -1,8 +1,10 @@
+import 'package:auth/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:initial/initial.dart';
 import 'package:main/main.dart';
 import 'package:merge_dependencies/merge_dependencies.dart';
 import 'package:more/more.dart';
-import 'package:others/others.dart';
+import 'package:system/system.dart';
 
 export 'package:base_dependencies/base_dependencies.dart';
 export 'package:core/core.dart';
@@ -17,9 +19,11 @@ final class MergeDependencies {
 
   static const List<ModuleContainer> _allContainer = [
     CoreContainer(),
+    AuthContainer(),
+    InitialContainer(),
     MainContainer(),
     MoreContainer(),
-    OthersContainer(),
+    SystemContainer(),
   ];
 
   static final List<Injection> _injections = _allContainer

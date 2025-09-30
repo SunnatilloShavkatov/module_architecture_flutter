@@ -1,0 +1,24 @@
+name: platform_methods_example
+version: 1.0.0+1
+publish_to: "none"
+description: "Demonstrates how to use the platform_methods plugin."
+
+environment:
+  sdk: ">=3.9.0 <4.0.0"
+  flutter: ">=3.35.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  platform_methods:
+    path: ../
+
+dev_dependencies:
+  integration_test:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

@@ -1,4 +1,4 @@
-name: merge_dependencies
+name: initial
 version: 0.0.1
 homepage: "none"
 publish_to: "none"
@@ -13,22 +13,13 @@ dependencies:
     sdk: flutter
   # packages
   core:
-    path: ../core
+    path: ../../packages/core
+  components:
+    path: ../../packages/components
   navigation:
-    path: ../navigation
+    path: ../../packages/navigation
   base_dependencies:
-    path: ../base_dependencies
-  # modules
-  auth:
-    path: ../../modules/auth
-  initial:
-    path: ../../modules/initial
-  main:
-    path: ../../modules/main
-  more:
-    path: ../../modules/more
-  system:
-    path: ../../modules/system
+    path: ../../packages/base_dependencies
 
 dev_dependencies:
   flutter_test:
