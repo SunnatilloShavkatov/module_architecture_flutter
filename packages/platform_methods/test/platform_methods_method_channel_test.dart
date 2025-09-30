@@ -87,34 +87,14 @@ void main() {
     });
 
     group('cancel', () {
-      test('should call cancel method', () async {
-        bool cancelCalled = false;
-
-        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, (
-          MethodCall methodCall,
-        ) async {
-          if (methodCall.method == 'cancel') {
-            cancelCalled = true;
-          }
-          return null;
-        });
-
+      test('should close code stream', () async {
+        final doneExpectation = expectLater(platform.code, emitsDone);
         await platform.cancel();
-
-        expect(cancelCalled, isTrue);
+        await doneExpectation;
       });
 
-      test('should handle platform exceptions', () async {
-        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, (
-          MethodCall methodCall,
-        ) async {
-          if (methodCall.method == 'cancel') {
-            throw PlatformException(code: 'UNAVAILABLE', message: 'Cancel not available');
-          }
-          return null;
-        });
-
-        expect(platform.cancel, throwsA(isA<PlatformException>()));
+      test('should not throw', () async {
+        await platform.cancel();
       });
     });
 
