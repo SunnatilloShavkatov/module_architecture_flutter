@@ -10,20 +10,6 @@ class PlatformMethods {
 
   Future<bool?> isPhysicalDevice() => PlatformMethodsPlatform.instance.isPhysicalDevice();
 
-  Future<void> vibrate({
-    int duration = 300,
-    int repeat = -1,
-    int amplitude = -1,
-    List<int> pattern = const <int>[],
-    List<int> intensities = const <int>[],
-  }) => PlatformMethodsPlatform.instance.vibrate(
-    repeat: repeat,
-    pattern: pattern,
-    duration: duration,
-    amplitude: amplitude,
-    intensities: intensities,
-  );
-
   Future<String?> get getAppSignature => PlatformMethodsPlatform.instance.getAppSignature;
 
   Future<void> unregisterListener() => PlatformMethodsPlatform.instance.unregisterListener();

@@ -9,8 +9,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
-import android.os.Vibrator
-import android.os.VibratorManager
 import android.provider.Settings
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.common.api.CommonStatusCodes
@@ -41,29 +39,14 @@ class PlatformMethodsPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
 
     private var activity: Activity? = null
     private lateinit var context: Context
-    private var vibration: Vibration? = null
     private lateinit var channel: MethodChannel
     private lateinit var contentResolver: ContentResolver
     private var broadcastReceiver: BroadcastReceiver? = null
 
-    @Suppress("deprecation")
-    fun getVibrator(flutterPluginBinding: FlutterPluginBinding): Vibrator? {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-            return flutterPluginBinding.applicationContext.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
-        } else {
-            val vibratorManager =
-                flutterPluginBinding.applicationContext.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
-            return vibratorManager.defaultVibrator
-        }
-    }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPluginBinding) {
-        contentResolver = flutterPluginBinding.applicationContext.contentResolver
-        val vibrator = this.getVibrator(flutterPluginBinding)
-        if (vibrator != null) {
-            vibration = Vibration(vibrator)
-        }
         context = flutterPluginBinding.applicationContext
+        contentResolver = context.contentResolver
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, CHANNEL_NAME)
         channel.setMethodCallHandler(this)
     }
@@ -82,38 +65,6 @@ class PlatformMethodsPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
 
             "isPhysicalDevice" -> {
                 result.success(isPhysicalDevice())
-            }
-
-            "vibrate" -> {
-                if (vibration == null) {
-                    result.error("UNAVAILABLE", "Vibrator service is not available.", null)
-                    return
-                } else {
-                    val duration: Int = call.argument("duration")!!
-                    val pattern: List<Int> = call.argument("pattern")!!
-                    val repeat: Int = call.argument("repeat")!!
-                    val intensities: List<Int> = call.argument("intensities")!!
-                    val amplitude: Int = call.argument("amplitude")!!
-
-                    if (!pattern.isEmpty() && !intensities.isEmpty()) {
-                        vibration!!.vibrate(pattern, repeat, intensities)
-                    } else if (pattern.isNotEmpty()) {
-                        vibration!!.vibrate(pattern, repeat)
-                    } else {
-                        vibration!!.vibrate(duration.toLong(), amplitude)
-                    }
-                    result.success(null)
-                }
-            }
-
-            "cancel" -> {
-                if (vibration == null) {
-                    result.error("UNAVAILABLE", "Vibrator service is not available.", null)
-                    return
-                } else {
-                    vibration!!.getVibrator().cancel()
-                    result.success(null)
-                }
             }
 
             "listenForCode" -> {

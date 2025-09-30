@@ -34,18 +34,10 @@ class _MyAppState extends State<MyApp> {
             spacing: 16,
             children: [
               if (id != null) SelectableText('ID: $id'),
-              if (smsSignature != null)
-                SelectableText('SMS Signature: $smsSignature'),
-              ElevatedButton(
-                onPressed: () {
-                  PlatformMethods.instance.vibrate(duration: 1000);
-                },
-                child: Text('Vibrate'),
-              ),
+              if (smsSignature != null) SelectableText('SMS Signature: $smsSignature'),
               ElevatedButton(
                 onPressed: () async {
-                  final String? getID = await PlatformMethods.instance
-                      .getDeviceId();
+                  final String? getID = await PlatformMethods.instance.getDeviceId();
                   setState(() {
                     id = getID;
                   });
@@ -54,8 +46,7 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  final String? signature =
-                      await PlatformMethods.instance.getAppSignature;
+                  final String? signature = await PlatformMethods.instance.getAppSignature;
                   setState(() {
                     smsSignature = signature;
                   });

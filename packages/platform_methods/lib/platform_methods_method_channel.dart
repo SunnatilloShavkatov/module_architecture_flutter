@@ -44,26 +44,6 @@ class MethodChannelPlatformMethods extends PlatformMethodsPlatform {
   }
 
   @override
-  Future<void> vibrate({
-    int duration = 500,
-    List<int> pattern = const <int>[],
-    int repeat = -1,
-    List<int> intensities = const <int>[],
-    int amplitude = -1,
-  }) async {
-    if (kIsWeb) {
-      return;
-    }
-    await methodChannel.invokeMethod('vibrate', <String, dynamic>{
-      'duration': duration,
-      'pattern': pattern,
-      'repeat': repeat,
-      'intensities': intensities,
-      'amplitude': amplitude,
-    });
-  }
-
-  @override
   Future<String?> get getAppSignature async {
     if (defaultTargetPlatform == TargetPlatform.android && !kIsWeb) {
       final String? appSignature = await methodChannel.invokeMethod('getAppSignature');
@@ -89,8 +69,5 @@ class MethodChannelPlatformMethods extends PlatformMethodsPlatform {
   @override
   Future<void> cancel() async {
     await _code.close();
-    if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS)) {
-      await methodChannel.invokeMethod('cancel');
-    }
   }
 }

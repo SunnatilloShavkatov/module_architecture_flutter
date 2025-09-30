@@ -30,16 +30,6 @@ abstract class PlatformMethodsPlatform extends PlatformInterface {
     throw UnimplementedError('isPhysicalDevice() has not been implemented.');
   }
 
-  Future<void> vibrate({
-    int duration = 500,
-    List<int> pattern = const <int>[],
-    int repeat = -1,
-    List<int> intensities = const <int>[],
-    int amplitude = -1,
-  }) {
-    throw UnimplementedError('vibrate() has not been implemented.');
-  }
-
   Future<String?> get getAppSignature {
     throw UnimplementedError('getAppSignature has not been implemented.');
   }
