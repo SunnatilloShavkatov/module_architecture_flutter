@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:base_dependencies/base_dependencies.dart';
 import 'package:components/components.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +77,12 @@ class _ModelBindingState extends State<ModelBinding> {
   void initState() {
     super.initState();
     _currentModel = widget.initialModel;
+    unawaited(_initializeDateFormatting());
+  }
+
+  Future<void> _initializeDateFormatting() async {
+    await initializeDateFormatting();
+    Intl.defaultLocale = _currentModel.locale.toString();
   }
 
   void updateModel(AppOptions newModel) {

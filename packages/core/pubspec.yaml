@@ -24,9 +24,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  analysis_lints: ^1.0.3
+  analysis_lints: ^1.0.5
   mocktail: ^1.0.4
 
 flutter:
+  generate: true
   uses-material-design: true
 

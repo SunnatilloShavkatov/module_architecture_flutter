@@ -20,7 +20,7 @@ dependencies:
   rxdart: ^0.28.0
   flutter_bloc: ^9.1.1
   # hive
-  hive_ce: ^2.14.0
+  hive_ce: ^2.15.1
   shared_preferences: ^2.5.3
   # path
   path_provider: ^2.1.5
@@ -41,17 +41,17 @@ dependencies:
   cached_network_image: ^3.4.1
   flutter_cache_manager: ^3.4.1
   # firebase
-  firebase_core: ^4.1.1
-  firebase_analytics: ^12.0.2
-  firebase_messaging: ^16.0.2
-  firebase_remote_config: ^6.0.2
+  firebase_core: ^4.2.0
+  firebase_analytics: ^12.0.3
+  firebase_messaging: ^16.0.3
+  firebase_remote_config: ^6.1.0
   # local notification
-  flutter_local_notifications: ^19.4.2
+  flutter_local_notifications: ^19.5.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  analysis_lints: ^1.0.3
+  analysis_lints: ^1.0.5
 
 flutter:
   uses-material-design: true

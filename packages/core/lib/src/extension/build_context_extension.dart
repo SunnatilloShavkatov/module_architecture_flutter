@@ -30,6 +30,7 @@ extension BuildContextExt on BuildContext {
   AppOptions get options => AppOptions.of(this);
 
   void setLocale(Locale locale) {
+    Intl.defaultLocale = locale.toString();
     AppOptions.update(this, AppOptions.of(this, listen: false).copyWith(locale: locale));
   }
 

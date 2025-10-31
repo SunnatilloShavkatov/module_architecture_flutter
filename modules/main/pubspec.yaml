@@ -27,7 +27,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  analysis_lints: ^1.0.3
+  analysis_lints: ^1.0.5
 
 flutter:
   uses-material-design: true
