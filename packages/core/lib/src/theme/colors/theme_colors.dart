@@ -51,45 +51,63 @@ final class ThemeColors extends ThemeExtension<ThemeColors> {
     required this.background,
     required this.onBackground,
     required this.main,
-    required this.cardColor,
+    required this.backgroundSecondary,
     required this.green,
+    required this.textPrimary,
+    required this.textSecondary,
   });
 
+  final Color textPrimary;
+  final Color textSecondary;
   final Color background;
   final Color onBackground;
   final Color main;
-  final Color cardColor;
+  final Color backgroundSecondary;
   final Color green;
 
   static const ThemeColors light = ThemeColors(
     background: Color(0xFFF5F5F5),
     onBackground: Color(0xFF909090),
+    backgroundSecondary: Color(0xFFF5F5F5),
     main: Color(0xFF27292C),
     green: Color(0xFF32B141),
-    cardColor: Colors.white,
+
+    /// text
+    textPrimary: Color(0xFF000000),
+    textSecondary: Color(0xFF909090),
   );
 
   static const ThemeColors dark = ThemeColors(
     background: Color(0xFF1C1E21),
     onBackground: Color(0xFF909090),
+    backgroundSecondary: Color(0xFF1E1E1E),
+
+    /// main color
     main: Color(0xFF27292C),
     green: Color(0xFF32B141),
-    cardColor: Color(0xFF1E1E1E),
+
+    /// text
+    textPrimary: Color(0xFFFFFFFF),
+    textSecondary: Color(0xFF909090),
   );
 
   @override
   ThemeExtension<ThemeColors> copyWith({
     Color? background,
     Color? onBackground,
-    Color? cardColor,
+    Color? backgroundSecondary,
     Color? main,
     Color? green,
+    Color? textPrimary,
+    Color? textSecondary,
   }) => ThemeColors(
     background: background ?? this.background,
     onBackground: onBackground ?? this.onBackground,
-    green: green ?? this.green,
-    cardColor: cardColor ?? this.cardColor,
+    backgroundSecondary: backgroundSecondary ?? this.backgroundSecondary,
     main: main ?? this.main,
+    green: green ?? this.green,
+    textPrimary: textPrimary ?? this.textPrimary,
+    textSecondary: textSecondary ?? this.textSecondary,
   );
 
   @override
@@ -100,9 +118,11 @@ final class ThemeColors extends ThemeExtension<ThemeColors> {
     return ThemeColors(
       background: Color.lerp(background, other.background, t)!,
       onBackground: Color.lerp(onBackground, other.onBackground, t)!,
-      green: Color.lerp(green, other.green, t)!,
+      backgroundSecondary: Color.lerp(backgroundSecondary, other.backgroundSecondary, t)!,
       main: Color.lerp(main, other.main, t)!,
-      cardColor: Color.lerp(cardColor, other.cardColor, t)!,
+      green: Color.lerp(green, other.green, t)!,
+      textPrimary: Color.lerp(textPrimary, other.textPrimary, t)!,
+      textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
     );
   }
 }

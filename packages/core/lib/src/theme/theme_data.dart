@@ -201,25 +201,31 @@ final ThemeData lightTheme = ThemeData(
     style: ListTileStyle.list,
     titleTextStyle: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
   ),
-  textTheme: const TextTheme(
-    titleLarge: TextStyle(fontSize: 34, color: Colors.black, fontWeight: FontWeight.w400),
+  textTheme: TextTheme(
+    /// Display styles
+    displayLarge: TextStyle(fontSize: 57, fontWeight: FontWeight.w400, color: ThemeColors.light.textPrimary),
+    displayMedium: TextStyle(fontSize: 45, fontWeight: FontWeight.w400, color: ThemeColors.light.textPrimary),
+    displaySmall: TextStyle(fontSize: 36, fontWeight: FontWeight.w400, color: ThemeColors.light.textPrimary),
 
-    /// text field title style
-    titleMedium: TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.w400),
-    titleSmall: TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.w400),
+    /// Headline styles
+    headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.w400, color: ThemeColors.light.textPrimary),
+    headlineMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.w400, color: ThemeColors.light.textPrimary),
+    headlineSmall: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, color: ThemeColors.light.textPrimary),
 
-    /// list tile title style
-    bodyLarge: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600),
+    /// Title styles (e.g. input field labels and surface headings)
+    titleLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.w400, color: ThemeColors.light.textPrimary),
+    titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: ThemeColors.light.textPrimary),
+    titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: ThemeColors.light.textPrimary),
 
-    /// list tile subtitle style
-    bodyMedium: TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.w600),
-    bodySmall: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w600),
-    displayLarge: TextStyle(color: Colors.black),
-    displayMedium: TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.w600),
-    displaySmall: TextStyle(color: Colors.black),
+    /// Body styles for general content and list tiles
+    bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: ThemeColors.light.textPrimary),
+    bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: ThemeColors.light.textPrimary),
+    bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: ThemeColors.light.textPrimary),
 
-    /// label style
-    labelLarge: TextStyle(fontSize: 34, color: Colors.black, fontWeight: FontWeight.w600),
+    /// Label styles for chips, buttons, and auxiliary text
+    labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: ThemeColors.light.textPrimary),
+    labelMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: ThemeColors.light.textPrimary),
+    labelSmall: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: ThemeColors.light.textPrimary),
   ),
 );
 
@@ -404,21 +410,30 @@ final ThemeData darkTheme = ThemeData(
     style: ListTileStyle.list,
     titleTextStyle: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w500),
   ),
-  textTheme: const TextTheme(
-    titleLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 34),
+  textTheme: TextTheme(
+    /// Display styles
+    displayLarge: TextStyle(fontSize: 57, fontWeight: FontWeight.w400, color: ThemeColors.dark.textPrimary),
+    displayMedium: TextStyle(fontSize: 45, fontWeight: FontWeight.w400, color: ThemeColors.dark.textPrimary),
+    displaySmall: TextStyle(fontSize: 36, fontWeight: FontWeight.w400, color: ThemeColors.dark.textPrimary),
 
-    /// text field title style
-    titleMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 17),
-    titleSmall: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 17),
+    /// Headline styles
+    headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.w400, color: ThemeColors.dark.textPrimary),
+    headlineMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.w400, color: ThemeColors.dark.textPrimary),
+    headlineSmall: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, color: ThemeColors.dark.textPrimary),
 
-    /// list tile title style
-    bodyLarge: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
+    /// Title styles (e.g. input field labels and surface headings)
+    titleLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.w400, color: ThemeColors.dark.textPrimary),
+    titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: ThemeColors.dark.textPrimary),
+    titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: ThemeColors.dark.textPrimary),
 
-    /// list tile subtitle style
-    bodyMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 17),
-    bodySmall: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 15),
-    displayLarge: TextStyle(color: Colors.white),
-    displayMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 17),
-    displaySmall: TextStyle(color: Colors.white),
+    /// Body styles for general content and list tiles
+    bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: ThemeColors.dark.textPrimary),
+    bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: ThemeColors.dark.textPrimary),
+    bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: ThemeColors.dark.textPrimary),
+
+    /// Label styles for chips, buttons, and auxiliary text
+    labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: ThemeColors.dark.textPrimary),
+    labelMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: ThemeColors.dark.textPrimary),
+    labelSmall: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: ThemeColors.dark.textPrimary),
   ),
 );
