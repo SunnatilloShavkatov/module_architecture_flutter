@@ -34,12 +34,6 @@ final ThemeData lightTheme = ThemeData(
     ThemeTextStyles.light,
     ThemeCustomShapes.light,
   ],
-  pageTransitionsTheme: const PageTransitionsTheme(
-    builders: <TargetPlatform, PageTransitionsBuilder>{
-      TargetPlatform.android: ZoomPageTransitionsBuilder(),
-      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-    },
-  ),
   colorScheme: colorLightScheme,
   cardColor: colorLightScheme.surface,
   visualDensity: VisualDensity.standard,
@@ -59,7 +53,7 @@ final ThemeData lightTheme = ThemeData(
     surfaceTintColor: colorLightScheme.surface,
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
   ),
-  scrollbarTheme: const ScrollbarThemeData(interactive: true, thickness: WidgetStatePropertyAll<double>(5)),
+  scrollbarTheme: const ScrollbarThemeData(interactive: true, thickness: WidgetStatePropertyAll(5)),
   bottomAppBarTheme: const BottomAppBarThemeData(
     elevation: 1,
     color: Colors.white,
@@ -75,9 +69,7 @@ final ThemeData lightTheme = ThemeData(
     highlightElevation: 0,
     shape: CircleBorder(),
   ),
-  textButtonTheme: const TextButtonThemeData(
-    style: ButtonStyle(padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.zero)),
-  ),
+  textButtonTheme: const TextButtonThemeData(style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.zero))),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
       foregroundColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) => Colors.white),
@@ -87,23 +79,19 @@ final ThemeData lightTheme = ThemeData(
         }
         return colorLightScheme.primary;
       }),
-      textStyle: WidgetStatePropertyAll<TextStyle>(ThemeTextStyles.light.buttonStyle),
-      elevation: const WidgetStatePropertyAll<double>(0),
-      shape: const WidgetStatePropertyAll<OutlinedBorder>(
-        RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-      ),
-      fixedSize: const WidgetStatePropertyAll<Size>(Size.fromHeight(48)),
+      elevation: const WidgetStatePropertyAll(0),
+      fixedSize: const WidgetStatePropertyAll(Size.fromHeight(48)),
+      textStyle: WidgetStatePropertyAll(ThemeTextStyles.light.buttonStyle),
+      shape: const WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)))),
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: ButtonStyle(
+      elevation: const WidgetStatePropertyAll(0),
+      fixedSize: const WidgetStatePropertyAll(Size.fromHeight(48)),
+      textStyle: WidgetStatePropertyAll(ThemeTextStyles.light.buttonStyle),
       foregroundColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) => Colors.black),
-      textStyle: WidgetStatePropertyAll<TextStyle>(ThemeTextStyles.light.buttonStyle),
-      elevation: const WidgetStatePropertyAll<double>(0),
-      shape: const WidgetStatePropertyAll<OutlinedBorder>(
-        RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-      ),
-      fixedSize: const WidgetStatePropertyAll<Size>(Size.fromHeight(48)),
+      shape: const WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)))),
     ),
   ),
   inputDecorationTheme: InputDecorationTheme(
@@ -156,25 +144,14 @@ final ThemeData lightTheme = ThemeData(
   ),
   tabBarTheme: TabBarThemeData(
     tabAlignment: TabAlignment.start,
-    indicatorColor: colorLightScheme.primary,
-    labelColor: const Color(0xFF17171C),
-    unselectedLabelColor: const Color(0xFFB3BBCD),
     dividerColor: Colors.transparent,
-    overlayColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
+    labelColor: const Color(0xFF17171C),
+    indicatorColor: colorLightScheme.primary,
+    unselectedLabelColor: const Color(0xFFB3BBCD),
+    overlayColor: const WidgetStatePropertyAll(Colors.transparent),
     labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
     unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
     indicator: UnderlineTabIndicator(borderSide: BorderSide(width: 2.5, color: colorLightScheme.primary)),
-  ),
-  navigationBarTheme: NavigationBarThemeData(
-    elevation: 0,
-    backgroundColor: Colors.white,
-    height: kToolbarHeight,
-    iconTheme: WidgetStateProperty.resolveWith<IconThemeData>(
-      (Set<WidgetState> states) => const IconThemeData(color: Colors.black),
-    ),
-    labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>(
-      (Set<WidgetState> states) => ThemeTextStyles.light.appBarTitle,
-    ),
   ),
   appBarTheme: const AppBarTheme(
     elevation: 0,
@@ -238,21 +215,15 @@ final ThemeData darkTheme = ThemeData(
     ThemeTextStyles.dark,
     ThemeCustomShapes.dark,
   ],
-  pageTransitionsTheme: const PageTransitionsTheme(
-    builders: <TargetPlatform, PageTransitionsBuilder>{
-      TargetPlatform.android: ZoomPageTransitionsBuilder(),
-      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-    },
-  ),
-  splashFactory: Platform.isAndroid ? InkRipple.splashFactory : NoSplash.splashFactory,
-  visualDensity: VisualDensity.standard,
-  materialTapTargetSize: MaterialTapTargetSize.padded,
-  primaryColor: colorDarkScheme.primary,
   colorScheme: colorDarkScheme,
-  scaffoldBackgroundColor: ThemeColors.dark.background,
   cardColor: colorDarkScheme.surface,
   canvasColor: colorDarkScheme.surface,
   shadowColor: const Color(0xFF343434),
+  visualDensity: VisualDensity.standard,
+  primaryColor: colorDarkScheme.primary,
+  materialTapTargetSize: MaterialTapTargetSize.padded,
+  scaffoldBackgroundColor: ThemeColors.dark.background,
+  splashFactory: Platform.isAndroid ? InkRipple.splashFactory : NoSplash.splashFactory,
   progressIndicatorTheme: const ProgressIndicatorThemeData(
     color: Colors.white,
     linearMinHeight: 2,
@@ -265,15 +236,8 @@ final ThemeData darkTheme = ThemeData(
     surfaceTintColor: colorDarkScheme.surface,
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
   ),
-  textButtonTheme: const TextButtonThemeData(
-    style: ButtonStyle(padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.zero)),
-  ),
-  scrollbarTheme: ScrollbarThemeData(
-    interactive: true,
-    thumbColor: WidgetStatePropertyAll<Color>(ThemeColors.light.main),
-    thickness: const WidgetStatePropertyAll<double>(5),
-    minThumbLength: 100,
-  ),
+  textButtonTheme: const TextButtonThemeData(style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.zero))),
+  scrollbarTheme: const ScrollbarThemeData(interactive: true, thickness: WidgetStatePropertyAll(5)),
   bottomAppBarTheme: const BottomAppBarThemeData(
     elevation: 1,
     color: Colors.white,
@@ -298,23 +262,19 @@ final ThemeData darkTheme = ThemeData(
         }
         return colorDarkScheme.primary;
       }),
-      textStyle: WidgetStatePropertyAll<TextStyle>(ThemeTextStyles.dark.buttonStyle),
-      elevation: const WidgetStatePropertyAll<double>(0),
-      shape: const WidgetStatePropertyAll<OutlinedBorder>(
-        RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-      ),
-      fixedSize: const WidgetStatePropertyAll<Size>(Size.fromHeight(48)),
+      elevation: const WidgetStatePropertyAll(0),
+      fixedSize: const WidgetStatePropertyAll(Size.fromHeight(48)),
+      textStyle: WidgetStatePropertyAll(ThemeTextStyles.dark.buttonStyle),
+      shape: const WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)))),
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: ButtonStyle(
+      elevation: const WidgetStatePropertyAll(0),
+      fixedSize: const WidgetStatePropertyAll(Size.fromHeight(48)),
+      textStyle: WidgetStatePropertyAll(ThemeTextStyles.dark.buttonStyle),
       foregroundColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) => Colors.black),
-      textStyle: WidgetStatePropertyAll<TextStyle>(ThemeTextStyles.dark.buttonStyle),
-      elevation: const WidgetStatePropertyAll<double>(0),
-      shape: const WidgetStatePropertyAll<OutlinedBorder>(
-        RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-      ),
-      fixedSize: const WidgetStatePropertyAll<Size>(Size.fromHeight(48)),
+      shape: const WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)))),
     ),
   ),
   inputDecorationTheme: InputDecorationTheme(
@@ -371,21 +331,10 @@ final ThemeData darkTheme = ThemeData(
     tabAlignment: TabAlignment.start,
     labelPadding: Dimensions.kPaddingHor6,
     dividerColor: Colors.transparent,
-    overlayColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
+    overlayColor: const WidgetStatePropertyAll(Colors.transparent),
     labelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
     unselectedLabelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
     indicatorSize: TabBarIndicatorSize.label,
-  ),
-  navigationBarTheme: NavigationBarThemeData(
-    elevation: 0,
-    backgroundColor: Colors.white,
-    height: kToolbarHeight,
-    iconTheme: WidgetStateProperty.resolveWith<IconThemeData>(
-      (Set<WidgetState> states) => const IconThemeData(color: Colors.black),
-    ),
-    labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>(
-      (Set<WidgetState> states) => ThemeTextStyles.dark.appBarTitle,
-    ),
   ),
   appBarTheme: const AppBarTheme(
     elevation: 0,

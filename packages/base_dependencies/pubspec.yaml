@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   intl: ^0.20.2
   # di
-  get_it: ^8.2.0
+  get_it: ^9.0.5
   # equatable
   equatable: ^2.0.7
   # state
@@ -31,8 +31,8 @@ dependencies:
   # url launchers
   url_launcher: ^6.3.2
   # otp autofill
-  pinput: ^5.0.2
-  sms_autofill: ^2.4.1
+  smart_auth: ^3.2.0
+  flutter_pinput: ^1.0.2
   # connectivity plus
   connectivity_plus: ^7.0.0
   # package info
@@ -41,10 +41,10 @@ dependencies:
   cached_network_image: ^3.4.1
   flutter_cache_manager: ^3.4.1
   # firebase
-  firebase_core: ^4.2.0
-  firebase_analytics: ^12.0.3
-  firebase_messaging: ^16.0.3
-  firebase_remote_config: ^6.1.0
+  firebase_core: ^4.2.1
+  firebase_analytics: ^12.0.4
+  firebase_messaging: ^16.0.4
+  firebase_remote_config: ^6.1.1
   # local notification
   flutter_local_notifications: ^19.5.0
 
