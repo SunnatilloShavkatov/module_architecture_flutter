@@ -69,11 +69,11 @@ class CustomImageCacheManager extends CacheManager with ImageCacheManager {
   CustomImageCacheManager._internal()
     : super(
         Config(
-          AppKeys.imageCache,
+          StorageKeys.imageCache,
           maxNrOfCacheObjects: 500,
           fileService: HttpFileService(),
           stalePeriod: const Duration(days: 30),
-          repo: JsonCacheInfoRepository(databaseName: AppKeys.imageCache),
+          repo: JsonCacheInfoRepository(databaseName: StorageKeys.imageCache),
         ),
       );
 

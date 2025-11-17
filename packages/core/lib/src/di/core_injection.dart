@@ -9,6 +9,7 @@ import 'package:core/src/di/app_injector.dart';
 import 'package:core/src/dio_retry/retry_interceptor.dart';
 import 'package:core/src/local_source/local_source.dart';
 import 'package:core/src/network/network_provider.dart';
+import 'package:core/src/retriever/sms_retriever_impl.dart';
 import 'package:core/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
@@ -49,6 +50,8 @@ final class CoreInjection implements Injection {
       ..registerLazySingleton<Connectivity>(Connectivity.new)
       ..registerLazySingleton(InternetConnectionChecker.createInstance)
       ..registerSingletonAsync<PackageInfo>(PackageInfo.fromPlatform)
+      ..registerLazySingleton<SmartAuth>(() => SmartAuth.instance)
+      ..registerLazySingleton<SmsRetriever>(() => SmsRetrieverImpl(di.get()))
       ..registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(di.get()));
 
     di.get<Dio>().interceptors.addAll(<Interceptor>[
@@ -80,11 +83,11 @@ Future<void> _initHive({required Injector di}) async {
 
   /// init hive
   const String boxName = 'module_architecture_mobile_box';
-  final Directory directory = await getApplicationCacheDirectory();
+  final Directory directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
   final Box<dynamic> box = await Hive.openBox<dynamic>(boxName);
   final Box<dynamic> cacheBox = await Hive.openBox<dynamic>('cache_$boxName');
-  di.registerSingleton<LocalSource>(LocalSource(box, cacheBox, prefs));
+  di.registerSingleton<LocalSource>(LocalSourceImpl(box, cacheBox, prefs));
 }
 
 Future<void> _onLogout() async {

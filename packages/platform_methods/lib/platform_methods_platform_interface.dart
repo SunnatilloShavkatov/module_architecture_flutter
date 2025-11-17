@@ -29,22 +29,4 @@ abstract class PlatformMethodsPlatform extends PlatformInterface {
   Future<bool?> isPhysicalDevice() {
     throw UnimplementedError('isPhysicalDevice() has not been implemented.');
   }
-
-  Future<String?> get getAppSignature {
-    throw UnimplementedError('getAppSignature has not been implemented.');
-  }
-
-  Future<void> unregisterListener() {
-    throw UnimplementedError('unregisterListener() has not been implemented.');
-  }
-
-  Future<void> listenForCode({required String smsCodeRegexPattern}) {
-    throw UnimplementedError('listenForCode() has not been implemented.');
-  }
-
-  Stream<String> get code;
-
-  Future<void> cancel() {
-    throw UnimplementedError('cancel() has not been implemented.');
-  }
 }

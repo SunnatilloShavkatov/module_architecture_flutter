@@ -1,71 +1,83 @@
 import 'package:base_dependencies/base_dependencies.dart';
-import 'package:core/core.dart';
+import 'package:core/src/constants/storage_keys.dart';
 import 'package:flutter/material.dart';
 
-final class LocalSource {
-  const LocalSource(this._box, this._cacheBox, this._preferences);
+abstract class LocalSource {
+  const LocalSource();
+
+  bool get hasProfile;
+
+  String? get locale;
+
+  Future<void> setLocale(String locale);
+
+  ThemeMode get themeMode;
+
+  Future<void> setThemeMode(ThemeMode mode);
+
+  String? get accessToken;
+
+  Future<void> setAccessToken(String accessToken);
+
+  String get firstName;
+
+  Future<void> setFirstName(String firstName);
+
+  Future<void> clear();
+}
+
+final class LocalSourceImpl implements LocalSource {
+  const LocalSourceImpl(this._box, this._cacheBox, this._preferences);
 
   final Box<dynamic> _box;
   final Box<dynamic> _cacheBox;
   final SharedPreferencesWithCache _preferences;
 
+  @override
   bool get hasProfile => accessToken != null;
 
-  Future<void> setHasProfile({required bool value}) async {
-    await _preferences.setBool(AppKeys.hasProfile, value);
-  }
-
+  @override
   Future<void> setLocale(String locale) async {
-    await _preferences.setString(AppKeys.locale, locale);
+    await _preferences.setString(StorageKeys.locale, locale);
   }
 
-  String? get locale => _preferences.getString(AppKeys.locale);
+  @override
+  String? get locale => _preferences.getString(StorageKeys.locale);
 
-  ThemeMode get themeMode => switch (_preferences.getString(AppKeys.themeMode)) {
+  @override
+  ThemeMode get themeMode => switch (_preferences.getString(StorageKeys.themeMode)) {
     'system' => ThemeMode.system,
     'light' => ThemeMode.light,
     'dark' => ThemeMode.dark,
     _ => ThemeMode.system,
   };
 
+  @override
   Future<void> setThemeMode(ThemeMode mode) async {
-    await _preferences.setString(AppKeys.themeMode, mode.name);
+    await _preferences.setString(StorageKeys.themeMode, mode.name);
   }
 
+  @override
   Future<void> setAccessToken(String accessToken) async {
-    await _preferences.setString(AppKeys.accessToken, accessToken);
+    await _preferences.setString(StorageKeys.accessToken, accessToken);
   }
 
-  String? get accessToken => _preferences.getString(AppKeys.accessToken);
+  @override
+  String? get accessToken => _preferences.getString(StorageKeys.accessToken);
 
+  @override
   Future<void> setFirstName(String firstName) async {
-    await _box.put(AppKeys.firstname, firstName);
+    await _box.put(StorageKeys.firstname, firstName);
   }
 
-  String getFirstName() => _box.get(AppKeys.firstname, defaultValue: '');
+  @override
+  String get firstName => _box.get(StorageKeys.firstname, defaultValue: '');
 
-  Future<void> setLastName(String lastName) async {
-    await _box.put(AppKeys.lastname, lastName);
-  }
-
-  String getLastName() => _box.get(AppKeys.lastname, defaultValue: '');
-
-  Future<void> setEmail(String email) async {
-    await _box.put(AppKeys.email, email);
-  }
-
-  String get email => _box.get(AppKeys.email, defaultValue: '');
-
-  Future<void> setPassword(String password) async {
-    await _box.put(AppKeys.password, password);
-  }
-
-  String? get password => _box.get(AppKeys.password);
-
+  @override
   Future<void> clear() async {
     await Future.wait([
-      _preferences.remove(AppKeys.hasProfile),
-      _preferences.remove(AppKeys.accessToken),
+      _preferences.remove(StorageKeys.hasProfile),
+      _preferences.remove(StorageKeys.accessToken),
       _box.clear(),
       _cacheBox.clear(),
     ]);

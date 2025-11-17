@@ -2,17 +2,9 @@ package uz.nasiya.platform_methods
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.BroadcastReceiver
 import android.content.ContentResolver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Build
-import android.os.Bundle
 import android.provider.Settings
-import com.google.android.gms.auth.api.phone.SmsRetriever
-import com.google.android.gms.common.api.CommonStatusCodes
-import com.google.android.gms.tasks.Task
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -21,14 +13,6 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import java.lang.ref.WeakReference
-import java.util.regex.Matcher
-import androidx.core.content.ContextCompat
-import com.google.android.gms.auth.api.phone.SmsRetrieverClient
-import com.google.android.gms.common.api.Status
-import com.google.android.gms.tasks.OnSuccessListener
-import java.util.regex.Pattern
-
 
 /** PlatformMethodsPlugin */
 class PlatformMethodsPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
@@ -38,15 +22,11 @@ class PlatformMethodsPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
     }
 
     private var activity: Activity? = null
-    private lateinit var context: Context
     private lateinit var channel: MethodChannel
     private lateinit var contentResolver: ContentResolver
-    private var broadcastReceiver: BroadcastReceiver? = null
-
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPluginBinding) {
-        context = flutterPluginBinding.applicationContext
-        contentResolver = context.contentResolver
+        contentResolver = flutterPluginBinding.applicationContext.contentResolver
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, CHANNEL_NAME)
         channel.setMethodCallHandler(this)
     }
@@ -67,50 +47,6 @@ class PlatformMethodsPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
                 result.success(isPhysicalDevice())
             }
 
-            "listenForCode" -> {
-                val smsCodeRegexPattern = call.argument<String>("smsCodeRegexPattern") ?: ".*"
-                val client: SmsRetrieverClient = SmsRetriever.getClient(activity!!)
-                val task: Task<Void> = client.startSmsRetriever()
-                task.addOnSuccessListener(OnSuccessListener {
-                    unregisterReceiver()
-                    broadcastReceiver =
-                        SmsBroadcastReceiver(WeakReference(this), smsCodeRegexPattern)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        activity?.registerReceiver(
-                            broadcastReceiver,
-                            IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION),
-                            Context.RECEIVER_EXPORTED
-                        )
-                    } else if (activity != null) {
-                        ContextCompat.registerReceiver(
-                            activity!!,
-                            broadcastReceiver,
-                            IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION),
-                            ContextCompat.RECEIVER_NOT_EXPORTED
-                        )
-                    }
-                    result.success(null)
-                })
-                task.addOnFailureListener { e ->
-                    result.error("ERROR_START_SMS_RETRIEVER", "Can't start sms retriever", e)
-                }
-            }
-
-            "unregisterListener" -> {
-                unregisterReceiver()
-                result.success("successfully unregister receiver")
-            }
-
-            "getAppSignature" -> {
-                try {
-                    val signatureHelper = AppSignatureHelper(activity!!.applicationContext)
-                    val appSignature = signatureHelper.appSignature
-                    result.success(appSignature)
-                } catch (e: Exception) {
-                    result.error("ERROR_GET_SIGNATURE", e.message, e)
-                }
-            }
-
             else -> {
                 result.notImplemented()
             }
@@ -118,12 +54,8 @@ class PlatformMethodsPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
     }
 
     override fun onDetachedFromEngine(binding: FlutterPluginBinding) {
-        unregisterReceiver()
+        activity = null
         channel.setMethodCallHandler(null)
-    }
-
-    fun setCode(code: String?) {
-        channel.invokeMethod("smscode", code)
     }
 
     private fun isPhysicalDevice(): Boolean {
@@ -146,23 +78,12 @@ class PlatformMethodsPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
         return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
     }
 
-    private fun unregisterReceiver() {
-        if (broadcastReceiver != null && activity != null) {
-            try {
-                activity?.unregisterReceiver(broadcastReceiver)
-            } catch (_: Exception) {
-                // silent catch to avoid crash if not registered
-            }
-        }
-        broadcastReceiver = null
-    }
-
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         activity = binding.activity
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
-        unregisterReceiver()
+        activity = null
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
@@ -170,52 +91,6 @@ class PlatformMethodsPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
     }
 
     override fun onDetachedFromActivity() {
-        unregisterReceiver()
         activity = null
-    }
-
-    private class SmsBroadcastReceiver(
-        private val pluginRef: WeakReference<PlatformMethodsPlugin>,
-        private val smsCodeRegexPattern: String
-    ) : BroadcastReceiver() {
-
-        @Suppress("DEPRECATION")
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action == SmsRetriever.SMS_RETRIEVED_ACTION) {
-                val plugin = pluginRef.get() ?: return
-                try {
-                    plugin.activity?.unregisterReceiver(this)
-                } catch (_: Exception) {
-                    // ignore
-                }
-
-                val extras: Bundle? = intent.extras
-                if (extras != null) {
-                    val status: Status? =
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            extras.getParcelable(SmsRetriever.EXTRA_STATUS, Status::class.java)
-                        } else {
-                            extras.getParcelable(SmsRetriever.EXTRA_STATUS) as? Status
-                        }
-
-                    if (status != null && status.statusCode == CommonStatusCodes.SUCCESS) {
-                        val message: String? = extras.getString(SmsRetriever.EXTRA_SMS_MESSAGE)
-                        if (message != null) {
-                            try {
-                                val pattern = Pattern.compile(smsCodeRegexPattern)
-                                val matcher: Matcher = pattern.matcher(message)
-                                if (matcher.find()) {
-                                    plugin.setCode(matcher.group(0))
-                                } else {
-                                    plugin.setCode(message)
-                                }
-                            } catch (_: Exception) {
-                                plugin.setCode(message)
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 }

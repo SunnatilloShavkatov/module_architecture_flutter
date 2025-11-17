@@ -44,7 +44,7 @@ android {
     sourceSets["test"].java.srcDirs("src/test/kotlin")
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
     }
 
     android {
@@ -62,5 +62,4 @@ android {
 dependencies {
     testImplementation("org.mockito:mockito-core:5.20.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-    implementation("com.google.android.gms:play-services-auth:21.4.0")
 }

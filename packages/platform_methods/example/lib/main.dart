@@ -14,7 +14,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String? id;
-  String? smsSignature;
 
   @override
   void initState() {
@@ -34,7 +33,6 @@ class _MyAppState extends State<MyApp> {
             spacing: 16,
             children: [
               if (id != null) SelectableText('ID: $id'),
-              if (smsSignature != null) SelectableText('SMS Signature: $smsSignature'),
               ElevatedButton(
                 onPressed: () async {
                   final String? getID = await PlatformMethods.instance.getDeviceId();
@@ -43,15 +41,6 @@ class _MyAppState extends State<MyApp> {
                   });
                 },
                 child: Text('Get ID'),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  final String? signature = await PlatformMethods.instance.getAppSignature;
-                  setState(() {
-                    smsSignature = signature;
-                  });
-                },
-                child: Text('SMS Signature'),
               ),
             ],
           ),

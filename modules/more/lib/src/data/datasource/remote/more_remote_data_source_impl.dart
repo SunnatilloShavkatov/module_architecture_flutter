@@ -9,7 +9,7 @@ final class MoreRemoteDataSourceImpl implements MoreRemoteDataSource {
   Future<void> getMoreData() async {
     try {
       await _networkProvider.fetchMethod<DataMap>(
-        Constants.baseUrl + Urls.loginWithOption,
+        ApiPaths.loginWithOption,
         methodType: RMethodTypes.get,
         headers: _networkProvider.tokenHeaders,
       );
