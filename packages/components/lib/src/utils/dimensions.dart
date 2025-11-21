@@ -1,13 +1,7 @@
-part of 'utils.dart';
+import 'package:components/src/gap/gap.dart';
+import 'package:flutter/material.dart';
 
-int? findChildIndexCallbackKeyInt(Key key) {
-  if (key is ObjectKey && key.value != null && key.value is int) {
-    return key.value! as int;
-  }
-  return null;
-}
-
-sealed class Dimensions {
+final class Dimensions {
   const Dimensions._();
 
   /// box

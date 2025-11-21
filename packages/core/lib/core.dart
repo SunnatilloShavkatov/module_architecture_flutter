@@ -24,11 +24,9 @@ export 'src/l10n/app_localizations.dart';
 export 'src/local_source/local_source.dart';
 export 'src/native_splash/flutter_native_splash.dart';
 export 'src/network/network_provider.dart';
-export 'src/options/app_options.dart';
 export 'src/retriever/sms_retriever_impl.dart';
 export 'src/services/base_listener_types.dart';
 export 'src/services/notification_service.dart';
-export 'src/theme/themes.dart';
 export 'src/usecase/usecase.dart';
 export 'src/utils/utils.dart';
 

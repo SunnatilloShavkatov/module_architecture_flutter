@@ -1,0 +1,11 @@
+import 'dart:io';
+
+import 'package:components/src/utils/dimensions.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+part 'theme_colors.dart';
+
+part 'theme_data.dart';
+
+part 'theme_text_style.dart';

@@ -12,5 +12,4 @@ final class StorageKeys {
   static const String lastname = 'lastname';
   static const String email = 'email';
   static const String password = 'password';
-  static const String imageCache = 'image_cache';
 }

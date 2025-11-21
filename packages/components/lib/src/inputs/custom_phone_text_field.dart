@@ -1,5 +1,5 @@
+import 'package:components/src/extension/theme_extension.dart';
 import 'package:components/src/inputs/masked_text_input_formatter.dart';
-import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

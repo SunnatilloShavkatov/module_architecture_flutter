@@ -1,5 +1,4 @@
 import 'package:core/src/utils/utils.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -13,18 +12,6 @@ void main() {
     test('should return input if length less than 13', () {
       const input = '12345';
       expect(phoneFormat(input), input);
-    });
-  });
-
-  group('findChildIndexCallbackKeyInt', () {
-    test('returns int value for ObjectKey<int>', () {
-      const key = ObjectKey(5);
-      expect(findChildIndexCallbackKeyInt(key), 5);
-    });
-
-    test('returns null for other key types', () {
-      const key = ValueKey('test');
-      expect(findChildIndexCallbackKeyInt(key), isNull);
     });
   });
 }

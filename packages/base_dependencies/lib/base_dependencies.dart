@@ -11,7 +11,6 @@ export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:flutter_cache_manager/flutter_cache_manager.dart';
 export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 export 'package:flutter_pinput/flutter_pinput.dart';
-export 'package:gap/gap.dart';
 export 'package:get_it/get_it.dart';
 export 'package:hive_ce/hive.dart';
 export 'package:intl/date_symbol_data_local.dart';

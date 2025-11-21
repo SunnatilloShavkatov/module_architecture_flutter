@@ -1,5 +1,4 @@
 import 'package:base_dependencies/base_dependencies.dart';
-import 'package:core/core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -27,8 +26,9 @@ class CustomCachedNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int? cacheWidth = width == null ? null : (width! * context.devicePixelRatio).toInt();
-    final int? cacheHeight = height == null ? null : (height! * context.devicePixelRatio).toInt();
+    final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
+    final int? cacheWidth = width == null ? null : (width! * devicePixelRatio).toInt();
+    final int? cacheHeight = height == null ? null : (height! * devicePixelRatio).toInt();
     return CachedNetworkImage(
       fit: fit,
       width: width,
@@ -65,15 +65,17 @@ class CustomCachedNetworkImage extends StatelessWidget {
   }
 }
 
+const String _imageCache = 'image_cache';
+
 class CustomImageCacheManager extends CacheManager with ImageCacheManager {
   CustomImageCacheManager._internal()
     : super(
         Config(
-          StorageKeys.imageCache,
+          _imageCache,
           maxNrOfCacheObjects: 500,
           fileService: HttpFileService(),
           stalePeriod: const Duration(days: 30),
-          repo: JsonCacheInfoRepository(databaseName: StorageKeys.imageCache),
+          repo: JsonCacheInfoRepository(databaseName: _imageCache),
         ),
       );
 

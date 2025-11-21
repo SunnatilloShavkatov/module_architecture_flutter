@@ -1,4 +1,4 @@
-import 'package:core/core.dart';
+import 'package:components/src/extension/theme_extension.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -73,9 +73,9 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) => Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     mainAxisSize: MainAxisSize.min,
+    spacing: 6,
     children: <Widget>[
       if (labelText != null && !labelInTextField) Text(labelText!, style: labelTextStyle),
-      if (labelText != null && !labelInTextField) Dimensions.kGap6,
       TextFormField(
         key: key,
         style: context.textStyle.regularBody,

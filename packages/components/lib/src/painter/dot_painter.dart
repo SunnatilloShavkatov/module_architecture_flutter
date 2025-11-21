@@ -1,4 +1,4 @@
-import 'package:core/core.dart';
+import 'package:components/src/extension/theme_extension.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

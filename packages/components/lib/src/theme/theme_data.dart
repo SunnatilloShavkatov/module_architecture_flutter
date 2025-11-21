@@ -28,12 +28,6 @@ final ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
   applyElevationOverlayColor: true,
-  extensions: const <ThemeExtension<dynamic>>[
-    ThemeColors.light,
-    ThemeGradients.light,
-    ThemeTextStyles.light,
-    ThemeCustomShapes.light,
-  ],
   colorScheme: colorLightScheme,
   cardColor: colorLightScheme.surface,
   visualDensity: VisualDensity.standard,
@@ -41,6 +35,7 @@ final ThemeData lightTheme = ThemeData(
   primaryColor: colorLightScheme.primary,
   materialTapTargetSize: MaterialTapTargetSize.padded,
   scaffoldBackgroundColor: ThemeColors.light.background,
+  extensions: const [ThemeColors.light, ThemeTextStyles.light],
   splashFactory: Platform.isAndroid ? InkRipple.splashFactory : NoSplash.splashFactory,
   progressIndicatorTheme: ProgressIndicatorThemeData(
     linearMinHeight: 3,
@@ -209,12 +204,6 @@ final ThemeData lightTheme = ThemeData(
 final ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   applyElevationOverlayColor: true,
-  extensions: const <ThemeExtension<dynamic>>[
-    ThemeColors.dark,
-    ThemeGradients.dark,
-    ThemeTextStyles.dark,
-    ThemeCustomShapes.dark,
-  ],
   colorScheme: colorDarkScheme,
   cardColor: colorDarkScheme.surface,
   canvasColor: colorDarkScheme.surface,
@@ -223,6 +212,7 @@ final ThemeData darkTheme = ThemeData(
   primaryColor: colorDarkScheme.primary,
   materialTapTargetSize: MaterialTapTargetSize.padded,
   scaffoldBackgroundColor: ThemeColors.dark.background,
+  extensions: const [ThemeColors.dark, ThemeTextStyles.dark],
   splashFactory: Platform.isAndroid ? InkRipple.splashFactory : NoSplash.splashFactory,
   progressIndicatorTheme: const ProgressIndicatorThemeData(
     color: Colors.white,

@@ -7,6 +7,7 @@ import 'package:more/more.dart';
 import 'package:system/system.dart';
 
 export 'package:base_dependencies/base_dependencies.dart';
+export 'package:components/components.dart';
 export 'package:core/core.dart';
 export 'package:navigation/navigation.dart';
 

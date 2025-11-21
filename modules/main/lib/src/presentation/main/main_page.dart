@@ -1,3 +1,4 @@
+import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:main/src/presentation/main/widget/offstage_stack.dart';
@@ -31,9 +32,9 @@ class _MainPageState extends State<MainPage> with MainMixin {
                 SliverSafeArea(
                   minimum: Dimensions.kPaddingAll16,
                   sliver: SliverList.separated(
-                    itemBuilder: (_, int index) => ListTile(title: Text('$index')),
-                    separatorBuilder: (_, _) => Dimensions.kGap8,
                     itemCount: 100,
+                    separatorBuilder: (_, _) => Dimensions.kGap8,
+                    itemBuilder: (_, int index) => ListTile(title: Text('$index')),
                   ),
                 ),
               ],

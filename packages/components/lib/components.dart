@@ -1,3 +1,8 @@
 export 'src/buttons/custom_loading_button.dart';
+export 'src/extension/theme_extension.dart';
+export 'src/gap/gap.dart';
 export 'src/keyboard/keyboard_dismiss.dart';
+export 'src/options/app_options.dart';
+export 'src/theme/themes.dart';
 export 'src/universal/safe_area.dart';
+export 'src/utils/dimensions.dart';

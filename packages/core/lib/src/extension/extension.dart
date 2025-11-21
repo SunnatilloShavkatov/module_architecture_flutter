@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 
 part 'box_extensions.dart';
 
-part 'build_context_extension.dart';
+part 'localizations_extension.dart';
 
 part 'date_parse_extension.dart';
 

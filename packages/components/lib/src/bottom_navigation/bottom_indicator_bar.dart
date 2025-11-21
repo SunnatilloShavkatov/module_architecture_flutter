@@ -1,7 +1,7 @@
 import 'dart:ui' show lerpDouble;
 
+import 'package:components/src/extension/theme_extension.dart';
 import 'package:components/src/painter/line_painter.dart';
-import 'package:core/core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +24,7 @@ class BottomIndicatorBar extends StatelessWidget {
         child: AnimatedAlign(
           alignment: Alignment(_getIndicatorPosition(currentIndex, context), 0),
           duration: const Duration(milliseconds: 300),
-          child: Line(color: context.colorScheme.primary, width: context.kSize.width / length),
+          child: Line(color: context.colorScheme.primary, width: MediaQuery.sizeOf(context).width / length),
         ),
       ),
     ],

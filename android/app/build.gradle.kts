@@ -34,12 +34,6 @@ android {
         sourceSets["main"].java.srcDirs("src/main/kotlin")
     }
 
-    packaging {
-        jniLibs {
-            useLegacyPackaging = true
-        }
-    }
-
     defaultConfig {
         applicationId = "uz.shs.module_architecture_flutter"
         minSdk = 24

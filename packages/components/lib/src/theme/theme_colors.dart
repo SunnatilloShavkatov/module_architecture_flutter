@@ -1,4 +1,4 @@
-part of 'package:core/src/theme/themes.dart';
+part of 'themes.dart';
 
 /// A set of colors for the entire app.
 const ColorScheme colorLightScheme = ColorScheme(
