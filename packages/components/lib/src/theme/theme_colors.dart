@@ -48,6 +48,7 @@ const ColorScheme colorDarkScheme = ColorScheme(
 
 final class ThemeColors extends ThemeExtension<ThemeColors> {
   const ThemeColors({
+    required this.primary,
     required this.background,
     required this.onBackground,
     required this.main,
@@ -57,6 +58,7 @@ final class ThemeColors extends ThemeExtension<ThemeColors> {
     required this.textSecondary,
   });
 
+  final Color primary;
   final Color textPrimary;
   final Color textSecondary;
   final Color background;
@@ -66,6 +68,7 @@ final class ThemeColors extends ThemeExtension<ThemeColors> {
   final Color green;
 
   static const ThemeColors light = ThemeColors(
+    primary: Color(0xFFE21E25),
     background: Color(0xFFF5F5F5),
     onBackground: Color(0xFF909090),
     backgroundSecondary: Color(0xFFF5F5F5),
@@ -78,6 +81,7 @@ final class ThemeColors extends ThemeExtension<ThemeColors> {
   );
 
   static const ThemeColors dark = ThemeColors(
+    primary: Color(0xFFE21E25),
     background: Color(0xFF1C1E21),
     onBackground: Color(0xFF909090),
     backgroundSecondary: Color(0xFF1E1E1E),
@@ -93,6 +97,7 @@ final class ThemeColors extends ThemeExtension<ThemeColors> {
 
   @override
   ThemeExtension<ThemeColors> copyWith({
+    Color? primary,
     Color? background,
     Color? onBackground,
     Color? backgroundSecondary,
@@ -101,6 +106,7 @@ final class ThemeColors extends ThemeExtension<ThemeColors> {
     Color? textPrimary,
     Color? textSecondary,
   }) => ThemeColors(
+    primary: primary ?? this.primary,
     background: background ?? this.background,
     onBackground: onBackground ?? this.onBackground,
     backgroundSecondary: backgroundSecondary ?? this.backgroundSecondary,
@@ -116,6 +122,7 @@ final class ThemeColors extends ThemeExtension<ThemeColors> {
       return this;
     }
     return ThemeColors(
+      primary: Color.lerp(primary, other.primary, t)!,
       background: Color.lerp(background, other.background, t)!,
       onBackground: Color.lerp(onBackground, other.onBackground, t)!,
       backgroundSecondary: Color.lerp(backgroundSecondary, other.backgroundSecondary, t)!,

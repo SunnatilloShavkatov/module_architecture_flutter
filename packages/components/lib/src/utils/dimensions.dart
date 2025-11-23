@@ -5,7 +5,7 @@ final class Dimensions {
   const Dimensions._();
 
   /// box
-  static const Widget kGap = SizedBox.shrink();
+  static const Widget kZeroBox = SizedBox.shrink();
   static const Gap kGap2 = Gap(2);
   static const Gap kGap4 = Gap(4);
   static const Gap kGap6 = Gap(6);

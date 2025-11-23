@@ -3,5 +3,10 @@
   "units": "Units",
   "resources": "Resources",
   "more": "More",
-  "settings": "Settings"
+  "settings": "Settings",
+  "handbookTitle": "Handbook",
+  "welcomeSubtitle": "welcome to the system",
+  "welcomeDescription": "Your premium assistant",
+  "proceedButton": "Proceed",
+  "getHelp": "Get help"
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: discarded_futures
+import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +128,7 @@ class _BouncingButtonState extends State<BouncingButton> with SingleTickerProvid
 
   /// We start the animation
   void _onTapDown(TapDownDetails details) {
-    _controller.forward();
+    unawaited(_controller.forward());
   }
 
   /// We reverse the animation and notify the user of a press event
@@ -172,7 +172,7 @@ class _BouncingButtonState extends State<BouncingButton> with SingleTickerProvid
 
   void _reverseAnimation() {
     if (mounted) {
-      _controller.reverse();
+      unawaited(_controller.reverse());
     }
   }
 

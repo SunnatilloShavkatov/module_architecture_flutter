@@ -14,6 +14,7 @@
 **DI:** GetIt via `merge_dependencies` package  
 **Naming:** `snake_case.dart` files, `PascalCase` classes, `camelCase` variables  
 **Error Handling:** Either pattern with Failure/Exception hierarchy  
+**UI Components:** `SafeAreaWithMinimum`, `CustomLoadingButton`, `Dimensions`, `ThemeColors`, `ThemeTextStyles`  
 
 ---
 
@@ -395,7 +396,7 @@ final class FetchCreditsEvent extends CreditsEvent {
 ### Search/Filter
 ```dart
 final class SearchClientsEvent extends ClientsEvent {
-  const SearchClientsEvent(this.query);
+  const SearchClientsEvent({required this.query});
   final String query;
 }
 ```
@@ -403,8 +404,198 @@ final class SearchClientsEvent extends ClientsEvent {
 ### Form Validation
 ```dart
 final class UsernameChanged extends LoginEvent {
-  const UsernameChanged(this.username);
+  const UsernameChanged({required this.username});
   final String username;
+}
+```
+
+---
+
+## 13. UI Components & Styling
+
+### Safe Area
+- ✅ **MUST** use `SafeAreaWithMinimum` instead of `SafeArea`
+- ✅ Use `Dimensions.kPaddingAll16` or other predefined padding constants
+
+```dart
+// ✅ Correct
+SafeAreaWithMinimum(
+  minimum: Dimensions.kPaddingAll16,
+  child: Column(...),
+)
+
+// ❌ Wrong
+SafeArea(child: Column(...))
+```
+
+### Buttons
+- ✅ **MUST** use `CustomLoadingButton` for primary buttons instead of `ElevatedButton`
+- ✅ `CustomLoadingButton` automatically handles throttling and loading states
+- ✅ `CustomLoadingButton` uses default `ThemeData` from context (no need to wrap with `Theme` widget)
+
+```dart
+// ✅ Correct
+CustomLoadingButton(
+  onPressed: () {},
+  child: Text('Button', style: context.textStyle.buttonStyle),
+)
+
+// ❌ Wrong
+ElevatedButton(
+  onPressed: () {},
+  child: Text('Button'),
+)
+
+// ❌ Wrong - Theme wrapper not needed
+Theme(
+  data: Theme.of(context).copyWith(...),
+  child: CustomLoadingButton(...),
+)
+```
+<｜tool▁calls▁begin｜><｜tool▁call▁begin｜>
+read_file
+
+### Dimensions
+- ✅ **MUST** use `Dimensions` constants for all spacing, padding, gaps, and border radius
+- ✅ If a dimension doesn't exist, add it to `Dimensions` class first
+
+```dart
+// ✅ Correct
+Dimensions.kZeroBox
+Dimensions.kGap12
+Dimensions.kGap16
+Dimensions.kGap32
+Dimensions.kDivider
+Dimensions.kSpacer
+Dimensions.kPaddingAll16
+Dimensions.kShapeZero
+Dimensions.kBorderRadius12
+
+// ❌ Wrong
+const Gap(12)
+const Gap(16)
+EdgeInsets.all(16)
+BorderRadius.circular(12)
+```
+
+### Colors
+- ✅ **MUST** use `ThemeColors` from `context.color` extension
+- ✅ If color doesn't exist in `ThemeColors`, use `context.colorScheme.primary` as fallback
+- ✅ **NEVER** use hardcoded colors like `Colors.blue`, `Colors.black`, etc.
+
+```dart
+// ✅ Correct
+context.color.primary
+context.color.textPrimary
+context.color.textSecondary
+context.colorScheme.primary // fallback if not in ThemeColors
+
+// ❌ Wrong
+Colors.blue
+Colors.black
+Colors.grey
+Color(0xFF000000)
+```
+
+### Text Styles
+- ✅ **MUST** use `ThemeTextStyles` from `context.textStyle` extension
+- ✅ Use appropriate style from `ThemeTextStyles` (e.g., `defaultW700x24`, `defaultW400x14`, `buttonStyle`)
+- ✅ **NEVER** create inline `TextStyle` objects
+
+```dart
+// ✅ Correct
+context.textStyle.defaultW700x24
+context.textStyle.defaultW400x14
+context.textStyle.buttonStyle
+context.textStyle.defaultW600x16.copyWith(color: context.color.primary)
+
+// ❌ Wrong
+TextStyle(fontSize: 24, fontWeight: FontWeight.w700)
+const TextStyle(color: Colors.white, fontSize: 16)
+```
+
+### Analysis Options
+- ✅ **MUST** use `analysis_lints: ^1.0.5` in `pubspec.yaml` dev_dependencies
+- ✅ **MUST** include `package:analysis_lints/analysis_options.yaml` in `analysis_options.yaml`
+
+```yaml
+# pubspec.yaml
+dev_dependencies:
+  analysis_lints: ^1.0.5
+
+# analysis_options.yaml
+include: package:analysis_lints/analysis_options.yaml
+```
+
+### Complete Example
+
+```dart
+class WelcomePage extends StatelessWidget {
+  const WelcomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) =>
+      Scaffold(
+        body: SafeAreaWithMinimum(
+          minimum: Dimensions.kPaddingAll16,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Spacer(),
+              Text(
+                context.localizations.handbookTitle,
+                style: context.textStyle.defaultW700x24.copyWith(
+                  color: context.color.primary,
+                ),
+              ),
+              Dimensions.kGap16,
+              Text(
+                context.localizations.welcomeSubtitle,
+                style: context.textStyle.defaultW700x24.copyWith(
+                  color: context.color.textPrimary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              Dimensions.kGap12,
+              Text(
+                context.localizations.welcomeDescription,
+                style: context.textStyle.defaultW400x14.copyWith(
+                  color: context.color.textSecondary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const Spacer(),
+              SizedBox(
+                width: double.infinity,
+                child: CustomLoadingButton(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, Routes.main);
+                  },
+                  child: Text(
+                      context.localizations.proceedButton
+                  ),
+                ),
+              ),
+              Dimensions.kGap16,
+              TextButton.icon(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.headset_mic,
+                  color: context.color.primary,
+                  size: 20,
+                ),
+                label: Text(
+                  context.localizations.getHelp,
+                  style: context.textStyle.defaultW400x14.copyWith(
+                    color: context.color.primary,
+                  ),
+                ),
+              ),
+              Dimensions.kGap32,
+            ],
+          ),
+        ),
+      );
 }
 ```
 
@@ -423,6 +614,13 @@ When generating code, ensure:
 - [ ] Code style matches project conventions
 - [ ] Performance optimizations applied
 - [ ] Matches existing code patterns
+- [ ] Uses `SafeAreaWithMinimum` instead of `SafeArea`
+- [ ] Uses `CustomLoadingButton` for primary buttons
+- [ ] Uses `Dimensions` constants for spacing, padding, gaps, and border radius
+- [ ] Uses `ThemeColors` from `context.color` extension
+- [ ] Uses `ThemeTextStyles` from `context.textStyle` extension
+- [ ] No hardcoded colors or text styles
+- [ ] `analysis_lints: ^1.0.5` configured in `analysis_options.yaml`
 
 ---
 

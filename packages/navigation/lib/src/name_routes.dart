@@ -3,6 +3,7 @@ final class Routes {
 
   /// initial
   static const String initial = '/';
+  static const String welcome = '/welcome';
 
   /// system
   static const String noInternet = '/no-internet';

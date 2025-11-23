@@ -122,6 +122,36 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Настройки'**
   String get settings;
+
+  /// No description provided for @handbookTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Handbook'**
+  String get handbookTitle;
+
+  /// No description provided for @welcomeSubtitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'добро пожаловать в систему'**
+  String get welcomeSubtitle;
+
+  /// No description provided for @welcomeDescription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ваш премиум помощник'**
+  String get welcomeDescription;
+
+  /// No description provided for @proceedButton.
+  ///
+  /// In ru, this message translates to:
+  /// **'Продолжить'**
+  String get proceedButton;
+
+  /// No description provided for @getHelp.
+  ///
+  /// In ru, this message translates to:
+  /// **'Получить помощь'**
+  String get getHelp;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

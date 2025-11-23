@@ -22,4 +22,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings => 'Settings';
+
+  @override
+  String get handbookTitle => 'Handbook';
+
+  @override
+  String get welcomeSubtitle => 'welcome to the system';
+
+  @override
+  String get welcomeDescription => 'Your premium assistant';
+
+  @override
+  String get proceedButton => 'Proceed';
+
+  @override
+  String get getHelp => 'Get help';
 }

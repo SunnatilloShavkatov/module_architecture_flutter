@@ -22,4 +22,19 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get settings => 'Sozlamalar';
+
+  @override
+  String get handbookTitle => 'Handbook';
+
+  @override
+  String get welcomeSubtitle => 'tizimiga hush kelibsiz';
+
+  @override
+  String get welcomeDescription => 'Sizni premium dastyorimiz';
+
+  @override
+  String get proceedButton => 'Oldinga harakat qilish';
+
+  @override
+  String get getHelp => 'Yordam olish';
 }

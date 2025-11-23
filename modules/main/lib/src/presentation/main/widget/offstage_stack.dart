@@ -8,5 +8,5 @@ class OffstageStack extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => Offstage(offstage: false, child: isVisited ? child : Dimensions.kGap);
+  Widget build(BuildContext context) => Offstage(offstage: false, child: isVisited ? child : Dimensions.kZeroBox);
 }

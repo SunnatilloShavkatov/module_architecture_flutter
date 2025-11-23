@@ -3,5 +3,10 @@
   "units": "Darslar",
   "resources": "Resurslar",
   "more": "Ko'proq",
-  "settings": "Sozlamalar"
+  "settings": "Sozlamalar",
+  "handbookTitle": "Handbook",
+  "welcomeSubtitle": "tizimiga hush kelibsiz",
+  "welcomeDescription": "Sizni premium dastyorimiz",
+  "proceedButton": "Oldinga harakat qilish",
+  "getHelp": "Yordam olish"
 }

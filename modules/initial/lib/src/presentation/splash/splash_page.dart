@@ -18,7 +18,7 @@ class _SplashPageState extends State<SplashPage> {
     Future.delayed(const Duration(seconds: 1), () async {
       AppInjector.instance.isReadySync<PackageInfo>();
       if (mounted) {
-        await Navigator.pushReplacementNamed(context, Routes.main);
+        await Navigator.pushReplacementNamed(context, Routes.welcome);
       }
     });
   }

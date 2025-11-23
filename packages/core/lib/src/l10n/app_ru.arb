@@ -3,5 +3,10 @@
   "units": "Единицы",
   "resources": "Ресурсы",
   "more": "Еще",
-  "settings": "Настройки"
+  "settings": "Настройки",
+  "handbookTitle": "Handbook",
+  "welcomeSubtitle": "добро пожаловать в систему",
+  "welcomeDescription": "Ваш премиум помощник",
+  "proceedButton": "Продолжить",
+  "getHelp": "Получить помощь"
 }

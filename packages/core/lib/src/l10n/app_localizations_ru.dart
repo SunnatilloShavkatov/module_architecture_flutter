@@ -22,4 +22,19 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settings => 'Настройки';
+
+  @override
+  String get handbookTitle => 'Handbook';
+
+  @override
+  String get welcomeSubtitle => 'добро пожаловать в систему';
+
+  @override
+  String get welcomeDescription => 'Ваш премиум помощник';
+
+  @override
+  String get proceedButton => 'Продолжить';
+
+  @override
+  String get getHelp => 'Получить помощь';
 }
