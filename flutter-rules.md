@@ -15,6 +15,7 @@
 **Naming:** `snake_case.dart` files, `PascalCase` classes, `camelCase` variables  
 **Error Handling:** Either pattern with Failure/Exception hierarchy  
 **UI Components:** `SafeAreaWithMinimum`, `CustomLoadingButton`, `Dimensions`, `ThemeColors`, `ThemeTextStyles`  
+**Packages:** `core` (functionality), `components` (UI), `navigation` (routing), `merge_dependencies` (app entry only), `base_dependencies` (pubspec only)  
 
 ---
 
@@ -286,7 +287,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:core/core.dart';
-import 'package:base_dependencies/base_dependencies.dart';
+import 'package:components/components.dart';
 
 import 'auth_bloc.dart';
 ```
@@ -343,12 +344,15 @@ final result = await _networkProvider.fetchMethod<DataMap>(
 - ARB files: `intl_uz.arb`, `intl_ru.arb`
 - Default locale: `uz`
 - Supported: `uz`, `ru`
+- Provided by: `core` package (see [Section 14: Package Usage Rules](#14-package-usage-rules))
 
 ### Usage
 ```dart
 context.localizations.appName
 context.localizations.login
 ```
+
+> **Note:** The `context.localizations` extension is provided by the `core` package. Import `package:core/core.dart` to use it.
 
 ---
 
@@ -601,6 +605,265 @@ class WelcomePage extends StatelessWidget {
 
 ---
 
+## 14. Package Usage Rules
+
+### Package Dependency Hierarchy
+
+```
+main.dart (app entry point)
+  └── merge_dependencies (aggregates all)
+      ├── base_dependencies (external packages)
+      ├── core (core functionality)
+      ├── components (UI components)
+      ├── navigation (routing)
+      └── modules (feature modules)
+```
+
+### base_dependencies
+
+**Purpose:** External third-party dependencies only
+
+**Contains:**
+- `get_it` - Dependency injection
+- `equatable` - Value equality
+- `flutter_bloc` - State management
+- `dio` - HTTP client
+- `hive_ce` - Local storage
+- `firebase_*` - Firebase services
+- Other external packages
+
+**Usage Rules:**
+- ✅ **MUST** use when you need external packages directly
+- ✅ **MUST** use in `pubspec.yaml` dependencies when module needs external packages
+- ❌ **NEVER** import `base_dependencies` directly in modules - use `core` or `merge_dependencies` instead
+- ❌ **NEVER** export external packages from modules - they should come through `base_dependencies`
+
+**Example:**
+```dart
+// ✅ Correct - In module pubspec.yaml
+dependencies:
+  base_dependencies:
+    path: ../../packages/base_dependencies
+
+// ❌ Wrong - Direct import in module code
+import 'package:base_dependencies/base_dependencies.dart'; // Use core or merge_dependencies instead
+```
+
+---
+
+### core
+
+**Purpose:** Core application functionality and abstractions
+
+**Contains:**
+- Network provider (`NetworkProvider`)
+- Error handling (`Failure`, `ServerException`, `Either`)
+- Dependency injection abstractions (`Injection`, `Injector`, `ModuleContainer`)
+- Extensions (`context.localizations`, `context.color`, `context.textStyle`)
+- Localization (`AppLocalizations`)
+- Constants (`ApiPaths`, `StorageKeys`, `Environment`)
+- Use case base class (`UseCase`)
+- Utilities (`logMessage`, `typedef`)
+
+**Usage Rules:**
+- ✅ **MUST** use for network operations, error handling, DI abstractions
+- ✅ **MUST** use for extensions:
+  - `context.localizations` - Localization (see [Section 9: Localization](#9-localization))
+  - `context.color` - Theme colors (see [Section 13: UI Components & Styling](#13-ui-components--styling))
+  - `context.textStyle` - Text styles (see [Section 13: UI Components & Styling](#13-ui-components--styling))
+- ✅ **MUST** use for constants and environment configuration
+- ✅ **MUST** use in modules for core functionality
+- ❌ **NEVER** put UI components in `core` - use `components` instead
+- ❌ **NEVER** put external dependencies directly in `core` - use `base_dependencies`
+
+**Example:**
+```dart
+// ✅ Correct
+import 'package:core/core.dart';
+
+// In data source
+final result = await _networkProvider.fetchMethod(...);
+
+// In repository
+return Right(result);
+
+// In presentation
+Text(context.localizations.appName)
+Text('Hello', style: context.textStyle.defaultW700x24)
+Container(color: context.color.primary)
+```
+
+---
+
+### components
+
+**Purpose:** Reusable UI components and styling
+
+**Contains:**
+- UI Components (`CustomLoadingButton`, `CustomTextField`, `SafeAreaWithMinimum`)
+- Theme (`ThemeColors`, `ThemeTextStyles`, `Themes`)
+- Dimensions (`Dimensions` constants)
+- Gap widgets (`Gap`, `SliverGap`)
+- Animations (`CarouselSlider`, `CustomLinearProgress`)
+- Inputs (`CustomPhoneTextField`, `MaskedTextInputFormatter`)
+
+> **Note:** For detailed usage examples of UI components, see [Section 13: UI Components & Styling](#13-ui-components--styling)
+
+**Usage Rules:**
+- ✅ **MUST** use for all UI components and widgets
+- ✅ **MUST** use `Dimensions` for spacing, padding, gaps, border radius (see Section 13)
+- ✅ **MUST** use `ThemeColors` and `ThemeTextStyles` via extensions (see Section 13)
+- ✅ **MUST** use `SafeAreaWithMinimum` instead of `SafeArea` (see Section 13)
+- ✅ **MUST** use `CustomLoadingButton` for primary buttons (see Section 13)
+- ❌ **NEVER** create custom UI components in modules - add to `components` if reusable
+- ❌ **NEVER** hardcode dimensions, colors, or text styles - use from `components`
+
+**Example:**
+```dart
+// ✅ Correct
+import 'package:components/components.dart';
+
+SafeAreaWithMinimum(
+  minimum: Dimensions.kPaddingAll16,
+  child: Column(
+    children: [
+      CustomLoadingButton(
+        onPressed: () {},
+        child: Text('Button', style: context.textStyle.buttonStyle),
+      ),
+      Dimensions.kGap16,
+      CustomTextField(...),
+    ],
+  ),
+)
+```
+
+---
+
+### navigation
+
+**Purpose:** Routing and navigation utilities
+
+**Contains:**
+- Route names (`NameRoutes`)
+- Navigation observer (`RouteNavigationObserver`)
+- Custom page routes (`MaterialSheetRoute`)
+- Global navigator key (`rootNavigatorKey`)
+- Chuck interceptor (`chuck`)
+
+**Usage Rules:**
+- ✅ **MUST** use for all navigation-related code
+- ✅ **MUST** use `NameRoutes` constants for route names
+- ✅ **MUST** use `rootNavigatorKey` for global navigation
+- ✅ **MUST** use in router implementations
+- ❌ **NEVER** hardcode route names as strings - use `NameRoutes`
+- ❌ **NEVER** create navigation utilities in modules - add to `navigation` if reusable
+
+**Example:**
+```dart
+// ✅ Correct
+import 'package:navigation/navigation.dart';
+
+// In router
+routes: {
+  NameRoutes.login: (context) => const LoginPage(),
+}
+
+// In code
+Navigator.pushNamed(context, NameRoutes.login);
+```
+
+---
+
+### merge_dependencies
+
+**Purpose:** Dependency aggregator - main entry point for all packages and modules
+
+**Contains:**
+- Re-exports all packages (`base_dependencies`, `core`, `components`, `navigation`)
+- Module registration (`MergeDependencies.registerModules()`)
+- Route generation (`MergeDependencies.instance.generateRoutes()`)
+- Environment initialization (`MergeDependencies.initEnvironment()`)
+
+**Usage Rules:**
+- ✅ **MUST** use in `main.dart` (app entry point)
+- ✅ **MUST** use for initializing DI and routes
+- ✅ **CAN** use in app-level code to access all packages through single import
+- ❌ **NEVER** use in modules - modules should import packages directly (`core`, `components`, `navigation`)
+- ❌ **NEVER** add module-specific code to `merge_dependencies`
+
+**Example:**
+```dart
+// ✅ Correct - In main.dart
+import 'package:merge_dependencies/merge_dependencies.dart';
+
+void main() async {
+  MergeDependencies.initEnvironment(env: Environment.prod);
+  await MergeDependencies.instance.registerModules();
+  runApp(const App());
+}
+
+// ❌ Wrong - In modules
+import 'package:merge_dependencies/merge_dependencies.dart'; // Use core/components/navigation directly
+```
+
+---
+
+### Module Package Dependencies
+
+**Rules for modules (`modules/*/pubspec.yaml`):**
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  # packages - direct dependencies
+  core:
+    path: ../../packages/core
+  components:
+    path: ../../packages/components
+  navigation:
+    path: ../../packages/navigation
+  base_dependencies:
+    path: ../../packages/base_dependencies
+  # modules - only if needed
+  other_module:
+    path: ../../modules/other_module
+```
+
+**Import Patterns in Modules:**
+
+```dart
+// ✅ Correct - Import packages directly
+import 'package:core/core.dart';
+import 'package:components/components.dart';
+import 'package:navigation/navigation.dart';
+
+// ❌ Wrong - Don't import merge_dependencies in modules
+import 'package:merge_dependencies/merge_dependencies.dart';
+```
+
+**Package Interdependencies:**
+
+- `core` depends on: `base_dependencies`, `navigation`
+- `components` depends on: `base_dependencies`
+- `navigation` depends on: external packages only (`chuck_interceptor`)
+- `merge_dependencies` depends on: all packages and all modules
+
+---
+
+### Summary Table
+
+| Package | Use In | Purpose | Direct Imports |
+|---------|--------|---------|----------------|
+| `base_dependencies` | `pubspec.yaml` only | External dependencies | ❌ Never |
+| `core` | Modules, App | Core functionality | ✅ Yes |
+| `components` | Modules, App | UI components | ✅ Yes |
+| `navigation` | Modules, App | Routing | ✅ Yes |
+| `merge_dependencies` | `main.dart` only | Dependency aggregator | ✅ In app only |
+
+---
+
 ## AI Assistant Checklist
 
 When generating code, ensure:
@@ -621,7 +884,14 @@ When generating code, ensure:
 - [ ] Uses `ThemeTextStyles` from `context.textStyle` extension
 - [ ] No hardcoded colors or text styles
 - [ ] `analysis_lints: ^1.0.5` configured in `analysis_options.yaml`
+- [ ] **Package Usage:**
+  - [ ] Uses `core` for network, error handling, extensions, constants
+  - [ ] Uses `components` for UI components, theme, dimensions
+  - [ ] Uses `navigation` for routing and navigation
+  - [ ] Uses `merge_dependencies` only in `main.dart`
+  - [ ] Modules import packages directly (`core`, `components`, `navigation`), not `merge_dependencies`
+  - [ ] Never imports `base_dependencies` directly in code (only in `pubspec.yaml`)
 
 ---
 
-**Reference:** See `docs/flutter-rules.md` for detailed examples and `docs/architecture.md` for full architecture documentation.
+**Reference:** This file (`flutter-rules.md`) contains all the project's coding standards and architecture rules.
