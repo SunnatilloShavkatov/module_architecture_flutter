@@ -1,8 +1,8 @@
 import 'package:core/src/core_abstractions/injector.dart';
-import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 abstract interface class AppRouter {
   const AppRouter();
 
-  Map<String, ModalRoute<dynamic>> getRoutes(RouteSettings settings, Injector di);
+  List<GoRoute> getRouters(Injector di);
 }

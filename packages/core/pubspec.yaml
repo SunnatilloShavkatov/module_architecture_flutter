@@ -18,6 +18,8 @@ dependencies:
     path: ../navigation
   base_dependencies:
     path: ../base_dependencies
+  # external packages
+  go_router: ^17.0.0
 
 dev_dependencies:
   flutter_test:

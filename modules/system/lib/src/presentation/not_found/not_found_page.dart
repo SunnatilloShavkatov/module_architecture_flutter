@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:navigation/navigation.dart';
 
 class NotFoundPage extends StatelessWidget {
   const NotFoundPage({super.key, required this.settings});
-  final RouteSettings settings;
+
+  final GoRouterState settings;
 
   @override
   Widget build(BuildContext context) => Scaffold(

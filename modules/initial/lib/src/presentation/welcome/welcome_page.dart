@@ -34,8 +34,8 @@ class WelcomePage extends StatelessWidget {
           ),
           Dimensions.kSpacer,
           CustomLoadingButton(
-            onPressed: () async {
-              await Navigator.pushReplacementNamed(context, Routes.main);
+            onPressed: () {
+              context.pushReplacementNamed(Routes.main);
             },
             child: Text(context.localizations.proceedButton),
           ),

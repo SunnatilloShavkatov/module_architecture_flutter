@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   # external packages
+  go_router: ^17.0.0
   chuck_interceptor: ^2.3.3
 
 dev_dependencies:

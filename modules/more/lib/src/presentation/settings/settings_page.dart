@@ -18,7 +18,7 @@ class SettingsPage extends StatelessWidget {
           ListTile(
             title: const Text('Choose theme mode'),
             onTap: () async {
-              final themeMode = await Navigator.pushNamed(context, Routes.chooseThemeModeSheet);
+              final themeMode = await context.pushNamed(Routes.chooseThemeModeSheet);
               if (themeMode != null && themeMode is ThemeMode && context.mounted) {
                 context.setThemeMode(themeMode);
                 unawaited(localSource.setThemeMode(themeMode));

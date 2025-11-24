@@ -5,7 +5,7 @@ class App extends StatelessWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
+  Widget build(BuildContext context) => MaterialApp.router(
     key: const Key('materialApp'),
     onGenerateTitle: (_) => 'Module',
     debugShowCheckedModeBanner: false,
@@ -22,11 +22,7 @@ class App extends StatelessWidget {
     ),
 
     /// route
-    initialRoute: Routes.initial,
-    navigatorKey: rootNavigatorKey,
-    navigatorObservers: [navigatorObserver],
-    onUnknownRoute: MergeDependencies.instance.unknownRoute,
-    onGenerateRoute: MergeDependencies.instance.generateRoutes,
+    routerConfig: MergeDependencies.router,
 
     /// text scale factor
     // builder: (context, child) => MediaQuery(

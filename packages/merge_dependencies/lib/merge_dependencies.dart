@@ -1,5 +1,4 @@
 import 'package:auth/auth.dart';
-import 'package:flutter/material.dart';
 import 'package:initial/initial.dart';
 import 'package:main/main.dart';
 import 'package:merge_dependencies/merge_dependencies.dart';
@@ -37,21 +36,18 @@ final class MergeDependencies {
       .map((c) => c.router!)
       .toList();
 
-  Route<dynamic>? generateRoutes(RouteSettings settings) {
-    final Map<String, ModalRoute<dynamic>> routes = {};
-    for (int i = 0; i < _allRouters.length; i++) {
-      routes.addAll(_allRouters[i].getRoutes(settings, AppInjector.instance));
-    }
-    return routes[settings.name];
-  }
-
-  Route<dynamic>? unknownRoute(RouteSettings settings) =>
-      MaterialPageRoute(builder: (_) => NotFoundPage(settings: settings));
-
   Future<void> registerModules() async =>
       Future.wait(_injections.map((i) async => i.registerDependencies(di: AppInjector.instance)));
 
   static void initEnvironment({required Environment env}) {
     AppEnvironment.instance.initEnvironment(env: env);
   }
+
+  static final GoRouter router = GoRouter(
+    navigatorKey: rootNavigatorKey,
+    observers: [navigatorObserver],
+    initialLocation: Routes.initial,
+    errorBuilder: (context, state) => NotFoundPage(settings: state),
+    routes: _allRouters.map((e) => e.getRouters(AppInjector.instance)).expand((e) => e).toList(),
+  );
 }

@@ -11,7 +11,6 @@ import 'package:core/src/local_source/local_source.dart';
 import 'package:core/src/network/network_provider.dart';
 import 'package:core/src/retriever/sms_retriever_impl.dart';
 import 'package:core/src/utils/utils.dart';
-import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
 
 final class CoreInjection implements Injection {
@@ -61,7 +60,7 @@ final class CoreInjection implements Injection {
           if (navigatorObserver.currentRoutes.contains(Routes.noInternet)) {
             return;
           }
-          await Navigator.pushNamed(rootNavigatorKey.currentContext!, Routes.noInternet);
+          await rootNavigatorKey.currentContext?.pushNamed(Routes.noInternet);
         },
         accessTokenGetter: () => di.get<LocalSource>().accessToken ?? '',
         forbiddenFunction: () async {},
@@ -103,5 +102,5 @@ Future<void> _onLogout() async {
   if (navigatorObserver.currentRoutes.contains(Routes.initial)) {
     return;
   }
-  unawaited(Navigator.pushNamedAndRemoveUntil(rootNavigatorKey.currentContext!, Routes.initial, (_) => false));
+  rootNavigatorKey.currentContext?.goNamed(Routes.initial);
 }

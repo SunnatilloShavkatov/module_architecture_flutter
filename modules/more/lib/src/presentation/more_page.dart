@@ -20,14 +20,14 @@ class MorePage extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, Routes.settings);
+                context.pushNamed(Routes.settings);
               },
               child: Text(context.localizations.settings),
             ),
             CustomLoadingButton(
               child: const Text('Settings'),
               onPressed: () async {
-                await Navigator.pushNamed(context, Routes.settings);
+                await context.pushNamed(Routes.settings);
               },
             ),
           ],
