@@ -1,5 +1,6 @@
 import 'package:components/components.dart';
 import 'package:flutter/material.dart';
+import 'package:navigation/navigation.dart';
 
 class ChooseThemeModeSheet extends StatelessWidget {
   const ChooseThemeModeSheet({super.key});
@@ -15,21 +16,21 @@ class ChooseThemeModeSheet extends StatelessWidget {
         Dimensions.kGap32,
         ElevatedButton(
           onPressed: () {
-            Navigator.pop(context, ThemeMode.system);
+            context.pop(ThemeMode.system);
           },
           child: const Text('Device mode'),
         ),
         Dimensions.kGap16,
         ElevatedButton(
           onPressed: () {
-            Navigator.pop(context, ThemeMode.dark);
+            context.pop(ThemeMode.dark);
           },
           child: const Text('Dark mode'),
         ),
         Dimensions.kGap16,
         ElevatedButton(
           onPressed: () {
-            Navigator.pop(context, ThemeMode.light);
+            context.pop(ThemeMode.light);
           },
           child: const Text('Light mode'),
         ),

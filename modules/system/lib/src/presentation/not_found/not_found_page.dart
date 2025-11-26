@@ -12,7 +12,7 @@ class NotFoundPage extends StatelessWidget {
     bottomNavigationBar: SafeArea(
       child: ElevatedButton(
         onPressed: () {
-          Navigator.of(context).pop();
+          context.pop();
         },
         child: const Text('Go back'),
       ),

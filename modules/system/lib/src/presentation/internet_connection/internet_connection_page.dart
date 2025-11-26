@@ -3,6 +3,7 @@ import 'package:base_dependencies/base_dependencies.dart';
 import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:navigation/navigation.dart';
 
 class InternetConnectionPage extends StatefulWidget {
   const InternetConnectionPage({super.key});
@@ -23,7 +24,7 @@ class InternetConnectionPageState extends State<InternetConnectionPage> {
 
   Future<void> _updateConnectionStatus(List<ConnectivityResult> status) async {
     if (!status.contains(ConnectivityResult.none) && await networkInfo.isConnected && mounted) {
-      Navigator.of(context).pop();
+      context.pop();
     }
   }
 
@@ -60,7 +61,7 @@ class InternetConnectionPageState extends State<InternetConnectionPage> {
               Future<void>.delayed(const Duration(milliseconds: 1), () async {
                 final bool isConnected = await networkInfo.isConnected;
                 if (isConnected && context.mounted) {
-                  Navigator.of(context).pop();
+                  context.pop();
                 } else if (mounted) {
                   _isLoaded.value = false;
                 }
