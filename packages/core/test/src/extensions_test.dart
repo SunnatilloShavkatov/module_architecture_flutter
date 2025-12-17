@@ -14,9 +14,5 @@ void main() {
       expect(12345.moneyFormat, '12 345');
       expect((-12345).moneyFormat, '-12 345');
     });
-
-    test('moneyFormatSymbol appends ', () {
-      expect(1000.moneyFormatSymbol, r'1 000 $');
-    });
   });
 }

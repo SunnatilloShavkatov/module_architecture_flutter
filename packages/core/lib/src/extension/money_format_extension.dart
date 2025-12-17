@@ -2,12 +2,10 @@ part of 'extension.dart';
 
 extension MoneyFormatExtension on num {
   String get moneyFormat {
-    final formatter = NumberFormat('#,##0.######', 'en_US');
-    final formatted = formatter.format(abs()).replaceAll(',', ' ');
-    return isNegative ? '-$formatted' : formatted;
+    final format = NumberFormat('#,##0.###', 'en_US');
+    final result = format.format(abs()).replaceAll(format.symbols.GROUP_SEP, ' ');
+    return isNegative ? '-$result' : result;
   }
-
-  String get moneyFormatSymbol => '$moneyFormat \$';
 }
 
 extension StringMoneyFormatExtension on String {
@@ -17,13 +15,5 @@ extension StringMoneyFormatExtension on String {
       return this;
     }
     return value.moneyFormat;
-  }
-
-  String get moneyFormatSymbol {
-    final num? value = num.tryParse(this);
-    if (value == null) {
-      return this;
-    }
-    return value.moneyFormatSymbol;
   }
 }
