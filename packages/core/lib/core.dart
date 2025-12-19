@@ -1,8 +1,4 @@
-import 'package:base_dependencies/base_dependencies.dart';
-import 'package:core/src/connectivity/network_info.dart';
-import 'package:core/src/di/app_injector.dart';
-import 'package:core/src/local_source/local_source.dart';
-
+export 'package:core/src/connectivity/network_info.dart';
 export 'src/constants/api_paths.dart';
 export 'src/constants/constants.dart';
 export 'src/constants/env.dart';
@@ -29,12 +25,3 @@ export 'src/services/base_listener_types.dart';
 export 'src/services/notification_service.dart';
 export 'src/usecase/usecase.dart';
 export 'src/utils/utils.dart';
-
-/// internet connection
-NetworkInfo get networkInfo => AppInjector.instance.get<NetworkInfo>();
-
-Connectivity get connectivity => AppInjector.instance.get<Connectivity>();
-
-PackageInfo get packageInfo => AppInjector.instance.get<PackageInfo>();
-
-LocalSource get localSource => AppInjector.instance.get<LocalSource>();

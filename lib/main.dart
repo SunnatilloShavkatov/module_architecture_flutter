@@ -65,8 +65,8 @@ Future<void> main() async {
       runApp(
         ModelBinding(
           initialModel: AppOptions(
-            themeMode: localSource.themeMode,
-            locale: Locale(localSource.locale ?? defaultLocale),
+            themeMode: AppInjector.instance.get<LocalSource>().themeMode,
+            locale: Locale(AppInjector.instance.get<LocalSource>().locale ?? defaultLocale),
           ),
           child: const App(),
         ),

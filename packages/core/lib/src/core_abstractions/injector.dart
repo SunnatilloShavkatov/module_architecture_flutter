@@ -28,6 +28,8 @@ abstract interface class Injector {
 
   T get<T extends Object>({String? instanceName});
 
+  Future<T> getAsync<T extends Object>({String? instanceName});
+
   void unregister<T extends Object>();
 
   bool isReadySync<T extends Object>({Object? instance, String? instanceName});

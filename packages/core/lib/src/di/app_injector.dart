@@ -28,6 +28,9 @@ final class AppInjector implements Injector {
   T get<T extends Object>({String? instanceName}) => _getIt.get<T>(instanceName: instanceName);
 
   @override
+  Future<T> getAsync<T extends Object>({String? instanceName}) => _getIt.getAsync<T>(instanceName: instanceName);
+
+  @override
   Future<void> unregister<T extends Object>() async => _getIt.unregister<T>();
 
   @override

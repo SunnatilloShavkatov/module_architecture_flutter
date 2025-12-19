@@ -19,11 +19,15 @@ class InternetConnectionPageState extends State<InternetConnectionPage> {
   @override
   void initState() {
     super.initState();
-    _connectivityChangedListener = connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    _connectivityChangedListener = AppInjector.instance.get<Connectivity>().onConnectivityChanged.listen(
+      _updateConnectionStatus,
+    );
   }
 
   Future<void> _updateConnectionStatus(List<ConnectivityResult> status) async {
-    if (!status.contains(ConnectivityResult.none) && await networkInfo.isConnected && mounted) {
+    if (!status.contains(ConnectivityResult.none) &&
+        await AppInjector.instance.get<NetworkInfo>().isConnected &&
+        mounted) {
       context.pop();
     }
   }
@@ -59,7 +63,7 @@ class InternetConnectionPageState extends State<InternetConnectionPage> {
             onPressed: () async {
               _isLoaded.value = true;
               Future<void>.delayed(const Duration(milliseconds: 1), () async {
-                final bool isConnected = await networkInfo.isConnected;
+                final bool isConnected = await AppInjector.instance.get<NetworkInfo>().isConnected;
                 if (isConnected && context.mounted) {
                   context.pop();
                 } else if (mounted) {

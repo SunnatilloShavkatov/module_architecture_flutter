@@ -1,6 +1,4 @@
-import 'package:base_dependencies/base_dependencies.dart';
 import 'package:components/components.dart';
-import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
 
@@ -16,7 +14,6 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 1), () async {
-      AppInjector.instance.isReadySync<PackageInfo>();
       if (mounted) {
         context.pushReplacementNamed(Routes.welcome);
       }

@@ -11,6 +11,7 @@ import 'package:core/src/local_source/local_source.dart';
 import 'package:core/src/network/network_provider.dart';
 import 'package:core/src/retriever/sms_retriever_impl.dart';
 import 'package:core/src/utils/utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:navigation/navigation.dart';
 
 final class CoreInjection implements Injection {
@@ -26,9 +27,9 @@ final class CoreInjection implements Injection {
           ..options = BaseOptions(
             followRedirects: false,
             contentType: 'application/json',
-            sendTimeout: const Duration(seconds: 30),
+            sendTimeout: const Duration(seconds: 20),
+            receiveTimeout: const Duration(seconds: 25),
             connectTimeout: const Duration(seconds: 30),
-            receiveTimeout: const Duration(seconds: 30),
           )
           ..httpClientAdapter = IOHttpClientAdapter(
             createHttpClient: () =>
@@ -37,13 +38,14 @@ final class CoreInjection implements Injection {
           )
           ..interceptors.addAll(<Interceptor>[
             chuck.dioInterceptor,
-            LogInterceptor(
-              requestBody: true,
-              responseBody: true,
-              logPrint: (object) {
-                logMessage('dio: $object');
-              },
-            ),
+            if (kDebugMode)
+              LogInterceptor(
+                requestBody: true,
+                responseBody: true,
+                logPrint: (object) {
+                  logMessage('dio: $object');
+                },
+              ),
           ]),
       )
       ..registerLazySingleton<Connectivity>(Connectivity.new)

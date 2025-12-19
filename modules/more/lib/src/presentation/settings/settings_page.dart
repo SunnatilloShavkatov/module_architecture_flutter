@@ -21,7 +21,7 @@ class SettingsPage extends StatelessWidget {
               final themeMode = await context.pushNamed(Routes.chooseThemeModeSheet);
               if (themeMode != null && themeMode is ThemeMode && context.mounted) {
                 context.setThemeMode(themeMode);
-                unawaited(localSource.setThemeMode(themeMode));
+                unawaited(AppInjector.instance.get<LocalSource>().setThemeMode(themeMode));
               }
             },
           ),

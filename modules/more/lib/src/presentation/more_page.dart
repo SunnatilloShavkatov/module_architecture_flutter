@@ -1,5 +1,6 @@
 // ignore_for_file: discarded_futures
 
+import 'package:base_dependencies/base_dependencies.dart';
 import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,15 @@ class MorePage extends StatelessWidget {
       ),
       bottomNavigationBar: SafeArea(
         minimum: Dimensions.kPaddingAll16,
-        child: Text('${packageInfo.version} (${packageInfo.buildNumber})', textAlign: TextAlign.center),
+        child: FutureBuilder<PackageInfo>(
+          future: AppInjector.instance.getAsync<PackageInfo>(),
+          builder: (_, snapshot) {
+            if (snapshot.data == null) {
+              return const SizedBox.shrink();
+            }
+            return Text('${snapshot.data!.version} (${snapshot.data!.buildNumber})', textAlign: TextAlign.center);
+          },
+        ),
       ),
     );
   }
