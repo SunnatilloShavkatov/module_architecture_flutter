@@ -3,7 +3,7 @@
 part of 'main_remote_data_source.dart';
 
 class MainRemoteDataSourceImpl implements MainRemoteDataSource {
-  const MainRemoteDataSourceImpl(this._dio);
+  const MainRemoteDataSourceImpl(this._networkProvider);
 
-  final Dio _dio;
+  final NetworkProvider _networkProvider;
 }

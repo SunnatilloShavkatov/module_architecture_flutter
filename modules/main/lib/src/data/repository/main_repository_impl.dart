@@ -1,10 +1,12 @@
 // ignore_for_file: unused_field
 
-part of 'package:main/src/domain/repository/main_repository.dart';
+import 'package:main/src/data/datasource/main_local_data_source.dart';
+import 'package:main/src/data/datasource/main_remote_data_source.dart';
+import 'package:main/src/domain/repository/main_repo.dart';
 
-class MainRepositoryImpl implements MainRepository {
-  MainRepositoryImpl(this._remoteSource, this._localSource);
+class MainRepoImpl implements MainRepo {
+  const MainRepoImpl(this._remoteSource, this._localSource);
 
-  final MainRemoteDataSource _remoteSource;
   final MainLocalDataSource _localSource;
+  final MainRemoteDataSource _remoteSource;
 }
