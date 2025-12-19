@@ -22,6 +22,7 @@ final class CoreInjection implements Injection {
     /// External
     await _initHive(di: di);
     di
+      ..registerLazySingleton<Injector>(() => AppInjector.instance)
       ..registerLazySingleton(
         () => Dio()
           ..options = BaseOptions(

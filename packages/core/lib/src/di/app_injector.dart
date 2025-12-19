@@ -8,7 +8,7 @@ final GetIt _getIt = GetIt.instance;
 final class AppInjector implements Injector {
   const AppInjector._();
 
-  static const Injector instance = AppInjector._();
+  static const AppInjector instance = AppInjector._();
 
   @override
   void registerLazySingleton<T extends Object>(T Function() function, {String? instanceName}) {

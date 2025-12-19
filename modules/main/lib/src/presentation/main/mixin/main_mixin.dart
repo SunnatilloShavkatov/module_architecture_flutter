@@ -11,6 +11,8 @@ mixin MainMixin on State<MainPage> {
     _currentIndexNotifier.value = index;
   }
 
+  Injector get di => AppInjector.instance;
+
   @override
   void dispose() {
     _currentIndexNotifier.dispose();

@@ -2,7 +2,6 @@ import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:main/src/presentation/main/widget/offstage_stack.dart';
-import 'package:more/more.dart';
 
 part 'mixin/main_mixin.dart';
 
@@ -53,7 +52,7 @@ class _MainPageState extends State<MainPage> with MainMixin {
           OffstageStack(
             key: const Key('offstage_more'),
             isVisited: _isTabLoaded.contains(3),
-            child: const MorePage(key: Key('more')),
+            child: di.get<PageFactory>(instanceName: InstanceNameKeys.moreFactory).create(di),
           ),
         ],
       ),

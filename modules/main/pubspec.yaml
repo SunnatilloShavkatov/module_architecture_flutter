@@ -20,9 +20,6 @@ dependencies:
     path: ../../packages/navigation
   base_dependencies:
     path: ../../packages/base_dependencies
-  # modules
-  more:
-    path: ../../modules/more
 
 dev_dependencies:
   flutter_test:
