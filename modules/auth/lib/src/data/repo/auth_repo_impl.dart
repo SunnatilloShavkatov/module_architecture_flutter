@@ -1,4 +1,8 @@
-part of 'package:auth/src/domain/repo/auth_repo.dart';
+import 'package:auth/src/data/datasource/auth_local_data_source.dart';
+import 'package:auth/src/data/datasource/auth_remote_data_source.dart';
+import 'package:auth/src/domain/entities/login_entity.dart';
+import 'package:auth/src/domain/repo/auth_repo.dart';
+import 'package:core/core.dart';
 
 final class AuthRepoImpl implements AuthRepo {
   const AuthRepoImpl(this._remoteSource, this._dataSource);

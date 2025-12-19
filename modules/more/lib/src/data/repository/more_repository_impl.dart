@@ -1,6 +1,9 @@
 // ignore_for_file: unused_field
 
-part of 'package:more/src/domain/repository/more_repository.dart';
+import 'package:core/core.dart';
+import 'package:more/src/data/datasource/more_local_data_source_impl.dart';
+import 'package:more/src/data/datasource/more_remote_data_source.dart';
+import 'package:more/src/domain/repository/more_repository.dart';
 
 final class MoreRepositoryImpl implements MoreRepository {
   const MoreRepositoryImpl(this._remoteSource, this._localSource);
