@@ -4,5 +4,5 @@ import 'package:go_router/go_router.dart';
 abstract interface class AppRouter {
   const AppRouter();
 
-  List<GoRoute> getRouters(Injector di);
+  List<RouteBase> getRouters(Injector di);
 }
