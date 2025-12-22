@@ -1,4 +1,5 @@
 import 'package:auth/auth.dart';
+import 'package:home/home.dart';
 import 'package:initial/initial.dart';
 import 'package:main/main.dart';
 import 'package:merge_dependencies/merge_dependencies.dart';
@@ -20,6 +21,7 @@ final class MergeDependencies {
   static const List<ModuleContainer> _allContainer = [
     CoreContainer(),
     AuthContainer(),
+    HomeContainer(),
     InitialContainer(),
     MainContainer(),
     MoreContainer(),

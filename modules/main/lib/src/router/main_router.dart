@@ -14,7 +14,13 @@ final class MainRouter implements AppRouter {
       branches: [
         StatefulShellBranch(
           initialLocation: Routes.mainHome,
-          routes: [GoRoute(path: Routes.mainHome, name: Routes.mainHome, builder: (_, _) => Dimensions.kZeroBox)],
+          routes: [
+            GoRoute(
+              path: Routes.mainHome,
+              name: Routes.mainHome,
+              builder: (_, _) => di.get<PageFactory>(instanceName: InstanceNameKeys.homeFactory).create(di),
+            ),
+          ],
         ),
         StatefulShellBranch(
           initialLocation: Routes.mainUnits,
