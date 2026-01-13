@@ -1,5 +1,6 @@
 export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:core/src/connectivity/network_info.dart';
+export 'package:dio/dio.dart' show Dio;
 export 'package:equatable/equatable.dart';
 export 'package:firebase_analytics/firebase_analytics.dart';
 export 'package:firebase_core/firebase_core.dart';
@@ -40,6 +41,7 @@ export 'src/local_source/local_source.dart';
 export 'src/native_splash/flutter_native_splash.dart';
 export 'src/network/network_provider.dart';
 export 'src/retriever/sms_retriever_impl.dart';
+export 'src/services/app_navigation_service.dart';
 export 'src/services/base_listener_types.dart';
 export 'src/services/notification_service.dart';
 export 'src/usecase/usecase.dart';

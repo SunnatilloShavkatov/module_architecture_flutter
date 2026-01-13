@@ -1,9 +1,12 @@
 import 'package:auth/auth.dart';
+import 'package:core/core.dart';
+import 'package:flutter/material.dart';
 import 'package:home/home.dart';
 import 'package:initial/initial.dart';
 import 'package:main/main.dart';
-import 'package:merge_dependencies/merge_dependencies.dart';
+import 'package:merge_dependencies/src/services/app_navigation_service_impl.dart';
 import 'package:more/more.dart';
+import 'package:navigation/navigation.dart';
 import 'package:system/system.dart';
 
 export 'package:components/components.dart';
@@ -37,8 +40,14 @@ final class MergeDependencies {
       .map((c) => c.router! as AppRouter<RouteBase>)
       .toList();
 
-  Future<void> registerModules() async =>
-      Future.wait(_injections.map((i) async => i.registerDependencies(di: AppInjector.instance)));
+  Future<void> registerModules() async {
+    AppInjector.instance.registerSingleton<GlobalKey<NavigatorState>>(rootNavigatorKey);
+    AppInjector.instance.registerLazySingleton<AppNavigationService>(AppNavigationServiceImpl.new);
+    await Future.wait(_injections.map((i) async => i.registerDependencies(di: AppInjector.instance)));
+
+    // Add UI-level interceptors
+    AppInjector.instance.get<Dio>().interceptors.add(chuck.dioInterceptor);
+  }
 
   static void initEnvironment({required Environment env}) {
     AppEnvironment.instance.initEnvironment(env: env);

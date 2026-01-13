@@ -1,36 +1,32 @@
-import 'package:components/src/utils/dimensions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AppUpdateBottomSheetWidget extends StatelessWidget {
-  const AppUpdateBottomSheetWidget({required this.isForceUpdate, super.key, this.onTap});
+  const AppUpdateBottomSheetWidget({required this.isForceUpdate, super.key, this.onTap, this.onClose});
 
   final void Function()? onTap;
+  final void Function()? onClose;
   final bool isForceUpdate;
 
   @override
   Widget build(BuildContext context) => PopScope(
     canPop: false,
-    child: SafeArea(
-      minimum: Dimensions.kPaddingAll16,
+    child: Container(
+      padding: const EdgeInsets.all(16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          const Text('New version', textAlign: TextAlign.center),
-          Dimensions.kGap8,
-          const Text('App Name has become even more convenient', textAlign: TextAlign.center),
-          Dimensions.kGap16,
-          ElevatedButton(onPressed: onTap, child: const Text('Update')),
-          if (!isForceUpdate) Dimensions.kGap8,
-          if (!isForceUpdate)
-            OutlinedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Later'),
-            ),
+        children: [
+          const Text('Update Available', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 16),
+          const Text('A new version of the app is available. Please update for the best experience.'),
+          const SizedBox(height: 24),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              if (!isForceUpdate) OutlinedButton(onPressed: onClose, child: const Text('Later')),
+              ElevatedButton(onPressed: onTap, child: const Text('Update Now')),
+            ],
+          ),
         ],
       ),
     ),
@@ -41,6 +37,7 @@ class AppUpdateBottomSheetWidget extends StatelessWidget {
     super.debugFillProperties(properties);
     properties
       ..add(ObjectFlagProperty<void Function()?>.has('onTap', onTap))
+      ..add(ObjectFlagProperty<void Function()?>.has('onClose', onClose))
       ..add(DiagnosticsProperty<bool>('isForceUpdate', isForceUpdate));
   }
 }

@@ -10,13 +10,13 @@ import 'package:core/src/dio_retry/retry_interceptor.dart';
 import 'package:core/src/local_source/local_source.dart';
 import 'package:core/src/network/network_provider.dart';
 import 'package:core/src/retriever/sms_retriever_impl.dart';
+import 'package:core/src/services/app_navigation_service.dart';
 import 'package:core/src/utils/utils.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_pinput/flutter_pinput.dart';
 import 'package:hive_ce/hive.dart';
-import 'package:navigation/navigation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,7 +46,6 @@ final class CoreInjection implements Injection {
                   ..badCertificateCallback = (_, _, _) => false,
           )
           ..interceptors.addAll(<Interceptor>[
-            chuck.dioInterceptor,
             if (kDebugMode)
               LogInterceptor(
                 requestBody: true,
@@ -68,14 +67,15 @@ final class CoreInjection implements Injection {
       RetryInterceptor(
         dio: di.get<Dio>(),
         toNoInternetPageNavigator: () async {
-          if (navigatorObserver.currentRoutes.contains(Routes.noInternet)) {
+          final nav = di.get<AppNavigationService>();
+          if (nav.isCurrentPath('/no-internet')) {
             return;
           }
-          await rootNavigatorKey.currentContext?.pushNamed(Routes.noInternet);
+          nav.navigateToNoInternet();
         },
         accessTokenGetter: () => di.get<LocalSource>().accessToken ?? '',
         forbiddenFunction: () async {},
-        refreshTokenFunction: _onLogout,
+        refreshTokenFunction: () => _onLogout(di),
         logPrint: (String message) {
           logMessage('dio: $message');
         },
@@ -100,7 +100,7 @@ Future<void> _initHive({required Injector di}) async {
   di.registerSingleton<LocalSource>(LocalSourceImpl(box, cacheBox, prefs));
 }
 
-Future<void> _onLogout() async {
+Future<void> _onLogout(Injector di) async {
   try {
     await Future.wait(<Future<void>>[
       // FirebaseAuth.instance.signOut(),
@@ -109,9 +109,10 @@ Future<void> _onLogout() async {
   } on Exception catch (e, s) {
     logMessage('Error: ', error: e, stackTrace: s);
   }
-  await AppInjector.instance.get<LocalSource>().clear();
-  if (navigatorObserver.currentRoutes.contains(Routes.initial)) {
+  await di.get<LocalSource>().clear();
+  final nav = di.get<AppNavigationService>();
+  if (nav.isCurrentPath('/')) {
     return;
   }
-  rootNavigatorKey.currentContext?.goNamed(Routes.initial);
+  nav.navigateToInitial();
 }
