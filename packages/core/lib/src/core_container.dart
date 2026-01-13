@@ -7,7 +7,7 @@ final class CoreContainer implements ModuleContainer {
   const CoreContainer();
 
   @override
-  AppRouter? get router => null;
+  AppRouter<Object>? get router => null;
 
   @override
   Injection get injection => const CoreInjection();

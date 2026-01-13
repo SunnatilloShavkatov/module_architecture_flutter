@@ -1,6 +1,7 @@
-import 'package:base_dependencies/base_dependencies.dart';
 import 'package:core/src/constants/storage_keys.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_ce/hive_ce.dart' show Box;
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalSource {
   const LocalSource();

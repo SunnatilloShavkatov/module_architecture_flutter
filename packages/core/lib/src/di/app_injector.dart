@@ -1,6 +1,6 @@
-import 'package:base_dependencies/base_dependencies.dart';
 import 'package:core/src/core_abstractions/injector.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
 
 @protected
 final GetIt _getIt = GetIt.instance;

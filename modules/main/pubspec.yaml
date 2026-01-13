@@ -18,8 +18,6 @@ dependencies:
     path: ../../packages/components
   navigation:
     path: ../../packages/navigation
-  base_dependencies:
-    path: ../../packages/base_dependencies
 
 dev_dependencies:
   flutter_test:

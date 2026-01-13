@@ -1,4 +1,3 @@
-import 'package:base_dependencies/base_dependencies.dart';
 import 'package:core/core.dart';
 
 part 'more_event.dart';

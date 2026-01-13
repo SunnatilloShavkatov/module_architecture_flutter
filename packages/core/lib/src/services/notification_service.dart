@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:base_dependencies/base_dependencies.dart';
 import 'package:core/src/extension/extension.dart';
 import 'package:core/src/utils/utils.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 /// flutter local notification
 const AndroidNotificationChannel _channel = AndroidNotificationChannel(

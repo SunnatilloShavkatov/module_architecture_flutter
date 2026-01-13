@@ -14,14 +14,11 @@ final class HomeInjection implements Injection {
   FutureOr<void> registerDependencies({required Injector di}) {
     di
       /// factories
-      ..registerLazySingleton(() => const HomePageFactory(), instanceName: InstanceNameKeys.homeFactory)
+      ..registerLazySingleton<PageFactory>(() => const HomePageFactory(), instanceName: InstanceNameKeys.homeFactory)
       /// data sources
       ..registerLazySingleton<HomeLocalDataSource>(() => HomeLocalDataSourceImpl(di.get()))
       ..registerLazySingleton<HomeRemoteDataSource>(() => HomeRemoteDataSourceImpl(di.get()))
       /// repositories
       ..registerLazySingleton<HomeRepo>(() => HomeRepoImpl(di.get(), di.get()));
-
-    /// bloc
-    // ..registerFactory(() => MainBloc(di.get(), di.get(), di.get()));
   }
 }

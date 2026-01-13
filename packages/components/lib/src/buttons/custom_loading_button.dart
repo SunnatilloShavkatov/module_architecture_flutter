@@ -1,8 +1,8 @@
 import 'dart:async' show unawaited;
 
-import 'package:base_dependencies/base_dependencies.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 class CustomLoadingButton extends StatefulWidget {
   const CustomLoadingButton({super.key, this.onPressed, this.child, this.isLoading = false});

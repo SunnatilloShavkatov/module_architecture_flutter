@@ -1,4 +1,4 @@
-import 'package:base_dependencies/base_dependencies.dart';
+import 'package:core/core.dart' show Equatable;
 
 class LoginEntity extends Equatable {
   const LoginEntity({

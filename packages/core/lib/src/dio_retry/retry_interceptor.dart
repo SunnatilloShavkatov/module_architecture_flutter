@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:base_dependencies/base_dependencies.dart';
+import 'package:dio/dio.dart';
 
 part 'http_status_codes.dart';
 

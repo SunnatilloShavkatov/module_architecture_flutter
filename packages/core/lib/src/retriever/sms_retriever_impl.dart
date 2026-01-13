@@ -1,7 +1,8 @@
 import 'dart:io';
 
-import 'package:base_dependencies/base_dependencies.dart';
 import 'package:core/src/constants/constants.dart';
+import 'package:flutter_pinput/flutter_pinput.dart';
+import 'package:smart_auth/smart_auth.dart';
 
 class SmsRetrieverImpl implements SmsRetriever {
   const SmsRetrieverImpl(this._smartAuth);

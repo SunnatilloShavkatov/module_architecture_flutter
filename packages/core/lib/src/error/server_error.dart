@@ -1,6 +1,6 @@
-import 'package:base_dependencies/base_dependencies.dart';
 import 'package:core/src/error/failure.dart';
 import 'package:core/src/l10n/localized_messages.dart';
+import 'package:dio/dio.dart';
 
 final class ServerException implements Exception {
   const ServerException({this.message, this.statusCode});

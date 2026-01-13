@@ -6,7 +6,6 @@ import 'package:merge_dependencies/merge_dependencies.dart';
 import 'package:more/more.dart';
 import 'package:system/system.dart';
 
-export 'package:base_dependencies/base_dependencies.dart';
 export 'package:components/components.dart';
 export 'package:core/core.dart';
 export 'package:navigation/navigation.dart';
@@ -33,9 +32,9 @@ final class MergeDependencies {
       .map((c) => c.injection!)
       .toList();
 
-  static final List<AppRouter> _allRouters = _allContainer
-      .where((c) => c.router != null)
-      .map((c) => c.router!)
+  static final List<AppRouter<RouteBase>> _allRouters = _allContainer
+      .where((c) => c.router != null && c.router is AppRouter<RouteBase>)
+      .map((c) => c.router! as AppRouter<RouteBase>)
       .toList();
 
   Future<void> registerModules() async =>

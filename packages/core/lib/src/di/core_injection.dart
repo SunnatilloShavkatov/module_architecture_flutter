@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:base_dependencies/base_dependencies.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:core/src/connectivity/network_info.dart';
 import 'package:core/src/core_abstractions/injection.dart';
 import 'package:core/src/core_abstractions/injector.dart';
@@ -11,8 +11,16 @@ import 'package:core/src/local_source/local_source.dart';
 import 'package:core/src/network/network_provider.dart';
 import 'package:core/src/retriever/sms_retriever_impl.dart';
 import 'package:core/src/utils/utils.dart';
+import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_pinput/flutter_pinput.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:navigation/navigation.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_auth/smart_auth.dart';
 
 final class CoreInjection implements Injection {
   const CoreInjection();

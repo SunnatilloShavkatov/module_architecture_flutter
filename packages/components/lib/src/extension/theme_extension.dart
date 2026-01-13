@@ -1,7 +1,7 @@
-import 'package:base_dependencies/base_dependencies.dart';
 import 'package:components/src/options/app_options.dart';
 import 'package:components/src/theme/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 extension BuildContextExt on BuildContext {
   ThemeData get theme => Theme.of(this);

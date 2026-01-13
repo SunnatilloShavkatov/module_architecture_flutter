@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:base_dependencies/base_dependencies.dart';
 import 'package:core/src/constants/api_paths.dart';
 import 'package:core/src/constants/env.dart' show AppEnvironment;
 import 'package:core/src/enums/rest_types.dart';
@@ -8,6 +7,7 @@ import 'package:core/src/error/server_error.dart';
 import 'package:core/src/l10n/localized_messages.dart';
 import 'package:core/src/local_source/local_source.dart';
 import 'package:core/src/utils/utils.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 @protected

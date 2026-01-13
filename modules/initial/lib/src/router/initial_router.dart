@@ -3,7 +3,7 @@ import 'package:initial/src/presentation/splash/splash_page.dart';
 import 'package:initial/src/presentation/welcome/welcome_page.dart';
 import 'package:navigation/navigation.dart';
 
-final class InitialRouter implements AppRouter {
+final class InitialRouter implements AppRouter<RouteBase> {
   const InitialRouter();
 
   @override

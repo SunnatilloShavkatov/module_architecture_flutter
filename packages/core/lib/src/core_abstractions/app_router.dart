@@ -1,8 +1,7 @@
 import 'package:core/src/core_abstractions/injector.dart';
-import 'package:go_router/go_router.dart';
 
-abstract interface class AppRouter {
+abstract interface class AppRouter<T> {
   const AppRouter();
 
-  List<RouteBase> getRouters(Injector di);
+  List<T> getRouters(Injector di);
 }

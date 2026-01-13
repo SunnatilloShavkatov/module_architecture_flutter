@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 import 'package:navigation/navigation.dart';
 import 'package:system/src/presentation/internet_connection/internet_connection_page.dart';
 
-final class SystemRouter implements AppRouter {
+final class SystemRouter implements AppRouter<RouteBase> {
   const SystemRouter();
 
   @override

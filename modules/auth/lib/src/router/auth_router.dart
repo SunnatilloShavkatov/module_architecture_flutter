@@ -4,7 +4,7 @@ import 'package:auth/src/presentation/login/login_page.dart';
 import 'package:core/core.dart';
 import 'package:navigation/navigation.dart';
 
-final class AuthRouter implements AppRouter {
+final class AuthRouter implements AppRouter<RouteBase> {
   const AuthRouter();
 
   @override
