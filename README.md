@@ -270,6 +270,22 @@ For complete coding rules and conventions, see [flutter-rules.md](flutter-rules.
 4. **Testability**: Business logic is independent of frameworks
 5. **Scalability**: New features are added as new modules
 
+## Contributing
+
+We welcome contributions! Please read our [Contributing Guide](CONTRIBUTING.md) before submitting a Pull Request.
+
+**Quick Links**:
+- 📖 [Full Contributing Guide](CONTRIBUTING.md) - Detailed rules and examples
+- ⚡ [Quick Reference](QUICK_REFERENCE.md) - Cheat sheet for common patterns
+
+Key points:
+- Follow Clean Architecture principles strictly
+- Use BLoC pattern with sealed classes
+- Match existing code style and naming conventions
+- Ensure all tests pass
+- Update documentation as needed
+
+
 ## License
 
 [Add your license here]
