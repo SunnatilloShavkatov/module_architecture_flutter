@@ -37,6 +37,12 @@ final ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: ThemeColors.light.background,
   extensions: const [ThemeColors.light, ThemeTextStyles.light],
   splashFactory: Platform.isAndroid ? InkRipple.splashFactory : NoSplash.splashFactory,
+  pageTransitionsTheme: const PageTransitionsTheme(
+    builders: {
+      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+    },
+  ),
   progressIndicatorTheme: ProgressIndicatorThemeData(
     linearMinHeight: 3,
     color: colorLightScheme.primary,
@@ -214,6 +220,12 @@ final ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: ThemeColors.dark.background,
   extensions: const [ThemeColors.dark, ThemeTextStyles.dark],
   splashFactory: Platform.isAndroid ? InkRipple.splashFactory : NoSplash.splashFactory,
+  pageTransitionsTheme: const PageTransitionsTheme(
+    builders: {
+      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+    },
+  ),
   progressIndicatorTheme: const ProgressIndicatorThemeData(
     color: Colors.white,
     linearMinHeight: 2,
@@ -294,12 +306,12 @@ final ThemeData darkTheme = ThemeData(
       borderSide: BorderSide(color: colorDarkScheme.error),
     ),
   ),
-  bottomSheetTheme: const BottomSheetThemeData(
+  bottomSheetTheme:  BottomSheetThemeData(
     elevation: 0,
     showDragHandle: true,
-    backgroundColor: Colors.white,
-    surfaceTintColor: Colors.white,
-    shape: RoundedRectangleBorder(
+    backgroundColor: ThemeColors.dark.background,
+    surfaceTintColor: ThemeColors.dark.background,
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
     ),
   ),
