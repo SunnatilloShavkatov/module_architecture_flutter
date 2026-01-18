@@ -15,28 +15,23 @@
 **Naming:** `snake_case.dart` files, `PascalCase` classes, `camelCase` variables  
 **Error Handling:** Either pattern with Failure/Exception hierarchy  
 **UI Components:** `SafeAreaWithMinimum`, `CustomLoadingButton`, `Dimensions`, `ThemeColors`, `ThemeTextStyles`  
-**Packages:** `core` (functionality), `components` (UI), `navigation` (routing), `merge_dependencies` (app entry only), `base_dependencies` (pubspec only)  
+**Packages:** `core` (functionality), `components` (UI), `navigation` (routing), `merge_dependencies` (app entry only)  
 
 ---
 
 ## 1. Project Structure
 
 ```
-mobile_nasiya_business/
+module_architecture_mobile/
 ├── lib/                    # App entry point
 ├── modules/               # Feature modules (Clean Architecture)
 │   ├── auth/
-│   ├── calculator/
-│   ├── cards/
-│   ├── clients/
-│   ├── credits/
+│   ├── home/
 │   ├── initial/
 │   ├── main/
-│   ├── notifications/
-│   ├── profile/
-│   └── system/
+│   ├── more/
+│   ├── system/
 ├── packages/              # Shared packages
-│   ├── base_dependencies/ # External dependencies
 │   ├── components/        # Reusable UI components
 │   ├── core/             # Core functionality
 │   ├── merge_dependencies/# Dependency aggregator
@@ -305,8 +300,8 @@ import 'auth_bloc.dart';
 ## 8. API Integration
 
 ### Base URLs
-- Dev: `https://mapitest.mobilnasiya.uz`
-- Prod: `https://mapi.mobilnasiya.uz`
+- Dev: `https://dev.uz`
+- Prod: `https://prod.uz`
 
 ### Authentication
 ```dart
@@ -612,44 +607,11 @@ class WelcomePage extends StatelessWidget {
 ```
 main.dart (app entry point)
   └── merge_dependencies (aggregates all)
-      ├── base_dependencies (external packages)
       ├── core (core functionality)
       ├── components (UI components)
       ├── navigation (routing)
       └── modules (feature modules)
 ```
-
-### base_dependencies
-
-**Purpose:** External third-party dependencies only
-
-**Contains:**
-- `get_it` - Dependency injection
-- `equatable` - Value equality
-- `flutter_bloc` - State management
-- `dio` - HTTP client
-- `hive_ce` - Local storage
-- `firebase_*` - Firebase services
-- Other external packages
-
-**Usage Rules:**
-- ✅ **MUST** use when you need external packages directly
-- ✅ **MUST** use in `pubspec.yaml` dependencies when module needs external packages
-- ❌ **NEVER** import `base_dependencies` directly in modules - use `core` or `merge_dependencies` instead
-- ❌ **NEVER** export external packages from modules - they should come through `base_dependencies`
-
-**Example:**
-```dart
-// ✅ Correct - In module pubspec.yaml
-dependencies:
-  base_dependencies:
-    path: ../../packages/base_dependencies
-
-// ❌ Wrong - Direct import in module code
-import 'package:base_dependencies/base_dependencies.dart'; // Use core or merge_dependencies instead
-```
-
----
 
 ### core
 
@@ -674,7 +636,7 @@ import 'package:base_dependencies/base_dependencies.dart'; // Use core or merge_
 - ✅ **MUST** use for constants and environment configuration
 - ✅ **MUST** use in modules for core functionality
 - ❌ **NEVER** put UI components in `core` - use `components` instead
-- ❌ **NEVER** put external dependencies directly in `core` - use `base_dependencies`
+
 
 **Example:**
 ```dart
@@ -780,7 +742,7 @@ Navigator.pushNamed(context, NameRoutes.login);
 **Purpose:** Dependency aggregator - main entry point for all packages and modules
 
 **Contains:**
-- Re-exports all packages (`base_dependencies`, `core`, `components`, `navigation`)
+- Re-exports all packages (`core`, `components`, `navigation`)
 - Module registration (`MergeDependencies.registerModules()`)
 - Route generation (`MergeDependencies.instance.generateRoutes()`)
 - Environment initialization (`MergeDependencies.initEnvironment()`)
@@ -824,8 +786,6 @@ dependencies:
     path: ../../packages/components
   navigation:
     path: ../../packages/navigation
-  base_dependencies:
-    path: ../../packages/base_dependencies
   # modules - only if needed
   other_module:
     path: ../../modules/other_module
@@ -845,8 +805,8 @@ import 'package:merge_dependencies/merge_dependencies.dart';
 
 **Package Interdependencies:**
 
-- `core` depends on: `base_dependencies`, `navigation`
-- `components` depends on: `base_dependencies`
+- `core` 
+- `components`
 - `navigation` depends on: external packages only (`chuck_interceptor`)
 - `merge_dependencies` depends on: all packages and all modules
 
@@ -856,7 +816,6 @@ import 'package:merge_dependencies/merge_dependencies.dart';
 
 | Package | Use In | Purpose | Direct Imports |
 |---------|--------|---------|----------------|
-| `base_dependencies` | `pubspec.yaml` only | External dependencies | ❌ Never |
 | `core` | Modules, App | Core functionality | ✅ Yes |
 | `components` | Modules, App | UI components | ✅ Yes |
 | `navigation` | Modules, App | Routing | ✅ Yes |
@@ -890,7 +849,6 @@ When generating code, ensure:
   - [ ] Uses `navigation` for routing and navigation
   - [ ] Uses `merge_dependencies` only in `main.dart`
   - [ ] Modules import packages directly (`core`, `components`, `navigation`), not `merge_dependencies`
-  - [ ] Never imports `base_dependencies` directly in code (only in `pubspec.yaml`)
 
 ---
 
