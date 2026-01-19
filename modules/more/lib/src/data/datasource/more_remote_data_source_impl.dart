@@ -11,7 +11,6 @@ final class MoreRemoteDataSourceImpl implements MoreRemoteDataSource {
       await _networkProvider.fetchMethod<DataMap>(
         ApiPaths.loginWithOption,
         methodType: RMethodTypes.get,
-        headers: _networkProvider.tokenHeaders,
       );
       return;
     } on FormatException {

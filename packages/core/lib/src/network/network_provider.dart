@@ -1,10 +1,8 @@
 import 'dart:async';
 
-import 'package:core/src/constants/api_paths.dart';
 import 'package:core/src/constants/env.dart' show AppEnvironment;
 import 'package:core/src/enums/rest_types.dart';
 import 'package:core/src/error/server_error.dart';
-import 'package:core/src/l10n/localized_messages.dart';
 import 'package:core/src/local_source/local_source.dart';
 import 'package:core/src/utils/utils.dart';
 import 'package:dio/dio.dart';
@@ -41,7 +39,7 @@ abstract class NetworkProvider {
 
   String? get locale;
 
-  Map<String, String>? get tokenHeaders;
+  String? get accessToken;
 }
 
 final class NetworkProviderImpl extends NetworkProvider {
@@ -80,11 +78,6 @@ final class NetworkProviderImpl extends NetworkProvider {
     required RMethodTypes methodType,
     Map<String, dynamic>? queryParameters,
   }) async {
-    if (!ApiPaths.unauthenticatedPaths.contains(path) && !path.contains('https') && headers == null) {
-      return Future.error(
-        ServerException.withLocaleException(message: LocalizationKeys.notAccessToken, locale: _localSource.locale),
-      );
-    }
     late Response<T> response;
     try {
       switch (methodType) {
@@ -222,6 +215,5 @@ final class NetworkProviderImpl extends NetworkProvider {
   String? get locale => _localSource.locale;
 
   @override
-  Map<String, String>? get tokenHeaders =>
-      _localSource.accessToken != null ? {'Authorization': _localSource.accessToken!} : null;
+  String? get accessToken => _dio.options.headers['Authorization'];
 }

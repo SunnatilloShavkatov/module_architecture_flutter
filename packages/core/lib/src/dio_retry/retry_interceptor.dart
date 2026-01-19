@@ -6,7 +6,7 @@ part 'http_status_codes.dart';
 
 typedef RetryEvaluator = FutureOr<bool> Function(DioException error, int attempt);
 typedef RefreshTokenFunction = Future<void> Function();
-typedef AccessTokenGetter = String Function();
+typedef AccessTokenGetter = Future<String> Function();
 typedef ForbiddenFunction = Future<void> Function();
 typedef ToNoInternetPageNavigator = Future<void> Function();
 
@@ -101,7 +101,7 @@ class RetryInterceptor extends InterceptorsWrapper {
     }
     final Map<String, dynamic> header = <String, dynamic>{}..addAll(err.requestOptions.headers);
     if (accessTokenGetter != null) {
-      header['Authorization'] = accessTokenGetter!();
+      header['Authorization'] = await accessTokenGetter!();
     }
     err.requestOptions.headers = header;
     try {

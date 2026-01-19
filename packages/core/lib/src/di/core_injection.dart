@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert' show base64Decode, base64Encode;
 import 'dart:io';
+import 'dart:math';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:core/src/connectivity/network_info.dart';
@@ -16,10 +18,10 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_pinput/flutter_pinput.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_auth/smart_auth.dart';
 
 final class CoreInjection implements Injection {
@@ -29,6 +31,7 @@ final class CoreInjection implements Injection {
   FutureOr<void> registerDependencies({required Injector di}) async {
     /// External
     await _initHive(di: di);
+    final String? accessToken = await di.get<LocalSource>().accessToken;
     di
       ..registerLazySingleton<Injector>(() => AppInjector.instance)
       ..registerLazySingleton(
@@ -39,6 +42,7 @@ final class CoreInjection implements Injection {
             sendTimeout: const Duration(seconds: 20),
             receiveTimeout: const Duration(seconds: 25),
             connectTimeout: const Duration(seconds: 30),
+            headers: <String, dynamic>{if (accessToken != null) 'Authorization': 'Bearer $accessToken'},
           )
           ..httpClientAdapter = IOHttpClientAdapter(
             createHttpClient: () =>
@@ -66,7 +70,7 @@ final class CoreInjection implements Injection {
     di.get<Dio>().interceptors.addAll(<Interceptor>[
       RetryInterceptor(
         dio: di.get<Dio>(),
-        accessTokenGetter: () => di.get<LocalSource>().accessToken ?? '',
+        accessTokenGetter: () async => await di.get<LocalSource>().accessToken ?? '',
         toNoInternetPageNavigator: di.get<AppNavigationService>().navigateToNoInternet,
         forbiddenFunction: () async {},
         refreshTokenFunction: () => _onLogout(di),
@@ -81,17 +85,26 @@ final class CoreInjection implements Injection {
 
 Future<void> _initHive({required Injector di}) async {
   /// init shared preferences
-  final SharedPreferencesWithCache prefs = await SharedPreferencesWithCache.create(
-    cacheOptions: const SharedPreferencesWithCacheOptions(),
-  );
+  const FlutterSecureStorage storage = FlutterSecureStorage();
+  final Uint8List hiveKey = await _getOrCreateHiveKey(storage);
 
   /// init hive
   const String boxName = 'module_architecture_mobile_box';
   final Directory directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
-  final LazyBox<dynamic> box = await Hive.openLazyBox<dynamic>(boxName);
-  final LazyBox<dynamic> cacheBox = await Hive.openLazyBox<dynamic>('cache_$boxName');
-  di.registerSingleton<LocalSource>(LocalSourceImpl(box, cacheBox, prefs));
+  final Box<dynamic> box = await Hive.openBox<dynamic>(boxName, encryptionCipher: HiveAesCipher(hiveKey));
+  final Box<dynamic> cacheBox = await Hive.openBox<dynamic>('cache_$boxName', encryptionCipher: HiveAesCipher(hiveKey));
+  di.registerSingleton<LocalSource>(LocalSourceImpl(box, cacheBox, storage));
+}
+
+Future<Uint8List> _getOrCreateHiveKey(FlutterSecureStorage storage) async {
+  final storedKey = await storage.read(key: 'hive_key');
+  if (storedKey != null) {
+    return base64Decode(storedKey);
+  }
+  final key = Uint8List.fromList(List<int>.generate(32, (_) => Random.secure().nextInt(256)));
+  await storage.write(key: 'hive_key', value: base64Encode(key));
+  return key;
 }
 
 Future<void> _onLogout(Injector di) async {

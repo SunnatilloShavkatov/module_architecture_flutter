@@ -13,7 +13,6 @@ export 'package:hive_ce/hive.dart';
 export 'package:package_info_plus/package_info_plus.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:rxdart/rxdart.dart';
-export 'package:shared_preferences/shared_preferences.dart';
 export 'package:smart_auth/smart_auth.dart';
 export 'package:url_launcher/url_launcher.dart';
 
