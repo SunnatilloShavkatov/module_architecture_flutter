@@ -169,11 +169,11 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginUseCase _loginUseCase;
   
   Future<void> _onLoginSubmitted(
-    LoginSubmitted event, 
+    LoginSubmitted event,
     Emitter<LoginState> emit
   ) async {
     emit(LoginLoading());
-    final result = await _loginUseCase(...);
+    final result = await _loginUseCase(event.username, event.password);
     result.fold(
       (failure) => emit(LoginFailure(failure.message)),
       (user) => emit(LoginSuccess(user)),
@@ -239,30 +239,48 @@ typedef DataMap = Map<String, dynamic>;
 
 ```dart
 // In Data Source
-try {
-  final result = await _networkProvider.fetchMethod(...);
-  return Model.fromMap(result.data ?? {});
-} on FormatException {
-  throw ServerException.formatException(locale: _networkProvider.locale);
-} on ServerException {
-  rethrow;
-} on Error catch (error, stackTrace) {
-  logMessage('ERROR: ', error: error, stackTrace: stackTrace);
-  if (error is TypeError) {
-    throw ServerException.typeError(locale: _networkProvider.locale);
-  } else {
-    throw ServerException.unknownError(locale: _networkProvider.locale);
+Future<LoginModel> login({
+  required String username,
+  required String password,
+}) async {
+  try {
+    final result = await _networkProvider.fetchMethod(
+      ApiPaths.login,
+      methodType: RMethodTypes.post,
+      data: {'username': username, 'password': password},
+    );
+    return LoginModel.fromMap(result.data ?? {});
+  } on FormatException {
+    throw ServerException.formatException(locale: _networkProvider.locale);
+  } on ServerException {
+    rethrow;
+  } on Error catch (error, stackTrace) {
+    logMessage('ERROR: ', error: error, stackTrace: stackTrace);
+    if (error is TypeError) {
+      throw ServerException.typeError(locale: _networkProvider.locale);
+    } else {
+      throw ServerException.unknownError(locale: _networkProvider.locale);
+    }
   }
 }
 
 // In Repository
-try {
-  final result = await _remoteSource.login(...);
-  return Right(result);
-} on ServerException catch (error, _) {
-  return Left(error.failure);
-} on Exception catch (e) {
-  return Left(ServerFailure(message: e.toString()));
+@override
+ResultFuture<LoginEntity> login({
+  required String username,
+  required String password,
+}) async {
+  try {
+    final result = await _remoteSource.login(
+      username: username,
+      password: password,
+    );
+    return Right(result.toEntity());
+  } on ServerException catch (error, _) {
+    return Left(error.failure);
+  } on Exception catch (e) {
+    return Left(ServerFailure(message: e.toString()));
+  }
 }
 ```
 
@@ -305,21 +323,23 @@ import 'auth_bloc.dart';
 
 ### Authentication
 ```dart
-headers: {
-  'Authorization': 'Bearer {access_token}',
-  'Lang': 'uz' | 'ru',
-  'Content-Type': 'application/json'
-}
+final headers = {
+  'Authorization': 'Bearer $accessToken',
+  'Lang': 'uz', // or 'ru'
+  'Content-Type': 'application/json',
+};
 ```
 
 ### Response Format
 ```json
 {
   "success": true,
-  "data": { /* response data */ },
+  "data": {},
   "message": "Success message"
 }
 ```
+
+**Note**: The `data` field contains the actual response data structure.
 
 ### Network Provider Pattern
 ```dart
@@ -360,13 +380,36 @@ context.localizations.login
 part '../../data/repos/auth_repo_impl.dart';
 
 abstract class AuthRepo {
-  ResultFuture<LoginEntity> login({...});
+  ResultFuture<LoginEntity> login({
+    required String username,
+    required String password,
+  });
 }
 
 // data/repos/auth_repo_impl.dart
 part of 'package:auth/src/domain/repos/auth_repo.dart';
 
-final class AuthRepoImpl implements AuthRepo { ... }
+final class AuthRepoImpl implements AuthRepo {
+  const AuthRepoImpl(this._remoteDataSource);
+  final AuthRemoteDataSource _remoteDataSource;
+
+  @override
+  ResultFuture<LoginEntity> login({
+    required String username,
+    required String password,
+  }) async {
+    // Implementation
+    try {
+      final result = await _remoteDataSource.login(
+        username: username,
+        password: password,
+      );
+      return Right(result.toEntity());
+    } on ServerException catch (error) {
+      return Left(error.failure);
+    }
+  }
+}
 ```
 
 ---
@@ -420,11 +463,21 @@ final class UsernameChanged extends LoginEvent {
 // ✅ Correct
 SafeAreaWithMinimum(
   minimum: Dimensions.kPaddingAll16,
-  child: Column(...),
+  child: Column(
+    children: [
+      // Your widgets here
+    ],
+  ),
 )
 
 // ❌ Wrong
-SafeArea(child: Column(...))
+SafeArea(
+  child: Column(
+    children: [
+      // Your widgets here
+    ],
+  ),
+)
 ```
 
 ### Buttons
@@ -447,12 +500,13 @@ ElevatedButton(
 
 // ❌ Wrong - Theme wrapper not needed
 Theme(
-  data: Theme.of(context).copyWith(...),
-  child: CustomLoadingButton(...),
+  data: Theme.of(context).copyWith(),
+  child: CustomLoadingButton(
+    onPressed: () {},
+    child: Text('Button'),
+  ),
 )
 ```
-<｜tool▁calls▁begin｜><｜tool▁call▁begin｜>
-read_file
 
 ### Dimensions
 - ✅ **MUST** use `Dimensions` constants for all spacing, padding, gaps, and border radius
@@ -644,15 +698,18 @@ main.dart (app entry point)
 import 'package:core/core.dart';
 
 // In data source
-final result = await _networkProvider.fetchMethod(...);
+final result = await _networkProvider.fetchMethod(
+  ApiPaths.users,
+  methodType: RMethodTypes.get,
+);
 
 // In repository
-return Right(result);
+return Right(result.toEntity());
 
 // In presentation
-Text(context.localizations.appName)
-Text('Hello', style: context.textStyle.defaultW700x24)
-Container(color: context.color.primary)
+Text(context.localizations.appName);
+Text('Hello', style: context.textStyle.defaultW700x24);
+Container(color: context.color.primary);
 ```
 
 ---
@@ -694,7 +751,9 @@ SafeAreaWithMinimum(
         child: Text('Button', style: context.textStyle.buttonStyle),
       ),
       Dimensions.kGap16,
-      CustomTextField(...),
+      CustomTextField(
+        hintText: 'Enter text',
+      ),
     ],
   ),
 )

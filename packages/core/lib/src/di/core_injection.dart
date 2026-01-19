@@ -66,14 +66,8 @@ final class CoreInjection implements Injection {
     di.get<Dio>().interceptors.addAll(<Interceptor>[
       RetryInterceptor(
         dio: di.get<Dio>(),
-        toNoInternetPageNavigator: () async {
-          final nav = di.get<AppNavigationService>();
-          if (nav.isCurrentPath('/no-internet')) {
-            return;
-          }
-          nav.navigateToNoInternet();
-        },
         accessTokenGetter: () => di.get<LocalSource>().accessToken ?? '',
+        toNoInternetPageNavigator: di.get<AppNavigationService>().navigateToNoInternet,
         forbiddenFunction: () async {},
         refreshTokenFunction: () => _onLogout(di),
         logPrint: (String message) {
@@ -95,8 +89,8 @@ Future<void> _initHive({required Injector di}) async {
   const String boxName = 'module_architecture_mobile_box';
   final Directory directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
-  final Box<dynamic> box = await Hive.openBox<dynamic>(boxName);
-  final Box<dynamic> cacheBox = await Hive.openBox<dynamic>('cache_$boxName');
+  final LazyBox<dynamic> box = await Hive.openLazyBox<dynamic>(boxName);
+  final LazyBox<dynamic> cacheBox = await Hive.openLazyBox<dynamic>('cache_$boxName');
   di.registerSingleton<LocalSource>(LocalSourceImpl(box, cacheBox, prefs));
 }
 

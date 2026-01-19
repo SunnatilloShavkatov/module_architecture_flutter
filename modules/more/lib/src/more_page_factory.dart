@@ -7,6 +7,9 @@ final class MorePageFactory implements PageFactory {
   const MorePageFactory();
 
   @override
-  Widget create(Injector di) =>
-      BlocProvider(create: (_) => di.get<MoreBloc>()..add(const GetPackageVersionEvent()), child: const MorePage());
+  Widget create(Injector di) => BlocProvider(
+    lazy: false,
+    create: (_) => di.get<MoreBloc>()..add(const GetPackageVersionEvent()),
+    child: const MorePage(),
+  );
 }

@@ -178,7 +178,9 @@ class _CarouselSliderState extends State<CarouselSlider> {
   void dispose() {
     super.dispose();
     _timer?.cancel();
-    _pageController.dispose();
+    _pageController
+      ..removeListener(_listener)
+      ..dispose();
   }
 
   @override
@@ -203,11 +205,13 @@ class _CarouselSliderState extends State<CarouselSlider> {
       keepPage: widget.keepPage,
       initialPage: widget.unlimitedMode ? _kMiddleValue * widget.itemCount + _currentPage! : _currentPage!,
     );
-    _pageController.addListener(() {
-      setState(() {
-        _currentPage = _pageController.page!.floor();
-        _pageDelta = _pageController.page! - _pageController.page!.floor();
-      });
+    _pageController.addListener(_listener);
+  }
+
+  void _listener() {
+    setState(() {
+      _currentPage = _pageController.page!.floor();
+      _pageDelta = _pageController.page! - _pageController.page!.floor();
     });
   }
 

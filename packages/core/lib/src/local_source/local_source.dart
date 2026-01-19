@@ -1,6 +1,6 @@
 import 'package:core/src/constants/storage_keys.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_ce/hive_ce.dart' show Box;
+import 'package:hive_ce/hive_ce.dart' show LazyBox;
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalSource {
@@ -20,7 +20,7 @@ abstract class LocalSource {
 
   Future<void> setAccessToken(String accessToken);
 
-  String get firstName;
+  Future<String> get firstName;
 
   Future<void> setFirstName(String firstName);
 
@@ -30,8 +30,8 @@ abstract class LocalSource {
 final class LocalSourceImpl implements LocalSource {
   const LocalSourceImpl(this._box, this._cacheBox, this._preferences);
 
-  final Box<dynamic> _box;
-  final Box<dynamic> _cacheBox;
+  final LazyBox<dynamic> _box;
+  final LazyBox<dynamic> _cacheBox;
   final SharedPreferencesWithCache _preferences;
 
   @override
@@ -72,7 +72,7 @@ final class LocalSourceImpl implements LocalSource {
   }
 
   @override
-  String get firstName => _box.get(StorageKeys.firstname, defaultValue: '');
+  Future<String> get firstName async => await _box.get(StorageKeys.firstname, defaultValue: '');
 
   @override
   Future<void> clear() async {

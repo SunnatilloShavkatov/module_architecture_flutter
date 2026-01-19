@@ -81,9 +81,10 @@ android {
             )
         }
         getByName("debug") {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            ndk.debugSymbolLevel = "NONE"
+            isDebuggable = true
+            isMinifyEnabled = false
+            isShrinkResources = false
+            ndk.debugSymbolLevel = "SYMBOL_TABLE"
         }
     }
 }

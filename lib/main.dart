@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,21 +17,6 @@ Future<void> main() async {
       final WidgetsBinding binding = WidgetsFlutterBinding.ensureInitialized();
       FlutterNativeSplash.preserve(widgetsBinding: binding);
 
-      /// set orientation, system UI mode
-      unawaited(
-        Future.wait([
-          SystemChrome.setPreferredOrientations([
-            DeviceOrientation.portraitUp,
-            DeviceOrientation.portraitDown,
-            if (mediaView.size.isTablet) ...[DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight],
-          ]),
-          SystemChrome.setEnabledSystemUIMode(
-            SystemUiMode.manual,
-            overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
-          ),
-        ]),
-      );
-
       /// di initialize
       await MergeDependencies.instance.registerModules();
 
@@ -46,9 +30,6 @@ Future<void> main() async {
       if (kDebugMode) {
         Bloc.observer = LogBlocObserver();
       }
-
-      /// global CERTIFICATE_VERIFY_FAILED_KEY
-      HttpOverrides.global = _HttpOverrides();
 
       /// widget error
       FlutterError.onError = (errorDetails) {
@@ -71,18 +52,26 @@ Future<void> main() async {
           child: const App(),
         ),
       );
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        /// remove splash screen
         FlutterNativeSplash.remove();
+
+        /// set orientation, system UI mode
+        await Future.wait([
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp,
+            DeviceOrientation.portraitDown,
+            if (mediaView.size.isTablet) ...[DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight],
+          ]),
+          SystemChrome.setEnabledSystemUIMode(
+            SystemUiMode.manual,
+            overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
+          ),
+        ]);
       });
     },
     (error, stackTrace) {
       logMessage('Zoned error: $error', stackTrace: stackTrace, error: error);
     },
   );
-}
-
-class _HttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) =>
-      super.createHttpClient(context)..badCertificateCallback = (_, _, _) => true;
 }

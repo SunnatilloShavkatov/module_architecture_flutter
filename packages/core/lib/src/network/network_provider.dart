@@ -20,6 +20,7 @@ abstract class NetworkProvider {
     String path, {
     Object? data,
     String? contentType,
+    CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     required RMethodTypes methodType,
     Map<String, dynamic>? queryParameters,
@@ -28,6 +29,7 @@ abstract class NetworkProvider {
   Future<void> downloadFile({
     required String urlPath,
     required String savePath,
+    CancelToken? cancelToken,
     void Function(int, int)? onReceiveProgress,
   });
 
@@ -73,6 +75,7 @@ final class NetworkProviderImpl extends NetworkProvider {
     String path, {
     Object? data,
     String? contentType,
+    CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     required RMethodTypes methodType,
     Map<String, dynamic>? queryParameters,
@@ -89,48 +92,48 @@ final class NetworkProviderImpl extends NetworkProvider {
           response = await _dio.head<T>(
             path,
             data: data,
-            cancelToken: _cancelToken,
             queryParameters: queryParameters,
+            cancelToken: cancelToken ?? _cancelToken,
             options: headers != null ? Options(headers: headers, contentType: contentType) : null,
           );
         case RMethodTypes.get:
           response = await _dio.get<T>(
             path,
             data: data,
-            cancelToken: _cancelToken,
             queryParameters: queryParameters,
+            cancelToken: cancelToken ?? _cancelToken,
             options: headers != null ? Options(headers: headers, contentType: contentType) : null,
           );
         case RMethodTypes.post:
           response = await _dio.post<T>(
             path,
             data: data,
-            cancelToken: _cancelToken,
             queryParameters: queryParameters,
+            cancelToken: cancelToken ?? _cancelToken,
             options: headers != null ? Options(headers: headers, contentType: contentType) : null,
           );
         case RMethodTypes.patch:
           response = await _dio.patch<T>(
             path,
             data: data,
-            cancelToken: _cancelToken,
             queryParameters: queryParameters,
+            cancelToken: cancelToken ?? _cancelToken,
             options: headers != null ? Options(headers: headers, contentType: contentType) : null,
           );
         case RMethodTypes.put:
           response = await _dio.put<T>(
             path,
             data: data,
-            cancelToken: _cancelToken,
             queryParameters: queryParameters,
+            cancelToken: cancelToken ?? _cancelToken,
             options: headers != null ? Options(headers: headers, contentType: contentType) : null,
           );
         case RMethodTypes.delete:
           response = await _dio.delete<T>(
             path,
             data: data,
-            cancelToken: _cancelToken,
             queryParameters: queryParameters,
+            cancelToken: cancelToken ?? _cancelToken,
             options: headers != null ? Options(headers: headers, contentType: contentType) : null,
           );
       }
@@ -153,10 +156,16 @@ final class NetworkProviderImpl extends NetworkProvider {
   Future<void> downloadFile({
     required String urlPath,
     required String savePath,
+    CancelToken? cancelToken,
     void Function(int, int)? onReceiveProgress,
   }) async {
     try {
-      await _dio.download(urlPath, savePath, onReceiveProgress: onReceiveProgress, cancelToken: _cancelToken);
+      await _dio.download(
+        urlPath,
+        savePath,
+        onReceiveProgress: onReceiveProgress,
+        cancelToken: cancelToken ?? _cancelToken,
+      );
     } on DioException catch (error, stackTrace) {
       if (CancelToken.isCancel(error)) {
         logMessage('Request was cancelled: $urlPath');

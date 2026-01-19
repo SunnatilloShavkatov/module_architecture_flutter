@@ -14,12 +14,6 @@ class App extends StatelessWidget {
     theme: lightTheme,
     darkTheme: darkTheme,
     themeMode: context.options.themeMode,
-    themeAnimationStyle: const AnimationStyle(
-      curve: Curves.easeInOut,
-      duration: Duration(milliseconds: 300),
-      reverseCurve: Curves.easeInOut,
-      reverseDuration: Duration(milliseconds: 300),
-    ),
 
     /// route
     routerConfig: MergeDependencies.router,

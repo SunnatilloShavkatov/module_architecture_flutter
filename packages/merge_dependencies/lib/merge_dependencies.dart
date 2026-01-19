@@ -20,6 +20,8 @@ final class MergeDependencies {
 
   static const MergeDependencies _instance = MergeDependencies._();
 
+  static bool _isInitialized = false;
+
   static const List<ModuleContainer> _allContainer = [
     CoreContainer(),
     AuthContainer(),
@@ -41,12 +43,16 @@ final class MergeDependencies {
       .toList();
 
   Future<void> registerModules() async {
+    if (_isInitialized) {
+      return;
+    }
     AppInjector.instance.registerSingleton<GlobalKey<NavigatorState>>(rootNavigatorKey);
     AppInjector.instance.registerLazySingleton<AppNavigationService>(AppNavigationServiceImpl.new);
     await Future.wait(_injections.map((i) async => i.registerDependencies(di: AppInjector.instance)));
 
-    // Add UI-level interceptors
+    /// Add UI-level interceptors ONLY ONCE
     AppInjector.instance.get<Dio>().interceptors.add(chuck.dioInterceptor);
+    _isInitialized = true;
   }
 
   static void initEnvironment({required Environment env}) {

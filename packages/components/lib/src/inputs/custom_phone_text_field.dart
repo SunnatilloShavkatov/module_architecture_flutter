@@ -82,7 +82,7 @@ class _CustomPhoneTextFieldState extends State<CustomPhoneTextField> {
   @override
   void initState() {
     super.initState();
-    focusNode.addListener(listener);
+    focusNode.addListener(_listener);
     if ((widget.controller?.text ?? '').isNotEmpty) {
       setState(() {
         _prefixText = '+998 ';
@@ -90,7 +90,7 @@ class _CustomPhoneTextFieldState extends State<CustomPhoneTextField> {
     }
   }
 
-  void listener() {
+  void _listener() {
     if (focusNode.hasFocus) {
       setState(() {
         _prefixText = '+998 ';
@@ -158,5 +158,11 @@ class _CustomPhoneTextFieldState extends State<CustomPhoneTextField> {
       currentFocus.unfocus();
       FocusScope.of(context).requestFocus(nextFocus);
     }
+  }
+
+  @override
+  void dispose() {
+    focusNode.removeListener(_listener);
+    super.dispose();
   }
 }

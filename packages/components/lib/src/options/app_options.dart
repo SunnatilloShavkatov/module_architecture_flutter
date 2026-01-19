@@ -73,6 +73,7 @@ class ModelBinding extends StatefulWidget {
 
 class _ModelBindingState extends State<ModelBinding> {
   late AppOptions _currentModel;
+  bool _isDateFormattingInitialized = false;
 
   @override
   void initState() {
@@ -82,7 +83,10 @@ class _ModelBindingState extends State<ModelBinding> {
   }
 
   Future<void> _initializeDateFormatting() async {
-    await initializeDateFormatting();
+    if (!_isDateFormattingInitialized) {
+      await initializeDateFormatting();
+      _isDateFormattingInitialized = true;
+    }
     Intl.defaultLocale = _currentModel.locale.toString();
   }
 

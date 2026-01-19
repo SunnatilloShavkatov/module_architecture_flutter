@@ -24,7 +24,7 @@ abstract interface class Injector {
 
   void registerSingleton<T extends Object>(T instance);
 
-  void registerFactory<T extends Object>(T Function() function);
+  void registerFactory<T extends Object>(T Function() factoryFunc);
 
   T get<T extends Object>({String? instanceName});
 

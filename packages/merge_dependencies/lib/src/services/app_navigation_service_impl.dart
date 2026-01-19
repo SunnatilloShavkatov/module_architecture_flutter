@@ -6,6 +6,9 @@ class AppNavigationServiceImpl implements AppNavigationService {
 
   @override
   Future<void> navigateToNoInternet() async {
+    if (isCurrentPath(Routes.noInternet)) {
+      return;
+    }
     final context = rootNavigatorKey.currentContext;
     if (context != null) {
       await context.pushNamed(Routes.noInternet);

@@ -31,15 +31,3 @@ class _MainPageState extends State<MainPage> with MainMixin {
     ),
   );
 }
-
-class PlaceholderScreen extends StatelessWidget {
-  const PlaceholderScreen({super.key, required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    logMessage('Building $text');
-    return Center(child: Text(text));
-  }
-}

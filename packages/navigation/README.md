@@ -1,39 +1,144 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Navigation Package
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+Routing and navigation utilities for the Module Architecture Mobile project.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+## Overview
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+The `navigation` package provides routing infrastructure, navigation utilities, and route definitions used across all feature modules.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- **Route Names**: Centralized route name constants (`NameRoutes`)
+- **Navigation Observer**: Route navigation tracking (`RouteNavigationObserver`)
+- **Custom Routes**: Material sheet routes and transitions
+- **Global Navigator**: Root navigator key for app-wide navigation
+- **Chuck Interceptor**: Network debugging tool integration
 
-## Getting started
+## Installation
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add to your module's `pubspec.yaml`:
+
+```yaml
+dependencies:
+  navigation:
+    path: ../../packages/navigation
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+### Import
 
 ```dart
-const like = 'sample';
+import 'package:navigation/navigation.dart';
 ```
 
-## Additional information
+### Route Navigation
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```dart
+// Navigate to a route
+Navigator.pushNamed(context, NameRoutes.login);
+
+// Navigate with arguments
+Navigator.pushNamed(
+  context,
+  NameRoutes.userDetail,
+  arguments: {'userId': '123'},
+);
+
+// Replace current route
+Navigator.pushReplacementNamed(context, NameRoutes.home);
+
+// Pop and push
+Navigator.popAndPushNamed(context, NameRoutes.settings);
+```
+
+### Defining Module Routes
+
+```dart
+final class AuthRouter implements AppRouter<RouteBase> {
+  const AuthRouter();
+
+  @override
+  List<GoRoute> getRouters(Injector di) => [
+    GoRoute(
+      path: NameRoutes.login,
+      name: NameRoutes.login,
+      builder: (context, state) => const LoginPage(),
+    ),
+    GoRoute(
+      path: NameRoutes.forgotPassword,
+      name: NameRoutes.forgotPassword,
+      builder: (context, state) => const ForgotPasswordPage(),
+    ),
+  ];
+}
+```
+
+### Global Navigator
+
+```dart
+// Use global navigator key for navigation without context
+rootNavigatorKey.currentState?.pushNamed(NameRoutes.login);
+```
+
+## Route Names
+
+All route names are defined in `NameRoutes` class:
+
+```dart
+class NameRoutes {
+  // Auth routes
+  static const String login = '/login';
+  static const String forgotPassword = '/forgot-password';
+  
+  // Home routes
+  static const String home = '/home';
+  
+  // More routes
+  static const String settings = '/settings';
+  static const String profile = '/profile';
+}
+```
+
+## Rules
+
+### When to Use
+
+✅ **MUST** use for:
+- All navigation and routing
+- Route name constants
+- Custom page transitions
+- Global navigation
+
+✅ **MUST** use in:
+- All feature modules
+- Router implementations
+- Navigation-related code
+
+### When NOT to Use
+
+❌ **NEVER**:
+- Hardcode route names as strings
+- Create navigation utilities in modules
+- Define routes outside of module routers
+
+## Dependencies
+
+- `go_router` - Declarative routing
+- `chuck_interceptor` - Network debugging
+
+## Best Practices
+
+1. **Use route constants**: Never hardcode route strings
+2. **Module-based routing**: Each module defines its own routes
+3. **Global navigator**: Use for navigation without context
+4. **Type-safe navigation**: Use route constants to prevent typos
+
+## Related Documentation
+
+- [Module Structure](../../docs/architecture/module_structure.md)
+- [Flutter Rules](../../flutter-rules.md#14-package-usage-rules)
+
+## License
+
+[Add your license here]

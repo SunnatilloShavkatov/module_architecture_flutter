@@ -362,7 +362,10 @@ SafeAreaWithMinimum(
 SafeArea(
   child: Container(
     padding: const EdgeInsets.all(16.0),
-    child: ElevatedButton(...),
+    child: ElevatedButton(
+      onPressed: () {},
+      child: Text('Submit'),
+    ),
   ),
 )
 ```
@@ -378,7 +381,7 @@ Text(
 
 Container(
   color: context.color.primary,
-  padding: EdgeInsets.all(Dimensions.kPaddingAll16),
+  padding: Dimensions.kPaddingAll16,
 )
 
 // ❌ DON'T: Hardcode styles
@@ -490,25 +493,50 @@ Before submitting a PR, ensure:
 ### ❌ BLoC Calling Repository Directly
 ```dart
 // WRONG
-final result = await _repository.getUser(...);
+final result = await _repository.getUser(userId: '123');
 
 // CORRECT
-final result = await _getUserUseCase(params);
+final result = await _getUserUseCase(GetUserParams(userId: '123'));
 ```
 
 ### ❌ Entity with JSON Serialization
 ```dart
 // WRONG - Domain entity should not have JSON
 final class UserEntity {
-  factory UserEntity.fromJson(Map<String, dynamic> json) {...}
+  const UserEntity({required this.id, required this.name});
+  final String id;
+  final String name;
+
+  factory UserEntity.fromJson(Map<String, dynamic> json) {
+    return UserEntity(
+      id: json['id'] as String,
+      name: json['name'] as String,
+    );
+  }
 }
 
 // CORRECT - Keep domain pure
-final class UserEntity extends Equatable {...}
+final class UserEntity extends Equatable {
+  const UserEntity({required this.id, required this.name});
+  final String id;
+  final String name;
+
+  @override
+  List<Object?> get props => [id, name];
+}
 
 // JSON in Model (Data layer)
 final class UserModel extends UserEntity {
-  factory UserModel.fromMap(Map<String, dynamic> map) {...}
+  const UserModel({required super.id, required super.name});
+
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
+      id: map['id'] as String,
+      name: map['name'] as String,
+    );
+  }
+
+  UserEntity toEntity() => UserEntity(id: id, name: name);
 }
 ```
 

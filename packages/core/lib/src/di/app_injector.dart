@@ -13,7 +13,7 @@ final class AppInjector implements Injector {
   @override
   void registerLazySingleton<T extends Object>(T Function() function, {String? instanceName}) {
     if (!_getIt.isRegistered<T>(instanceName: instanceName)) {
-      _getIt.registerLazySingleton<T>(() => function.call(), instanceName: instanceName);
+      _getIt.registerLazySingleton<T>(function, instanceName: instanceName);
     }
   }
 
@@ -36,7 +36,7 @@ final class AppInjector implements Injector {
   @override
   void registerFactory<T extends Object>(T Function() function) {
     if (!_getIt.isRegistered<T>()) {
-      _getIt.registerFactory<T>(() => function.call());
+      _getIt.registerFactory<T>(function);
     }
   }
 
@@ -51,10 +51,10 @@ final class AppInjector implements Injector {
     if (!_getIt.isRegistered<T>()) {
       _getIt.registerSingletonAsync<T>(
         factoryFunc,
-        instanceName: instanceName,
+        dispose: dispose,
         dependsOn: dependsOn,
         signalsReady: signalsReady,
-        dispose: dispose,
+        instanceName: instanceName,
       );
     }
   }
