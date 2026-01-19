@@ -35,7 +35,8 @@ class _MyAppState extends State<MyApp> {
               if (id != null) SelectableText('ID: $id'),
               ElevatedButton(
                 onPressed: () async {
-                  final String? getID = await PlatformMethods.instance.getDeviceId();
+                  final String? getID = await PlatformMethods.instance
+                      .getDeviceId();
                   setState(() {
                     id = getID;
                   });

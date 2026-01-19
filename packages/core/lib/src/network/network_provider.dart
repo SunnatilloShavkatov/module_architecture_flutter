@@ -37,6 +37,8 @@ abstract class NetworkProvider {
 
   void setLocaleHeaders();
 
+  void setAccessToken(String token);
+
   String? get locale;
 
   String? get accessToken;
@@ -66,6 +68,11 @@ final class NetworkProviderImpl extends NetworkProvider {
       return;
     }
     _dio.options.headers = {..._dio.options.headers, 'Accept-Language': _localSource.locale};
+  }
+
+  @override
+  void setAccessToken(String token) {
+    _dio.options.headers = {..._dio.options.headers, 'Authorization': 'Bearer $token'};
   }
 
   @override

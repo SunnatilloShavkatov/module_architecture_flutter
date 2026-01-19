@@ -306,7 +306,7 @@ final ThemeData darkTheme = ThemeData(
       borderSide: BorderSide(color: colorDarkScheme.error),
     ),
   ),
-  bottomSheetTheme:  BottomSheetThemeData(
+  bottomSheetTheme: BottomSheetThemeData(
     elevation: 0,
     showDragHandle: true,
     backgroundColor: ThemeColors.dark.background,

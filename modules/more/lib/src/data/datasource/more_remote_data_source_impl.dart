@@ -8,10 +8,7 @@ final class MoreRemoteDataSourceImpl implements MoreRemoteDataSource {
   @override
   Future<void> getMoreData() async {
     try {
-      await _networkProvider.fetchMethod<DataMap>(
-        ApiPaths.loginWithOption,
-        methodType: RMethodTypes.get,
-      );
+      await _networkProvider.fetchMethod<DataMap>(ApiPaths.loginWithOption, methodType: RMethodTypes.get);
       return;
     } on FormatException {
       throw ServerException.formatException(locale: _networkProvider.locale);

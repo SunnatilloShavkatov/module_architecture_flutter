@@ -5,6 +5,7 @@ import 'dart:math';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:core/src/connectivity/network_info.dart';
+import 'package:core/src/constants/env.dart';
 import 'package:core/src/core_abstractions/injection.dart';
 import 'package:core/src/core_abstractions/injector.dart';
 import 'package:core/src/di/app_injector.dart';
@@ -37,12 +38,16 @@ final class CoreInjection implements Injection {
       ..registerLazySingleton(
         () => Dio()
           ..options = BaseOptions(
+            baseUrl: AppEnvironment.instance.config.baseUrl,
             followRedirects: false,
             contentType: 'application/json',
             sendTimeout: const Duration(seconds: 20),
             receiveTimeout: const Duration(seconds: 25),
             connectTimeout: const Duration(seconds: 30),
-            headers: <String, dynamic>{if (accessToken != null) 'Authorization': 'Bearer $accessToken'},
+            headers: <String, dynamic>{
+              'api-token': AppEnvironment.instance.config.apiToken,
+              if (accessToken != null) 'Authorization': 'Bearer $accessToken',
+            },
           )
           ..httpClientAdapter = IOHttpClientAdapter(
             createHttpClient: () =>
@@ -61,9 +66,9 @@ final class CoreInjection implements Injection {
           ]),
       )
       ..registerLazySingleton<Connectivity>(Connectivity.new)
-      ..registerLazySingleton(InternetConnectionChecker.createInstance)
-      ..registerSingletonAsync<PackageInfo>(PackageInfo.fromPlatform)
       ..registerLazySingleton<SmartAuth>(() => SmartAuth.instance)
+      ..registerLazySingleton(InternetConnectionChecker.createInstance)
+      ..registerLazySingletonAsync<PackageInfo>(PackageInfo.fromPlatform)
       ..registerLazySingleton<SmsRetriever>(() => SmsRetrieverImpl(di.get()))
       ..registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(di.get()));
 
