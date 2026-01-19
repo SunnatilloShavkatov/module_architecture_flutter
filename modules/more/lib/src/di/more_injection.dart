@@ -21,7 +21,7 @@ final class MoreInjection implements Injection {
       /// repositories
       ..registerLazySingleton<MoreRepository>(() => MoreRepositoryImpl(di.get(), di.get()))
       /// usecases
-      ..registerFactory(() => GetMoreData(di.get()))
+      ..registerLazySingleton(() => GetMoreData(di.get()))
       /// bloc
       ..registerFactory(() => MoreBloc(di.get()));
   }

@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # chuck
+  chuck_interceptor: ^2.3.3
   # packages
   core:
     path: ../core

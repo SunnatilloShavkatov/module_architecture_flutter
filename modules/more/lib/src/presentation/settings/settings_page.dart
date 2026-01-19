@@ -14,7 +14,7 @@ class SettingsPage extends StatelessWidget {
     body: Center(
       child: Column(
         children: [
-          Text('Locale ${navigatorObserver.currentRoutes}'),
+          Text('Locale ${AppInjector.instance.get<RouteNavigationObserver>().currentRoutes}'),
           ListTile(
             title: const Text('Choose theme mode'),
             onTap: () async {

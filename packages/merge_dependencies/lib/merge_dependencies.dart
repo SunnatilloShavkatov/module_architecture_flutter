@@ -1,4 +1,5 @@
 import 'package:auth/auth.dart';
+import 'package:chuck_interceptor/chuck_interceptor.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:home/home.dart';
@@ -46,9 +47,13 @@ final class MergeDependencies {
     if (_isInitialized) {
       return;
     }
-    AppInjector.instance.registerSingleton<GlobalKey<NavigatorState>>(rootNavigatorKey);
-    AppInjector.instance.registerLazySingleton<AppNavigationService>(AppNavigationServiceImpl.new);
+    AppInjector.instance.registerLazySingleton<RouteNavigationObserver>(RouteNavigationObserver.new);
+    AppInjector.instance.registerLazySingleton<GlobalKey<NavigatorState>>(GlobalKey<NavigatorState>.new);
+    AppInjector.instance.registerLazySingleton<AppNavigationService>(
+      () => AppNavigationServiceImpl(AppInjector.instance.get(), AppInjector.instance.get()),
+    );
     await Future.wait(_injections.map((i) async => i.registerDependencies(di: AppInjector.instance)));
+    final chuck = Chuck(navigatorKey: AppInjector.instance.get<GlobalKey<NavigatorState>>());
 
     /// Add UI-level interceptors ONLY ONCE
     AppInjector.instance.get<Dio>().interceptors.add(chuck.dioInterceptor);
@@ -60,10 +65,10 @@ final class MergeDependencies {
   }
 
   static final GoRouter router = GoRouter(
-    navigatorKey: rootNavigatorKey,
-    observers: [navigatorObserver],
     initialLocation: Routes.initial,
     errorBuilder: (context, state) => NotFoundPage(settings: state),
+    observers: [AppInjector.instance.get<RouteNavigationObserver>()],
+    navigatorKey: AppInjector.instance.get<GlobalKey<NavigatorState>>(),
     routes: _allRouters.map((e) => e.getRouters(AppInjector.instance)).expand((e) => e).toList(),
   );
 }
