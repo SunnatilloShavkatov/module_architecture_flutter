@@ -12,16 +12,20 @@ final class AppInjector implements Injector {
 
   @override
   void registerLazySingleton<T extends Object>(T Function() function, {String? instanceName}) {
-    if (!_getIt.isRegistered<T>(instanceName: instanceName)) {
-      _getIt.registerLazySingleton<T>(function, instanceName: instanceName);
-    }
+    assert(
+      !_getIt.isRegistered<T>(instanceName: instanceName),
+      'Type $T with instance name $instanceName is already registered',
+    );
+    _getIt.registerLazySingleton<T>(function, instanceName: instanceName);
   }
 
   @override
   void registerSingleton<T extends Object>(T instance, {String? instanceName}) {
-    if (!_getIt.isRegistered<T>(instanceName: instanceName)) {
-      _getIt.registerSingleton<T>(instance, instanceName: instanceName);
-    }
+    assert(
+      !_getIt.isRegistered<T>(instanceName: instanceName),
+      'Type $T with instance name $instanceName is already registered',
+    );
+    _getIt.registerSingleton<T>(instance, instanceName: instanceName);
   }
 
   @override
@@ -35,9 +39,8 @@ final class AppInjector implements Injector {
 
   @override
   void registerFactory<T extends Object>(T Function() function) {
-    if (!_getIt.isRegistered<T>()) {
-      _getIt.registerFactory<T>(function);
-    }
+    assert(!_getIt.isRegistered<T>(), 'Type $T is already registered');
+    _getIt.registerFactory<T>(function);
   }
 
   @override
@@ -48,15 +51,17 @@ final class AppInjector implements Injector {
     bool? signalsReady,
     DisposableFunc<T>? dispose,
   }) {
-    if (!_getIt.isRegistered<T>()) {
-      _getIt.registerSingletonAsync<T>(
-        factoryFunc,
-        dispose: dispose,
-        dependsOn: dependsOn,
-        signalsReady: signalsReady,
-        instanceName: instanceName,
-      );
-    }
+    assert(
+      !_getIt.isRegistered<T>(instanceName: instanceName),
+      'Type $T with instance name $instanceName is already registered',
+    );
+    _getIt.registerSingletonAsync<T>(
+      factoryFunc,
+      dispose: dispose,
+      dependsOn: dependsOn,
+      signalsReady: signalsReady,
+      instanceName: instanceName,
+    );
   }
 
   @override
@@ -69,9 +74,11 @@ final class AppInjector implements Injector {
     String? instanceName,
     DisposableFunc<T>? dispose,
   }) {
-    if (!_getIt.isRegistered<T>()) {
-      _getIt.registerLazySingletonAsync<T>(factoryFunc, instanceName: instanceName, dispose: dispose);
-    }
+    assert(
+      !_getIt.isRegistered<T>(instanceName: instanceName),
+      'Type $T with instance name $instanceName is already registered',
+    );
+    _getIt.registerLazySingletonAsync<T>(factoryFunc, instanceName: instanceName, dispose: dispose);
   }
 
   @override

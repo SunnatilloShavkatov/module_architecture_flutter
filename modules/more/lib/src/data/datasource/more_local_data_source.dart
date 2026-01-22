@@ -1,5 +1,5 @@
 part of 'more_local_data_source_impl.dart';
 
-abstract class MoreLocalDataSource {
+abstract interface class MoreLocalDataSource {
   const MoreLocalDataSource();
 }
