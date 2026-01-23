@@ -26,9 +26,19 @@ Future<void> main() async {
       /// notification initialize
       await NotificationService.instance.initialize(DefaultFirebaseOptions.currentPlatform);
 
-      /// bloc logger
+      /// Bloc observer registration
+      ///
+      /// - Debug mode: Full logging + performance monitoring
+      /// - Profile mode: Performance monitoring only (for profiling)
+      /// - Release mode: No observers (production)
+      ///
+      /// Observer order matters: PerformanceBlocObserver must run first to start timers
+      /// before LoggingBlocObserver logs the events.
       if (kDebugMode) {
-        Bloc.observer = LogBlocObserver();
+        Bloc.observer = MultiBlocObserver(observers: [PerformanceBlocObserver(), const LoggingBlocObserver()]);
+      } else if (kProfileMode) {
+        // Profile mode: Performance monitoring only, no verbose logging
+        Bloc.observer = PerformanceBlocObserver();
       }
 
       /// widget error

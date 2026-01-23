@@ -39,6 +39,8 @@ export 'src/l10n/app_localizations.dart';
 export 'src/local_source/local_source.dart';
 export 'src/native_splash/flutter_native_splash.dart';
 export 'src/network/network_provider.dart';
+export 'src/observer/logging_bloc_observer.dart';
+export 'src/observer/performance_bloc_observer.dart';
 export 'src/retriever/sms_retriever_impl.dart';
 export 'src/services/app_navigation_service.dart';
 export 'src/services/base_listener_types.dart';

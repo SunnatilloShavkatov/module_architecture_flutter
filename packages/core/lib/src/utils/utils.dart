@@ -6,11 +6,8 @@ import 'package:core/src/error/failure.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'base_functions.dart';
-
-part 'log_bloc_observer.dart';
 
 part 'log_message.dart';
 
