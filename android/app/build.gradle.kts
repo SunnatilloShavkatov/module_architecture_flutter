@@ -2,10 +2,11 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
+    id("kotlin-android")
     id("com.android.application")
     id("com.google.gms.google-services")
-    id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin")
+    id("com.google.firebase.firebase-perf")
 }
 
 val keystoreProperties = Properties()
@@ -99,5 +100,9 @@ dependencies {
 
     // firebase
     implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
+
+    // Add the dependency for the Performance Monitoring library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-perf")
 }
 
