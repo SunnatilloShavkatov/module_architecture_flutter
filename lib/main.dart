@@ -8,80 +8,85 @@ import 'package:module_architecture_mobile/app.dart';
 import 'package:module_architecture_mobile/firebase_options.dart';
 
 Future<void> main() async {
-  await runZonedGuarded(
-    () async {
-      /// init environment
-      MergeDependencies.initEnvironment(env: Environment.prod);
+  /// 1. Initialize Flutter and Environment
+  final WidgetsBinding binding = WidgetsFlutterBinding.ensureInitialized();
+  MergeDependencies.initEnvironment(env: Environment.prod);
+  FlutterNativeSplash.preserve(widgetsBinding: binding);
 
-      /// flutter_native_splash
-      final WidgetsBinding binding = WidgetsFlutterBinding.ensureInitialized();
-      FlutterNativeSplash.preserve(widgetsBinding: binding);
+  /// 2. Global Error Handling (Modern Approach)
+  _setupErrorHandling();
 
-      /// di initialize
-      await MergeDependencies.instance.registerModules();
+  /// 3. Parallel Initialization
+  /// Firebase and DI are the heaviest tasks. Running them together is more efficient.
+  await Future.wait([
+    NotificationService.instance.initializeApp(DefaultFirebaseOptions.currentPlatform),
+    MergeDependencies.instance.registerModules(),
+  ]);
 
-      /// background message handler
-      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  /// 4. Non-Critical Background setup (Fire and forget where safe)
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-      /// notification initialize
-      await NotificationService.instance.initialize(DefaultFirebaseOptions.currentPlatform);
+  /// 5. App Metrica Initialization and Notification Service
+  NotificationService.instance.initialize();
 
-      /// Bloc observer registration
-      ///
-      /// - Debug mode: Full logging + performance monitoring
-      /// - Profile mode: Performance monitoring only (for profiling)
-      /// - Release mode: No observers (production)
-      ///
-      /// Observer order matters: PerformanceBlocObserver must run first to start timers
-      /// before LoggingBlocObserver logs the events.
-      if (kDebugMode) {
-        Bloc.observer = MultiBlocObserver(observers: [PerformanceBlocObserver(), const LoggingBlocObserver()]);
-      } else if (kProfileMode) {
-        // Profile mode: Performance monitoring only, no verbose logging
-        Bloc.observer = PerformanceBlocObserver();
-      }
+  /// 6. Bloc Observer Configuration
+  _setupBlocObserver();
 
-      /// widget error
-      FlutterError.onError = (errorDetails) {
-        logMessage('widget error: $errorDetails ${errorDetails.stack}', stackTrace: errorDetails.stack);
-      };
+  /// 7. UI Optimization: Set orientations and UI mode early
+  _configureSystemUI();
 
-      /// platform dispatcher error
-      PlatformDispatcher.instance.onError = (error, stack) {
-        logMessage('platform dispatcher error: $error', stackTrace: stack);
-        return true;
-      };
-
-      /// run app
-      runApp(
-        ModelBinding(
-          initialModel: AppOptions(
-            themeMode: AppInjector.instance.get<LocalSource>().themeMode,
-            locale: Locale(AppInjector.instance.get<LocalSource>().locale ?? defaultLocale),
-          ),
-          child: const App(),
-        ),
-      );
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        /// remove splash screen
-        FlutterNativeSplash.remove();
-
-        /// set orientation, system UI mode
-        await Future.wait([
-          SystemChrome.setPreferredOrientations([
-            DeviceOrientation.portraitUp,
-            DeviceOrientation.portraitDown,
-            if (mediaView.size.isTablet) ...[DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight],
-          ]),
-          SystemChrome.setEnabledSystemUIMode(
-            SystemUiMode.manual,
-            overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
-          ),
-        ]);
-      });
-    },
-    (error, stackTrace) {
-      logMessage('Zoned error: $error', stackTrace: stackTrace, error: error);
-    },
+  /// 8. Run App
+  runApp(
+    ModelBinding(
+      key: const Key('modelBinding'),
+      initialModel: AppOptions(
+        themeMode: AppInjector.instance.get<LocalSource>().themeMode,
+        locale: Locale(AppInjector.instance.get<LocalSource>().locale ?? defaultLocale),
+      ),
+      child: const App(key: Key('app')),
+    ),
   );
+
+  /// 9. Final touches after first frame
+  WidgetsBinding.instance.addPostFrameCallback((_) => FlutterNativeSplash.remove());
+}
+
+void _setupErrorHandling() {
+  // Catch Flutter-specific errors (widget tree, etc)
+  FlutterError.onError = (errorDetails) {
+    logMessage('widget error: $errorDetails', stackTrace: errorDetails.stack);
+  };
+
+  // Catch all other asynchronous errors
+  PlatformDispatcher.instance.onError = (error, stack) {
+    logMessage('platform dispatcher error: $error', stackTrace: stack);
+    return true;
+  };
+}
+
+void _setupBlocObserver() {
+  /// Bloc observer registration
+  ///
+  /// - Debug mode: Full logging + performance monitoring
+  /// - Profile mode: Performance monitoring only (for profiling)
+  /// - Release mode: No observers (production)
+  ///
+  /// Observer order matters: PerformanceBlocObserver must run first to start timers
+  /// before LoggingBlocObserver logs the events.
+  if (kDebugMode) {
+    Bloc.observer = MultiBlocObserver(observers: [PerformanceBlocObserver(), const LoggingBlocObserver()]);
+  } else if (kProfileMode) {
+    Bloc.observer = PerformanceBlocObserver();
+  }
+}
+
+void _configureSystemUI() {
+  Future.wait([
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      if (mediaView.size.isTablet) ...[DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight],
+    ]),
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]),
+  ]).ignore();
 }
