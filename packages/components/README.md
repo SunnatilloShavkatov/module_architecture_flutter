@@ -52,7 +52,7 @@ dependencies:
 
 ### Import
 
-```dart
+```
 import 'package:components/components.dart';
 ```
 
@@ -60,7 +60,7 @@ import 'package:components/components.dart';
 
 **MUST** use instead of `SafeArea`:
 
-```dart
+```
 SafeAreaWithMinimum(
   minimum: Dimensions.kPaddingAll16,
   child: Column(
@@ -75,7 +75,7 @@ SafeAreaWithMinimum(
 
 **MUST** use for primary buttons:
 
-```dart
+```
 CustomLoadingButton(
   onPressed: () {
     // Handle tap
@@ -99,7 +99,7 @@ CustomLoadingButton(
 
 **MUST** use for all spacing and padding:
 
-```dart
+```
 Column(
   children: [
     Text('Hello'),
@@ -131,7 +131,7 @@ Container(
 
 **MUST** use via `context.color`:
 
-```dart
+```
 Container(
   color: context.color.primary,
   child: Text(
@@ -156,7 +156,7 @@ context.color.divider
 
 **MUST** use via `context.textStyle`:
 
-```dart
+```
 Text(
   'Heading',
   style: context.textStyle.defaultW700x24,
@@ -183,7 +183,7 @@ context.textStyle.buttonStyle     // Button text
 
 ### CustomTextField
 
-```dart
+```
 CustomTextField(
   controller: textController,
   hintText: 'Enter your name',
@@ -199,7 +199,7 @@ CustomTextField(
 
 ### Gap Widgets
 
-```dart
+```
 Column(
   children: [
     Text('First'),
@@ -252,7 +252,7 @@ CustomScrollView(
 ## Dimensions Reference
 
 ### Gaps
-```dart
+```
 Dimensions.kGap4    // 4px gap
 Dimensions.kGap8    // 8px gap
 Dimensions.kGap12   // 12px gap
@@ -262,13 +262,13 @@ Dimensions.kGap32   // 32px gap
 ```
 
 ### Padding
-```dart
+```
 Dimensions.kPaddingAll16   // EdgeInsets.all(16)
 Dimensions.kPaddingAll24   // EdgeInsets.all(24)
 ```
 
 ### Border Radius
-```dart
+```
 Dimensions.kBorderRadius8
 Dimensions.kBorderRadius12
 Dimensions.kBorderRadius16
@@ -276,7 +276,7 @@ Dimensions.kShapeZero  // No border radius
 ```
 
 ### Special Widgets
-```dart
+```
 Dimensions.kZeroBox   // SizedBox.shrink()
 Dimensions.kDivider   // Horizontal divider
 Dimensions.kSpacer    // Spacer()
@@ -286,7 +286,7 @@ Dimensions.kSpacer    // Spacer()
 
 ### Accessing Theme
 
-```dart
+```
 // Colors
 final primaryColor = context.color.primary;
 
@@ -354,7 +354,7 @@ The theme is organized into:
 
 ## Example: Complete Page
 
-```dart
+```
 class ExamplePage extends StatelessWidget {
   const ExamplePage({super.key});
 

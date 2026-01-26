@@ -20,7 +20,7 @@ The `core` package provides DI abstractions:
 
 Each module implements `Injection`:
 
-```dart
+```
 final class AuthInjection implements Injection {
   const AuthInjection();
 
@@ -51,7 +51,7 @@ final class AuthInjection implements Injection {
 
 **Behavior**: Created once on first access, reused afterward
 
-```dart
+```
 di.registerLazySingleton<AuthRepo>(
   () => AuthRepoImpl(di.get(), di.get())
 );
@@ -68,7 +68,7 @@ di.registerLazySingleton<AuthRepo>(
 
 **Behavior**: New instance created each time
 
-```dart
+```
 di.registerFactory(() => LoginBloc(di.get()));
 ```
 
@@ -83,7 +83,7 @@ di.registerFactory(() => LoginBloc(di.get()));
 
 **Behavior**: Created immediately, single instance
 
-```dart
+```
 di.registerSingleton<AppNavigationService>(
   AppNavigationServiceImpl()
 );
@@ -103,7 +103,7 @@ Dependencies should be registered in **dependency order**:
 3. **Use Cases** (depend on repositories)
 4. **BLoCs** (depend on use cases)
 
-```dart
+```
 di
   // 1. Data sources
   ..registerLazySingleton<AuthRemoteDataSource>(
@@ -125,7 +125,7 @@ di
 
 Use `di.get<T>()` to resolve dependencies:
 
-```dart
+```
 final authRepo = di.get<AuthRepo>();
 ```
 
@@ -133,7 +133,7 @@ final authRepo = di.get<AuthRepo>();
 
 For multiple implementations of the same type:
 
-```dart
+```
 di.get<PageFactory>(instanceName: InstanceNameKeys.homeFactory);
 ```
 
@@ -141,7 +141,7 @@ di.get<PageFactory>(instanceName: InstanceNameKeys.homeFactory);
 
 For dependencies that need async initialization:
 
-```dart
+```
 final packageInfo = await di.getAsync<PackageInfo>();
 ```
 
@@ -149,7 +149,7 @@ final packageInfo = await di.getAsync<PackageInfo>();
 
 Each module exposes a container:
 
-```dart
+```
 final class AuthContainer implements ModuleContainer {
   const AuthContainer();
 
@@ -167,7 +167,7 @@ final class AuthContainer implements ModuleContainer {
 
 The `merge_dependencies` package aggregates all modules:
 
-```dart
+```
 static const List<ModuleContainer> _allContainer = [
   CoreContainer(),
   AuthContainer(),
@@ -185,7 +185,7 @@ static final List<Injection> _injections = _allContainer
 
 At app startup (`main.dart`):
 
-```dart
+```
 await MergeDependencies.instance.registerModules();
 ```
 
@@ -199,7 +199,7 @@ await MergeDependencies.instance.registerModules();
 
 The `AppInjector` is the global GetIt instance:
 
-```dart
+```
 // In core package
 final class AppInjector {
   static final GetIt instance = GetIt.instance;
@@ -215,7 +215,7 @@ final class AppInjector {
 
 ### Using BlocProvider
 
-```dart
+```
 BlocProvider(
   create: (_) => di.get<LoginBloc>(),
   child: const LoginPage(),
@@ -224,7 +224,7 @@ BlocProvider(
 
 ### Using MultiBlocProvider
 
-```dart
+```
 MultiBlocProvider(
   providers: [
     BlocProvider(create: (_) => di.get<AuthBloc>()),
@@ -236,7 +236,7 @@ MultiBlocProvider(
 
 ### Getting from Context
 
-```dart
+```
 final bloc = context.read<LoginBloc>();
 ```
 
@@ -244,7 +244,7 @@ final bloc = context.read<LoginBloc>();
 
 The `core` package registers its own dependencies:
 
-```dart
+```
 final class CoreInjection implements Injection {
   @override
   FutureOr<void> registerDependencies({required Injector di}) {
@@ -262,7 +262,7 @@ final class CoreInjection implements Injection {
 
 ### Repository with Multiple Data Sources
 
-```dart
+```
 di.registerLazySingleton<AuthRepo>(
   () => AuthRepoImpl(
     di.get<AuthRemoteDataSource>(),
@@ -273,7 +273,7 @@ di.registerLazySingleton<AuthRepo>(
 
 ### Use Case with Repository
 
-```dart
+```
 di.registerLazySingleton<Login>(
   () => Login(di.get<AuthRepo>())
 );
@@ -281,7 +281,7 @@ di.registerLazySingleton<Login>(
 
 ### BLoC with Use Case
 
-```dart
+```
 di.registerFactory(
   () => LoginBloc(di.get<Login>())
 );
@@ -289,7 +289,7 @@ di.registerFactory(
 
 ### BLoC with Multiple Dependencies
 
-```dart
+```
 di.registerFactory(
   () => ProfileBloc(
     di.get<GetProfile>(),
@@ -302,7 +302,7 @@ di.registerFactory(
 
 ### Mock Dependencies
 
-```dart
+```
 // In test
 final mockRepo = MockAuthRepo();
 di.registerFactory<AuthRepo>(() => mockRepo);
@@ -310,7 +310,7 @@ di.registerFactory<AuthRepo>(() => mockRepo);
 
 ### Reset Container
 
-```dart
+```
 // In test setup
 AppInjector.instance.reset();
 ```
@@ -326,26 +326,26 @@ AppInjector.instance.reset();
 ## Common Mistakes
 
 ❌ **Registering BLoC as singleton**
-```dart
+```
 // Wrong
 di.registerLazySingleton(() => LoginBloc(di.get())); // ❌
 ```
 
 ✅ **Registering BLoC as factory**
-```dart
+```
 // Correct
 di.registerFactory(() => LoginBloc(di.get())); // ✅
 ```
 
 ❌ **Circular dependencies**
-```dart
+```
 // Wrong - A depends on B, B depends on A
 di.registerLazySingleton<A>(() => A(di.get<B>()));
 di.registerLazySingleton<B>(() => B(di.get<A>())); // ❌
 ```
 
 ✅ **Dependency hierarchy**
-```dart
+```
 // Correct - A depends on B, B has no dependencies
 di.registerLazySingleton<B>(() => B());
 di.registerLazySingleton<A>(() => A(di.get<B>())); // ✅

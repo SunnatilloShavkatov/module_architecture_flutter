@@ -83,7 +83,7 @@ class LoginPage extends StatelessWidget {
 - **Use Cases**: Business operations (`*_usecase.dart`)
 
 **Example**:
-```dart
+```
 // Entity
 class LoginEntity extends Equatable {
   const LoginEntity({required this.token, required this.userId});
@@ -132,7 +132,7 @@ final class Login extends UsecaseWithParams<LoginEntity, LoginParams> {
 - **Repository Implementations**: Coordinate data sources (`*_repo_impl.dart`)
 
 **Example**:
-```dart
+```
 // Data Source Interface
 abstract interface class AuthRemoteDataSource {
   Future<LoginModel> login({required String username, required String password});
@@ -265,7 +265,7 @@ Presentation → Domain ← Data
 - No JSON serialization logic
 
 **Pattern**:
-```dart
+```
 // Domain Entity
 class LoginEntity extends Equatable {
   const LoginEntity({required this.token});
@@ -335,7 +335,7 @@ UI (displays error message)
 ## Common Mistakes to Avoid
 
 ❌ **BLoC calling repository directly**
-```dart
+```
 // Wrong
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(this._repo); // ❌ Repository in BLoC
@@ -344,7 +344,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 ```
 
 ✅ **BLoC calling use case**
-```dart
+```
 // Correct
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(this._loginUseCase); // ✅ Use case in BLoC
@@ -353,7 +353,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 ```
 
 ❌ **Entity with JSON serialization**
-```dart
+```
 // Wrong
 class LoginEntity {
   factory LoginEntity.fromMap(Map<String, dynamic> map) { ... } // ❌
@@ -361,7 +361,7 @@ class LoginEntity {
 ```
 
 ✅ **Model extends Entity**
-```dart
+```
 // Correct
 class LoginModel extends LoginEntity {
   factory LoginModel.fromMap(Map<String, dynamic> map) { ... } // ✅

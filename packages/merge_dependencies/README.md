@@ -29,7 +29,7 @@ dependencies:
 
 ### In main.dart
 
-```dart
+```
 import 'package:merge_dependencies/merge_dependencies.dart';
 
 void main() async {
@@ -47,7 +47,7 @@ void main() async {
 
 ### Route Generation
 
-```dart
+```
 MaterialApp.router(
   routerConfig: MergeDependencies.instance.generateRoutes(),
 );
@@ -59,7 +59,7 @@ MaterialApp.router(
 
 Automatically registers all feature modules:
 
-```dart
+```
 static const List<ModuleContainer> _allContainer = [
   CoreContainer(),
   AuthContainer(),
@@ -73,7 +73,7 @@ static const List<ModuleContainer> _allContainer = [
 
 ### Environment Configuration
 
-```dart
+```
 // Development environment
 MergeDependencies.initEnvironment(env: Environment.dev);
 
@@ -114,7 +114,7 @@ Collects routes from all module routers and generates GoRouter configuration.
 
 ## Import Rules
 
-```dart
+```
 // ✅ Correct - In main.dart
 import 'package:merge_dependencies/merge_dependencies.dart';
 
@@ -140,7 +140,7 @@ merge_dependencies/
 1. Create module container in the module
 2. Add to `_allContainer` list in `merge_dependencies.dart`:
 
-```dart
+```
 static const List<ModuleContainer> _allContainer = [
   // ... existing modules
   NewModuleContainer(),

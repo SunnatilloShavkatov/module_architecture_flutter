@@ -1,10 +1,11 @@
 # Flutter Development Rules
 
 > [!IMPORTANT]
-> **AI Assistant Instructions:** 
+> **AI Assistant Instructions:**
 > - This file contains the project's coding standards and architecture rules
 > - ALWAYS follow these rules when generating code, refactoring, or creating new features
-> - Reference this file in your prompts: `@flutter-rules.md` or `Make sure to follow flutter-rules.md`
+> - Reference this file in your prompts: `@flutter-rules.md` or
+    `Make sure to follow flutter-rules.md`
 > - When generating code, ensure it matches the patterns and conventions defined here
 
 ## Quick Reference for AI
@@ -14,8 +15,10 @@
 **DI:** GetIt via `merge_dependencies` package  
 **Naming:** `snake_case.dart` files, `PascalCase` classes, `camelCase` variables  
 **Error Handling:** Either pattern with Failure/Exception hierarchy  
-**UI Components:** `SafeAreaWithMinimum`, `CustomLoadingButton`, `Dimensions`, `ThemeColors`, `ThemeTextStyles`  
-**Packages:** `core` (functionality), `components` (UI), `navigation` (routing), `merge_dependencies` (app entry only)  
+**UI Components:** `SafeAreaWithMinimum`, `CustomLoadingButton`, `Dimensions`, `ThemeColors`,
+`ThemeTextStyles`  
+**Packages:** `core` (functionality), `components` (UI), `navigation` (routing),
+`merge_dependencies` (app entry only)
 
 ---
 
@@ -70,49 +73,53 @@ module_name/
 ## 2. Clean Architecture Layers
 
 ### Data Layer
+
 - **Purpose:** API communication, local storage, data transformation
 - **Rules:**
-  - Data sources MUST be abstract interfaces
-  - Implementation in `*_impl.dart` files
-  - Models MUST have `fromMap()` and `toMap()` methods
-  - Repository implementations in data layer
+    - Data sources MUST be abstract interfaces
+    - Implementation in `*_impl.dart` files
+    - Models MUST have `fromMap()` and `toMap()` methods
+    - Repository implementations in data layer
 
 ### Domain Layer
+
 - **Purpose:** Business logic, entities, repository contracts
 - **Rules:**
-  - NO framework dependencies
-  - Pure Dart code only
-  - Entities have no dependencies
-  - Repositories are abstract classes only
-  - Use cases follow single responsibility principle
+    - NO framework dependencies
+    - Pure Dart code only
+    - Entities have no dependencies
+    - Repositories are abstract classes only
+    - Use cases follow single responsibility principle
 
 ### Presentation Layer
+
 - **Purpose:** UI rendering, user interaction, state management
 - **Rules:**
-  - One BLoC per page
-  - UI logic stays in presentation layer
-  - BLoC calls use cases only (never directly calls repositories)
+    - One BLoC per page
+    - UI logic stays in presentation layer
+    - BLoC calls use cases only (never directly calls repositories)
 
 ---
 
 ## 3. Naming Conventions
 
-| Item | Convention | Example |
-|------|-----------|---------|
-| Files | `snake_case.dart` | `login_page.dart` |
-| Directories | `snake_case` | `data`, `presentation` |
-| Classes | `PascalCase` | `LoginPage`, `AuthBloc` |
-| Abstract classes | `PascalCase` | `AuthRepo` |
-| Final classes | `final class` | `final class AuthRepoImpl` |
-| Variables | `camelCase` | `userName` |
-| Private members | `_camelCase` | `_networkProvider` |
-| Enums | `PascalCase` | `RMethodTypes` |
-| Enum values | `camelCase` | `get`, `post` |
+| Item             | Convention        | Example                    |
+|------------------|-------------------|----------------------------|
+| Files            | `snake_case.dart` | `login_page.dart`          |
+| Directories      | `snake_case`      | `data`, `presentation`     |
+| Classes          | `PascalCase`      | `LoginPage`, `AuthBloc`    |
+| Abstract classes | `PascalCase`      | `AuthRepo`                 |
+| Final classes    | `final class`     | `final class AuthRepoImpl` |
+| Variables        | `camelCase`       | `userName`                 |
+| Private members  | `_camelCase`      | `_networkProvider`         |
+| Enums            | `PascalCase`      | `RMethodTypes`             |
+| Enum values      | `camelCase`       | `get`, `post`              |
 
 ### Suffixes
+
 - `Bloc` - Business Logic Component
 - `Event` - BLoC events
-- `State` - BLoC states  
+- `State` - BLoC states
 - `Entity` - Domain entities
 - `Model` - Data models
 - `Repo` - Repositories
@@ -128,18 +135,21 @@ module_name/
 
 ### Structure
 
-```dart
+```
 // Events - MUST use sealed class
 sealed class LoginEvent extends Equatable {
   const LoginEvent();
+
   @override
   List<Object?> get props => [];
 }
 
 final class LoginSubmitted extends LoginEvent {
   const LoginSubmitted({required this.username, required this.password});
+
   final String username;
   final String password;
+
   @override
   List<Object?> get props => [username, password];
 }
@@ -147,15 +157,20 @@ final class LoginSubmitted extends LoginEvent {
 // States - MUST use sealed class
 sealed class LoginState extends Equatable {
   const LoginState();
+
   @override
   List<Object?> get props => [];
 }
 
 final class LoginInitial extends LoginState {}
+
 final class LoginLoading extends LoginState {}
+
 final class LoginSuccess extends LoginState {
   const LoginSuccess(this.user);
+
   final LoginEntity user;
+
   @override
   List<Object?> get props => [user];
 }
@@ -165,24 +180,23 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(this._loginUseCase) : super(LoginInitial()) {
     on<LoginSubmitted>(_onLoginSubmitted);
   }
-  
+
   final LoginUseCase _loginUseCase;
-  
-  Future<void> _onLoginSubmitted(
-    LoginSubmitted event,
-    Emitter<LoginState> emit
-  ) async {
+
+  Future<void> _onLoginSubmitted(LoginSubmitted event,
+      Emitter<LoginState> emit) async {
     emit(LoginLoading());
     final result = await _loginUseCase(event.username, event.password);
     result.fold(
-      (failure) => emit(LoginFailure(failure.message)),
-      (user) => emit(LoginSuccess(user)),
+          (failure) => emit(LoginFailure(failure.message)),
+          (user) => emit(LoginSuccess(user)),
     );
   }
 }
 ```
 
 ### Rules
+
 - ✅ Events and States MUST be `sealed class`
 - ✅ MUST use `Equatable` mixin
 - ✅ BLoC constructor injects use cases only
@@ -195,30 +209,35 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
 ### Pattern
 
-```dart
+```
 final class AuthInjection implements Injection {
   const AuthInjection();
 
   @override
   FutureOr<void> registerDependencies({required Injector di}) {
     di
-      /// data sources
+
+    /// data sources
       ..registerLazySingleton<AuthRemoteDataSource>(
-        () => AuthRemoteDataSourceImpl(di.get())
+              () => AuthRemoteDataSourceImpl(di.get())
       )
-      /// repositories
+
+    /// repositories
       ..registerLazySingleton<AuthRepo>(
-        () => AuthRepoImpl(di.get(), di.get())
+              () => AuthRepoImpl(di.get(), di.get())
       )
-      /// use cases
+
+    /// use cases
       ..registerLazySingleton<Login>(() => Login(di.get()))
-      /// bloc
+
+    /// bloc
       ..registerFactory(() => LoginBloc(di.get(), di.get()));
   }
 }
 ```
 
 ### Registration Types
+
 - `registerLazySingleton` - Repos, Data Sources, Use Cases
 - `registerFactory` - BLoCs, Pages (created on demand)
 - `registerSingleton` - App lifecycle services
@@ -229,7 +248,7 @@ final class AuthInjection implements Injection {
 
 ### Pattern: Either
 
-```dart
+```
 typedef ResultFuture<T> = Future<Either<Failure, T>>;
 typedef ResultVoid = ResultFuture<void>;
 typedef DataMap = Map<String, dynamic>;
@@ -237,7 +256,7 @@ typedef DataMap = Map<String, dynamic>;
 
 ### Exception Handling
 
-```dart
+```
 // In Data Source
 Future<LoginModel> login({
   required String username,
@@ -289,12 +308,13 @@ ResultFuture<LoginEntity> login({
 ## 7. Code Style
 
 ### Import Ordering
+
 1. Dart SDK imports
-2. Flutter imports  
+2. Flutter imports
 3. Package imports
 4. Relative imports
 
-```dart
+```
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -306,6 +326,7 @@ import 'auth_bloc.dart';
 ```
 
 ### Rules
+
 - ✅ Prefer `final` for immutable variables
 - ✅ Prefer `const` for compile-time constants
 - ✅ Use `sealed class` for Events and States
@@ -318,11 +339,14 @@ import 'auth_bloc.dart';
 ## 8. API Integration
 
 ### Base URLs
+
 - Dev: `https://dev.uz`
 - Prod: `https://prod.uz`
 
 ### Authentication
-```dart
+
+```
+
 final headers = {
   'Authorization': 'Bearer $accessToken',
   'Lang': 'uz', // or 'ru'
@@ -331,6 +355,7 @@ final headers = {
 ```
 
 ### Response Format
+
 ```json
 {
   "success": true,
@@ -342,7 +367,8 @@ final headers = {
 **Note**: The `data` field contains the actual response data structure.
 
 ### Network Provider Pattern
-```dart
+
+```
 final result = await _networkProvider.fetchMethod<DataMap>(
   ApiPaths.endpoint,
   methodType: RMethodTypes.post,
@@ -356,18 +382,21 @@ final result = await _networkProvider.fetchMethod<DataMap>(
 ## 9. Localization
 
 ### Setup
+
 - ARB files: `intl_uz.arb`, `intl_ru.arb`
 - Default locale: `uz`
 - Supported: `uz`, `ru`
 - Provided by: `core` package (see [Section 14: Package Usage Rules](#14-package-usage-rules))
 
 ### Usage
-```dart
+
+```
 context.localizations.appName
 context.localizations.login
 ```
 
-> **Note:** The `context.localizations` extension is provided by the `core` package. Import `package:core/core.dart` to use it.
+> **Note:** The `context.localizations` extension is provided by the `core` package. Import
+`package:core/core.dart` to use it.
 
 ---
 
@@ -375,7 +404,7 @@ context.localizations.login
 
 ### Repository Pattern (Part/Part Of)
 
-```dart
+```
 // domain/repos/auth_repo.dart
 part '../../data/repos/auth_repo_impl.dart';
 
@@ -391,6 +420,7 @@ part of 'package:auth/src/domain/repos/auth_repo.dart';
 
 final class AuthRepoImpl implements AuthRepo {
   const AuthRepoImpl(this._remoteDataSource);
+
   final AuthRemoteDataSource _remoteDataSource;
 
   @override
@@ -428,25 +458,31 @@ final class AuthRepoImpl implements AuthRepo {
 ## 12. Common Patterns
 
 ### Pagination
-```dart
+
+```
 final class FetchCreditsEvent extends CreditsEvent {
   const FetchCreditsEvent({this.page = 1});
+
   final int page;
 }
 ```
 
 ### Search/Filter
-```dart
+
+```
 final class SearchClientsEvent extends ClientsEvent {
   const SearchClientsEvent({required this.query});
+
   final String query;
 }
 ```
 
 ### Form Validation
-```dart
+
+```
 final class UsernameChanged extends LoginEvent {
   const UsernameChanged({required this.username});
+
   final String username;
 }
 ```
@@ -456,10 +492,11 @@ final class UsernameChanged extends LoginEvent {
 ## 13. UI Components & Styling
 
 ### Safe Area
+
 - ✅ **MUST** use `SafeAreaWithMinimum` instead of `SafeArea`
 - ✅ Use `Dimensions.kPaddingAll16` or other predefined padding constants
 
-```dart
+```
 // ✅ Correct
 SafeAreaWithMinimum(
   minimum: Dimensions.kPaddingAll16,
@@ -481,11 +518,13 @@ SafeArea(
 ```
 
 ### Buttons
+
 - ✅ **MUST** use `CustomLoadingButton` for primary buttons instead of `ElevatedButton`
 - ✅ `CustomLoadingButton` automatically handles throttling and loading states
-- ✅ `CustomLoadingButton` uses default `ThemeData` from context (no need to wrap with `Theme` widget)
+- ✅ `CustomLoadingButton` uses default `ThemeData` from context (no need to wrap with `Theme`
+  widget)
 
-```dart
+```
 // ✅ Correct
 CustomLoadingButton(
   onPressed: () {},
@@ -509,10 +548,11 @@ Theme(
 ```
 
 ### Dimensions
+
 - ✅ **MUST** use `Dimensions` constants for all spacing, padding, gaps, and border radius
 - ✅ If a dimension doesn't exist, add it to `Dimensions` class first
 
-```dart
+```
 // ✅ Correct
 Dimensions.kZeroBox
 Dimensions.kGap12
@@ -532,11 +572,12 @@ BorderRadius.circular(12)
 ```
 
 ### Colors
+
 - ✅ **MUST** use `ThemeColors` from `context.color` extension
 - ✅ If color doesn't exist in `ThemeColors`, use `context.colorScheme.primary` as fallback
 - ✅ **NEVER** use hardcoded colors like `Colors.blue`, `Colors.black`, etc.
 
-```dart
+```
 // ✅ Correct
 context.color.primary
 context.color.textPrimary
@@ -551,11 +592,13 @@ Color(0xFF000000)
 ```
 
 ### Text Styles
+
 - ✅ **MUST** use `ThemeTextStyles` from `context.textStyle` extension
-- ✅ Use appropriate style from `ThemeTextStyles` (e.g., `defaultW700x24`, `defaultW400x14`, `buttonStyle`)
+- ✅ Use appropriate style from `ThemeTextStyles` (e.g., `defaultW700x24`, `defaultW400x14`,
+  `buttonStyle`)
 - ✅ **NEVER** create inline `TextStyle` objects
 
-```dart
+```
 // ✅ Correct
 context.textStyle.defaultW700x24
 context.textStyle.defaultW400x14
@@ -568,6 +611,7 @@ const TextStyle(color: Colors.white, fontSize: 16)
 ```
 
 ### Analysis Options
+
 - ✅ **MUST** use `analysis_lints: ^1.0.5` in `pubspec.yaml` dev_dependencies
 - ✅ **MUST** include `package:analysis_lints/analysis_options.yaml` in `analysis_options.yaml`
 
@@ -582,7 +626,7 @@ include: package:analysis_lints/analysis_options.yaml
 
 ### Complete Example
 
-```dart
+```
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
 
@@ -672,6 +716,7 @@ main.dart (app entry point)
 **Purpose:** Core application functionality and abstractions
 
 **Contains:**
+
 - Network provider (`NetworkProvider`)
 - Error handling (`Failure`, `ServerException`, `Either`)
 - Dependency injection abstractions (`Injection`, `Injector`, `ModuleContainer`)
@@ -682,18 +727,21 @@ main.dart (app entry point)
 - Utilities (`logMessage`, `typedef`)
 
 **Usage Rules:**
+
 - ✅ **MUST** use for network operations, error handling, DI abstractions
 - ✅ **MUST** use for extensions:
-  - `context.localizations` - Localization (see [Section 9: Localization](#9-localization))
-  - `context.color` - Theme colors (see [Section 13: UI Components & Styling](#13-ui-components--styling))
-  - `context.textStyle` - Text styles (see [Section 13: UI Components & Styling](#13-ui-components--styling))
+    - `context.localizations` - Localization (see [Section 9: Localization](#9-localization))
+    - `context.color` - Theme colors (
+      see [Section 13: UI Components & Styling](#13-ui-components--styling))
+    - `context.textStyle` - Text styles (
+      see [Section 13: UI Components & Styling](#13-ui-components--styling))
 - ✅ **MUST** use for constants and environment configuration
 - ✅ **MUST** use in modules for core functionality
 - ❌ **NEVER** put UI components in `core` - use `components` instead
 
-
 **Example:**
-```dart
+
+```
 // ✅ Correct
 import 'package:core/core.dart';
 
@@ -719,6 +767,7 @@ Container(color: context.color.primary);
 **Purpose:** Reusable UI components and styling
 
 **Contains:**
+
 - UI Components (`CustomLoadingButton`, `CustomTextField`, `SafeAreaWithMinimum`)
 - Theme (`ThemeColors`, `ThemeTextStyles`, `Themes`)
 - Dimensions (`Dimensions` constants)
@@ -726,9 +775,11 @@ Container(color: context.color.primary);
 - Animations (`CarouselSlider`, `CustomLinearProgress`)
 - Inputs (`CustomPhoneTextField`, `MaskedTextInputFormatter`)
 
-> **Note:** For detailed usage examples of UI components, see [Section 13: UI Components & Styling](#13-ui-components--styling)
+> **Note:** For detailed usage examples of UI components,
+> see [Section 13: UI Components & Styling](#13-ui-components--styling)
 
 **Usage Rules:**
+
 - ✅ **MUST** use for all UI components and widgets
 - ✅ **MUST** use `Dimensions` for spacing, padding, gaps, border radius (see Section 13)
 - ✅ **MUST** use `ThemeColors` and `ThemeTextStyles` via extensions (see Section 13)
@@ -738,7 +789,8 @@ Container(color: context.color.primary);
 - ❌ **NEVER** hardcode dimensions, colors, or text styles - use from `components`
 
 **Example:**
-```dart
+
+```
 // ✅ Correct
 import 'package:components/components.dart';
 
@@ -766,6 +818,7 @@ SafeAreaWithMinimum(
 **Purpose:** Routing and navigation utilities
 
 **Contains:**
+
 - Route names (`NameRoutes`)
 - Navigation observer (`RouteNavigationObserver`)
 - Custom page routes (`MaterialSheetRoute`)
@@ -773,6 +826,7 @@ SafeAreaWithMinimum(
 - Chuck interceptor (`chuck`)
 
 **Usage Rules:**
+
 - ✅ **MUST** use for all navigation-related code
 - ✅ **MUST** use `NameRoutes` constants for route names
 - ✅ **MUST** use `rootNavigatorKey` for global navigation
@@ -781,7 +835,8 @@ SafeAreaWithMinimum(
 - ❌ **NEVER** create navigation utilities in modules - add to `navigation` if reusable
 
 **Example:**
-```dart
+
+```
 // ✅ Correct
 import 'package:navigation/navigation.dart';
 
@@ -801,20 +856,24 @@ Navigator.pushNamed(context, NameRoutes.login);
 **Purpose:** Dependency aggregator - main entry point for all packages and modules
 
 **Contains:**
+
 - Re-exports all packages (`core`, `components`, `navigation`)
 - Module registration (`MergeDependencies.registerModules()`)
 - Route generation (`MergeDependencies.instance.generateRoutes()`)
 - Environment initialization (`MergeDependencies.initEnvironment()`)
 
 **Usage Rules:**
+
 - ✅ **MUST** use in `main.dart` (app entry point)
 - ✅ **MUST** use for initializing DI and routes
 - ✅ **CAN** use in app-level code to access all packages through single import
-- ❌ **NEVER** use in modules - modules should import packages directly (`core`, `components`, `navigation`)
+- ❌ **NEVER** use in modules - modules should import packages directly (`core`, `components`,
+  `navigation`)
 - ❌ **NEVER** add module-specific code to `merge_dependencies`
 
 **Example:**
-```dart
+
+```
 // ✅ Correct - In main.dart
 import 'package:merge_dependencies/merge_dependencies.dart';
 
@@ -852,7 +911,7 @@ dependencies:
 
 **Import Patterns in Modules:**
 
-```dart
+```
 // ✅ Correct - Import packages directly
 import 'package:core/core.dart';
 import 'package:components/components.dart';
@@ -864,7 +923,7 @@ import 'package:merge_dependencies/merge_dependencies.dart';
 
 **Package Interdependencies:**
 
-- `core` 
+- `core`
 - `components`
 - `navigation` depends on: external packages only (`chuck_interceptor`)
 - `merge_dependencies` depends on: all packages and all modules
@@ -873,18 +932,19 @@ import 'package:merge_dependencies/merge_dependencies.dart';
 
 ### Summary Table
 
-| Package | Use In | Purpose | Direct Imports |
-|---------|--------|---------|----------------|
-| `core` | Modules, App | Core functionality | ✅ Yes |
-| `components` | Modules, App | UI components | ✅ Yes |
-| `navigation` | Modules, App | Routing | ✅ Yes |
-| `merge_dependencies` | `main.dart` only | Dependency aggregator | ✅ In app only |
+| Package              | Use In           | Purpose               | Direct Imports |
+|----------------------|------------------|-----------------------|----------------|
+| `core`               | Modules, App     | Core functionality    | ✅ Yes          |
+| `components`         | Modules, App     | UI components         | ✅ Yes          |
+| `navigation`         | Modules, App     | Routing               | ✅ Yes          |
+| `merge_dependencies` | `main.dart` only | Dependency aggregator | ✅ In app only  |
 
 ---
 
 ## AI Assistant Checklist
 
 When generating code, ensure:
+
 - [ ] Follows Clean Architecture (3 layers)
 - [ ] Uses correct naming conventions
 - [ ] BLoC uses sealed classes with Equatable
@@ -903,12 +963,14 @@ When generating code, ensure:
 - [ ] No hardcoded colors or text styles
 - [ ] `analysis_lints: ^1.0.5` configured in `analysis_options.yaml`
 - [ ] **Package Usage:**
-  - [ ] Uses `core` for network, error handling, extensions, constants
-  - [ ] Uses `components` for UI components, theme, dimensions
-  - [ ] Uses `navigation` for routing and navigation
-  - [ ] Uses `merge_dependencies` only in `main.dart`
-  - [ ] Modules import packages directly (`core`, `components`, `navigation`), not `merge_dependencies`
+    - [ ] Uses `core` for network, error handling, extensions, constants
+    - [ ] Uses `components` for UI components, theme, dimensions
+    - [ ] Uses `navigation` for routing and navigation
+    - [ ] Uses `merge_dependencies` only in `main.dart`
+    - [ ] Modules import packages directly (`core`, `components`, `navigation`), not
+      `merge_dependencies`
 
 ---
 
-**Reference:** This file (`flutter-rules.md`) contains all the project's coding standards and architecture rules.
+**Reference:** This file (`flutter-rules.md`) contains all the project's coding standards and
+architecture rules.

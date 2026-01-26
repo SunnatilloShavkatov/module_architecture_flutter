@@ -2,7 +2,8 @@
 
 Thank you for your interest in contributing to this project!
 
-This repository follows a **strict modular Clean Architecture** approach with well-defined patterns and conventions. Please read this document carefully before opening a Pull Request.
+This repository follows a **strict modular Clean Architecture** approach with well-defined patterns
+and conventions. Please read this document carefully before opening a Pull Request.
 
 ---
 
@@ -12,27 +13,30 @@ This project uses **Module-based Clean Architecture** with three distinct layers
 
 ### Layer Dependency Rules
 
-| Layer | Can Depend On | Cannot Depend On |
-|-------|--------------|------------------|
-| **Presentation** | Domain only | Data layer, Repositories directly |
-| **Domain** | Nothing | Flutter, External packages, Any layer |
-| **Data** | Domain only | Presentation layer |
+| Layer            | Can Depend On | Cannot Depend On                      |
+|------------------|---------------|---------------------------------------|
+| **Presentation** | Domain only   | Data layer, Repositories directly     |
+| **Domain**       | Nothing       | Flutter, External packages, Any layer |
+| **Data**         | Domain only   | Presentation layer                    |
 
 ### Critical Rules
 
 ❌ **Presentation Layer MUST NOT**:
+
 - Access repositories directly (use UseCases instead)
 - Import from Data layer
 - Access data sources
 - Use models (use entities instead)
 
 ❌ **Domain Layer MUST NOT**:
+
 - Depend on Flutter framework
 - Import external packages (except Dart SDK)
 - Know about UI or data sources
 - Have any framework dependencies
 
 ✅ **Data Layer MUST**:
+
 - Implement repository contracts from Domain
 - Handle data transformation (Model ↔ Entity)
 - Manage API calls and local storage
@@ -102,6 +106,7 @@ GetUserUseCase.dart
 ```
 
 **Rules**:
+
 - Files: `snake_case.dart`
 - Classes: `PascalCase`
 - Variables: `camelCase`
@@ -111,7 +116,8 @@ GetUserUseCase.dart
 ### Class Structure
 
 #### Entity (Domain Layer)
-```dart
+
+```
 final class UserEntity extends Equatable {
   const UserEntity({
     required this.id,
@@ -127,7 +133,8 @@ final class UserEntity extends Equatable {
 ```
 
 #### Model (Data Layer)
-```dart
+
+```
 final class UserModel extends UserEntity {
   const UserModel({
     required super.id,
@@ -151,7 +158,8 @@ final class UserModel extends UserEntity {
 ```
 
 #### Repository Abstract (Domain Layer)
-```dart
+
+```
 part '../../data/repo/user_repo_impl.dart';
 
 abstract class UserRepo {
@@ -160,7 +168,8 @@ abstract class UserRepo {
 ```
 
 #### Repository Implementation (Data Layer)
-```dart
+
+```
 part of '../../domain/repo/user_repo.dart';
 
 final class UserRepoImpl implements UserRepo {
@@ -183,7 +192,8 @@ final class UserRepoImpl implements UserRepo {
 ```
 
 #### Use Case (Domain Layer)
-```dart
+
+```
 final class GetUser extends UseCase<UserEntity, GetUserParams> {
   const GetUser(this._repository);
 
@@ -206,7 +216,8 @@ final class GetUserParams extends Equatable {
 ```
 
 #### BLoC (Presentation Layer)
-```dart
+
+```
 // Events
 sealed class UserEvent extends Equatable {
   const UserEvent();
@@ -214,7 +225,9 @@ sealed class UserEvent extends Equatable {
 
 final class FetchUser extends UserEvent {
   const FetchUser({required this.id});
+
   final int id;
+
   @override
   List<Object?> get props => [id];
 }
@@ -222,6 +235,7 @@ final class FetchUser extends UserEvent {
 // States
 sealed class UserState extends Equatable {
   const UserState();
+
   @override
   List<Object?> get props => [];
 }
@@ -232,14 +246,18 @@ final class UserLoading extends UserState {}
 
 final class UserLoaded extends UserState {
   const UserLoaded({required this.user});
+
   final UserEntity user;
+
   @override
   List<Object?> get props => [user];
 }
 
 final class UserError extends UserState {
   const UserError({required this.message});
+
   final String message;
+
   @override
   List<Object?> get props => [message];
 }
@@ -252,17 +270,15 @@ final class UserBloc extends Bloc<UserEvent, UserState> {
 
   final GetUser _getUserUseCase;
 
-  Future<void> _onFetchUser(
-    FetchUser event,
-    Emitter<UserState> emit,
-  ) async {
+  Future<void> _onFetchUser(FetchUser event,
+      Emitter<UserState> emit,) async {
     emit(UserLoading());
     final result = await _getUserUseCase(
       GetUserParams(id: event.id),
     );
     result.fold(
-      (failure) => emit(UserError(message: failure.message)),
-      (user) => emit(UserLoaded(user: user)),
+          (failure) => emit(UserError(message: failure.message)),
+          (user) => emit(UserLoaded(user: user)),
     );
   }
 }
@@ -274,7 +290,7 @@ final class UserBloc extends Bloc<UserEvent, UserState> {
 
 ### Module Injection
 
-```dart
+```
 final class ModuleInjection implements Injection {
   const ModuleInjection();
 
@@ -282,22 +298,22 @@ final class ModuleInjection implements Injection {
   FutureOr<void> registerDependencies({required Injector di}) {
     // Data sources
     di.registerLazySingleton<ModuleRemoteDataSource>(
-      () => ModuleRemoteDataSourceImpl(di.get()),
+          () => ModuleRemoteDataSourceImpl(di.get()),
     );
 
     // Repositories
     di.registerLazySingleton<ModuleRepo>(
-      () => ModuleRepoImpl(di.get()),
+          () => ModuleRepoImpl(di.get()),
     );
 
     // Use cases
     di.registerLazySingleton<GetModuleData>(
-      () => GetModuleData(di.get()),
+          () => GetModuleData(di.get()),
     );
 
     // BLoCs
     di.registerFactory(
-      () => ModuleBloc(di.get()),
+          () => ModuleBloc(di.get()),
     );
   }
 }
@@ -305,11 +321,11 @@ final class ModuleInjection implements Injection {
 
 ### Lifecycle Rules
 
-| Registration | Lifecycle | Use For |
-|--------------|-----------|---------|
-| `registerSingleton` | Created immediately, lives forever | Pre-initialized services |
-| `registerLazySingleton` | Created on first use, lives forever | Repositories, UseCases |
-| `registerFactory` | Created every time | BLoCs, ViewModels |
+| Registration            | Lifecycle                           | Use For                  |
+|-------------------------|-------------------------------------|--------------------------|
+| `registerSingleton`     | Created immediately, lives forever  | Pre-initialized services |
+| `registerLazySingleton` | Created on first use, lives forever | Repositories, UseCases   |
+| `registerFactory`       | Created every time                  | BLoCs, ViewModels        |
 
 ---
 
@@ -317,18 +333,19 @@ final class ModuleInjection implements Injection {
 
 ### Route Definition
 
-```dart
+```
 final class ModuleRouter implements AppRouter<RouteBase> {
   const ModuleRouter();
 
   @override
-  List<GoRoute> getRouters(Injector di) => [
-    GoRoute(
-      path: Routes.modulePage,
-      name: Routes.modulePage,
-      builder: (context, state) => const ModulePage(),
-    ),
-  ];
+  List<GoRoute> getRouters(Injector di) =>
+      [
+        GoRoute(
+          path: Routes.modulePage,
+          name: Routes.modulePage,
+          builder: (context, state) => const ModulePage(),
+        ),
+      ];
 }
 ```
 
@@ -346,7 +363,7 @@ final class ModuleRouter implements AppRouter<RouteBase> {
 
 ### Use Shared Components
 
-```dart
+```
 // ✅ DO: Use components package
 import 'package:components/components.dart';
 
@@ -372,7 +389,7 @@ SafeArea(
 
 ### Styling Rules
 
-```dart
+```
 // ✅ DO: Use theme extensions
 Text(
   'Hello',
@@ -417,7 +434,7 @@ dependencies:
 
 ### Import Rules
 
-```dart
+```
 // ✅ DO: Import packages correctly
 import 'package:core/core.dart';
 import 'package:components/components.dart';
@@ -436,6 +453,7 @@ import 'package:merge_dependencies/merge_dependencies.dart';
 Before submitting a PR, ensure:
 
 ### Code Quality
+
 - [ ] All files follow naming conventions (`snake_case.dart`)
 - [ ] Classes follow architecture patterns (Entity/Model/UseCase/BLoC)
 - [ ] No hardcoded strings, colors, or dimensions
@@ -443,6 +461,7 @@ Before submitting a PR, ensure:
 - [ ] Used `const` constructors where possible
 
 ### Architecture
+
 - [ ] Presentation layer only depends on Domain
 - [ ] Domain layer has no external dependencies
 - [ ] Data layer implements Domain contracts
@@ -451,18 +470,21 @@ Before submitting a PR, ensure:
 - [ ] Models extend entities and have JSON serialization
 
 ### State Management
+
 - [ ] Events and States are `sealed class`
 - [ ] All events/states extend `Equatable`
 - [ ] BLoC event handlers are private (`_onEventName`)
 - [ ] Error states include error messages
 
 ### Dependencies
+
 - [ ] Dependencies registered in module injection
 - [ ] Correct lifecycle used (singleton/lazySingleton/factory)
 - [ ] No circular dependencies
 - [ ] Module container created and exported
 
 ### UI/UX
+
 - [ ] Used `SafeAreaWithMinimum` instead of `SafeArea`
 - [ ] Used `Dimensions` constants for spacing
 - [ ] Used `context.color` and `context.textStyle`
@@ -470,18 +492,21 @@ Before submitting a PR, ensure:
 - [ ] Widgets are reasonably sized (< 300 lines)
 
 ### Navigation
+
 - [ ] Routes defined in module router
 - [ ] Route names use `Routes` constants
 - [ ] No hardcoded route strings
 - [ ] Module registered in `merge_dependencies`
 
 ### Testing
+
 - [ ] No lint errors (`flutter analyze`)
 - [ ] Code formatted (`flutter format .`)
 - [ ] App builds successfully
 - [ ] Manual testing completed
 
 ### Documentation
+
 - [ ] Complex logic has comments
 - [ ] Public APIs have documentation
 - [ ] README updated if needed
@@ -491,7 +516,8 @@ Before submitting a PR, ensure:
 ## 🚫 Common Mistakes to Avoid
 
 ### ❌ BLoC Calling Repository Directly
-```dart
+
+```
 // WRONG
 final result = await _repository.getUser(userId: '123');
 
@@ -500,7 +526,8 @@ final result = await _getUserUseCase(GetUserParams(userId: '123'));
 ```
 
 ### ❌ Entity with JSON Serialization
-```dart
+
+```
 // WRONG - Domain entity should not have JSON
 final class UserEntity {
   const UserEntity({required this.id, required this.name});
@@ -541,7 +568,8 @@ final class UserModel extends UserEntity {
 ```
 
 ### ❌ Hardcoded Values
-```dart
+
+```
 // WRONG
 Container(
   padding: EdgeInsets.all(16.0),
@@ -556,7 +584,8 @@ Container(
 ```
 
 ### ❌ Importing Merge Dependencies in Modules
-```dart
+
+```
 // WRONG - in module code
 import 'package:merge_dependencies/merge_dependencies.dart';
 
@@ -567,13 +596,16 @@ import 'package:navigation/navigation.dart';
 ```
 
 ### ❌ Non-Sealed Event/State Classes
-```dart
+
+```
 // WRONG
 abstract class LoginEvent extends Equatable {}
+
 class LoginSubmitted extends LoginEvent {}
 
 // CORRECT
 sealed class LoginEvent extends Equatable {}
+
 final class LoginSubmitted extends LoginEvent {}
 ```
 
@@ -599,6 +631,7 @@ final class LoginSubmitted extends LoginEvent {}
 ```
 
 **Types**:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `refactor`: Code refactoring
@@ -608,6 +641,7 @@ final class LoginSubmitted extends LoginEvent {}
 - `chore`: Maintenance tasks
 
 **Examples**:
+
 ```
 feat: add user authentication module
 fix: resolve null check error in profile page
@@ -638,9 +672,11 @@ docs: update README with new module structure
 
 ## 🙏 Thank You
 
-Your contributions make this project better! By following these guidelines, you help maintain code quality, consistency, and scalability.
+Your contributions make this project better! By following these guidelines, you help maintain code
+quality, consistency, and scalability.
 
 **Remember**:
+
 - Clean Architecture is non-negotiable
 - Domain layer stays pure
 - BLoC calls UseCases, not repositories

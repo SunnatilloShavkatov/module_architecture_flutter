@@ -43,7 +43,10 @@ final class NotificationService {
   void initialize() {
     /// initialize local notifications and handle tap events
     unawaited(
-      _notifications.initialize(_initializationSettings, onDidReceiveNotificationResponse: _handleNotificationTap),
+      _notifications.initialize(
+        settings: _initializationSettings,
+        onDidReceiveNotificationResponse: _handleNotificationTap,
+      ),
     );
 
     /// handle foreground messages
@@ -118,10 +121,10 @@ final class NotificationService {
     }
     if (message.data.containsKey('title') && message.data.containsKey('body')) {
       await _notifications.show(
-        message.hashCode,
-        message.data['title'],
-        message.data['body'],
-        NotificationDetails(
+        id: message.hashCode,
+        title: message.data['title'],
+        body: message.data['body'],
+        notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(
             _channel.id,
             _channel.name,

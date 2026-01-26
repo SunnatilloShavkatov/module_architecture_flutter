@@ -15,7 +15,7 @@ This document explains how repository interfaces are defined in the Domain Layer
 
 ### Basic Repository
 
-```dart
+```
 import 'package:auth/src/domain/entities/login_entity.dart';
 import 'package:core/core.dart';
 
@@ -31,7 +31,7 @@ abstract interface class AuthRepo {
 
 ### Repository with Multiple Methods
 
-```dart
+```
 abstract interface class ProfileRepo {
   const ProfileRepo();
 
@@ -47,7 +47,7 @@ abstract interface class ProfileRepo {
 
 Repositories are abstract interfaces:
 
-```dart
+```
 // ✅ Correct
 abstract interface class AuthRepo { ... }
 
@@ -60,7 +60,7 @@ class AuthRepo { ... } // Not abstract
 
 All methods return `ResultFuture<T>`:
 
-```dart
+```
 // ✅ Correct
 ResultFuture<LoginEntity> login(...);
 
@@ -73,7 +73,7 @@ Future<Either<Failure, LoginEntity>> login(...); // Use typedef
 
 Repositories work with domain entities:
 
-```dart
+```
 // ✅ Correct
 ResultFuture<LoginEntity> login(...);
 
@@ -85,7 +85,7 @@ ResultFuture<LoginModel> login(...); // Model is data layer
 
 No implementation code in repository interface:
 
-```dart
+```
 // ✅ Correct
 abstract interface class AuthRepo {
   ResultFuture<LoginEntity> login(...);
@@ -103,7 +103,7 @@ abstract interface class AuthRepo {
 
 Pure Dart, no Flutter dependencies:
 
-```dart
+```
 // ✅ Correct
 import 'package:core/core.dart';
 
@@ -126,7 +126,7 @@ module_name/src/domain/repo/
 
 Repository interfaces are **implemented** in the Data Layer:
 
-```dart
+```
 // Domain Layer (interface)
 abstract interface class AuthRepo {
   ResultFuture<LoginEntity> login(...);
@@ -149,7 +149,7 @@ Implementations should be in the Data Layer (see `flutter-rules.md` for implemen
 
 Use cases depend on repository interfaces:
 
-```dart
+```
 final class Login extends UsecaseWithParams<LoginEntity, LoginParams> {
   const Login(this._repo);
   final AuthRepo _repo; // Interface, not implementation
@@ -166,7 +166,7 @@ final class Login extends UsecaseWithParams<LoginEntity, LoginParams> {
 
 Register repository interface with implementation:
 
-```dart
+```
 di.registerLazySingleton<AuthRepo>(
   () => AuthRepoImpl(di.get(), di.get())
 );
@@ -176,7 +176,7 @@ di.registerLazySingleton<AuthRepo>(
 
 ### Single Entity Repository
 
-```dart
+```
 abstract interface class UserRepo {
   ResultFuture<UserEntity> getUser(String userId);
   ResultFuture<void> updateUser(UserEntity user);
@@ -186,7 +186,7 @@ abstract interface class UserRepo {
 
 ### List Repository
 
-```dart
+```
 abstract interface class ProductsRepo {
   ResultFuture<List<ProductEntity>> getProducts();
   ResultFuture<ProductEntity> getProduct(String productId);
@@ -195,7 +195,7 @@ abstract interface class ProductsRepo {
 
 ### Pagination Repository
 
-```dart
+```
 abstract interface class ProductsRepo {
   ResultFuture<List<ProductEntity>> getProducts({
     int page = 1,
@@ -206,7 +206,7 @@ abstract interface class ProductsRepo {
 
 ### Search Repository
 
-```dart
+```
 abstract interface class ProductsRepo {
   ResultFuture<List<ProductEntity>> searchProducts(String query);
 }
@@ -216,7 +216,7 @@ abstract interface class ProductsRepo {
 
 Repositories return `Either<Failure, T>`, but the interface doesn't specify how errors are handled - that's the implementation's responsibility.
 
-```dart
+```
 abstract interface class AuthRepo {
   // Interface doesn't specify error handling
   ResultFuture<LoginEntity> login(...);
@@ -242,7 +242,7 @@ final class AuthRepoImpl implements AuthRepo {
 
 Each method should do one thing:
 
-```dart
+```
 // ✅ Correct
 ResultFuture<LoginEntity> login(...);
 ResultFuture<void> logout();
@@ -253,7 +253,7 @@ ResultFuture<LoginEntity> loginAndLogout(...); // Two operations
 
 ### 2. Use Descriptive Names
 
-```dart
+```
 // ✅ Correct
 ResultFuture<ProfileEntity> getProfile();
 ResultFuture<void> updateProfile(...);
@@ -265,7 +265,7 @@ ResultFuture<void> update(...);
 
 ### 3. Group Related Operations
 
-```dart
+```
 abstract interface class AuthRepo {
   // Authentication operations
   ResultFuture<LoginEntity> login(...);
@@ -276,7 +276,7 @@ abstract interface class AuthRepo {
 
 ### 4. Use Parameters Object for Complex Methods
 
-```dart
+```
 // ✅ Correct - Simple
 ResultFuture<LoginEntity> login({
   required String username,
@@ -291,7 +291,7 @@ ResultFuture<OrderEntity> createOrder(CreateOrderParams params);
 
 Some repositories use the `part`/`part of` pattern to keep interface and implementation together:
 
-```dart
+```
 // domain/repo/auth_repo.dart
 part '../../data/repo/auth_repo_impl.dart';
 
@@ -313,7 +313,7 @@ final class AuthRepoImpl implements AuthRepo {
 
 Repository interfaces are tested via implementations:
 
-```dart
+```
 // Test implementation
 class MockAuthRepo implements AuthRepo {
   @override

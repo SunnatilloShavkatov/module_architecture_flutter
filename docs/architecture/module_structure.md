@@ -64,14 +64,14 @@ module_name/
 
 The main export file that exposes the module's public API:
 
-```dart
+```
 export 'src/module_name_container.dart' show ModuleNameContainer;
 ```
 
 **Purpose**: Other parts of the app only need to import the container to register the module.
 
 **Example** (`modules/auth/lib/auth.dart`):
-```dart
+```
 export 'src/auth_container.dart' show AuthContainer;
 ```
 
@@ -84,7 +84,7 @@ The container implements `ModuleContainer` and provides:
 1. **Injection**: Dependency registration
 2. **Router**: Route definitions
 
-```dart
+```
 final class AuthContainer implements ModuleContainer {
   const AuthContainer();
 
@@ -104,7 +104,7 @@ final class AuthContainer implements ModuleContainer {
 
 Registers all module dependencies:
 
-```dart
+```
 final class AuthInjection implements Injection {
   const AuthInjection();
 
@@ -146,7 +146,7 @@ final class AuthInjection implements Injection {
 
 Defines module routes:
 
-```dart
+```
 final class AuthRouter implements AppRouter<RouteBase> {
   const AuthRouter();
 
@@ -175,7 +175,7 @@ final class AuthRouter implements AppRouter<RouteBase> {
 
 Modules are registered in `merge_dependencies`:
 
-```dart
+```
 static const List<ModuleContainer> _allContainer = [
   CoreContainer(),
   AuthContainer(),
@@ -228,7 +228,7 @@ Modules communicate via:
 
 All modules use shared packages (`core`, `components`, `navigation`):
 
-```dart
+```
 import 'package:core/core.dart';
 import 'package:components/components.dart';
 import 'package:navigation/navigation.dart';
@@ -238,7 +238,7 @@ import 'package:navigation/navigation.dart';
 
 Modules navigate to each other via routes:
 
-```dart
+```
 // In AuthModule
 Navigator.pushNamed(context, Routes.mainHome);
 ```
@@ -247,7 +247,7 @@ Navigator.pushNamed(context, Routes.mainHome);
 
 If modules need to share data:
 
-```dart
+```
 // Module A exposes repository interface
 abstract interface class SharedRepo {
   ResultFuture<SharedData> getData();
@@ -349,7 +349,7 @@ dependencies:
 
 Create `di/new_module_injection.dart`:
 
-```dart
+```
 final class NewModuleInjection implements Injection {
   const NewModuleInjection();
 
@@ -382,7 +382,7 @@ final class NewModuleInjection implements Injection {
 
 Create `router/new_module_router.dart`:
 
-```dart
+```
 final class NewModuleRouter implements AppRouter<RouteBase> {
   const NewModuleRouter();
 
@@ -401,7 +401,7 @@ final class NewModuleRouter implements AppRouter<RouteBase> {
 
 Create `lib/src/new_module_container.dart`:
 
-```dart
+```
 final class NewModuleContainer implements ModuleContainer {
   const NewModuleContainer();
 
@@ -417,7 +417,7 @@ final class NewModuleContainer implements ModuleContainer {
 
 Create `lib/new_module.dart`:
 
-```dart
+```
 library new_module;
 
 export 'src/new_module_container.dart';
@@ -427,7 +427,7 @@ export 'src/new_module_container.dart';
 
 Add to `merge_dependencies/lib/src/merge_dependencies.dart`:
 
-```dart
+```
 static const List<ModuleContainer> _allContainer = [
   // ... existing containers
   NewModuleContainer(),

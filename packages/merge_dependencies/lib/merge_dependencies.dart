@@ -1,5 +1,5 @@
 import 'package:auth/auth.dart';
-import 'package:chuck_interceptor/chuck_interceptor.dart';
+// import 'package:chuck_interceptor/chuck_interceptor.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:home/home.dart';
@@ -53,10 +53,10 @@ final class MergeDependencies {
       () => AppNavigationServiceImpl(AppInjector.instance.get(), AppInjector.instance.get()),
     );
     await Future.wait(_injections.map((i) async => i.registerDependencies(di: AppInjector.instance)));
-    final chuck = Chuck(navigatorKey: AppInjector.instance.get<GlobalKey<NavigatorState>>());
+    // final chuck = Chuck(navigatorKey: AppInjector.instance.get<GlobalKey<NavigatorState>>());
 
     /// Add UI-level interceptors ONLY ONCE
-    AppInjector.instance.get<Dio>().interceptors.add(chuck.dioInterceptor);
+    // AppInjector.instance.get<Dio>().interceptors.add(chuck.dioInterceptor);
     _isInitialized = true;
   }
 

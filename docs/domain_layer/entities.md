@@ -15,7 +15,7 @@ This document explains how domain entities are structured and used in the Clean 
 
 ### Basic Entity
 
-```dart
+```
 import 'package:core/core.dart' show Equatable;
 
 class LoginEntity extends Equatable {
@@ -38,7 +38,7 @@ class LoginEntity extends Equatable {
 
 ### Entity with Nested Entities
 
-```dart
+```
 class ProfileEntity extends Equatable {
   const ProfileEntity({
     this.userId,
@@ -63,7 +63,7 @@ class ProfileEntity extends Equatable {
 
 All fields must be `final`:
 
-```dart
+```
 // ✅ Correct
 final String token;
 
@@ -75,7 +75,7 @@ String token; // Mutable
 
 Entities must extend `Equatable` and implement `props`:
 
-```dart
+```
 class LoginEntity extends Equatable {
   @override
   List<Object?> get props => [uuid, token, level];
@@ -88,7 +88,7 @@ class LoginEntity extends Equatable {
 
 Entities are pure Dart:
 
-```dart
+```
 // ✅ Correct
 import 'package:core/core.dart' show Equatable;
 
@@ -100,7 +100,7 @@ import 'package:flutter/material.dart'; // No Flutter in domain
 
 Entities don't have `fromMap()` or `toMap()`:
 
-```dart
+```
 // ✅ Correct - Entity
 class LoginEntity extends Equatable {
   const LoginEntity({required this.token});
@@ -130,7 +130,7 @@ module_name/src/domain/entities/
 
 Use cases return entities:
 
-```dart
+```
 final class GetProfile extends UsecaseWithoutParams<ProfileEntity> {
   const GetProfile(this._repo);
   final ProfileRepo _repo;
@@ -144,7 +144,7 @@ final class GetProfile extends UsecaseWithoutParams<ProfileEntity> {
 
 Repository interfaces use entities:
 
-```dart
+```
 abstract interface class AuthRepo {
   ResultFuture<LoginEntity> login({
     required String username,
@@ -157,7 +157,7 @@ abstract interface class AuthRepo {
 
 BLoCs use entities in states:
 
-```dart
+```
 final class LoginSuccess extends LoginState {
   const LoginSuccess(this.user);
   final LoginEntity user;
@@ -170,7 +170,7 @@ final class LoginSuccess extends LoginState {
 
 **Models** (Data Layer) extend entities:
 
-```dart
+```
 // Domain Entity
 class LoginEntity extends Equatable {
   const LoginEntity({required this.token});
@@ -195,7 +195,7 @@ class LoginModel extends LoginEntity {
 
 ### 1. Use Nullable Types When Appropriate
 
-```dart
+```
 class ProfileEntity extends Equatable {
   const ProfileEntity({
     this.userId,        // Nullable if optional
@@ -209,7 +209,7 @@ class ProfileEntity extends Equatable {
 
 ### 2. Group Related Entities
 
-```dart
+```
 // In same file if closely related
 class LoginEntity extends Equatable { ... }
 class ProfileEntity extends Equatable { ... }
@@ -217,7 +217,7 @@ class ProfileEntity extends Equatable { ... }
 
 ### 3. Use Descriptive Names
 
-```dart
+```
 // ✅ Correct
 class UserProfileEntity extends Equatable { ... }
 
@@ -229,7 +229,7 @@ class Profile extends Equatable { ... } // Missing Entity suffix
 
 Entities should represent complete business concepts:
 
-```dart
+```
 class OrderEntity extends Equatable {
   const OrderEntity({
     required this.id,
@@ -251,7 +251,7 @@ class OrderEntity extends Equatable {
 
 ### Entity with Enum
 
-```dart
+```
 enum OrderStatus { pending, completed, cancelled }
 
 class OrderEntity extends Equatable {
@@ -264,7 +264,7 @@ class OrderEntity extends Equatable {
 
 ### Entity with List
 
-```dart
+```
 class OrderEntity extends Equatable {
   const OrderEntity({required this.items});
   final List<OrderItemEntity> items;
@@ -275,7 +275,7 @@ class OrderEntity extends Equatable {
 
 ### Entity with Optional Nested Entity
 
-```dart
+```
 class UserEntity extends Equatable {
   const UserEntity({
     required this.id,
@@ -294,7 +294,7 @@ class UserEntity extends Equatable {
 
 Entities are easy to test (no dependencies):
 
-```dart
+```
 test('LoginEntity equality', () {
   const entity1 = LoginEntity(token: 'token1', uuid: 'uuid1');
   const entity2 = LoginEntity(token: 'token1', uuid: 'uuid1');

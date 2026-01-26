@@ -15,7 +15,7 @@ This document explains how use cases are structured and used to encapsulate busi
 
 ### Use Case with Parameters
 
-```dart
+```
 import 'package:core/core.dart';
 import 'package:auth/src/domain/entities/login_entity.dart';
 import 'package:auth/src/domain/repo/auth_repo.dart';
@@ -43,7 +43,7 @@ class LoginParams {
 
 ### Use Case Without Parameters
 
-```dart
+```
 import 'package:core/core.dart';
 import 'package:more/src/domain/repository/more_repository.dart';
 
@@ -64,7 +64,7 @@ The `core` package provides two base classes:
 
 For use cases that need parameters:
 
-```dart
+```
 abstract class UsecaseWithParams<Types, Params> {
   const UsecaseWithParams();
   ResultFuture<Types> call(Params params);
@@ -75,7 +75,7 @@ abstract class UsecaseWithParams<Types, Params> {
 
 For use cases without parameters:
 
-```dart
+```
 abstract class UsecaseWithoutParams<Types> {
   const UsecaseWithoutParams();
   ResultFuture<Types> call();
@@ -88,7 +88,7 @@ abstract class UsecaseWithoutParams<Types> {
 
 Each use case does **one thing**:
 
-```dart
+```
 // ✅ Correct
 final class Login extends UsecaseWithParams<LoginEntity, LoginParams> {
   // Only handles login
@@ -104,7 +104,7 @@ final class LoginAndGetProfile extends UsecaseWithParams<...> {
 
 Use cases depend on repository **interfaces**, not implementations:
 
-```dart
+```
 // ✅ Correct
 final class Login extends UsecaseWithParams<LoginEntity, LoginParams> {
   const Login(this._repo);
@@ -122,7 +122,7 @@ final class Login extends UsecaseWithParams<LoginEntity, LoginParams> {
 
 All use cases return `ResultFuture<T>`:
 
-```dart
+```
 // ✅ Correct
 ResultFuture<LoginEntity> call(LoginParams params);
 
@@ -134,7 +134,7 @@ Future<LoginEntity> call(LoginParams params); // Missing Either
 
 Pure Dart, no Flutter dependencies:
 
-```dart
+```
 // ✅ Correct
 import 'package:core/core.dart';
 
@@ -146,7 +146,7 @@ import 'package:flutter/material.dart';
 
 Use cases are `final` classes:
 
-```dart
+```
 // ✅ Correct
 final class Login extends UsecaseWithParams<...> { ... }
 
@@ -169,7 +169,7 @@ module_name/src/domain/usecases/
 
 Delegates directly to repository:
 
-```dart
+```
 final class GetProfile extends UsecaseWithoutParams<ProfileEntity> {
   const GetProfile(this._repo);
   final ProfileRepo _repo;
@@ -183,7 +183,7 @@ final class GetProfile extends UsecaseWithoutParams<ProfileEntity> {
 
 Adds business logic before/after repository call:
 
-```dart
+```
 final class Login extends UsecaseWithParams<LoginEntity, LoginParams> {
   const Login(this._repo);
   final AuthRepo _repo;
@@ -208,7 +208,7 @@ final class Login extends UsecaseWithParams<LoginEntity, LoginParams> {
 
 Coordinates multiple repositories:
 
-```dart
+```
 final class GetUserWithProfile extends UsecaseWithoutParams<UserWithProfileEntity> {
   const GetUserWithProfile(this._userRepo, this._profileRepo);
   final UserRepo _userRepo;
@@ -235,7 +235,7 @@ final class GetUserWithProfile extends UsecaseWithoutParams<UserWithProfileEntit
 
 Transforms data before returning:
 
-```dart
+```
 final class GetProducts extends UsecaseWithoutParams<List<ProductEntity>> {
   const GetProducts(this._repo);
   final ProductsRepo _repo;
@@ -257,7 +257,7 @@ final class GetProducts extends UsecaseWithoutParams<List<ProductEntity>> {
 
 BLoCs call use cases:
 
-```dart
+```
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(this._loginUseCase) : super(LoginInitial());
   final Login _loginUseCase;
@@ -283,7 +283,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
 Register use cases:
 
-```dart
+```
 di.registerLazySingleton<Login>(() => Login(di.get<AuthRepo>()));
 ```
 
@@ -291,7 +291,7 @@ di.registerLazySingleton<Login>(() => Login(di.get<AuthRepo>()));
 
 For complex use cases, use a parameters object:
 
-```dart
+```
 class CreateOrderParams {
   const CreateOrderParams({
     required this.items,
@@ -323,7 +323,7 @@ final class CreateOrder extends UsecaseWithParams<OrderEntity, CreateOrderParams
 
 Prefer delegation over complex logic:
 
-```dart
+```
 // ✅ Correct - Simple delegation
 final class GetProfile extends UsecaseWithoutParams<ProfileEntity> {
   @override
@@ -345,7 +345,7 @@ final class Login extends UsecaseWithParams<LoginEntity, LoginParams> {
 
 ### 2. One Use Case Per Operation
 
-```dart
+```
 // ✅ Correct
 final class Login extends UsecaseWithParams<...> { ... }
 final class Logout extends UsecaseWithoutParams<void> { ... }
@@ -359,7 +359,7 @@ final class AuthOperations extends UsecaseWithParams<...> {
 
 ### 3. Use Descriptive Names
 
-```dart
+```
 // ✅ Correct
 final class GetUserProfile extends UsecaseWithoutParams<ProfileEntity> { ... }
 final class UpdateUserProfile extends UsecaseWithParams<void, UpdateProfileParams> { ... }
@@ -373,7 +373,7 @@ final class Update extends UsecaseWithParams<void, UpdateProfileParams> { ... }
 
 Use cases can transform errors:
 
-```dart
+```
 final class Login extends UsecaseWithParams<LoginEntity, LoginParams> {
   @override
   ResultFuture<LoginEntity> call(LoginParams params) async {
@@ -393,7 +393,7 @@ final class Login extends UsecaseWithParams<LoginEntity, LoginParams> {
 
 Use cases are easy to test (mock repositories):
 
-```dart
+```
 test('Login use case success', () async {
   final mockRepo = MockAuthRepo();
   when(mockRepo.login(...)).thenAnswer((_) async => Right(LoginEntity(...)));

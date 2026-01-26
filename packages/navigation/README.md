@@ -28,13 +28,13 @@ dependencies:
 
 ### Import
 
-```dart
+```
 import 'package:navigation/navigation.dart';
 ```
 
 ### Route Navigation
 
-```dart
+```
 // Navigate to a route
 Navigator.pushNamed(context, NameRoutes.login);
 
@@ -54,7 +54,7 @@ Navigator.popAndPushNamed(context, NameRoutes.settings);
 
 ### Defining Module Routes
 
-```dart
+```
 final class AuthRouter implements AppRouter<RouteBase> {
   const AuthRouter();
 
@@ -76,7 +76,7 @@ final class AuthRouter implements AppRouter<RouteBase> {
 
 ### Global Navigator
 
-```dart
+```
 // Use global navigator key for navigation without context
 rootNavigatorKey.currentState?.pushNamed(NameRoutes.login);
 ```
@@ -85,7 +85,7 @@ rootNavigatorKey.currentState?.pushNamed(NameRoutes.login);
 
 All route names are defined in `NameRoutes` class:
 
-```dart
+```
 class NameRoutes {
   // Auth routes
   static const String login = '/login';

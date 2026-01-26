@@ -67,13 +67,13 @@ dependencies:
 
 ### Import
 
-```dart
+```
 import 'package:core/core.dart';
 ```
 
 ### Network Operations
 
-```dart
+```
 // In data source
 final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   const AuthRemoteDataSourceImpl(this._networkProvider);
@@ -108,7 +108,7 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
 ### Error Handling
 
-```dart
+```
 // In repository
 @override
 ResultFuture<LoginEntity> login({
@@ -131,7 +131,7 @@ ResultFuture<LoginEntity> login({
 
 ### Localization
 
-```dart
+```
 // In widgets
 Text(context.localizations.appName)
 Text(context.localizations.loginButton)
@@ -139,7 +139,7 @@ Text(context.localizations.loginButton)
 
 ### Theme Colors
 
-```dart
+```
 // Access theme colors
 Container(
   color: context.color.primary,
@@ -154,7 +154,7 @@ Container(
 
 ### Dependency Injection
 
-```dart
+```
 final class AuthInjection implements Injection {
   const AuthInjection();
 
