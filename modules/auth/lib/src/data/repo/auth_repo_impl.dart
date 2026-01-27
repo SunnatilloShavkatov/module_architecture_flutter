@@ -1,33 +1,21 @@
-import 'package:auth/src/data/datasource/auth_local_data_source.dart';
-import 'package:auth/src/data/datasource/auth_remote_data_source.dart';
-import 'package:auth/src/domain/entities/login_entity.dart';
-import 'package:auth/src/domain/repo/auth_repo.dart';
+import 'package:auth/src/data/datasource/auth_remote_datasource.dart';
+import 'package:auth/src/domain/entities/auth_entity.dart';
+import 'package:auth/src/domain/repos/auth_repo.dart';
 import 'package:core/core.dart';
 
 final class AuthRepoImpl implements AuthRepo {
-  const AuthRepoImpl(this._remoteSource, this._dataSource);
+  const AuthRepoImpl(this._remoteDataSource);
 
-  final AuthLocalDataSource _dataSource;
-  final AuthRemoteDataSource _remoteSource;
+  final AuthRemoteDataSource _remoteDataSource;
 
   @override
-  ResultFuture<LoginEntity> isLoggedIn() async {
+  ResultFuture<AuthEntity> login({required String username, required String password}) async {
     try {
-      final result = await _remoteSource.login(
-        fcmToken: '',
-        identity: 'identity',
-        password: 'password',
-        deviceType: 100,
-        deviceInfo: {},
-        packageInfo: {},
-      );
-      if ((result.token ?? '').isNotEmpty) {
-        await _dataSource.saveUser(result);
-      }
+      final result = await _remoteDataSource.login(username: username, password: password);
       return Right(result);
-    } on ServerException catch (error, _) {
-      return Left(error.failure);
-    } on Exception catch (e) {
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message ?? '', statusCode: e.statusCode));
+    } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
   }

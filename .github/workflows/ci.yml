@@ -1,0 +1,57 @@
+name: Quality Assurance
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Install & Verify
+        run: |
+          # Root dependencies
+          flutter pub get
+          flutter analyze
+          
+          # Helper function for sub-projects
+          verify_project() {
+            local dir=$1
+            if [ -d "$dir" ] && [ -f "$dir/pubspec.yaml" ]; then
+              echo "---------------------------------------------------"
+              echo "Verifying $dir..."
+              cd "$dir"
+              flutter pub get
+              flutter analyze
+              if [ -d "test" ]; then
+                flutter test
+              fi
+              cd - > /dev/null
+            fi
+          }
+
+          # Verify packages
+          for pkg in packages/*; do
+            verify_project "$pkg"
+          done
+          
+          # Verify modules
+          for mod in modules/*; do
+            verify_project "$mod"
+          done
+
+      - name: Consistency Check
+        run: flutter format --set-exit-if-changed .

@@ -1,9 +1,9 @@
 import 'dart:async';
-
-import 'package:auth/src/data/datasource/auth_local_data_source.dart';
-import 'package:auth/src/data/datasource/auth_remote_data_source.dart';
+import 'package:auth/src/data/datasource/auth_remote_datasource.dart';
 import 'package:auth/src/data/repo/auth_repo_impl.dart';
-import 'package:auth/src/domain/repo/auth_repo.dart';
+import 'package:auth/src/domain/repos/auth_repo.dart';
+import 'package:auth/src/domain/usecases/login_usecase.dart';
+import 'package:auth/src/presentation/login/bloc/login_bloc.dart';
 import 'package:core/core.dart';
 
 final class AuthInjection implements Injection {
@@ -12,10 +12,9 @@ final class AuthInjection implements Injection {
   @override
   FutureOr<void> registerDependencies({required Injector di}) {
     di
-      ..registerLazySingleton<AuthLocalDataSource>(() => AuthLocalDataSourceImpl(di.get()))
       ..registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(di.get()))
-      ..registerLazySingleton<AuthRepo>(
-        () => AuthRepoImpl(di.get<AuthRemoteDataSource>(), di.get<AuthLocalDataSource>()),
-      );
+      ..registerLazySingleton<AuthRepo>(() => AuthRepoImpl(di.get()))
+      ..registerLazySingleton<LoginUseCase>(() => LoginUseCase(di.get()))
+      ..registerFactory(() => LoginBloc(loginUseCase: di.get()));
   }
 }

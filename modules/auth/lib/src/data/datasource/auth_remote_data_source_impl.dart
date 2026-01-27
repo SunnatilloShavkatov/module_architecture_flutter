@@ -23,7 +23,7 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'package_info': packageInfo,
         if (fcmToken != null) 'fcm_token': fcmToken,
       };
-      final result = await _networkProvider.fetchMethod<DataMap>(
+      final result = await _networkProvider.fetchMethod<Map<String, dynamic>>(
         ApiPaths.login,
         data: data,
         methodType: RMethodTypes.post,

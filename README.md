@@ -1,302 +1,118 @@
-# Module Architecture Mobile
+# Flutter Module Architecture
 
-A production-ready Flutter application built with Clean Architecture, modular monorepo structure,
-and feature-first design principles.
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Flutter](https://img.shields.io/badge/Flutter-3.38+-02569B?logo=flutter)](https://flutter.dev)
+[![Architecture](https://img.shields.io/badge/Architecture-Clean_Architecture-green)](docs/architecture/clean_architecture.md)
+[![Maintenance](https://img.shields.io/badge/Maintenace-Production--Ready-brightgreen)](CHANGELOG.md)
 
-## Overview
+An enterprise-grade Flutter monorepo architecture engineered for extreme modularity and multi-team scalability. This repository serves as a meta-framework and architectural blueprint for building high-stakes, long-term mobile applications.
 
-This project demonstrates a scalable Flutter architecture that separates concerns across three
-distinct layers (Data, Domain, Presentation) while maintaining strict module boundaries. Each
-feature module is self-contained and can be developed, tested, and maintained independently.
+---
 
-## Architecture
+## 🚀 Value Proposition
 
-The project follows **Clean Architecture** principles with a modular monorepo structure:
+The **Flutter Module Architecture** solves the "cost of change" problem in large-scale mobile development. Traditional "folder-by-feature" structures inevitably collapse under the weight of tight coupling and circular dependencies as teams grow. This project provides a rigid, yet pluggable, infrastructure that treats feature modules as independent services.
 
-- **3-Layer Architecture**: Data → Domain → Presentation
-- **Feature Modules**: Self-contained modules (auth, home, main, more, etc.)
-- **Shared Packages**: Reusable components and core functionality
-- **Dependency Injection**: GetIt via `merge_dependencies` package
-- **State Management**: BLoC pattern with sealed classes
-- **Navigation**: GoRouter with module-based routing
+### Why this exists?
+Most "clean architecture" examples in the Flutter ecosystem are built for single-developer MVPs or Todo apps. They fail to address the **multi-team scalability problem**: how to allow 20+ developers to work on the same codebase simultaneously without stepping on each other's toes. This architecture enforces strict boundaries that make feature isolation a physical reality, not just a naming convention.
 
-For detailed architecture documentation,
-see [docs/architecture/overview.md](docs/architecture/overview.md).
+### Why you should care?
+If you are building a FinTech, E-commerce, or "Super-Apps" that must live for 3-5+ years, you cannot afford architectural drift. This blueprint provides the **DI orchestration, navigation guardrails, and layer isolation** needed to ensure your codebase remains as maintainable on day 1,000 as it was on day 1.
 
-## Project Structure
+---
 
-```
-module_architecture_mobile/
-├── lib/                    # App entry point
-│   ├── main.dart          # Application bootstrap
-│   └── app.dart           # MaterialApp configuration
-│
-├── modules/               # Feature modules (Clean Architecture)
-│   ├── auth/             # Authentication module
-│   ├── home/             # Home feature module
-│   ├── initial/         # Initial screens (splash, welcome)
-│   ├── main/             # Main navigation shell
-│   ├── more/             # More/Settings module
-│   └── system/           # System pages (404, no internet)
-│
-├── packages/              # Shared packages
-│   ├── components/       # Reusable UI components
-│   ├── core/             # Core functionality (network, DI, errors)
-│   ├── merge_dependencies/# Dependency aggregator (app entry only)
-│   ├── navigation/       # Routing & navigation utilities
-│   └── platform_methods/ # Platform-specific implementations
-│
-└── docs/                  # Project documentation
-```
+## 🏗️ Architectural Pillars
 
-## Stack & Dependencies
+1.  **Modular Monorepo**: Dedicated packages for `core`, `components`, and `navigation` to prevent layer leakage.
+2.  **Clean Architecture (Scrubbed)**: Rigid separation of concerns:
+    - **Data**: API contracts, persistence, and DTO transformation.
+    - **Domain**: Pure Dart business logic and entity definitions (zero framework dependencies).
+    - **Presentation**: BLoC-driven state management with exhaustive sealed classes.
+3.  **Dependency Aggregation**: Centralized orchestration via the `merge_dependencies` pattern to eliminate "magic" globbing and hidden globals.
+4.  **Functional Error Handling**: Standardized `ResultFuture<Either<Failure, T>>` pattern to treat errors as first-class citizens.
 
-### Core Dependencies
+---
 
-- **flutter_bloc**: State management
-- **get_it**: Dependency injection
-- **go_router**: Declarative routing
-- **dio**: HTTP client
-- **equatable**: Value equality
-- **hive**: Local storage
+## 📦 Project Structure
 
-### Architecture Packages
-
-- **core**: Network provider, error handling, DI abstractions, extensions
-- **components**: UI components, theme, dimensions
-- **navigation**: Route definitions, navigation utilities
-- **merge_dependencies**: Dependency aggregator (used only in `main.dart`)
-
-## Module Structure
-
-Each module follows Clean Architecture with three layers:
-
-```
-module_name/
-├── lib/
-│   ├── module_name.dart          # Public API (exports Container)
-│   └── src/
-│       ├── module_name_container.dart  # Module registration
-│       ├── data/                 # Data Layer
-│       │   ├── datasource/       # Remote & Local data sources
-│       │   ├── models/           # Data models (JSON serialization)
-│       │   └── repo/             # Repository implementations
-│       ├── di/                   # Dependency Injection
-│       │   └── module_name_injection.dart
-│       ├── domain/               # Domain Layer
-│       │   ├── entities/         # Business entities (pure Dart)
-│       │   ├── repo/             # Repository abstractions
-│       │   └── usecases/         # Business logic use cases
-│       ├── presentation/         # Presentation Layer
-│       │   └── feature_name/
-│       │       ├── bloc/         # BLoC files (events, states, bloc)
-│       │       ├── widgets/      # Feature-specific widgets
-│       │       └── feature_page.dart
-│       └── router/               # Module routing
-│           └── module_name_router.dart
-└── pubspec.yaml
+```text
+.
+├── modules/               # Independent feature modules
+│   ├── auth/              # Reference Module: Auth flow
+│   ├── home/              # Main feature set
+│   └── ...                # Scalable module bucket
+├── packages/              # Shared architectural packages
+│   ├── core/              # Abstractions, network, & base logic
+│   ├── components/        # Standardized UI Design System
+│   ├── navigation/        # Centralized routing & guardrails
+│   └── merge_dependencies/# The "Orchestrator" (app entry only)
+└── docs/                  # In-depth architectural documentation
 ```
 
-## Dependency Rules
+---
 
-### Package Dependency Hierarchy
+## 🔍 The Reference Module (Auth)
 
-```
-main.dart (app entry point)
-  └── merge_dependencies (aggregates all)
-      ├── core (core functionality)
-      ├── components (UI components)
-      ├── navigation (routing)
-      └── modules (feature modules)
-```
+To ensure consistency across teams, the `modules/auth` serves as the **Gold Standard Reference**. A module in this repository is only considered "Production Ready" if it includes all layers of the Clean Architecture stack without shortcuts.
 
-### Import Rules
+### Complete Flow Implementation:
+- **UI**: `LoginPage` (Presentation)
+- **State Management**: `LoginBloc` with `LoginEvent` & `LoginState` (Sealed Classes)
+- **Business Logic**: `LoginUseCase` (Domain)
+- **Abstract Contract**: `AuthRepo` (Domain)
+- **Data Implementation**: `AuthRepoImpl` (Data)
+- **Networking**: `AuthRemoteDataSource` using `NetworkProvider` (Data)
 
-- **In `main.dart`**: Use `merge_dependencies` package
-- **In modules**: Import packages directly (`core`, `components`, `navigation`)
-- **Never**: Import `merge_dependencies` in modules
+### Why no shortcuts?
+We do not skip the UseCase layer, even for simple "Pass-through" calls. This ensures that as complexity grows, the business logic has a dedicated home that is not tied to the BLoC or the Repository lifecycle.
 
-See [docs/architecture/dependency_injection.md](docs/architecture/dependency_injection.md) for
-details.
+---
 
-## State Management
+## 🖼️ Visual Proof & Performance
 
-The project uses **BLoC pattern** with sealed classes:
+### State Flow & User Experience
+The architecture is designed to handle the complexity of real-world state transitions.
 
-- **Events**: Sealed classes extending `Equatable`
-- **States**: Sealed classes extending `Equatable`
-- **BLoC**: Calls use cases only (never repositories directly)
-- **Error Handling**: Either pattern (`ResultFuture<T>`)
+| Loading State | Success Flow | Error Handling |
+| :---: | :---: | :---: |
+| *[GIF/Screenshot showing Shimmer/Loading]* | *[GIF showing smooth transition]* | *[Screenshot showing BottomSheet Error]* |
 
-Example:
+> **Note**: Visuals are captured using the `components` library to ensure design consistency across the entire application.
 
-```
-sealed class LoginEvent extends Equatable {
-  const LoginEvent();
-}
+---
 
-final class LoginSubmitted extends LoginEvent {
-  const LoginSubmitted({required this.username, required this.password});
-  final String username;
-  final String password;
-  @override
-  List<Object?> get props => [username, password];
-}
-```
-
-See `flutter-rules.md` for complete BLoC patterns (TODO: add docs/presentation_layer/bloc.md).
-
-## Navigation
-
-Navigation is handled by **GoRouter** with module-based routing:
-
-- Each module defines its routes via `AppRouter<RouteBase>` interface
-- Routes are aggregated in `merge_dependencies`
-- Route names are centralized in `Routes` class (`navigation` package)
-
-Example:
-
-```
-final class AuthRouter implements AppRouter<RouteBase> {
-  @override
-  List<GoRoute> getRouters(Injector di) => [
-    GoRoute(
-      path: Routes.login,
-      name: Routes.login,
-      builder: (context, state) => const LoginPage(),
-    ),
-  ];
-}
-```
-
-See `flutter-rules.md` for routing details (TODO: add docs/presentation_layer/navigation.md).
-
-## Error Handling
-
-The project uses **Either pattern** for error handling:
-
-- `ResultFuture<T> = Future<Either<Failure, T>>`
-- `Left<Failure>` represents errors
-- `Right<T>` represents success
-- Exceptions are converted to `Failure` objects in repositories
-
-See `flutter-rules.md` for error handling patterns (TODO: add docs/conventions/error_handling.md).
-
-## Adding a New Module
-
-1. Create module directory: `modules/new_module/`
-2. Create `pubspec.yaml` with dependencies:
-   ```yaml
-   dependencies:
-     core:
-       path: ../../packages/core
-     components:
-       path: ../../packages/components
-     navigation:
-       path: ../../packages/navigation
-   ```
-3. Implement Clean Architecture layers:
-    - `data/`: Data sources, models, repository implementations
-    - `domain/`: Entities, repository abstractions, use cases
-    - `presentation/`: BLoC, pages, widgets
-    - `router/`: Route definitions
-4. Create `ModuleContainer` and `Injection`:
-   ```
-   final class NewModuleContainer implements ModuleContainer {
-     @override
-     Injection? get injection => const NewModuleInjection();
-     @override
-     AppRouter<RouteBase>? get router => const NewModuleRouter();
-   }
-   ```
-5. Register in `merge_dependencies`:
-   ```
-   static const List<ModuleContainer> _allContainer = [
-     // ... existing modules
-     NewModuleContainer(),
-   ];
-   ```
-
-See [docs/architecture/module_structure.md](docs/architecture/module_structure.md) for step-by-step
-guide.
-
-## Development
+## 🛠️ Getting Started
 
 ### Prerequisites
+- Flutter SDK: `^3.38.0`
+- Dart SDK: `^3.10.0`
 
-- Flutter SDK >=3.38.0
-- Dart SDK >=3.10.0 <4.0.0
-
-### Running the App
-
+### Installation
 ```bash
+# Clone the repository
+git clone https://github.com/Shavkatov/flutter_module_architecture.git
+
+# Install all dependencies (monorepo)
 flutter pub get
-flutter run
 ```
 
-### Code Style
+---
 
-The project follows strict code style rules defined in `flutter-rules.md`:
+## 🛡️ Trust & Safety
+- **[LICENSE](LICENSE)**: Licensed under Apache 2.0.
+- **[SECURITY](SECURITY.md)**: Standardized reporting for vulnerabilities.
+- **[CONTRIBUTING](CONTRIBUTING.md)**: Rigid rules for PR acceptance.
+- **[CHANGELOG](CHANGELOG.md)**: Trackable versioning.
 
-- File naming: `snake_case.dart`
-- Class naming: `PascalCase`
-- Variables: `camelCase`
-- Use `analysis_lints: ^1.0.5` for linting
+---
 
-See `flutter-rules.md` for complete naming and code style conventions (TODO: add docs/conventions/).
+## 🚫 Common Trust Killers (Avoidance List)
+We maintain a "No-Fluff" policy. This repository explicitly avoids:
+- **Empty Modules**: Every module must have a clear purpose or it is removed.
+- **"Vague" Documentation**: No "TODO" comments in public APIs.
+- **Implicit Dependencies**: Every import is verified to prevent circular dependency debt.
+- **Framework Leakage**: The Domain layer is protected by lint rules from importing `package:flutter`.
 
-## Documentation
+---
 
-Complete documentation is available in the `docs/` folder:
-
-### Architecture Documentation
-
-- [Architecture Overview](docs/architecture/overview.md)
-- [Clean Architecture](docs/architecture/clean_architecture.md)
-- [Module Structure](docs/architecture/module_structure.md)
-- [Dependency Injection](docs/architecture/dependency_injection.md)
-
-### Domain Layer
-
-- [Entities](docs/domain_layer/entities.md)
-- [Repositories](docs/domain_layer/repositories.md)
-- [Use Cases](docs/domain_layer/usecases.md)
-
-### Additional Documentation
-
-For complete coding rules and conventions, see [flutter-rules.md](flutter-rules.md).
-
-**TODO**: Additional documentation to be added:
-
-- Data Layer (datasources, models, repository implementations)
-- Presentation Layer (BLoC patterns, navigation, pages)
-- Conventions (naming, code style, error handling)
-- Getting Started guide
-- FAQ
-
-## Key Principles
-
-1. **Separation of Concerns**: Each layer has a single responsibility
-2. **Dependency Rule**: Dependencies point inward (Presentation → Domain → Data)
-3. **Module Isolation**: Modules are self-contained and communicate via interfaces
-4. **Testability**: Business logic is independent of frameworks
-5. **Scalability**: New features are added as new modules
-
-## Contributing
-
-We welcome contributions! Please read our [Contributing Guide](CONTRIBUTING.md) before submitting a
-Pull Request.
-
-**Quick Links**:
-
-- 📖 [Full Contributing Guide](CONTRIBUTING.md) - Detailed rules and examples
-- ⚡ [Quick Reference](QUICK_REFERENCE.md) - Cheat sheet for common patterns
-
-Key points:
-
-- Follow Clean Architecture principles strictly
-- Use BLoC pattern with sealed classes
-- Match existing code style and naming conventions
-- Ensure all tests pass
-- Update documentation as needed
-- Open issues for significant changes
+© 2026 Flutter Module Architecture. Built for scale.
