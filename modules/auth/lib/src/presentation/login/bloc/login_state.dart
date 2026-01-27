@@ -1,4 +1,4 @@
-import 'package:auth/src/domain/entities/auth_entity.dart';
+import 'package:auth/src/domain/entities/login_entity.dart';
 import 'package:core/core.dart';
 
 sealed class LoginState extends Equatable {
@@ -13,16 +13,16 @@ final class LoginInitial extends LoginState {}
 final class LoginLoading extends LoginState {}
 
 final class LoginSuccess extends LoginState {
-  const LoginSuccess(this.auth);
+  const LoginSuccess({required this.auth});
 
-  final AuthEntity auth;
+  final LoginEntity auth;
 
   @override
   List<Object?> get props => [auth];
 }
 
 final class LoginFailure extends LoginState {
-  const LoginFailure(this.message);
+  const LoginFailure({required this.message});
 
   final String message;
 

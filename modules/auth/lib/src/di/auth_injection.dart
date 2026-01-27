@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:auth/src/data/datasource/auth_remote_datasource.dart';
+import 'package:auth/src/data/datasource/auth_remote_data_source.dart';
 import 'package:auth/src/data/repo/auth_repo_impl.dart';
 import 'package:auth/src/domain/repos/auth_repo.dart';
 import 'package:auth/src/domain/usecases/login_usecase.dart';

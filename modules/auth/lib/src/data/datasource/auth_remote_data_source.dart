@@ -11,7 +11,5 @@ abstract interface class AuthRemoteDataSource {
     required int deviceType,
     required String identity,
     required String password,
-    required Map<String, dynamic> deviceInfo,
-    required Map<String, dynamic> packageInfo,
   });
 }

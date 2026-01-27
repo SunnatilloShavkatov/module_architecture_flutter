@@ -11,16 +11,12 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String identity,
     required String password,
     required String? fcmToken,
-    required Map<String, dynamic> deviceInfo,
-    required Map<String, dynamic> packageInfo,
   }) async {
     try {
       final Map<String, dynamic> data = {
         'identity': identity,
         'password': password,
         'device_type': deviceType,
-        'device_info': deviceInfo,
-        'package_info': packageInfo,
         if (fcmToken != null) 'fcm_token': fcmToken,
       };
       final result = await _networkProvider.fetchMethod<Map<String, dynamic>>(
