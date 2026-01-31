@@ -17,7 +17,7 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'identity': identity,
         'password': password,
         'device_type': deviceType,
-        if (fcmToken != null) 'fcm_token': fcmToken,
+        'fcm_token': ?fcmToken,
       };
       final result = await _networkProvider.fetchMethod<Map<String, dynamic>>(
         ApiPaths.login,

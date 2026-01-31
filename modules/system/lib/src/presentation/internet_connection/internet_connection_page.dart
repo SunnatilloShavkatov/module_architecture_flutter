@@ -59,7 +59,7 @@ class InternetConnectionPageState extends State<InternetConnectionPage> {
           builder: (_, bool isLoading, _) => CustomLoadingButton(
             isLoading: isLoading,
             child: const Text('Попробовать снова'),
-            onPressed: () async {
+            onPressed: ()  {
               _isLoaded.value = true;
               Future<void>.delayed(const Duration(milliseconds: 1), () async {
                 final bool isConnected = await AppInjector.instance.get<NetworkInfo>().isConnected;

@@ -1,5 +1,4 @@
 import 'package:auth/auth.dart';
-// import 'package:chuck_interceptor/chuck_interceptor.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:home/home.dart';

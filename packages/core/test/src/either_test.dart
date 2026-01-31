@@ -50,7 +50,7 @@ void main() {
   group('FutureEither', () {
     test('fold async', () async {
       const Either<String, int> e = Right(10);
-      final result = await Future<Either<String, int>>.value(e).fold((l) async => -1, (r) async => r * 3);
+      final result = await Future<Either<String, int>>.value(e).fold((l) => -1, (r) => r * 3);
       expect(result, 30);
     });
 

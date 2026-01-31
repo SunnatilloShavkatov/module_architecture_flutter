@@ -70,7 +70,7 @@ final class LocalSourceImpl implements LocalSource {
   }
 
   @override
-  Future<String?> get accessToken async => _secureStorage.read(key: StorageKeys.accessToken);
+  Future<String?> get accessToken => _secureStorage.read(key: StorageKeys.accessToken);
 
   @override
   Future<void> setFirstName(String firstName) async {

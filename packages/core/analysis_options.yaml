@@ -1,1 +1,7 @@
 include: package:analysis_lints/analysis_options.yaml
+
+linter:
+  rules:
+    # Disable unreachable_from_main for library packages
+    # This package is a library, not an executable, so it doesn't have a main() entry point
+    unreachable_from_main: false

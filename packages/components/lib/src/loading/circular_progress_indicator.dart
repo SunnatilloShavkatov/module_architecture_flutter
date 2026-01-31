@@ -1,4 +1,4 @@
-// ignore_for_file: discarded_futures
+// ignore_for_file: discarded_futures, document_ignores
 
 import 'dart:math' as math;
 

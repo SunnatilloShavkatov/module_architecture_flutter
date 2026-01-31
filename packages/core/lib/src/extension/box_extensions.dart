@@ -1,4 +1,3 @@
-// ignore_for_file: always_specify_types
 part of 'extension.dart';
 
 /// Flutter extensions for boxes.

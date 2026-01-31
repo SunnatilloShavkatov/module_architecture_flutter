@@ -1,5 +1,3 @@
-// ignore_for_file: unused_field
-
 part of 'home_remote_data_source.dart';
 
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {

@@ -1,4 +1,4 @@
-// ignore_for_file: cascade_invocations
+// ignore_for_file: cascade_invocations, document_ignores
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
