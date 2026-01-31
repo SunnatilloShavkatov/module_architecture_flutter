@@ -17,17 +17,14 @@ Future<void> main() async {
   _setupErrorHandling();
 
   /// 3. Parallel Initialization
-  /// Firebase and DI are the heaviest tasks. Running them together is more efficient.
-  await Future.wait([
-    NotificationService.instance.initializeApp(DefaultFirebaseOptions.currentPlatform),
-    MergeDependencies.instance.registerModules(),
-  ]);
+  /// DI are the heaviest tasks. Running them together is more efficient.
+  await MergeDependencies.instance.registerModules();
 
   /// 4. Non-Critical Background setup (Fire and forget where safe)
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   /// 5. App Metrica Initialization and Notification Service
-  NotificationService.instance.initialize();
+  NotificationService.instance.initialize(DefaultFirebaseOptions.currentPlatform);
 
   /// 6. Bloc Observer Configuration
   _setupBlocObserver();

@@ -31,7 +31,7 @@ final class CoreInjection implements Injection {
   @override
   FutureOr<void> registerDependencies({required Injector di}) async {
     /// External
-    await _initHive(di: di);
+    await _initStorage(di: di);
     final String? accessToken = await di.get<LocalSource>().accessToken;
     di
       ..registerLazySingleton<Injector>(() => AppInjector.instance)
@@ -88,7 +88,7 @@ final class CoreInjection implements Injection {
   }
 }
 
-Future<void> _initHive({required Injector di}) async {
+Future<void> _initStorage({required Injector di}) async {
   /// init shared preferences
   const FlutterSecureStorage storage = FlutterSecureStorage();
   final Uint8List hiveKey = await _getOrCreateHiveKey(storage);

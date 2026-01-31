@@ -44,14 +44,13 @@ dependencies:
   firebase_analytics: ^12.1.1
   firebase_messaging: ^16.1.1
   firebase_remote_config: ^6.1.4
-  firebase_performance: ^0.11.1+4
   # local notification
   flutter_local_notifications: ^20.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  analysis_lints: ^1.0.5
+  analysis_lints: ^1.0.6
   mocktail: ^1.0.4
 
 flutter:

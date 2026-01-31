@@ -32,15 +32,13 @@ final class NotificationService {
 
   static const NotificationService _instance = NotificationService._();
 
-  Future<void> initializeApp(FirebaseOptions options) async {
+  void initialize(FirebaseOptions options) {
     try {
-      await Firebase.initializeApp(options: options);
+      Firebase.initializeApp(options: options).ignore();
     } on Exception catch (error, stackTrace) {
       logMessage('Firebase initialize error: $error $stackTrace', stackTrace: stackTrace, error: error);
     }
-  }
 
-  void initialize() {
     /// initialize local notifications and handle tap events
     unawaited(
       _notifications.initialize(
