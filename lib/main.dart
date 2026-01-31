@@ -23,8 +23,8 @@ Future<void> main() async {
   /// 4. Non-Critical Background setup (Fire and forget where safe)
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-  /// 5. App Metrica Initialization and Notification Service
-  NotificationService.instance.initialize(DefaultFirebaseOptions.currentPlatform);
+  /// 5. Notification Service init firebase app
+  NotificationService.instance.initialize(DefaultFirebaseOptions.currentPlatform).ignore();
 
   /// 6. Bloc Observer Configuration
   _setupBlocObserver();

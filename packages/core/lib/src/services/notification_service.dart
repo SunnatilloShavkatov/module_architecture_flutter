@@ -32,9 +32,9 @@ final class NotificationService {
 
   static const NotificationService _instance = NotificationService._();
 
-  void initialize(FirebaseOptions options) {
+  Future<void> initialize(FirebaseOptions options) async {
     try {
-      Firebase.initializeApp(options: options).ignore();
+      await Firebase.initializeApp(options: options);
     } on Exception catch (error, stackTrace) {
       logMessage('Firebase initialize error: $error $stackTrace', stackTrace: stackTrace, error: error);
     }
