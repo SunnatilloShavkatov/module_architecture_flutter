@@ -38,7 +38,7 @@ android {
 
     defaultConfig {
         applicationId = "uz.shs.module_architecture_flutter"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         multiDexEnabled = true
         versionCode = flutter.versionCode

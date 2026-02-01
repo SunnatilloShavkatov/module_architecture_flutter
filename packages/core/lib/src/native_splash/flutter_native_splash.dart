@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-sealed class FlutterNativeSplash {
+final class FlutterNativeSplash {
   static WidgetsBinding? _widgetsBinding;
 
   static void preserve({required WidgetsBinding widgetsBinding}) {
