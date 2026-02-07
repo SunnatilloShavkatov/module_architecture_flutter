@@ -24,7 +24,7 @@ dev_dependencies:
     sdk: flutter
   mocktail: ^1.0.4
   bloc_test: ^10.0.0
-  analysis_lints: ^1.0.7
+  analysis_lints: ^1.0.9
 
 flutter:
   uses-material-design: true

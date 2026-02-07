@@ -12,12 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
   # external packages
-  go_router: ^17.0.1
+  go_router: ^17.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  analysis_lints: ^1.0.7
+  analysis_lints: ^1.0.9
 
 flutter:
   uses-material-design: true

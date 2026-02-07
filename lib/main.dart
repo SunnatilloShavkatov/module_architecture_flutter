@@ -16,15 +16,15 @@ Future<void> main() async {
   /// 2. Global Error Handling (Modern Approach)
   _setupErrorHandling();
 
-  /// 3. Parallel Initialization
+  /// 3. Notification Service init firebase app
+  NotificationService.instance.initialize(DefaultFirebaseOptions.currentPlatform).ignore();
+
+  /// 4. Parallel Initialization
   /// DI are the heaviest tasks. Running them together is more efficient.
   await MergeDependencies.instance.registerModules();
 
-  /// 4. Non-Critical Background setup (Fire and forget where safe)
+  /// 5. Non-Critical Background setup (Fire and forget where safe)
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-
-  /// 5. Notification Service init firebase app
-  NotificationService.instance.initialize(DefaultFirebaseOptions.currentPlatform).ignore();
 
   /// 6. Bloc Observer Configuration
   _setupBlocObserver();

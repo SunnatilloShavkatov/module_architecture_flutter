@@ -612,13 +612,13 @@ const TextStyle(color: Colors.white, fontSize: 16)
 
 ### Analysis Options
 
-- ✅ **MUST** use `analysis_lints: ^1.0.7` in `pubspec.yaml` dev_dependencies
+- ✅ **MUST** use `analysis_lints: ^1.0.9` in `pubspec.yaml` dev_dependencies
 - ✅ **MUST** include `package:analysis_lints/analysis_options.yaml` in `analysis_options.yaml`
 
 ```yaml
 # pubspec.yaml
 dev_dependencies:
-  analysis_lints: ^1.0.7
+  analysis_lints: ^1.0.9
 
 # analysis_options.yaml
 include: package:analysis_lints/analysis_options.yaml
@@ -961,7 +961,7 @@ When generating code, ensure:
 - [ ] Uses `ThemeColors` from `context.color` extension
 - [ ] Uses `ThemeTextStyles` from `context.textStyle` extension
 - [ ] No hardcoded colors or text styles
-- [ ] `analysis_lints: ^1.0.7` configured in `analysis_options.yaml`
+- [ ] `analysis_lints: ^1.0.9` configured in `analysis_options.yaml`
 - [ ] **Package Usage:**
     - [ ] Uses `core` for network, error handling, extensions, constants
     - [ ] Uses `components` for UI components, theme, dimensions

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:components/components.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +77,7 @@ class _ModelBindingState extends State<ModelBinding> {
   void initState() {
     super.initState();
     _currentModel = widget.initialModel;
-    unawaited(_initializeDateFormatting());
+    _initializeDateFormatting().ignore();
   }
 
   Future<void> _initializeDateFormatting() async {
