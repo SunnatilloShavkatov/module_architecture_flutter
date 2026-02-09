@@ -89,27 +89,46 @@ final class CoreInjection implements Injection {
 }
 
 Future<void> _initStorage({required Injector di}) async {
-  /// init shared preferences
   const FlutterSecureStorage storage = FlutterSecureStorage();
-  final Uint8List hiveKey = await _getOrCreateHiveKey(storage);
+  try {
+    final Uint8List hiveKey = await _getOrCreateHiveKey(storage);
+    final HiveAesCipher cipher = HiveAesCipher(hiveKey);
 
-  /// init hive
-  const String boxName = 'module_architecture_mobile_box';
-  final Directory directory = await getApplicationDocumentsDirectory();
-  Hive.init(directory.path);
-  final Box<dynamic> box = await Hive.openBox<dynamic>(boxName, encryptionCipher: HiveAesCipher(hiveKey));
-  final Box<dynamic> cacheBox = await Hive.openBox<dynamic>('cache_$boxName', encryptionCipher: HiveAesCipher(hiveKey));
-  di.registerSingleton<LocalSource>(LocalSourceImpl(box, cacheBox, storage));
+    /// init hive
+    const String boxName = 'module_architecture_mobile_box';
+    final Directory directory = await getApplicationDocumentsDirectory();
+    Hive.init(directory.path);
+    final List<Box<dynamic>> boxes = await Future.wait([
+      Hive.openBox<dynamic>(boxName, encryptionCipher: cipher),
+      Hive.openBox<dynamic>('cache_$boxName', encryptionCipher: cipher),
+    ]);
+    di.registerSingleton<LocalSource>(LocalSourceImpl(boxes[0], boxes[1], storage));
+  } catch (e, s) {
+    logMessage('Failed init Storage', error: e, stackTrace: s);
+  }
 }
 
 Future<Uint8List> _getOrCreateHiveKey(FlutterSecureStorage storage) async {
-  final storedKey = await storage.read(key: 'hive_key');
-  if (storedKey != null) {
-    return base64Decode(storedKey);
+  try {
+    final String? storedKey = await storage.read(key: 'hive_key');
+
+    if (storedKey != null && storedKey.isNotEmpty) {
+      return base64Decode(storedKey);
+    }
+
+    final Random secureRandom = Random.secure();
+    final Uint8List keyBytes = Uint8List(32);
+    for (var i = 0; i < keyBytes.length; i++) {
+      keyBytes[i] = secureRandom.nextInt(256);
+    }
+
+    await storage.write(key: 'hive_key', value: base64Encode(keyBytes));
+
+    return keyBytes;
+  } catch (e, s) {
+    logMessage('Failed to generate or read Hive encryption key', error: e, stackTrace: s);
+    throw StateError('Failed to generate or read Hive encryption key');
   }
-  final key = Uint8List.fromList(List<int>.generate(32, (_) => Random.secure().nextInt(256)));
-  await storage.write(key: 'hive_key', value: base64Encode(key));
-  return key;
 }
 
 Future<void> _onLogout(Injector di) async {
