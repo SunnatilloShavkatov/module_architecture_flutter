@@ -35,19 +35,19 @@ class InternetConnectionPageState extends State<InternetConnectionPage> {
   Widget build(BuildContext context) => PopScope(
     canPop: false,
     child: Scaffold(
-      body: const Column(
+      body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
             'Нет доступа к интернету',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            style: context.textStyle.defaultW600x20.copyWith(color: context.color.textPrimary),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Text(
             'Проверьте подключение к интернету',
-            style: TextStyle(fontSize: 17, color: Color(0xff818C99), fontWeight: FontWeight.w400),
+            style: context.textStyle.defaultW400x16.copyWith(color: context.color.textSecondary),
             textAlign: TextAlign.center,
           ),
         ],

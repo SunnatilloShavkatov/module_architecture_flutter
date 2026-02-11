@@ -1,4 +1,5 @@
 export 'src/buttons/custom_loading_button.dart';
+export 'src/extension/app_options_extension.dart';
 export 'src/extension/theme_extension.dart';
 export 'src/gap/gap.dart';
 export 'src/keyboard/keyboard_dismiss.dart';

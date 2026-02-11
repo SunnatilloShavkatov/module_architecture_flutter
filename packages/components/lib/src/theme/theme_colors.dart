@@ -5,45 +5,45 @@ const ColorScheme colorLightScheme = ColorScheme(
   brightness: Brightness.light,
 
   /// primary color
-  primary: Color(0xFFE21E25),
+  primary: AppPalette.primary,
   onPrimary: Colors.white,
-  primaryContainer: Color(0xFF3700B3),
-  onPrimaryContainer: Color.fromRGBO(15, 184, 211, 0.1),
+  primaryContainer: AppPalette.primaryContainer,
+  onPrimaryContainer: AppPalette.onPrimaryContainer,
 
   /// secondary color
-  secondary: Color(0xFF69D7C7),
+  secondary: AppPalette.secondary,
   onSecondary: Colors.black,
-  secondaryContainer: Color(0xFF018786),
-  onSecondaryContainer: Color.fromRGBO(105, 215, 199, 0.1),
+  secondaryContainer: AppPalette.secondaryContainer,
+  onSecondaryContainer: AppPalette.onSecondaryContainer,
 
   /// error color
-  error: Color(0xFFD93F2F),
+  error: AppPalette.error,
   onError: Colors.white,
-  onErrorContainer: Color.fromRGBO(217, 63, 47, 0.1),
+  onErrorContainer: AppPalette.onErrorContainer,
 
   /// surface color
-  surface: Colors.white,
-  onSurface: Color(0xFF101828),
-  surfaceContainerHighest: Color(0xFFF5F5F5),
+  surface: AppPalette.surfaceLight,
+  onSurface: AppPalette.onSurfaceLight,
+  surfaceContainerHighest: AppPalette.backgroundLight,
 
   /// outline color
-  outline: Color(0xFFE0E0E0),
-  outlineVariant: Color(0xFF909090),
+  outline: AppPalette.outline,
+  outlineVariant: AppPalette.outlineVariant,
 );
 
 ///
 const ColorScheme colorDarkScheme = ColorScheme(
   brightness: Brightness.dark,
-  primary: Color(0xFFE21E25),
+  primary: AppPalette.primary,
   onPrimary: Colors.white,
-  surface: Color(0xFF27292C),
+  surface: AppPalette.surfaceDark,
   onSurface: Colors.white,
-  secondary: Color(0xFF69D7C7),
-  onSecondary: Color(0xFF020000),
-  error: Color(0xFFFF6C6C),
+  secondary: AppPalette.secondary,
+  onSecondary: AppPalette.onSecondaryDark,
+  error: AppPalette.darkError,
   onError: Colors.white,
-  surfaceContainerHighest: Color(0xFFF5F5F5),
-  secondaryContainer: Color(0xFF343434),
+  surfaceContainerHighest: AppPalette.surfaceContainerHighestDark,
+  secondaryContainer: AppPalette.darkSecondaryContainer,
 );
 
 final class ThemeColors extends ThemeExtension<ThemeColors> {
@@ -68,31 +68,31 @@ final class ThemeColors extends ThemeExtension<ThemeColors> {
   final Color green;
 
   static const ThemeColors light = ThemeColors(
-    primary: Color(0xFFE21E25),
-    background: Color(0xFFF5F5F5),
-    onBackground: Color(0xFF909090),
-    backgroundSecondary: Color(0xFFF5F5F5),
-    main: Color(0xFF27292C),
-    green: Color(0xFF32B141),
+    primary: AppPalette.primary,
+    background: AppPalette.backgroundLight,
+    onBackground: AppPalette.outlineVariant,
+    backgroundSecondary: AppPalette.backgroundLight,
+    main: AppPalette.surfaceDark,
+    green: AppPalette.green,
 
     /// text
     textPrimary: Color(0xFF000000),
-    textSecondary: Color(0xFF909090),
+    textSecondary: AppPalette.textSecondary,
   );
 
   static const ThemeColors dark = ThemeColors(
-    primary: Color(0xFFE21E25),
-    background: Color(0xFF1C1E21),
-    onBackground: Color(0xFF909090),
-    backgroundSecondary: Color(0xFF1E1E1E),
+    primary: AppPalette.primary,
+    background: AppPalette.backgroundDark,
+    onBackground: AppPalette.outlineVariant,
+    backgroundSecondary: AppPalette.backgroundSecondaryDark,
 
     /// main color
-    main: Color(0xFF27292C),
-    green: Color(0xFF32B141),
+    main: AppPalette.surfaceDark,
+    green: AppPalette.green,
 
     /// text
-    textPrimary: Color(0xFFFFFFFF),
-    textSecondary: Color(0xFF909090),
+    textPrimary: AppPalette.textPrimaryDark,
+    textSecondary: AppPalette.textSecondary,
   );
 
   @override

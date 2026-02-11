@@ -48,27 +48,21 @@ final ThemeData lightTheme = ThemeData(
     color: colorLightScheme.primary,
     circularTrackColor: Colors.white,
   ),
-  dividerTheme: const DividerThemeData(thickness: 1, color: Color(0xFF343434)),
+  dividerTheme: const DividerThemeData(thickness: 1, color: AppPalette.divider),
   dialogTheme: DialogThemeData(
     backgroundColor: colorLightScheme.surface,
     surfaceTintColor: colorLightScheme.surface,
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
   ),
   scrollbarTheme: const ScrollbarThemeData(interactive: true, thickness: WidgetStatePropertyAll(5)),
-  bottomAppBarTheme: const BottomAppBarThemeData(
-    elevation: 1,
-    color: Colors.white,
-    surfaceTintColor: Colors.white,
-    shadowColor: Color(0xFFE6E9EF),
-  ),
-  floatingActionButtonTheme: const FloatingActionButtonThemeData(
-    backgroundColor: Color(0xFF32B141),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: ThemeColors.light.green,
     foregroundColor: Colors.white,
     elevation: 0,
     focusElevation: 0,
     hoverElevation: 0,
     highlightElevation: 0,
-    shape: CircleBorder(),
+    shape: const CircleBorder(),
   ),
   textButtonTheme: const TextButtonThemeData(style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.zero))),
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -99,11 +93,11 @@ final ThemeData lightTheme = ThemeData(
     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     border: const OutlineInputBorder(
       borderRadius: Dimensions.kBorderRadius8,
-      borderSide: BorderSide(color: Color(0xFFEEF0F2)),
+      borderSide: BorderSide(color: AppPalette.inputBorder),
     ),
     enabledBorder: const OutlineInputBorder(
       borderRadius: Dimensions.kBorderRadius8,
-      borderSide: BorderSide(color: Color(0xFFEEF0F2)),
+      borderSide: BorderSide(color: AppPalette.inputBorder),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: Dimensions.kBorderRadius8,
@@ -115,7 +109,7 @@ final ThemeData lightTheme = ThemeData(
     ),
     disabledBorder: const OutlineInputBorder(
       borderRadius: Dimensions.kBorderRadius8,
-      borderSide: BorderSide(color: Color(0xFFEEF0F2)),
+      borderSide: BorderSide(color: AppPalette.inputBorder),
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: Dimensions.kBorderRadius8,
@@ -131,24 +125,30 @@ final ThemeData lightTheme = ThemeData(
       borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
     ),
   ),
+  bottomAppBarTheme: const BottomAppBarThemeData(
+    elevation: 1,
+    color: Colors.white,
+    surfaceTintColor: Colors.white,
+    shadowColor: AppPalette.bottomBarShadow,
+  ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 0,
     showSelectedLabels: true,
     backgroundColor: Colors.white,
     type: BottomNavigationBarType.fixed,
     selectedItemColor: colorLightScheme.primary,
-    unselectedItemColor: const Color(0xFF667085),
+    unselectedItemColor: AppPalette.navBarUnselected,
     selectedIconTheme: IconThemeData(color: colorLightScheme.primary, size: 24),
-    unselectedIconTheme: const IconThemeData(color: Color(0xFF667085), size: 24),
+    unselectedIconTheme: const IconThemeData(color: AppPalette.navBarUnselected, size: 24),
     selectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
     unselectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
   ),
   tabBarTheme: TabBarThemeData(
     tabAlignment: TabAlignment.start,
     dividerColor: Colors.transparent,
-    labelColor: const Color(0xFF17171C),
+    labelColor: AppPalette.tabLabelLight,
     indicatorColor: colorLightScheme.primary,
-    unselectedLabelColor: const Color(0xFFB3BBCD),
+    unselectedLabelColor: AppPalette.tabUnselectedLight,
     overlayColor: const WidgetStatePropertyAll(Colors.transparent),
     labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
     unselectedLabelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
@@ -213,7 +213,7 @@ final ThemeData darkTheme = ThemeData(
   colorScheme: colorDarkScheme,
   cardColor: colorDarkScheme.surface,
   canvasColor: colorDarkScheme.surface,
-  shadowColor: const Color(0xFF343434),
+  shadowColor: AppPalette.divider,
   visualDensity: VisualDensity.standard,
   primaryColor: colorDarkScheme.primary,
   materialTapTargetSize: MaterialTapTargetSize.padded,
@@ -232,7 +232,7 @@ final ThemeData darkTheme = ThemeData(
     linearTrackColor: Colors.transparent,
     circularTrackColor: Colors.transparent,
   ),
-  dividerTheme: const DividerThemeData(thickness: 1, color: Color(0xFF343434)),
+  dividerTheme: const DividerThemeData(thickness: 1, color: AppPalette.divider),
   dialogTheme: DialogThemeData(
     backgroundColor: colorDarkScheme.surface,
     surfaceTintColor: colorDarkScheme.surface,
@@ -240,20 +240,14 @@ final ThemeData darkTheme = ThemeData(
   ),
   textButtonTheme: const TextButtonThemeData(style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.zero))),
   scrollbarTheme: const ScrollbarThemeData(interactive: true, thickness: WidgetStatePropertyAll(5)),
-  bottomAppBarTheme: const BottomAppBarThemeData(
-    elevation: 1,
-    color: Colors.white,
-    surfaceTintColor: Colors.white,
-    shadowColor: Color(0xFFE6E9EF),
-  ),
-  floatingActionButtonTheme: const FloatingActionButtonThemeData(
-    backgroundColor: Color(0xFF32B141),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: ThemeColors.dark.green,
     foregroundColor: Colors.white,
     elevation: 0,
     focusElevation: 0,
     hoverElevation: 0,
     highlightElevation: 0,
-    shape: CircleBorder(),
+    shape: const CircleBorder(),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
@@ -275,7 +269,7 @@ final ThemeData darkTheme = ThemeData(
       elevation: const WidgetStatePropertyAll(0),
       fixedSize: const WidgetStatePropertyAll(Size.fromHeight(48)),
       textStyle: WidgetStatePropertyAll(ThemeTextStyles.dark.buttonStyle),
-      foregroundColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) => Colors.black),
+      foregroundColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) => Colors.white),
       shape: const WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)))),
     ),
   ),
@@ -283,11 +277,11 @@ final ThemeData darkTheme = ThemeData(
     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     border: const OutlineInputBorder(
       borderRadius: Dimensions.kBorderRadius8,
-      borderSide: BorderSide(color: Color(0xFFEEF0F2)),
+      borderSide: BorderSide(color: AppPalette.inputBorder),
     ),
     enabledBorder: const OutlineInputBorder(
       borderRadius: Dimensions.kBorderRadius8,
-      borderSide: BorderSide(color: Color(0xFFEEF0F2)),
+      borderSide: BorderSide(color: AppPalette.inputBorder),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: Dimensions.kBorderRadius8,
@@ -299,7 +293,7 @@ final ThemeData darkTheme = ThemeData(
     ),
     disabledBorder: const OutlineInputBorder(
       borderRadius: Dimensions.kBorderRadius8,
-      borderSide: BorderSide(color: Color(0xFFEEF0F2)),
+      borderSide: BorderSide(color: AppPalette.inputBorder),
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: Dimensions.kBorderRadius8,
@@ -315,13 +309,19 @@ final ThemeData darkTheme = ThemeData(
       borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
     ),
   ),
+  bottomAppBarTheme: const BottomAppBarThemeData(
+    elevation: 1,
+    color: AppPalette.surfaceDark,
+    surfaceTintColor: AppPalette.surfaceDark,
+    shadowColor: AppPalette.divider,
+  ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 0,
     showSelectedLabels: true,
     backgroundColor: Colors.black,
     type: BottomNavigationBarType.fixed,
     selectedItemColor: colorDarkScheme.primary,
-    unselectedItemColor: const Color(0xFF667085),
+    unselectedItemColor: AppPalette.navBarUnselected,
     selectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
     unselectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
   ),
@@ -329,7 +329,7 @@ final ThemeData darkTheme = ThemeData(
     indicatorColor: colorDarkScheme.primary,
     labelColor: Colors.white,
     dividerHeight: 0,
-    unselectedLabelColor: const Color(0xFFBFBFBF),
+    unselectedLabelColor: AppPalette.tabUnselectedDark,
     tabAlignment: TabAlignment.start,
     labelPadding: Dimensions.kPaddingHor6,
     dividerColor: Colors.transparent,
@@ -343,8 +343,8 @@ final ThemeData darkTheme = ThemeData(
     scrolledUnderElevation: 0,
     systemOverlayStyle: systemDarkUiOverlayStyle,
     iconTheme: IconThemeData(color: Colors.white),
-    backgroundColor: Color.fromRGBO(28, 30, 33, 0.95),
-    surfaceTintColor: Color.fromRGBO(28, 30, 33, 0.95),
+    backgroundColor: AppPalette.darkAppBarBg,
+    surfaceTintColor: AppPalette.darkAppBarBg,
     titleTextStyle: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
   ),
   actionIconTheme: ActionIconThemeData(
@@ -353,13 +353,13 @@ final ThemeData darkTheme = ThemeData(
       icon: Platform.isAndroid ? const Icon(Icons.arrow_back_rounded) : const Icon(Icons.arrow_back_ios_new_rounded),
     ),
   ),
-  listTileTheme: const ListTileThemeData(
+  listTileTheme: ListTileThemeData(
     minVerticalPadding: 0,
     horizontalTitleGap: 10,
     contentPadding: Dimensions.kPaddingHor10,
-    tileColor: Color(0xFF27292C),
+    tileColor: colorDarkScheme.surface,
     style: ListTileStyle.list,
-    titleTextStyle: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w500),
+    titleTextStyle: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w500),
   ),
   textTheme: TextTheme(
     /// Display styles
