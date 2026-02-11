@@ -10,4 +10,4 @@ part 'theme_colors.dart';
 
 part 'theme_data.dart';
 
-part 'theme_text_style.dart';
+part 'theme_text_styles.dart';

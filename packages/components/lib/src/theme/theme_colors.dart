@@ -1,6 +1,9 @@
 part of 'themes.dart';
 
-/// A set of colors for the entire app.
+/// Material [ColorScheme] — used by Flutter's built-in widgets
+/// (AppBar, ElevatedButton, InputDecoration, etc.).
+///
+/// For custom/app-specific colors, use [ThemeColors] via `context.color`.
 const ColorScheme colorLightScheme = ColorScheme(
   brightness: Brightness.light,
 
@@ -76,7 +79,7 @@ final class ThemeColors extends ThemeExtension<ThemeColors> {
     green: AppPalette.green,
 
     /// text
-    textPrimary: Color(0xFF000000),
+    textPrimary: AppPalette.black,
     textSecondary: AppPalette.textSecondary,
   );
 
