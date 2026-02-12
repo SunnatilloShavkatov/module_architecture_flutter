@@ -1,3 +1,5 @@
+import 'package:flutter_test/flutter_test.dart';
+
 // import 'package:auth/src/domain/entities/auth_entity.dart';
 // import 'package:auth/src/domain/usecases/login_usecase.dart';
 // import 'package:auth/src/presentation/login/bloc/login_bloc.dart';
@@ -50,3 +52,7 @@
 //     expect: () => [LoginLoading(), const LoginFailure('Invalid credentials')],
 //   );
 // }
+
+void main() {
+  test('login bloc tests are temporarily disabled', () {}, skip: true);
+}

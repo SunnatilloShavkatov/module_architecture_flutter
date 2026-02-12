@@ -1,3 +1,5 @@
+import 'package:flutter_test/flutter_test.dart';
+
 // import 'package:auth/src/domain/entities/auth_entity.dart';
 // import 'package:auth/src/domain/repos/auth_repo.dart';
 // import 'package:auth/src/domain/usecases/login_usecase.dart';
@@ -56,3 +58,7 @@
 //     verifyNoMoreInteractions(mockRepo);
 //   });
 // }
+
+void main() {
+  test('login usecase tests are temporarily disabled', () {}, skip: true);
+}
