@@ -45,8 +45,10 @@ final ThemeData lightTheme = ThemeData(
   ),
   progressIndicatorTheme: ProgressIndicatorThemeData(
     linearMinHeight: 3,
+    strokeCap: StrokeCap.round,
     color: colorLightScheme.primary,
-    circularTrackColor: Colors.white,
+    linearTrackColor: Colors.transparent,
+    circularTrackColor: Colors.transparent,
   ),
   dividerTheme: const DividerThemeData(thickness: 1, color: AppPalette.divider),
   dialogTheme: DialogThemeData(
@@ -54,7 +56,11 @@ final ThemeData lightTheme = ThemeData(
     surfaceTintColor: colorLightScheme.surface,
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
   ),
-  scrollbarTheme: const ScrollbarThemeData(interactive: true, thickness: WidgetStatePropertyAll(5)),
+  scrollbarTheme: const ScrollbarThemeData(
+    interactive: true,
+    radius: Radius.circular(8),
+    thickness: WidgetStatePropertyAll(4),
+  ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: ThemeColors.light.green,
     foregroundColor: Colors.white,
@@ -64,7 +70,7 @@ final ThemeData lightTheme = ThemeData(
     highlightElevation: 0,
     shape: const CircleBorder(),
   ),
-  textButtonTheme: const TextButtonThemeData(style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.zero))),
+  textButtonTheme: const TextButtonThemeData(style: ButtonStyle(padding: WidgetStatePropertyAll(.zero))),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
       foregroundColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) => Colors.white),
@@ -226,9 +232,10 @@ final ThemeData darkTheme = ThemeData(
       TargetPlatform.android: CupertinoPageTransitionsBuilder(),
     },
   ),
-  progressIndicatorTheme: const ProgressIndicatorThemeData(
-    color: Colors.white,
-    linearMinHeight: 2,
+  progressIndicatorTheme: ProgressIndicatorThemeData(
+    linearMinHeight: 3,
+    strokeCap: StrokeCap.round,
+    color: colorDarkScheme.primary,
     linearTrackColor: Colors.transparent,
     circularTrackColor: Colors.transparent,
   ),
@@ -238,8 +245,12 @@ final ThemeData darkTheme = ThemeData(
     surfaceTintColor: colorDarkScheme.surface,
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
   ),
-  textButtonTheme: const TextButtonThemeData(style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.zero))),
-  scrollbarTheme: const ScrollbarThemeData(interactive: true, thickness: WidgetStatePropertyAll(5)),
+  textButtonTheme: const TextButtonThemeData(style: ButtonStyle(padding: WidgetStatePropertyAll(.zero))),
+  scrollbarTheme: const ScrollbarThemeData(
+    interactive: true,
+    radius: Radius.circular(8),
+    thickness: WidgetStatePropertyAll(4),
+  ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: ThemeColors.dark.green,
     foregroundColor: Colors.white,

@@ -1,5 +1,3 @@
-// ignore_for_file: discarded_futures, document_ignores
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +35,7 @@ class _RotateIconState extends State<RotateIcon> with SingleTickerProviderStateM
   void initState() {
     super.initState();
     _animationController = AnimationController(vsync: this, duration: widget.duration);
-    _animationController.repeat();
+    _animationController.repeat().ignore();
   }
 
   @override

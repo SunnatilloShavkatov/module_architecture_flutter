@@ -1,4 +1,3 @@
-import 'package:components/src/loading/circular_progress_indicator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -6,11 +5,11 @@ class ModalProgressHUD extends StatelessWidget {
   const ModalProgressHUD({
     required this.child,
     super.key,
-    this.inAsyncCall = false,
     this.opacity = 0.3,
-    this.color = Colors.transparent,
-    this.progressIndicator = const CustomCircularProgressIndicator(),
+    this.inAsyncCall = false,
     this.dismissible = false,
+    this.color = Colors.transparent,
+    this.progressIndicator = const CircularProgressIndicator.adaptive(),
   });
 
   final bool inAsyncCall;

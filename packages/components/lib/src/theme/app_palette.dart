@@ -9,7 +9,7 @@ final class AppPalette {
   const AppPalette._();
 
   // ─── Brand ────────────────────────────────────────────────────────────
-  static const Color primary = Color(0xFFE21E25);
+  static const Color primary = Color(0xFF3B82F6);
   static const Color secondary = Color(0xFF69D7C7);
   static const Color green = Color(0xFF32B141);
 

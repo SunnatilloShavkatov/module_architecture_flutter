@@ -29,7 +29,11 @@ final class MainRouter implements AppRouter<RouteBase> {
         StatefulShellBranch(
           initialLocation: Routes.mainResources,
           routes: [
-            GoRoute(path: Routes.mainResources, name: Routes.mainResources, builder: (_, _) => Dimensions.kZeroBox),
+            GoRoute(
+              path: Routes.mainResources,
+              name: Routes.mainResources,
+              builder: (_, _) => const ModalProgressHUD(inAsyncCall: true, child: Dimensions.kZeroBox),
+            ),
           ],
         ),
         StatefulShellBranch(

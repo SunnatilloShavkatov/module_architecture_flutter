@@ -3,6 +3,7 @@ export 'src/extension/app_options_extension.dart';
 export 'src/extension/theme_extension.dart';
 export 'src/gap/gap.dart';
 export 'src/keyboard/keyboard_dismiss.dart';
+export 'src/loading/modal_progress_hud.dart';
 export 'src/options/app_options.dart';
 export 'src/theme/themes.dart';
 export 'src/universal/safe_area.dart';

@@ -11,5 +11,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with HomeMixin {
   @override
-  Widget build(BuildContext context) => const Scaffold(key: Key('home'));
+  Widget build(BuildContext context) => Scaffold(
+    key: const Key('home'),
+    appBar: AppBar(title: const Text('Home')),
+    body: Scrollbar(
+      child: CustomScrollView(
+        slivers: [
+          SliverSafeArea(
+            sliver: SliverList.separated(
+              itemCount: 100,
+              separatorBuilder: (_, _) => const Divider(),
+              itemBuilder: (_, index) => ListTile(tileColor: Colors.transparent, title: Text('Item ${index + 1}')),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
