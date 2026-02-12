@@ -88,7 +88,7 @@ Aggregates and registers dependencies from all modules:
 - Data sources
 - Repositories
 - Use cases
-- BLoCs
+- BLocs
 - Services
 
 ### Route Aggregation
@@ -164,7 +164,7 @@ This package depends on:
 
 - [Module Structure](../../docs/architecture/module_structure.md)
 - [Dependency Injection](../../docs/architecture/dependency_injection.md)
-- [Flutter Rules - Package Usage](../../flutter-rules.md#14-package-usage-rules)
+- [Flutter Rules - Package Usage](../../flutter-rules.md)
 
 ## License
 

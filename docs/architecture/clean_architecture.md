@@ -32,7 +32,7 @@ The project strictly follows Clean Architecture with three layers:
 **Responsibilities**:
 - Render UI based on state
 - Handle user interactions
-- Manage UI state via BLoC
+- Manage UI state via Bloc
 - Navigate between screens
 
 **Dependencies**:
@@ -42,7 +42,7 @@ The project strictly follows Clean Architecture with three layers:
 
 **Key Components**:
 - **Pages**: Full-screen widgets (`*_page.dart`)
-- **BLoCs**: State management (`*_bloc.dart`, `*_event.dart`, `*_state.dart`)
+- **BLocs**: State management (`*_bloc.dart`, `*_event.dart`, `*_state.dart`)
 - **Widgets**: Feature-specific reusable components
 
 **Example**:
@@ -477,8 +477,8 @@ UI (displays error message)
 - Test error handling
 
 ### Presentation Layer Tests
-- Test BLoC with mock use cases
-- Test pages/widgets with mock BLoC
+- Test Bloc with mock use cases
+- Test pages/widgets with mock Bloc
 - Widget tests with Flutter test framework
 
 ## Benefits
@@ -491,7 +491,7 @@ UI (displays error message)
 
 ## Common Mistakes to Avoid
 
-❌ **BLoC calling repository directly**
+❌ **Bloc calling repository directly**
 ```
 // Wrong
 final class LoginBloc extends Bloc<LoginEvent, LoginState> {
@@ -500,7 +500,7 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
 }
 ```
 
-✅ **BLoC calling use case**
+✅ **Bloc calling use case**
 ```
 // Correct
 final class LoginBloc extends Bloc<LoginEvent, LoginState> {

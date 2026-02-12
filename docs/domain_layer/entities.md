@@ -214,9 +214,9 @@ abstract interface class AuthRepo {
 }
 ```
 
-### In BLoCs
+### In Blocs
 
-BLoCs use entities in states:
+Blocs use entities in states:
 
 ```
 final class LoginSuccess extends LoginState {

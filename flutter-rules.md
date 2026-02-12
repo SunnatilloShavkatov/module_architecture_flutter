@@ -105,7 +105,7 @@ Presentation -> Domain <- Data
 Rules:
 
 - Presentation must not access repositories directly.
-- Blocs/pages/widgets must not call data sources.
+- BLocs/pages/widgets must not call data sources.
 - Use cases call domain repository interfaces only.
 - Repository implementations stay in data layer.
 
@@ -157,9 +157,9 @@ Use single quotes only.
 - Every package/module should include:
   - `include: package:analysis_lints/analysis_options.yaml`
 - Do not introduce code that leaves lint warnings/errors for the touched scope.
-- If a sub-project is intentionally configured with `flutter_lints` (for example-specific setup), keep its existing lint strategy unless task requests migration.
+- If a subproject is intentionally configured with `flutter_lints` (for example-specific setup), keep its existing lint strategy unless task requests migration.
 
-## 9. BLoC Rules (Strict, Non-Negotiable)
+## 9. Bloc Rules (Strict, Non-Negotiable)
 
 Bloc class:
 
@@ -189,7 +189,7 @@ State naming pattern:
 - `XxxLoadingState`
 - `XxxLoadedState` or `XxxSuccessState`
 - `XxxErrorState` or `XxxFailureState`
-- for multi-flow pages, split by sealed sub-state groups (e.g. `ReferralInfoState`, `ReferralCodeState`, `ProductsState`).
+- for multi-flow pages, split by sealed substate groups (e.g. `ReferralInfoState`, `ReferralCodeState`, `ProductsState`).
 
 Concurrency and safety:
 
@@ -237,7 +237,7 @@ Repository interfaces:
 Models:
 
 - must have `fromMap` and `toMap`;
-- mapping model <-> entity must be explicit.
+- mapping model ↔ entity must be explicit.
 - follow fixed model standard from `docs/data_layer/models.md` (do not invent new parse style per feature).
 - model nullability contract must mirror entity contract:
   - list fields non-null and required;
@@ -329,7 +329,7 @@ Logging and errors:
 
 1. Domain: Entity -> Repository interface -> UseCase
 2. Data: Model -> DataSource -> Repository Impl
-3. Presentation: Bloc -> Page + Mixin -> Widgets
+3. Presentation: Bloc → Page + Mixin → Widgets
 4. DI: register in `<module>_injection.dart`
 5. Router: add route + args in `<module>_router.dart`
 

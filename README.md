@@ -27,7 +27,7 @@ If you are building a FinTech, E-commerce, or "Super-Apps" that must live for 3-
 2.  **Clean Architecture (Scrubbed)**: Rigid separation of concerns:
     - **Data**: API contracts, persistence, and DTO transformation.
     - **Domain**: Pure Dart business logic and entity definitions (zero framework dependencies).
-    - **Presentation**: BLoC-driven state management with exhaustive sealed classes.
+    - **Presentation**: Bloc-driven state management with exhaustive sealed classes.
 3.  **Dependency Aggregation**: Centralized orchestration via the `merge_dependencies` pattern to eliminate "magic" globbing and hidden globals.
 4.  **Functional Error Handling**: Standardized `ResultFuture<Either<Failure, T>>` pattern to treat errors as first-class citizens.
 
@@ -87,7 +87,7 @@ To ensure consistency across teams, the `modules/auth` serves as the **Gold Stan
 - **Networking**: `AuthRemoteDataSource` using `NetworkProvider` (Data)
 
 ### Why no shortcuts?
-We do not skip the UseCase layer, even for simple "Pass-through" calls. This ensures that as complexity grows, the business logic has a dedicated home that is not tied to the BLoC or the Repository lifecycle.
+We do not skip the UseCase layer, even for simple "Pass-through" calls. This ensures that as complexity grows, the business logic has a dedicated home that is not tied to the Bloc or the Repository lifecycle.
 
 ---
 
@@ -96,8 +96,8 @@ We do not skip the UseCase layer, even for simple "Pass-through" calls. This ens
 ### State Flow & User Experience
 The architecture is designed to handle the complexity of real-world state transitions.
 
-| Loading State | Success Flow | Error Handling |
-| :---: | :---: | :---: |
+|               Loading State                |           Success Flow            |              Error Handling              |
+|:------------------------------------------:|:---------------------------------:|:----------------------------------------:|
 | *[GIF/Screenshot showing Shimmer/Loading]* | *[GIF showing smooth transition]* | *[Screenshot showing BottomSheet Error]* |
 
 > **Note**: Visuals are captured using the `components` library to ensure design consistency across the entire application.
@@ -131,7 +131,7 @@ flutter pub get
 
 ## 🚫 Common Trust Killers (Avoidance List)
 We maintain a "No-Fluff" policy. This repository explicitly avoids:
-- **Empty Modules**: Every module must have a clear purpose or it is removed.
+- **Empty Modules**: Every module must have a clear purpose, or it is removed.
 - **"Vague" Documentation**: No "TODO" comments in public APIs.
 - **Implicit Dependencies**: Every import is verified to prevent circular dependency debt.
 - **Framework Leakage**: The Domain layer is protected by lint rules from importing `package:flutter`.

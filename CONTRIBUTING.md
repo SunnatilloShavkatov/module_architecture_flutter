@@ -215,7 +215,7 @@ final class GetUserParams extends Equatable {
 }
 ```
 
-#### BLoC (Presentation Layer)
+#### Bloc (Presentation Layer)
 
 ```
 // Events
@@ -311,7 +311,7 @@ final class ModuleInjection implements Injection {
           () => GetModuleData(di.get()),
     );
 
-    // BLoCs
+    // BLocs
     di.registerFactory(
           () => ModuleBloc(di.get()),
     );
@@ -325,7 +325,7 @@ final class ModuleInjection implements Injection {
 |-------------------------|-------------------------------------|--------------------------|
 | `registerSingleton`     | Created immediately, lives forever  | Pre-initialized services |
 | `registerLazySingleton` | Created on first use, lives forever | Repositories, UseCases   |
-| `registerFactory`       | Created every time                  | BLoCs, ViewModels        |
+| `registerFactory`       | Created every time                  | BLocs, ViewModels        |
 
 ---
 
@@ -465,7 +465,7 @@ Before submitting a PR, ensure:
 - [ ] Presentation layer only depends on Domain
 - [ ] Domain layer has no external dependencies
 - [ ] Data layer implements Domain contracts
-- [ ] BLoC calls UseCases, not repositories
+- [ ] Bloc calls UseCases, not repositories
 - [ ] Entities are pure Dart (no JSON serialization)
 - [ ] Models extend entities and have JSON serialization
 
@@ -473,7 +473,7 @@ Before submitting a PR, ensure:
 
 - [ ] Events and States are `sealed class`
 - [ ] All events/states extend `Equatable`
-- [ ] BLoC event handlers are private (`_onEventName`)
+- [ ] Bloc event handlers are private (`_onEventName`)
 - [ ] Error states include error messages
 
 ### Dependencies
@@ -515,7 +515,7 @@ Before submitting a PR, ensure:
 
 ## 🚫 Common Mistakes to Avoid
 
-### ❌ BLoC Calling Repository Directly
+### ❌ Bloc Calling Repository Directly
 
 ```
 // WRONG
@@ -657,14 +657,14 @@ docs: update README with new module structure
 - [Clean Architecture Guide](docs/architecture/clean_architecture.md)
 - [Module Structure Details](docs/architecture/module_structure.md)
 - [Dependency Injection Guide](docs/architecture/dependency_injection.md)
-- [Domain Layer Patterns](docs/domain_layer/)
+- [Domain Layer Patterns](docs/domain_layer)
 - [Flutter Rules (Complete)](flutter-rules.md)
 
 ---
 
 ## 🆘 Getting Help
 
-- **Architecture Questions**: See [docs/architecture/](docs/architecture/)
+- **Architecture Questions**: See [docs/architecture/](docs/architecture)
 - **Code Patterns**: See [flutter-rules.md](flutter-rules.md)
 - **Issues**: Open a GitHub issue with the `question` label
 
@@ -679,7 +679,7 @@ quality, consistency, and scalability.
 
 - Clean Architecture is non-negotiable
 - Domain layer stays pure
-- BLoC calls UseCases, not repositories
+- Bloc calls UseCases, not repositories
 - Follow naming conventions
 - Use shared components and packages
 

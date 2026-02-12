@@ -1,6 +1,7 @@
 # Module Structure
 
-This document explains how modules are organized in this repository and where new code must be added.
+This document explains how modules are organized in this repository and where new code must be
+added.
 
 ## 1. Module Concept
 
@@ -83,22 +84,23 @@ export 'src/auth_container.dart' show AuthContainer;
 When implementing feature `<feature>` in module `<module>`:
 
 1. domain
-   - entity in `domain/entities/`
-   - repository interface in `domain/repos/` or `domain/repository/`
-   - use case in `domain/usecases/`
+    - entity in `domain/entities/`
+    - repository interface in `domain/repos/` or `domain/repository/`
+    - use case in `domain/usecases/`
 2. data
-   - model in `data/models/`
-     - model mapping contract: list fields non-null, scalar/object fields nullable, `fromMap/toMap` mandatory
-   - data source in `data/datasource/`
-   - repository impl in `data/repo/` or `data/repository/`
+    - model in `data/models/`
+        - model mapping contract: list fields non-null, scalar/object fields nullable,
+          `fromMap/toMap` mandatory
+    - data source in `data/datasource/`
+    - repository impl in `data/repo/` or `data/repository/`
 3. presentation
-   - bloc/event/state in `presentation/<feature>/bloc/`
-   - page in `presentation/<feature>/`
-   - mixin in `presentation/<feature>/mixin/`
-   - widgets in `presentation/<feature>/widgets/`
+    - bloc/event/state in `presentation/<feature>/bloc/`
+    - page in `presentation/<feature>/`
+    - mixin in `presentation/<feature>/mixin/`
+    - widgets in `presentation/<feature>/widgets/`
 4. integration
-   - DI update in `<module>_injection.dart`
-   - route update in `<module>_router.dart`
+    - DI update in `<module>_injection.dart`
+    - route update in `<module>_router.dart`
 
 ## 7. Communication Rules
 

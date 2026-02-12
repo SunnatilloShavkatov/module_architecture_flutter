@@ -28,7 +28,7 @@ Presentation → Domain ← Data
 
 Each feature module is **self-contained**:
 
-- Own data sources, repositories, use cases, BLoCs
+- Own data sources, repositories, use cases, Blocs
 - Own routing configuration
 - Own dependency injection setup
 - Communicates with other modules via interfaces only
@@ -40,7 +40,7 @@ Each component has one clear purpose:
 - **Data Sources**: Fetch data from a single source (remote or local)
 - **Repositories**: Coordinate data sources, transform data
 - **Use Cases**: Execute a single business operation
-- **BLoCs**: Manage state for a single page/feature
+- **Blocs**: Manage state for a single page/feature
 
 ### 4. Testability
 
@@ -121,11 +121,11 @@ Shared packages provide reusable functionality:
 **Contains**:
 - Pages (full screens)
 - Widgets (reusable UI components)
-- BLoCs (state management)
+- Blocs (state management)
 - Mixins (shared page behavior)
 
 **Rules**:
-- BLoC calls use cases only (never repositories)
+- Bloc calls use cases only (never repositories)
 - Pages are stateless when possible
 - UI logic stays in presentation layer
 
@@ -185,11 +185,11 @@ Modules communicate via:
 
 ## State Management
 
-**Pattern**: BLoC with sealed classes
+**Pattern**: Bloc with sealed classes
 
 - Events: Sealed classes extending `Equatable`
 - States: Sealed classes extending `Equatable`
-- BLoC: Manages state transitions, calls use cases
+- Bloc: Manages state transitions, calls use cases
 
 **Flow**:
 ```

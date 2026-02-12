@@ -6,8 +6,8 @@ This document defines how to choose the correct module for a new AI task.
 
 Before writing code, identify a single owner module.
 
-- if owner exists -> implement in that module;
-- if owner does not exist -> create a new module.
+- if owner exists → implement in that module;
+- if owner does not exist → create a new module.
 
 ## 2. Selection Algorithm
 
@@ -48,7 +48,7 @@ If feature touches multiple modules:
 - other modules interact through navigation or explicit interfaces;
 - do not duplicate business logic in multiple modules.
 
-## 6. Required Output in AI Work
+## 6. Required To be Output in AI Work
 
 Before implementation, AI should make an explicit decision:
 

@@ -24,7 +24,7 @@ jobs:
         run: |
           # Root dependencies
           flutter pub get
-          flutter analyze
+          flutter analyze lib test
           
           # Helper function for sub-projects
           verify_project() {

@@ -37,7 +37,7 @@ final class AuthInjection implements Injection {
       )
       // Use cases
       ..registerLazySingleton<Login>(() => Login(di.get()))
-      // BLoCs
+      // BLocs
       ..registerFactory(() => LoginBloc(di.get()));
   }
 }
@@ -64,7 +64,7 @@ di.registerLazySingleton<AuthRepo>(
 
 ### registerFactory
 
-**Use for**: BLoCs
+**Use for**: Blocs
 
 **Behavior**: New instance created each time
 
@@ -73,7 +73,7 @@ di.registerFactory(() => LoginBloc(di.get()));
 ```
 
 **When to use**:
-- Stateful components (BLoCs)
+- Stateful components (Blocs)
 - Created on demand
 - Different instances needed
 
@@ -101,7 +101,7 @@ Dependencies should be registered in **dependency order**:
 1. **Data Sources** (lowest level, no dependencies)
 2. **Repositories** (depend on data sources)
 3. **Use Cases** (depend on repositories)
-4. **BLoCs** (depend on use cases)
+4. **Blocs** (depend on use cases)
 
 ```
 di
@@ -115,7 +115,7 @@ di
   )
   // 3. Use cases
   ..registerLazySingleton<Login>(() => Login(di.get()))
-  // 4. BLoCs
+  // 4. BLocs
   ..registerFactory(() => LoginBloc(di.get()));
 ```
 
@@ -279,7 +279,7 @@ di.registerLazySingleton<Login>(
 );
 ```
 
-### BLoC with Use Case
+### Bloc with Use Case
 
 ```
 di.registerFactory(
@@ -287,7 +287,7 @@ di.registerFactory(
 );
 ```
 
-### BLoC with Multiple Dependencies
+### Bloc with Multiple Dependencies
 
 ```
 di.registerFactory(
@@ -317,21 +317,21 @@ AppInjector.instance.reset();
 
 ## Best Practices
 
-1. **Register in dependency order**: Data sources → Repositories → Use cases → BLoCs
+1. **Register in dependency order**: Data sources → Repositories → Use cases → Blocs
 2. **Use lazy singletons for stateless services**: Better performance
-3. **Use factories for stateful components**: BLoCs need new instances
+3. **Use factories for stateful components**: Blocs need new instances
 4. **Keep injection classes focused**: One injection class per module
 5. **Don't register in constructors**: Register at app startup only
 
 ## Common Mistakes
 
-❌ **Registering BLoC as singleton**
+❌ **Registering Bloc as singleton**
 ```
 // Wrong
 di.registerLazySingleton(() => LoginBloc(di.get())); // ❌
 ```
 
-✅ **Registering BLoC as factory**
+✅ **Registering Bloc as factory**
 ```
 // Correct
 di.registerFactory(() => LoginBloc(di.get())); // ✅
@@ -355,4 +355,4 @@ di.registerLazySingleton<A>(() => A(di.get<B>())); // ✅
 
 - [Module Structure](module_structure.md)
 - [Domain Layer](../domain_layer/repositories.md)
-- See `flutter-rules.md` for BLoC and presentation patterns
+- See `flutter-rules.md` for Bloc and presentation patterns

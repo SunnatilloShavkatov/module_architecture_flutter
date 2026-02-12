@@ -253,9 +253,9 @@ final class GetProducts extends UsecaseWithoutParams<List<ProductEntity>> {
 
 ## Use Case Usage
 
-### In BLoCs
+### In Blocs
 
-BLoCs call use cases:
+Blocs call use cases:
 
 ```
 final class LoginBloc extends Bloc<LoginEvent, LoginState> {
@@ -321,7 +321,7 @@ final class CreateOrder extends UsecaseWithParams<OrderEntity, CreateOrderParams
 
 ### 1. Keep Use Cases Simple
 
-Prefer delegation over complex logic:
+Prefer delegation to complex logic:
 
 ```
 // ✅ Correct - Simple delegation
@@ -409,4 +409,4 @@ test('Login use case success', () async {
 
 - [Repositories](repositories.md)
 - [Entities](entities.md)
-- See `flutter-rules.md` for BLoC patterns
+- See `flutter-rules.md` for Bloc patterns
