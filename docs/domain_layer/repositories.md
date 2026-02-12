@@ -32,8 +32,8 @@ abstract interface class AuthRepo {
 ### Repository with Multiple Methods
 
 ```
-abstract interface class ProfileRepo {
-  const ProfileRepo();
+abstract interface class ProfileRepository {
+  const ProfileRepository();
 
   ResultFuture<ProfileEntity> getProfile();
   ResultFuture<void> updateProfile({required ProfileEntity profile});
@@ -116,11 +116,11 @@ import 'package:flutter/material.dart';
 Repository interfaces are located in:
 
 ```
-module_name/src/domain/repo/
-  └── module_name_repo.dart
+module_name/src/domain/repos/ or module_name/src/domain/repository/
+  └── module_name_repo.dart or module_name_repository.dart
 ```
 
-**Note**: Some modules use `repository/` instead of `repo/` - both are acceptable.
+Use the existing naming style of the target module and keep it consistent inside that module.
 
 ## Repository Implementation
 
@@ -177,7 +177,7 @@ di.registerLazySingleton<AuthRepo>(
 ### Single Entity Repository
 
 ```
-abstract interface class UserRepo {
+abstract interface class UserRepository {
   ResultFuture<UserEntity> getUser(String userId);
   ResultFuture<void> updateUser(UserEntity user);
   ResultFuture<void> deleteUser(String userId);
@@ -187,7 +187,7 @@ abstract interface class UserRepo {
 ### List Repository
 
 ```
-abstract interface class ProductsRepo {
+abstract interface class ProductsRepository {
   ResultFuture<List<ProductEntity>> getProducts();
   ResultFuture<ProductEntity> getProduct(String productId);
 }
@@ -196,7 +196,7 @@ abstract interface class ProductsRepo {
 ### Pagination Repository
 
 ```
-abstract interface class ProductsRepo {
+abstract interface class ProductsRepository {
   ResultFuture<List<ProductEntity>> getProducts({
     int page = 1,
     int limit = 20,
@@ -207,7 +207,7 @@ abstract interface class ProductsRepo {
 ### Search Repository
 
 ```
-abstract interface class ProductsRepo {
+abstract interface class ProductsRepository {
   ResultFuture<List<ProductEntity>> searchProducts(String query);
 }
 ```
@@ -292,7 +292,7 @@ ResultFuture<OrderEntity> createOrder(CreateOrderParams params);
 Some repositories use the `part`/`part of` pattern to keep interface and implementation together:
 
 ```
-// domain/repo/auth_repo.dart
+// domain/repos/auth_repo.dart
 part '../../data/repo/auth_repo_impl.dart';
 
 abstract interface class AuthRepo {
@@ -300,7 +300,7 @@ abstract interface class AuthRepo {
 }
 
 // data/repo/auth_repo_impl.dart
-part of 'package:auth/src/domain/repo/auth_repo.dart';
+part of 'package:auth/src/domain/repos/auth_repo.dart';
 
 final class AuthRepoImpl implements AuthRepo {
   // Implementation

@@ -64,7 +64,7 @@ di.registerLazySingleton<AuthRepo>(
 
 ### registerFactory
 
-**Use for**: BLoCs, pages
+**Use for**: BLoCs
 
 **Behavior**: New instance created each time
 
@@ -305,7 +305,7 @@ di.registerFactory(
 ```
 // In test
 final mockRepo = MockAuthRepo();
-di.registerFactory<AuthRepo>(() => mockRepo);
+di.registerLazySingleton<AuthRepo>(() => mockRepo);
 ```
 
 ### Reset Container

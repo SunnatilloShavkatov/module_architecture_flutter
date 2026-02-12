@@ -13,6 +13,67 @@ This document explains how domain entities are structured and used in the Clean 
 
 ## Entity Structure
 
+### Mandatory API Entity Contract (Project Standard)
+
+For API-driven entities in this repository:
+
+- scalar/object fields are nullable (`String?`, `int?`, `double?`, nested entity nullable);
+- list fields are non-null and must be `required`;
+- entities remain immutable and extend `Equatable`;
+- entities must not contain `fromMap` / `toMap`.
+
+Reference shape:
+
+```dart
+class Survey extends Equatable {
+  const Survey({
+    required this.id,
+    required this.title,
+    required this.questions,
+    required this.coin,
+    required this.point,
+  });
+
+  final String? id;
+  final String? title;
+  final int? coin;
+  final int? point;
+  final List<SurveyQuestion> questions;
+
+  @override
+  List<Object?> get props => [id, title, coin, point, questions];
+}
+
+class SurveyQuestion extends Equatable {
+  const SurveyQuestion({
+    required this.id,
+    required this.text,
+    required this.type,
+    required this.answers,
+    required this.fileUrl,
+  });
+
+  final int? id;
+  final int? type;
+  final String? text;
+  final String? fileUrl;
+  final List<SurveyOption> answers;
+
+  @override
+  List<Object?> get props => [id, text, type, fileUrl, answers];
+}
+
+class SurveyOption extends Equatable {
+  const SurveyOption({this.id, this.text});
+
+  final int? id;
+  final String? text;
+
+  @override
+  List<Object?> get props => [id, text];
+}
+```
+
 ### Basic Entity
 
 ```
@@ -104,7 +165,7 @@ Entities don't have `fromMap()` or `toMap()`:
 // ✅ Correct - Entity
 class LoginEntity extends Equatable {
   const LoginEntity({required this.token});
-  final String token;
+  final String? token;
   @override
   List<Object?> get props => [token];
 }
@@ -133,7 +194,7 @@ Use cases return entities:
 ```
 final class GetProfile extends UsecaseWithoutParams<ProfileEntity> {
   const GetProfile(this._repo);
-  final ProfileRepo _repo;
+  final ProfileRepository _repo;
   
   @override
   ResultFuture<ProfileEntity> call() => _repo.getProfile();
@@ -174,7 +235,7 @@ final class LoginSuccess extends LoginState {
 // Domain Entity
 class LoginEntity extends Equatable {
   const LoginEntity({required this.token});
-  final String token;
+  final String? token;
   @override
   List<Object?> get props => [token];
 }
@@ -184,7 +245,7 @@ class LoginModel extends LoginEntity {
   const LoginModel({required super.token});
   
   factory LoginModel.fromMap(Map<String, dynamic> map) {
-    return LoginModel(token: map['token'] ?? '');
+    return LoginModel(token: map['token'] as String?);
   }
 }
 ```
@@ -193,17 +254,17 @@ class LoginModel extends LoginEntity {
 
 ## Entity Best Practices
 
-### 1. Use Nullable Types When Appropriate
+### 1. Use Nullable Scalars by Default (API Entities)
 
 ```
 class ProfileEntity extends Equatable {
   const ProfileEntity({
-    this.userId,        // Nullable if optional
-    required this.username, // Required
+    required this.userId,
+    required this.username,
   });
   
   final int? userId;
-  final String username;
+  final String? username;
 }
 ```
 
@@ -239,11 +300,11 @@ class OrderEntity extends Equatable {
     required this.createdAt,
   });
   
-  final String id;
+  final String? id;
   final List<OrderItemEntity> items;
-  final double total;
-  final OrderStatus status;
-  final DateTime createdAt;
+  final double? total;
+  final OrderStatus? status;
+  final DateTime? createdAt;
 }
 ```
 
@@ -256,7 +317,7 @@ enum OrderStatus { pending, completed, cancelled }
 
 class OrderEntity extends Equatable {
   const OrderEntity({required this.status});
-  final OrderStatus status;
+  final OrderStatus? status;
   @override
   List<Object?> get props => [status];
 }
@@ -282,7 +343,7 @@ class UserEntity extends Equatable {
     this.profile, // Optional
   });
   
-  final String id;
+  final String? id;
   final ProfileEntity? profile;
   
   @override

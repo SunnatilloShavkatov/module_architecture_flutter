@@ -51,6 +51,28 @@ Business logic is **framework-independent**:
 - Entities are immutable data classes
 - Easy to unit test without UI framework
 
+### 5. Monorepo Boundaries
+
+This codebase is a **modular monorepo**. Keep boundaries strict:
+
+- Feature implementation stays inside the target module.
+- Shared reusable logic goes to `packages/`.
+- Avoid direct cross-module coupling unless explicitly required by interface contracts.
+- Keep module-local naming conventions consistent (`repo`/`repository`, `repos`/`repository` based on the module style).
+
+### 6. Quality Gates
+
+Before finalizing code changes in a touched scope:
+
+1. run `dart fix --apply`
+2. run `dart format ./`
+3. run analyzer (`flutter analyze` or `dart analyze`)
+
+Lint baseline:
+
+- `analysis_lints: any` (latest strategy)
+- `analysis_options.yaml` should include `package:analysis_lints/analysis_options.yaml`
+
 ## Project Structure
 
 ### Root Level
@@ -134,6 +156,7 @@ Shared packages provide reusable functionality:
 **Rules**:
 - Data sources are abstract interfaces
 - Models extend entities
+- API mapping contract: list fields non-null, scalar/object fields nullable by default
 - Repository implementations convert exceptions to `Failure`
 
 ## Dependency Flow
@@ -214,4 +237,9 @@ UI State ← BLoC State ← Either<Failure, T> ← Repository ←
 
 - [Clean Architecture Details](clean_architecture.md)
 - [Module Structure](module_structure.md)
+- [Module Selection](module_selection.md)
+- [New Module Creation](new_module_creation.md)
 - [Dependency Injection](dependency_injection.md)
+- [Project Map](project_map.md)
+- [Presentation Plan](../presentation_layer/page_bloc_widget_mixin_plan.md)
+- [Reference Best Practices](../presentation_layer/reference_best_practices.md)

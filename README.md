@@ -49,6 +49,29 @@ If you are building a FinTech, E-commerce, or "Super-Apps" that must live for 3-
 └── docs/                  # In-depth architectural documentation
 ```
 
+## 🧭 Module Conventions (Real Paths)
+
+The repository contains both `repo` and `repository` naming styles.  
+AI/engineers must follow the style of the **target module** and keep it consistent.
+
+### `repo` / `repos` style example
+
+- `modules/auth/lib/src/domain/repos/auth_repo.dart`
+- `modules/auth/lib/src/data/repo/auth_repo_impl.dart`
+
+### `repository` style examples
+
+- `modules/home/lib/src/domain/repository/home_repo.dart`
+- `modules/home/lib/src/data/repository/home_repository_impl.dart`
+- `modules/main/lib/src/domain/repository/main_repo.dart`
+- `modules/main/lib/src/data/repository/main_repository_impl.dart`
+- `modules/more/lib/src/domain/repository/more_repository.dart`
+- `modules/more/lib/src/data/repository/more_repository_impl.dart`
+
+Rule:
+
+- never mix `repo` and `repository` folder styles inside the same module.
+
 ---
 
 ## 🔍 The Reference Module (Auth)

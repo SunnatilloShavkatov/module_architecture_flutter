@@ -1,448 +1,120 @@
 # Module Structure
 
-This document explains the structure of feature modules, their organization, and how they integrate with the application.
+This document explains how modules are organized in this repository and where new code must be added.
 
-## Module Concept
+## 1. Module Concept
 
-A **module** is a self-contained feature that follows Clean Architecture principles. Each module:
+A module is a feature boundary with its own:
 
-- Has its own data, domain, and presentation layers
-- Defines its own routes
-- Registers its own dependencies
-- Can be developed and tested independently
+- presentation files
+- DI registration
+- routing setup
+- optional domain/data layers depending on module responsibility
 
-## Module Directory Structure
+Business features should keep Clean Architecture layering inside the module.
 
-```
-module_name/
-├── lib/
-│   ├── module_name.dart                    # Public API export
-│   └── src/
-│       ├── module_name_container.dart      # Module registration
-│       │
-│       ├── data/                           # Data Layer
-│       │   ├── datasource/
-│       │   │   ├── module_name_remote_data_source.dart
-│       │   │   ├── module_name_remote_data_source_impl.dart
-│       │   │   ├── module_name_local_data_source.dart
-│       │   │   └── module_name_local_data_source_impl.dart
-│       │   ├── models/
-│       │   │   └── module_name_model.dart
-│       │   └── repo/                       # or repository/
-│       │       └── module_name_repo_impl.dart
-│       │
-│       ├── domain/                         # Domain Layer
-│       │   ├── entities/
-│       │   │   └── module_name_entity.dart
-│       │   ├── repo/                       # or repository/
-│       │   │   └── module_name_repo.dart
-│       │   └── usecases/
-│       │       └── get_module_data.dart
-│       │
-│       ├── presentation/                   # Presentation Layer
-│       │   └── feature_name/
-│       │       ├── bloc/
-│       │       │   ├── feature_name_bloc.dart
-│       │       │   ├── feature_name_event.dart
-│       │       │   └── feature_name_state.dart
-│       │       ├── widgets/
-│       │       │   └── feature_widget.dart
-│       │       └── feature_name_page.dart
-│       │
-│       ├── router/
-│       │   └── module_name_router.dart
-│       │
-│       └── di/
-│           └── module_name_injection.dart
-│
-└── pubspec.yaml
-```
+## 2. Current Entry Pattern in This Repository
 
-## Module Public API
+For module `<module>`:
 
-### module_name.dart
+- public export: `modules/<module>/lib/<module>.dart`
+- container: `modules/<module>/lib/src/<module>_container.dart`
+- injection: `modules/<module>/lib/src/di/<module>_injection.dart`
+- router: `modules/<module>/lib/src/router/<module>_router.dart`
 
-The main export file that exposes the module's public API:
+Use this pattern for new modules. Do not rename existing entry files unless requested.
+
+## 3. Module Directory Template
 
 ```
-export 'src/module_name_container.dart' show ModuleNameContainer;
+modules/<module>/
+  lib/
+    <module>.dart
+    src/
+      <module>_container.dart
+      di/
+        <module>_injection.dart
+      router/
+        <module>_router.dart
+      data/
+        datasource/
+        models/
+        repo/ or repository/
+      domain/
+        entities/
+        repos/ or repository/
+        usecases/
+      presentation/
+        <feature>/
+          <feature>_page.dart
+          bloc/
+            <feature>_bloc.dart
+            <feature>_event.dart
+            <feature>_state.dart
+          mixin/
+            <feature>_mixin.dart
+          widgets/
 ```
 
-**Purpose**: Other parts of the app only need to import the container to register the module.
+Important:
 
-**Example** (`modules/auth/lib/auth.dart`):
-```
+- some modules use `repo`, some use `repository`;
+- some modules use `repos`, some use `repository`;
+- follow the local style of the target module, do not mix styles in one module.
+
+## 4. Public API Export Rule
+
+Export module container from `lib/<module>.dart`.
+
+Example:
+
+```dart
 export 'src/auth_container.dart' show AuthContainer;
 ```
 
-## Module Container
-
-### module_name_container.dart
-
-The container implements `ModuleContainer` and provides:
-
-1. **Injection**: Dependency registration
-2. **Router**: Route definitions
-
-```
-final class AuthContainer implements ModuleContainer {
-  const AuthContainer();
-
-  @override
-  Injection? get injection => const AuthInjection();
-
-  @override
-  AppRouter<RouteBase>? get router => const AuthRouter();
-}
-```
-
-**Purpose**: Allows `merge_dependencies` to discover and register all modules automatically.
-
-## Dependency Injection
-
-### di/module_name_injection.dart
-
-Registers all module dependencies:
-
-```
-final class AuthInjection implements Injection {
-  const AuthInjection();
-
-  @override
-  FutureOr<void> registerDependencies({required Injector di}) {
-    di
-      // Data sources
-      ..registerLazySingleton<AuthRemoteDataSource>(
-        () => AuthRemoteDataSourceImpl(di.get())
-      )
-      ..registerLazySingleton<AuthLocalDataSource>(
-        () => AuthLocalDataSourceImpl(di.get())
-      )
-      // Repositories
-      ..registerLazySingleton<AuthRepo>(
-        () => AuthRepoImpl(di.get(), di.get())
-      )
-      // Use cases
-      ..registerLazySingleton<Login>(() => Login(di.get()))
-      // BLoCs
-      ..registerFactory(() => LoginBloc(di.get()));
-  }
-}
-```
-
-**Registration Order**:
-1. Data sources (lowest level)
-2. Repositories
-3. Use cases
-4. BLoCs (highest level)
-
-**Registration Types**:
-- `registerLazySingleton`: Data sources, repositories, use cases
-- `registerFactory`: BLoCs, pages (created on demand)
-
-## Routing
-
-### router/module_name_router.dart
-
-Defines module routes:
-
-```
-final class AuthRouter implements AppRouter<RouteBase> {
-  const AuthRouter();
-
-  @override
-  List<GoRoute> getRouters(Injector di) => [
-    GoRoute(
-      path: Routes.login,
-      name: Routes.login,
-      builder: (context, state) => const LoginPage(),
-    ),
-    GoRoute(
-      path: Routes.forgotPassword,
-      name: Routes.forgotPassword,
-      builder: (context, state) => const ForgotPasswordPage(),
-    ),
-  ];
-}
-```
-
-**Rules**:
-- Use `Routes` constants from `navigation` package
-- Routes are aggregated by `merge_dependencies`
-- Each module defines its own routes independently
-
-## Module Registration
-
-Modules are registered in `merge_dependencies`:
-
-```
-static const List<ModuleContainer> _allContainer = [
-  CoreContainer(),
-  AuthContainer(),
-  HomeContainer(),
-  InitialContainer(),
-  MainContainer(),
-  MoreContainer(),
-  SystemContainer(),
-];
-```
-
-**Process**:
-1. `merge_dependencies` collects all containers
-2. Extracts injections and routers
-3. Registers dependencies at app startup
-4. Aggregates routes for GoRouter
-
-## Module Dependencies
-
-### pubspec.yaml
-
-Each module declares its dependencies:
-
-```yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  # Shared packages
-  core:
-    path: ../../packages/core
-  components:
-    path: ../../packages/components
-  navigation:
-    path: ../../packages/navigation
-  # Other modules (only if needed)
-  other_module:
-    path: ../../modules/other_module
-```
-
-**Rules**:
-- ✅ Always depend on `core`, `components`, `navigation`
-- ✅ Can depend on other modules if needed
-- ❌ Never depend on `merge_dependencies` (app entry only)
-
-## Module Communication
-
-Modules communicate via:
-
-### 1. Shared Packages
-
-All modules use shared packages (`core`, `components`, `navigation`):
-
-```
-import 'package:core/core.dart';
-import 'package:components/components.dart';
-import 'package:navigation/navigation.dart';
-```
-
-### 2. Navigation
-
-Modules navigate to each other via routes:
-
-```
-// In AuthModule
-Navigator.pushNamed(context, Routes.mainHome);
-```
-
-### 3. Repository Interfaces (if needed)
-
-If modules need to share data:
-
-```
-// Module A exposes repository interface
-abstract interface class SharedRepo {
-  ResultFuture<SharedData> getData();
-}
-
-// Module B implements it
-final class SharedRepoImpl implements SharedRepo {
-  // Implementation
-}
-```
-
-**Note**: Cross-module data access should be minimal. Prefer navigation-based communication.
-
-## Module Isolation
-
-Each module is **isolated**:
-
-- ✅ Own data sources, repositories, use cases
-- ✅ Own BLoCs and pages
-- ✅ Own routing configuration
-- ✅ Own dependency injection
-
-**Benefits**:
-- Teams can work independently
-- Easy to test in isolation
-- Easy to remove or refactor modules
-- Clear feature boundaries
-
-## Existing Modules
-
-### auth
-Authentication module (login, forgot password, confirm code)
-
-### home
-Home feature module
-
-### initial
-Initial screens (splash, welcome)
-
-### main
-Main navigation shell with bottom navigation
-
-### more
-More/Settings module
-
-### system
-System pages (404, no internet)
-
-## Creating a New Module
-
-Follow these step-by-step instructions:
-
-### Step 1: Create Module Structure
-
-Create the module directory and basic structure:
-
-```bash
-mkdir -p modules/new_module/lib/src/{data/{datasource,models,repo},domain/{entities,repo,usecases},presentation,router}
-```
-
-### Step 2: Create pubspec.yaml
-
-```yaml
-name: new_module
-publish_to: 'none'
-
-environment:
-  sdk: '>=3.10.0 <4.0.0'
-
-dependencies:
-  flutter:
-    sdk: flutter
-  core:
-    path: ../../packages/core
-  components:
-    path: ../../packages/components
-  navigation:
-    path: ../../packages/navigation
-```
-
-### Step 3: Implement Domain Layer
-
-1. Create entities in `domain/entities/`
-2. Define repository abstracts in `domain/repo/`
-3. Implement use cases in `domain/usecases/`
-
-### Step 4: Implement Data Layer
-
-1. Create data sources in `data/datasource/`
-2. Create models in `data/models/`
-3. Implement repositories in `data/repo/`
-
-### Step 5: Implement Presentation Layer
-
-1. Create BLoC files in `presentation/feature_name/bloc/`
-2. Create pages and widgets
-
-### Step 6: Setup Dependency Injection
-
-Create `di/new_module_injection.dart`:
-
-```
-final class NewModuleInjection implements Injection {
-  const NewModuleInjection();
-
-  @override
-  FutureOr<void> registerDependencies({required Injector di}) {
-    // Register data sources
-    di.registerLazySingleton<NewModuleRemoteDataSource>(
-      () => NewModuleRemoteDataSourceImpl(di.get()),
-    );
-    
-    // Register repositories
-    di.registerLazySingleton<NewModuleRepo>(
-      () => NewModuleRepoImpl(di.get()),
-    );
-    
-    // Register use cases
-    di.registerLazySingleton<GetNewModuleData>(
-      () => GetNewModuleData(di.get()),
-    );
-    
-    // Register BLoCs
-    di.registerFactory(
-      () => NewModuleBloc(di.get()),
-    );
-  }
-}
-```
-
-### Step 7: Create Router
-
-Create `router/new_module_router.dart`:
-
-```
-final class NewModuleRouter implements AppRouter<RouteBase> {
-  const NewModuleRouter();
-
-  @override
-  List<GoRoute> getRouters(Injector di) => [
-    GoRoute(
-      path: Routes.newModule,
-      name: Routes.newModule,
-      builder: (context, state) => const NewModulePage(),
-    ),
-  ];
-}
-```
-
-### Step 8: Create Module Container
-
-Create `lib/src/new_module_container.dart`:
-
-```
-final class NewModuleContainer implements ModuleContainer {
-  const NewModuleContainer();
-
-  @override
-  Injection? get injection => const NewModuleInjection();
-
-  @override
-  AppRouter<RouteBase>? get router => const NewModuleRouter();
-}
-```
-
-### Step 9: Export Public API
-
-Create `lib/new_module.dart`:
-
-```
-library new_module;
-
-export 'src/new_module_container.dart';
-```
-
-### Step 10: Register in merge_dependencies
-
-Add to `merge_dependencies/lib/src/merge_dependencies.dart`:
-
-```
-static const List<ModuleContainer> _allContainer = [
-  // ... existing containers
-  NewModuleContainer(),
-];
-```
-
-## Best Practices
-
-1. **Keep modules focused**: One feature per module
-2. **Minimize cross-module dependencies**: Prefer navigation over direct imports
-3. **Follow naming conventions**: `snake_case` for files, `PascalCase` for classes
-4. **Export only container**: Public API should be minimal
-5. **Register in merge_dependencies**: Add container to `_allContainer` list
-
-## Next Steps
-
-- [Dependency Injection](dependency_injection.md)
-- [Domain Layer](../domain_layer/entities.md)
+## 5. DI and Router Ownership
+
+- register module dependencies only in `<module>_injection.dart`;
+- define module routes only in `<module>_router.dart`;
+- keep module container as the single integration point.
+
+## 6. Where to Add Feature Code
+
+When implementing feature `<feature>` in module `<module>`:
+
+1. domain
+   - entity in `domain/entities/`
+   - repository interface in `domain/repos/` or `domain/repository/`
+   - use case in `domain/usecases/`
+2. data
+   - model in `data/models/`
+     - model mapping contract: list fields non-null, scalar/object fields nullable, `fromMap/toMap` mandatory
+   - data source in `data/datasource/`
+   - repository impl in `data/repo/` or `data/repository/`
+3. presentation
+   - bloc/event/state in `presentation/<feature>/bloc/`
+   - page in `presentation/<feature>/`
+   - mixin in `presentation/<feature>/mixin/`
+   - widgets in `presentation/<feature>/widgets/`
+4. integration
+   - DI update in `<module>_injection.dart`
+   - route update in `<module>_router.dart`
+
+## 7. Communication Rules
+
+Modules communicate by:
+
+- shared packages (`core`, `components`, `navigation`, `base_dependencies`)
+- route navigation (`context.pushNamed`, `context.goNamed`)
+- explicit interfaces when cross-module business access is required
+
+Avoid direct tight coupling across modules.
+
+## 8. New Module Checklist
+
+- [ ] module folder and entry files created with `<module>_*` naming
+- [ ] presentation/domain/data folders added for business features
+- [ ] DI file registers module dependencies
+- [ ] router file exposes module routes
+- [ ] module container wired to injection + router
+- [ ] `lib/<module>.dart` exports module container

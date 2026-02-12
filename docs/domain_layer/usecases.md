@@ -18,7 +18,7 @@ This document explains how use cases are structured and used to encapsulate busi
 ```
 import 'package:core/core.dart';
 import 'package:auth/src/domain/entities/login_entity.dart';
-import 'package:auth/src/domain/repo/auth_repo.dart';
+import 'package:auth/src/domain/repos/auth_repo.dart';
 
 final class Login extends UsecaseWithParams<LoginEntity, LoginParams> {
   const Login(this._repo);
@@ -52,7 +52,7 @@ final class GetMoreData extends UsecaseWithoutParams<void> {
   final MoreRepository _repo;
   
   @override
-  ResultFeatureVoid call() => _repo.getMoreData();
+  ResultFuture<void> call() => _repo.getMoreData();
 }
 ```
 
@@ -172,7 +172,7 @@ Delegates directly to repository:
 ```
 final class GetProfile extends UsecaseWithoutParams<ProfileEntity> {
   const GetProfile(this._repo);
-  final ProfileRepo _repo;
+  final ProfileRepository _repo;
   
   @override
   ResultFuture<ProfileEntity> call() => _repo.getProfile();
@@ -211,8 +211,8 @@ Coordinates multiple repositories:
 ```
 final class GetUserWithProfile extends UsecaseWithoutParams<UserWithProfileEntity> {
   const GetUserWithProfile(this._userRepo, this._profileRepo);
-  final UserRepo _userRepo;
-  final ProfileRepo _profileRepo;
+  final UserRepository _userRepo;
+  final ProfileRepository _profileRepo;
   
   @override
   ResultFuture<UserWithProfileEntity> call() async {
@@ -238,7 +238,7 @@ Transforms data before returning:
 ```
 final class GetProducts extends UsecaseWithoutParams<List<ProductEntity>> {
   const GetProducts(this._repo);
-  final ProductsRepo _repo;
+  final ProductsRepository _repo;
   
   @override
   ResultFuture<List<ProductEntity>> call() async {
@@ -258,11 +258,11 @@ final class GetProducts extends UsecaseWithoutParams<List<ProductEntity>> {
 BLoCs call use cases:
 
 ```
-class LoginBloc extends Bloc<LoginEvent, LoginState> {
+final class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(this._loginUseCase) : super(LoginInitial());
   final Login _loginUseCase;
   
-  Future<void> _onLoginSubmitted(
+  Future<void> _loginSubmittedHandler(
     LoginSubmitted event,
     Emitter<LoginState> emit,
   ) async {
@@ -306,7 +306,7 @@ class CreateOrderParams {
 
 final class CreateOrder extends UsecaseWithParams<OrderEntity, CreateOrderParams> {
   const CreateOrder(this._repo);
-  final OrderRepo _repo;
+  final OrderRepository _repo;
   
   @override
   ResultFuture<OrderEntity> call(CreateOrderParams params) => _repo.createOrder(
