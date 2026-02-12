@@ -1,3 +1,4 @@
+import 'package:components/src/extension/app_options_extension.dart';
 import 'package:components/src/theme/themes.dart';
 import 'package:flutter/material.dart';
 
