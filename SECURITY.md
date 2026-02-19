@@ -5,7 +5,7 @@
 Currently, only the latest version of the architecture is supported.
 
 | Version | Supported          |
-| ------- | ------------------ |
+|---------|--------------------|
 | 0.1.x   | :white_check_mark: |
 
 ## Reporting a Vulnerability
