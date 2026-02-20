@@ -106,7 +106,7 @@ When implementing feature `<feature>` in module `<module>`:
 
 Modules communicate by:
 
-- shared packages (`core`, `components`, `navigation`, `base_dependencies`)
+- shared packages (`core`, `components`, `navigation`)
 - route navigation (`context.pushNamed`, `context.goNamed`)
 - explicit interfaces when cross-module business access is required
 

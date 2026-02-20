@@ -79,7 +79,7 @@ Default ownership hints for this repository:
 - Flutter `3.38+`
 - Dart `3.10+`
 - `flutter_bloc`, `GetIt`, `GoRouter`, `Dio`, `Hive`, `Firebase`
-- shared packages: `core`, `components`, `navigation`, `base_dependencies`
+- shared packages: `core`, `components`, `navigation`
 - do not add new packages unless already in repository and explicitly requested.
 
 ## 4. Monorepo and Module Architecture Principles (Mandatory)
@@ -310,20 +310,32 @@ Widget:
 - no repository/data source calls;
 - use callbacks to communicate actions.
 
-## 15. UI, Localization, Logging
+## 15. UI, Localization, Shared Package Usage, Logging
 
-UI:
+UI and shared package usage:
 
-- use `context.width` / `context.height`, not `MediaQuery.of(context)`.
-- use theme extensions: `context.color`, `context.textStyle`, `context.textTheme`, `context.colorScheme`.
-- use localization: `context.localizations.key`.
-- prefer components package widgets.
+- mandatory reference: `docs/presentation_layer/components_core_usage.md`
+- in module code, import only public package entries:
+  - `package:components/components.dart`
+  - `package:core/core.dart`
+- do not import package internals in module code:
+  - `package:components/src/...`
+  - `package:core/src/...`
+- use `context.width` / `context.height` (and other context size extensions), not `MediaQuery.of(context)`.
+- use theme tokens by priority:
+  - colors: `context.color` first, then `context.colorScheme` when Material interop is needed
+  - typography: `context.textStyle` first, then `context.textTheme`
+  - spacing/padding/radius: `Dimensions.*` and `Gap`/`SliverGap` first
+- prefer `SafeAreaWithMinimum` for page body and bottom action zones.
+- use `CustomLoadingButton` for primary async/submit actions.
+- use localization via `context.localizations.<key>` for user-facing text; avoid hardcoded UI strings.
+- use only components APIs exported by `components.dart`; do not use unavailable/internal widgets.
 
 Logging and errors:
 
 - use `logMessage()`;
 - do not use `print`/`debugPrint`;
-- show user errors with `showErrorMessage(context, message: ...)` in listeners.
+- surface user-facing errors from listener/mixin via repository-available messenger/snackbar pattern (ScaffoldMessenger-based in current codebase).
 
 ## 16. Feature Implementation Order (Mandatory)
 
@@ -359,6 +371,7 @@ AI must read and apply these before feature implementation:
 - `docs/data_layer/models.md`
 - `docs/presentation_layer/page_bloc_widget_mixin_plan.md`
 - `docs/presentation_layer/reference_best_practices.md`
+- `docs/presentation_layer/components_core_usage.md`
 - `docs/architecture/project_map.md`
 
 ## 19. Compliance Checklist
@@ -373,6 +386,9 @@ AI must read and apply these before feature implementation:
 - [ ] handler naming uses `_<verb><Target>Handler`
 - [ ] events/states named explicitly (no generic placeholder names)
 - [ ] errors handled and surfaced in listener
+- [ ] components/core usage rules applied (`docs/presentation_layer/components_core_usage.md`)
+- [ ] no `package:components/src/...` or `package:core/src/...` imports in module code
+- [ ] user-facing UI text uses localization keys (`context.localizations.<key>`)
 - [ ] entity/model nullability contract respected (list non-null, other API fields nullable)
 - [ ] DI and router updated in module files
 - [ ] if new module created: registered in `packages/merge_dependencies/lib/merge_dependencies.dart`

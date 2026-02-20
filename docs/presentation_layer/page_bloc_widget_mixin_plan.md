@@ -37,15 +37,14 @@ If module already uses a slightly different local layout, preserve that layout.
 Example structure:
 
 ```dart
-import 'package:base_dependencies/base_dependencies.dart';
-import 'package:core/core.dart' show droppable;
+import 'package:core/core.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
 
 final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc(this._getProfile) : super(const ProfileInitialState()) {
-    on<GetProfileEvent>(_getProfileHandler, transformer: droppable());
+    on<GetProfileEvent>(_getProfileHandler);
   }
 
   final GetProfileUseCase _getProfile;

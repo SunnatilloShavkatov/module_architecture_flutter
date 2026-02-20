@@ -35,7 +35,6 @@ Preferred handler style:
 
 For presentation layer, prefer project package stack used in existing modules:
 
-- `package:base_dependencies/base_dependencies.dart`
 - `package:components/components.dart`
 - `package:core/core.dart`
 - `package:navigation/navigation.dart`

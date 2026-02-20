@@ -68,7 +68,7 @@ final class <ModulePascal>Container implements ModuleContainer {
 Minimum:
 
 - flutter sdk dependency
-- shared packages: `core`, `components`, `navigation`, `base_dependencies`
+- shared packages: `core`, `components`, `navigation`
 - dev dependency: `analysis_lints: any` (latest strategy)
 
 ### `modules/<module>/analysis_options.yaml`
