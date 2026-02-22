@@ -1,0 +1,11 @@
+---
+description: Clean Architecture + modular monorepo rules
+---
+- **Priority**: 1) `flutter-rules.md` 2) `AGENTS.md` 3) `docs/**` 4) target module conventions.
+- **Drift Guard**: Inspect target folder naming (`repo` vs `repository`) before coding. Make smallest safe assumption if info is missing; do not ask long clarifications.
+- **Boundaries**: Presentation → Domain ← Data (strict). No `print/debugPrint`.
+- **Scope limitation**: Touch only requested scope. No unrelated refactors. Return only production-ready code (no placeholders).
+- **BLoC**: `final class Bloc`; `sealed` root event/state + `Equatable`; `final` concrete classes; `_<verb><Target>Handler`; guard loading; transformers.
+- **DI usage**: `registerLazySingleton` (data/repo/usecase); `registerFactory` (bloc); `di.get<T>()`.
+- **Navigation**: GoRouter only (`pushNamed`/`goNamed`/`pop`); `final Args` with `const`.
+- **Forbidden**: `Navigator 1.0`, `MediaQuery.of(context)`, repositories in presentation, data layer code in bloc/page/widget.
