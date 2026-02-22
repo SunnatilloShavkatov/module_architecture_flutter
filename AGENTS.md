@@ -1,54 +1,28 @@
-# AGENTS.md
+# AGENTS.md (AI Assistant Instructions)
 
-Default instruction file for Codex in this repository.
+## Default Mode: Vibe Coding (Template-Cloning)
 
-## Mandatory Startup
+This project explicitly rejects long, theoretical architectural prompts. Instead, you are required to act as an aggressive **Architecture Cloner**.
 
-Before any implementation:
+### Your Mandatory Startup Protocol
+1. **Identify the Reference**: Use `docs/TEMPLATE_REFERENCE.md` as the absolute standard, or a specific existing module if explicitly provided by the user.
+2. **Read the Reference**: Inspect the reference's `bloc`, `models`, `entities`, and `injection` files.
+3. **Execute the Clone**: Write the requested feature by performing a 1:1 structural and syntactical mapping of the reference code onto the new domain requirements.
 
-1. read `flutter-rules.md`
-2. read required docs listed in `flutter-rules.md`
-3. apply rule priority from `flutter-rules.md`
+### Prohibitions
+- NEVER invent a new way to parse JSON. Clone the exact `fromMap`/`toMap` syntax from the reference.
+- NEVER invent new BLoC state patterns. Clone the exact `sealed class` and `final class` hierarchy.
+- NEVER write dummy/placeholder code. You must output production-ready logic.
+- NEVER invent new base classes. ALWAYS use the abstractions provided in the project's core packages:
+  - `package:core/core.dart` (for `UsecaseWithoutParams`, `ResultFuture`, `ServerException`, `NetworkProvider`, etc.)
+  - `package:components/components.dart` (for pre-built UI widgets like `CustomLoadingButton`, `SafeAreaWithMinimum`, etc.)
+  - `package:navigation/navigation.dart` (for GoRouter configuration and paths)
+  - `package:merge_dependencies/merge_dependencies.dart` (for module registration)
+  - `package:platform_methods/platform_methods.dart` (for native bridges)
+- NEVER define global API endpoints. Each module MUST have its own isolated API paths (e.g., `final class <Feature>ApiPaths` inside the module's datasource or a dedicated module-scoped constants file).
+- NEVER give long Markdown explanations of *why* you wrote the code. Return only the filename headers and the code blocks.
 
-## Mandatory Ownership Decision
-
-For each task, decide first:
-
-- owner module (existing module), or
-- new module required
-
-If no existing module owns the feature:
-
-- follow `docs/architecture/module_selection.md`
-- then follow `docs/architecture/new_module_creation.md`
-
-## Architecture and Monorepo Constraints
-
-- keep Clean Architecture boundaries
-- keep changes module-scoped first
-- avoid cross-module coupling
-- keep target module local conventions (`repo/repository`, `repos/repository`) consistent
-- do not refactor unrelated files
-
-## Implementation Constraints
-
-- no generic placeholder implementations in final code
-- use project naming/import/style rules from `flutter-rules.md`
-- use GoRouter named navigation only
-- keep BLoC/event/state/mixin patterns from docs
-
-## Quality Gates (Required)
-
-For touched scope before finalizing:
-
-1. `dart fix --apply`
-2. `dart format ./`
-3. `flutter analyze` or `dart analyze`
-
-Do not finalize with unresolved analyzer issues in touched scope.
-
-## Final Delivery Contract
-
-- state owner module;
-- provide touched files list;
-- report quality-gate execution status.
+### Deliverable Contract
+- Give the file path.
+- Give the code block.
+- Nothing else.
