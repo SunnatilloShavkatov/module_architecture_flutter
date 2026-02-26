@@ -6,25 +6,15 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final NetworkProvider _networkProvider;
 
   @override
-  Future<LoginModel> login({
-    required int deviceType,
-    required String identity,
-    required String password,
-    required String? fcmToken,
-  }) async {
+  Future<UserModel> login({required String email, required String password}) async {
     try {
-      final Map<String, dynamic> data = {
-        'identity': identity,
-        'password': password,
-        'device_type': deviceType,
-        'fcm_token': ?fcmToken,
-      };
+      final Map<String, dynamic> data = {'email': email, 'password': password};
       final result = await _networkProvider.fetchMethod<Map<String, dynamic>>(
         ApiPaths.login,
         data: data,
         methodType: RMethodTypes.post,
       );
-      return LoginModel.fromMap(result.data ?? {});
+      return UserModel.fromMap(result.data ?? {});
     } on FormatException {
       throw ServerException.formatException(locale: _networkProvider.locale);
     } on ServerException {

@@ -98,11 +98,8 @@ Future<void> _initStorage({required Injector di}) async {
     const String boxName = 'module_architecture_mobile_box';
     final Directory directory = await getApplicationDocumentsDirectory();
     Hive.init(directory.path);
-    final List<Box<dynamic>> boxes = await Future.wait([
-      Hive.openBox<dynamic>(boxName, encryptionCipher: cipher),
-      Hive.openBox<dynamic>('cache_$boxName', encryptionCipher: cipher),
-    ]);
-    di.registerSingleton<LocalSource>(LocalSourceImpl(boxes[0], boxes[1], storage));
+    final Box<dynamic> box = await Hive.openBox<dynamic>(boxName, encryptionCipher: cipher);
+    di.registerSingleton<LocalSource>(LocalSourceImpl(box, storage));
   } catch (e, s) {
     logMessage('Failed init Storage', error: e, stackTrace: s);
   }

@@ -6,10 +6,12 @@ final class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   final LocalSource _localSource;
 
   @override
-  Future<void> saveUser(LoginModel login) async {
+  Future<void> saveUser(UserModel user) async {
     await Future.wait([
-      _localSource.setFirstName(login.profile?.firstname ?? ''),
-      if (login.token != null) _localSource.setAccessToken(login.token!),
+      if (user.token != null) _localSource.setAccessToken(user.token!),
+      _localSource.setFirstName(user.firstName),
+      if (user.phone != null) _localSource.setPhone(user.phone!),
+      _localSource.setUserId(user.id),
     ]);
   }
 }

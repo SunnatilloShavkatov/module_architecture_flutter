@@ -4,14 +4,12 @@ sealed class LoginEvent extends Equatable {
   const LoginEvent();
 }
 
-final class LoginSubmitted extends LoginEvent {
-  const LoginSubmitted({required this.deviceType, required this.identity, required this.password, this.fcmToken});
+final class LoginSubmitEvent extends LoginEvent {
+  const LoginSubmitEvent({required this.email, required this.password});
 
-  final int deviceType;
-  final String identity;
+  final String email;
   final String password;
-  final String? fcmToken;
 
   @override
-  List<Object?> get props => [deviceType, identity, password, fcmToken];
+  List<Object?> get props => [email, password];
 }

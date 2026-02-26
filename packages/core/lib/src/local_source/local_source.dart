@@ -24,6 +24,14 @@ abstract class LocalSource {
 
   Future<void> setFirstName(String firstName);
 
+  String get phone;
+
+  Future<void> setPhone(String phone);
+
+  int get userId;
+
+  Future<void> setUserId(int userId);
+
   Future<void> setValue<T>({required String key, required T? value});
 
   T? getValue<T>({required String key});
@@ -34,9 +42,8 @@ abstract class LocalSource {
 }
 
 final class LocalSourceImpl implements LocalSource {
-  const LocalSourceImpl(this._systemBox, this._cacheBox, this._secureStorage);
+  const LocalSourceImpl(this._systemBox, this._secureStorage);
 
-  final Box<dynamic> _cacheBox;
   final Box<dynamic> _systemBox;
   final FlutterSecureStorage _secureStorage;
 
@@ -81,26 +88,46 @@ final class LocalSourceImpl implements LocalSource {
   String get firstName => _systemBox.get(StorageKeys.firstname, defaultValue: '');
 
   @override
+  Future<void> setPhone(String phone) async {
+    await _systemBox.put(StorageKeys.phone, phone);
+  }
+
+  @override
+  String get phone => _systemBox.get(StorageKeys.phone, defaultValue: '');
+
+  @override
+  Future<void> setUserId(int userId) async {
+    await _systemBox.put(StorageKeys.userId, userId);
+  }
+
+  @override
+  int get userId => _systemBox.get(StorageKeys.userId, defaultValue: 0);
+
+  @override
   Future<void> setValue<T>({required String key, required T? value}) async {
     if (value != null) {
-      await _cacheBox.put(key, value);
+      await _systemBox.put(key, value);
     }
   }
 
   @override
-  T? getValue<T>({required String key}) => _cacheBox.get(key, defaultValue: null);
+  T? getValue<T>({required String key}) => _systemBox.get(key, defaultValue: null);
 
   @override
   Future<void> removeValue({required String key}) async {
-    await _cacheBox.delete(key);
+    await _systemBox.delete(key);
+  }
+
+  Future<void> _deleteAllExceptKeepKeys() async {
+    final keysToDelete = _systemBox.keys.where((k) => !StorageKeys.keep.contains(k)).toList();
+    if (keysToDelete.isEmpty) {
+      return;
+    }
+    await _systemBox.deleteAll(keysToDelete);
   }
 
   @override
   Future<void> clear() async {
-    await Future.wait([
-      _systemBox.delete(StorageKeys.firstname),
-      _secureStorage.delete(key: StorageKeys.accessToken),
-      _cacheBox.clear(),
-    ]);
+    await Future.wait([_deleteAllExceptKeepKeys(), _secureStorage.delete(key: StorageKeys.accessToken)]);
   }
 }
