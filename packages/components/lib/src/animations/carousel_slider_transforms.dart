@@ -125,7 +125,7 @@ class DepthTransform implements SlideTransform {
   Widget transform(BuildContext context, Widget page, int index, int? currentPage, double pageDelta, int itemCount) {
     if (index == currentPage) {
       final double scale = startScale + (1 - startScale) * (1 - pageDelta);
-      final double width = MediaQuery.of(context).size.width;
+      final double width = MediaQuery.sizeOf(context).width;
       return Transform(
         alignment: Alignment.center,
         transform: Matrix4.identity()
