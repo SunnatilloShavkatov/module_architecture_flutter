@@ -14,7 +14,11 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         data: data,
         methodType: RMethodTypes.post,
       );
-      return UserModel.fromMap(result.data ?? {});
+      final user = UserModel.fromMap(result.data ?? {});
+      if (user.token != null) {
+        _networkProvider.setAccessToken(user.token!);
+      }
+      return user;
     } on FormatException {
       throw ServerException.formatException(locale: _networkProvider.locale);
     } on ServerException {

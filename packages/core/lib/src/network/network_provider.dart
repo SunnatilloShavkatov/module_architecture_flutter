@@ -177,47 +177,6 @@ final class NetworkProviderImpl extends NetworkProvider {
     }
   }
 
-  // void _logErrorMessage(DioException err, StackTrace stackTrace) {
-  //   if (isMacOS) {
-  //     return;
-  //   }
-  //   final String? contentType = err.requestOptions.headers['content-type']?.toString();
-  //   if (contentType != null && contentType.contains('multipart/form-data')) {
-  //     logMessage('Multipart request, skipping error logging');
-  //     return;
-  //   }
-  //   try {
-  //     final Map<String, String> json = <String, String>{
-  //       'app_version': _packageInfo.version,
-  //       'platform': defaultTargetPlatform.name,
-  //       'end_time': DateTime.now().toString(),
-  //       'build_number': _packageInfo.buildNumber,
-  //       if (_localSource.fullname.isNotEmpty) 'fullname': _localSource.fullname,
-  //       if (_localSource.userUuid != null) 'user_uuid': _localSource.userUuid ?? '',
-  //       'os_version': Platform.isAndroid
-  //           ? (_deviceInfo as AndroidDeviceInfo).version.release
-  //           : (_deviceInfo as IosDeviceInfo).systemVersion,
-  //       'name': Platform.isAndroid
-  //           ? '${(_deviceInfo as AndroidDeviceInfo).brand} ${_deviceInfo.model}'
-  //           : (_deviceInfo as IosDeviceInfo).name,
-  //       'request': {
-  //         'method': err.requestOptions.method,
-  //         'url': err.requestOptions.uri.toString(),
-  //         'query_parameters': err.requestOptions.queryParameters,
-  //         if (err.requestOptions.data != null) 'data': err.requestOptions.data.toString(),
-  //       }.toString(),
-  //       'dio_exception_type': err.type.name,
-  //       'error_stack_trace': err.stackTrace.toString(),
-  //       if (err.error != null) 'error': (err.error ?? '').toString(),
-  //       if (err.response?.data != null) 'error_data': (err.response?.data ?? '').toString(),
-  //       if (err.response?.statusCode != null) 'status_code': (err.response?.statusCode ?? 0).toString(),
-  //     };
-  //     AnalyticsService.instance.reportEvent(AnalyticsKeys.networkError, parameters: json);
-  //   } on Exception catch (e) {
-  //     logMessage('Analytics error: ', stackTrace: stackTrace, error: e);
-  //   }
-  // }
-
   @override
   String? get locale => _localSource.locale;
 
