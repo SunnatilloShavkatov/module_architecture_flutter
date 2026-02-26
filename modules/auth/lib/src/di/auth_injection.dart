@@ -4,7 +4,9 @@ import 'package:auth/src/data/datasource/auth_remote_data_source.dart';
 import 'package:auth/src/data/repo/auth_repo_impl.dart';
 import 'package:auth/src/domain/repos/auth_repo.dart';
 import 'package:auth/src/domain/usecases/login.dart';
+import 'package:auth/src/domain/usecases/otp_login.dart';
 import 'package:auth/src/presentation/login/bloc/login_bloc.dart';
+import 'package:auth/src/presentation/otp_login/bloc/otp_login_bloc.dart';
 import 'package:core/core.dart';
 
 final class AuthInjection implements Injection {
@@ -20,7 +22,9 @@ final class AuthInjection implements Injection {
       ..registerLazySingleton<AuthRepo>(() => AuthRepoImpl(di.get(), di.get()))
       /// usecases
       ..registerLazySingleton<Login>(() => Login(di.get()))
+      ..registerLazySingleton<OtpLogin>(() => OtpLogin(di.get()))
       /// bloc
-      ..registerFactory(() => LoginBloc(di.get()));
+      ..registerFactory(() => LoginBloc(di.get()))
+      ..registerFactory(() => OtpLoginBloc(di.get()));
   }
 }

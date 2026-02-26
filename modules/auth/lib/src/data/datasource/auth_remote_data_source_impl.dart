@@ -10,7 +10,37 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       final Map<String, dynamic> data = {'email': email, 'password': password};
       final result = await _networkProvider.fetchMethod<Map<String, dynamic>>(
-        ApiPaths.login,
+        AuthApiPaths.login,
+        data: data,
+        methodType: RMethodTypes.post,
+      );
+      final user = UserModel.fromMap(result.data ?? {});
+      if (user.token != null) {
+        _networkProvider.setAccessToken(user.token!);
+      }
+      return user;
+    } on FormatException {
+      throw ServerException.formatException(locale: _networkProvider.locale);
+    } on ServerException {
+      rethrow;
+    } on Exception {
+      rethrow;
+    } on Error catch (error, stackTrace) {
+      logMessage('ERROR: ', error: error, stackTrace: stackTrace);
+      if (error is TypeError) {
+        throw ServerException.typeError(locale: _networkProvider.locale);
+      } else {
+        throw ServerException.unknownError(locale: _networkProvider.locale);
+      }
+    }
+  }
+
+  @override
+  Future<UserModel> otpLogin({required String code}) async {
+    try {
+      final Map<String, dynamic> data = {'code': code};
+      final result = await _networkProvider.fetchMethod<Map<String, dynamic>>(
+        AuthApiPaths.otpLogin,
         data: data,
         methodType: RMethodTypes.post,
       );

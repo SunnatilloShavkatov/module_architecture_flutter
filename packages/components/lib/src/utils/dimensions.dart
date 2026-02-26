@@ -66,6 +66,7 @@ final class Dimensions {
   static const BorderRadius kBorderRadius8 = BorderRadius.all(Radius.circular(8));
   static const BorderRadius kBorderRadius12 = BorderRadius.all(Radius.circular(12));
   static const BorderRadius kBorderRadius16 = BorderRadius.all(Radius.circular(16));
+  static const BorderRadius kRadius20 = BorderRadius.all(Radius.circular(20));
   static const BorderRadius kBorderTopRadius24 = BorderRadius.only(
     topLeft: Radius.circular(24),
     topRight: Radius.circular(24),

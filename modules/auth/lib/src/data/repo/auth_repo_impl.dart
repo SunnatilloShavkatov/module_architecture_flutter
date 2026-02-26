@@ -22,4 +22,17 @@ final class AuthRepoImpl implements AuthRepo {
       return Left(ServerFailure(message: e.toString()));
     }
   }
+
+  @override
+  ResultFuture<UserEntity> otpLogin({required String code}) async {
+    try {
+      final result = await _remoteDataSource.otpLogin(code: code);
+      await _localDataSource.saveUser(result);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message ?? '', statusCode: e.statusCode));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
 }

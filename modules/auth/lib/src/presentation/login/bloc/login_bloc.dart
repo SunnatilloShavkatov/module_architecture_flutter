@@ -11,6 +11,9 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final Login _login;
 
   Future<void> _loginHandler(LoginSubmitEvent event, Emitter<LoginState> emit) async {
+    if (state is LoginLoading) {
+      return;
+    }
     emit(const LoginLoading());
     final result = await _login(LoginParams(email: event.email, password: event.password));
     result.fold((failure) => emit(LoginFailure(message: failure.message)), (auth) => emit(LoginSuccess(auth: auth)));

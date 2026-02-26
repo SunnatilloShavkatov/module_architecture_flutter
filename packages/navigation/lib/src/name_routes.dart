@@ -17,8 +17,7 @@ final class Routes {
 
   /// auth
   static const String login = '/login';
-  static const String forgotPassword = '/forgot-password';
-  static const String confirmCode = '/confirm-code';
+  static const String otpLogin = '/otp-login';
 
   /// more
   static const String settings = '/settings';

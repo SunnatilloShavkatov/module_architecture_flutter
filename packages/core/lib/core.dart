@@ -16,7 +16,6 @@ export 'package:rxdart/rxdart.dart';
 export 'package:smart_auth/smart_auth.dart';
 export 'package:url_launcher/url_launcher.dart';
 
-export 'src/constants/api_paths.dart';
 export 'src/constants/constants.dart';
 export 'src/constants/env.dart';
 export 'src/constants/instance_name_keys.dart';

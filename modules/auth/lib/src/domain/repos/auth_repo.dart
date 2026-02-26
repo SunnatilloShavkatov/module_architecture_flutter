@@ -5,4 +5,6 @@ abstract interface class AuthRepo {
   const AuthRepo();
 
   ResultFuture<UserEntity> login({required String email, required String password});
+
+  ResultFuture<UserEntity> otpLogin({required String code});
 }
