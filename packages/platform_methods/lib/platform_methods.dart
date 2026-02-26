@@ -6,7 +6,7 @@ class PlatformMethods {
   static PlatformMethods get instance => _instance;
   static const PlatformMethods _instance = PlatformMethods._();
 
-  Future<String?> getDeviceId() => PlatformMethodsPlatform.instance.getDeviceId();
+  Future<bool> isEmulator() => PlatformMethodsPlatform.instance.isEmulator();
 
-  Future<bool?> isPhysicalDevice() => PlatformMethodsPlatform.instance.isPhysicalDevice();
+  Future<String?> getDeviceId() => PlatformMethodsPlatform.instance.getDeviceId();
 }

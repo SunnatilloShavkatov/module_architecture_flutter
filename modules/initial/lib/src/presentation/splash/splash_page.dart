@@ -1,7 +1,9 @@
 import 'package:components/components.dart';
 import 'package:core/core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
+import 'package:platform_methods/platform_methods.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -20,6 +22,10 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> _checkLoginStatus() async {
+    final bool isEmulator = await PlatformMethods.instance.isEmulator();
+    if (isEmulator && kReleaseMode) {
+      return;
+    }
     final bool isLoggedIn = await _localSource.hasProfile;
     if (!mounted) {
       return;

@@ -21,10 +21,10 @@ class MethodChannelPlatformMethods extends PlatformMethodsPlatform {
   }
 
   @override
-  Future<bool?> isPhysicalDevice() async {
+  Future<bool> isEmulator() async {
     if (kIsWeb) {
-      return null;
+      return false;
     }
-    return methodChannel.invokeMethod<bool?>('isPhysicalDevice');
+    return await methodChannel.invokeMethod<bool?>('isEmulator') ?? false;
   }
 }

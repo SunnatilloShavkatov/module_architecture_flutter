@@ -29,7 +29,7 @@ class DeviceIDManager {
                 return storedID
             }
         } catch {
-            print("Keychain read error: \(error)")
+            // Continue with a fresh ID if Keychain read fails.
         }
 
         // Step 2: Generate new device ID using identifierForVendor

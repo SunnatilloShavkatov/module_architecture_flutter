@@ -2,6 +2,10 @@ import Flutter
 import UIKit
 
 public class PlatformMethodsPlugin: NSObject, FlutterPlugin {
+    private let workQueue = DispatchQueue(
+        label: "uz.nasiya.platform_methods.work_queue",
+        qos: .utility
+    )
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "platform_methods", binaryMessenger: registrar.messenger())
@@ -9,28 +13,39 @@ public class PlatformMethodsPlugin: NSObject, FlutterPlugin {
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
 
-    private func isPhysicalDevice() -> Bool {
-#if targetEnvironment(simulator)
-        return false
-#else
+    private func isEmulator() -> Bool {
+        #if targetEnvironment(simulator)
         return true
-#endif
+        #else
+        return false
+        #endif
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         switch call.method {
         case "getDeviceId":
-            let deviceIDManager = DeviceIDManager()
-            do {
-                let deviceID = try deviceIDManager.getAppSetID()
-                result(deviceID)
-            } catch {
-                result(FlutterError(code: "UNAVAILABLE",
-                                    message: "Device ID not available",
-                                    details: nil))
+            workQueue.async {
+                let deviceIDManager = DeviceIDManager()
+                do {
+                    let deviceID = try deviceIDManager.getAppSetID()
+                    DispatchQueue.main.async {
+                        result(deviceID)
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        result(
+                            FlutterError(
+                                code: "UNAVAILABLE",
+                                message: "Device ID not available",
+                                details: nil
+                            )
+                        )
+                    }
+                }
             }
-        case "isPhysicalDevice":
-            result(isPhysicalDevice())
+        case "isEmulator":
+            let value = isEmulator()
+            result(value)
         default:
             result(FlutterMethodNotImplemented)
         }

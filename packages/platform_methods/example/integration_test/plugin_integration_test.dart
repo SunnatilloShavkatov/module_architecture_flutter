@@ -16,7 +16,7 @@ void main() {
 
   testWidgets('isPhysicalDevice test', (WidgetTester tester) async {
     final PlatformMethods plugin = PlatformMethods.instance;
-    final bool? version = await plugin.isPhysicalDevice();
+    final bool? version = await plugin.isEmulator();
     // The version string depends on the host platform running the test, so
     // just assert that some non-empty string is returned.
     expect(version, true);

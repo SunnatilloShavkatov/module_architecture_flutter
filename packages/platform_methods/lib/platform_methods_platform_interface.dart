@@ -22,11 +22,11 @@ abstract class PlatformMethodsPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getDeviceId() {
-    throw UnimplementedError('getId() has not been implemented.');
+  Future<bool> isEmulator() {
+    throw UnimplementedError('isEmulator() has not been implemented.');
   }
 
-  Future<bool?> isPhysicalDevice() {
-    throw UnimplementedError('isPhysicalDevice() has not been implemented.');
+  Future<String?> getDeviceId() {
+    throw UnimplementedError('getId() has not been implemented.');
   }
 }
