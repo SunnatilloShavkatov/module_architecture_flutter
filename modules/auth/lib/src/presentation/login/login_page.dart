@@ -43,16 +43,16 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text('Handbook', textAlign: TextAlign.center, style: Theme.of(context).textTheme.headlineSmall),
+                    Text('Handbook', textAlign: TextAlign.center, style: context.textTheme.headlineSmall),
                     Dimensions.kGap8,
-                    Text('Tizimga kirish', textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge),
+                    Text('Tizimga kirish', textAlign: TextAlign.center, style: context.textTheme.titleLarge),
                     Dimensions.kGap8,
                     Text(
                       'Davom etish uchun hisobingizga kiring',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: context.color.textSecondary),
                     ),
-                    const SizedBox(height: 20),
+                    Dimensions.kGap20,
                     TextFormField(
                       controller: _emailController,
                       textInputAction: TextInputAction.next,
@@ -94,16 +94,15 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                     Dimensions.kGap12,
                     Row(
                       children: [
-                        SizedBox(
-                          height: 24,
-                          width: 24,
+                        ConstrainedBox(
+                          constraints: Dimensions.kBoxConstraints24,
                           child: Checkbox(
                             value: _rememberMe,
                             onChanged: (value) => setRememberMe(isChecked: value ?? false),
                             activeColor: context.color.primary,
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        Dimensions.kGap8,
                         const Text('Eslab qolish'),
                       ],
                     ),

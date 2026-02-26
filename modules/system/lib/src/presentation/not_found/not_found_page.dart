@@ -1,3 +1,4 @@
+import 'package:components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
 
@@ -10,7 +11,7 @@ class NotFoundPage extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     body: const Center(child: Text('404')),
     bottomNavigationBar: SafeArea(
-      child: ElevatedButton(
+      child: CustomLoadingButton(
         onPressed: () {
           context.pop();
         },

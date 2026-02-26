@@ -14,21 +14,21 @@ class ChooseThemeModeSheet extends StatelessWidget {
       children: <Widget>[
         Text('Choose theme mode', style: context.textTheme.headlineLarge, textAlign: TextAlign.center),
         Dimensions.kGap32,
-        ElevatedButton(
+        CustomLoadingButton(
           onPressed: () {
             context.pop(ThemeMode.system);
           },
           child: const Text('Device mode'),
         ),
         Dimensions.kGap16,
-        ElevatedButton(
+        CustomLoadingButton(
           onPressed: () {
             context.pop(ThemeMode.dark);
           },
           child: const Text('Dark mode'),
         ),
         Dimensions.kGap16,
-        ElevatedButton(
+        CustomLoadingButton(
           onPressed: () {
             context.pop(ThemeMode.light);
           },

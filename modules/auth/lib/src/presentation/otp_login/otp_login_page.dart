@@ -41,17 +41,17 @@ class _OtpLoginPageState extends State<OtpLoginPage> with OtpLoginMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text('Handbook', textAlign: TextAlign.center, style: Theme.of(context).textTheme.headlineSmall),
+                  Text('Handbook', textAlign: TextAlign.center, style: context.textTheme.headlineSmall),
                   Dimensions.kGap8,
-                  Text('OTP orqali kirish', textAlign: TextAlign.center, style: Theme.of(context).textTheme.titleLarge),
+                  Text('OTP orqali kirish', textAlign: TextAlign.center, style: context.textTheme.titleLarge),
                   Dimensions.kGap8,
                   const Text('Telegram botdan olingan kodni kiriting', textAlign: TextAlign.center),
-                  const SizedBox(height: 20),
+                  Dimensions.kGap20,
                   InkWell(
                     onTap: openTelegramBot,
                     borderRadius: BorderRadius.circular(12),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      padding: Dimensions.kPaddingHor16Ver12,
                       decoration: BoxDecoration(
                         color: context.color.primary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
@@ -61,7 +61,7 @@ class _OtpLoginPageState extends State<OtpLoginPage> with OtpLoginMixin {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.telegram, color: context.color.primary),
-                          const SizedBox(width: 8),
+                          Dimensions.kGap8,
                           Text('Kodni olish (Telegram)', style: TextStyle(color: context.color.primary)),
                         ],
                       ),

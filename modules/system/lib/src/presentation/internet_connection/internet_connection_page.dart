@@ -53,7 +53,7 @@ class InternetConnectionPageState extends State<InternetConnectionPage> {
         ],
       ),
       bottomNavigationBar: SafeArea(
-        minimum: const EdgeInsets.all(16),
+        minimum: Dimensions.kPaddingAll16,
         child: ValueListenableBuilder<bool>(
           valueListenable: _isLoaded,
           builder: (_, bool isLoading, _) => CustomLoadingButton(

@@ -7,11 +7,13 @@ final class Dimensions {
   /// box
   static const Widget kZeroBox = SizedBox.shrink();
   static const Gap kGap2 = Gap(2);
+  static const Gap kGap3 = Gap(3);
   static const Gap kGap4 = Gap(4);
   static const Gap kGap6 = Gap(6);
   static const Gap kGap8 = Gap(8);
   static const Gap kGap12 = Gap(12);
   static const Gap kGap16 = Gap(16);
+  static const Gap kGap20 = Gap(20);
   static const Gap kGap24 = Gap(24);
   static const Gap kGap32 = Gap(32);
   static const Gap kGap40 = Gap(40);
@@ -44,6 +46,7 @@ final class Dimensions {
   static const EdgeInsets kPaddingHor10 = EdgeInsets.symmetric(horizontal: 10);
   static const EdgeInsets kPaddingHor12 = EdgeInsets.symmetric(horizontal: 12);
   static const EdgeInsets kPaddingHor16 = EdgeInsets.symmetric(horizontal: 16);
+  static const EdgeInsets kPaddingHor24Ver40 = EdgeInsets.symmetric(horizontal: 24, vertical: 40);
   static const EdgeInsets kPaddingVertical16 = EdgeInsets.symmetric(vertical: 16);
   static const EdgeInsets kPaddingHor32Ver20 = EdgeInsets.symmetric(horizontal: 32, vertical: 20);
   static const EdgeInsets kPaddingHor16Ver12 = EdgeInsets.symmetric(horizontal: 16, vertical: 12);
