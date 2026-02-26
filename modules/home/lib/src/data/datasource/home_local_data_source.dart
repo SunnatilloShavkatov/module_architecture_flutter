@@ -6,4 +6,6 @@ abstract interface class HomeLocalDataSource {
   const HomeLocalDataSource();
 
   String? get locale;
+
+  String get firstName;
 }

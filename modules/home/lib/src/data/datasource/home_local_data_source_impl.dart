@@ -7,4 +7,7 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
 
   @override
   String? get locale => _localSource.locale;
+
+  @override
+  String get firstName => _localSource.firstName;
 }
