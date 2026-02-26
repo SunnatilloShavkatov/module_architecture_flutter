@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:core/src/constants/constants.dart';
-import 'package:flutter_pinput/flutter_pinput.dart';
+import 'package:pinput/pinput.dart';
 import 'package:smart_auth/smart_auth.dart';
 
 class SmsRetrieverImpl implements SmsRetriever {
@@ -28,4 +28,7 @@ class SmsRetrieverImpl implements SmsRetriever {
     }
     return null;
   }
+
+  @override
+  bool get listenForMultipleSms => false;
 }

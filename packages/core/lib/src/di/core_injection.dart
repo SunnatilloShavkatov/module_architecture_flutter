@@ -18,11 +18,11 @@ import 'package:core/src/utils/utils.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_pinput/flutter_pinput.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pinput/pinput.dart';
 import 'package:smart_auth/smart_auth.dart';
 
 final class CoreInjection implements Injection {
