@@ -4,23 +4,23 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:merge_dependencies/merge_dependencies.dart';
-import 'package:module_architecture_mobile/app.dart';
-import 'package:module_architecture_mobile/firebase_options.dart';
+import 'package:module_architecture_mobile/app/app.dart';
 
-Future<void> main() async {
+Future<void> mainCommon({required Environment env, required FirebaseOptions options}) async {
   /// 1. Initialize Flutter and Environment
   final WidgetsBinding binding = WidgetsFlutterBinding.ensureInitialized();
-  MergeDependencies.initEnvironment(env: Environment.prod);
+  MergeDependencies.initEnvironment(env: env);
   FlutterNativeSplash.preserve(widgetsBinding: binding);
 
   /// 2. Global Error Handling (Modern Approach)
   _setupErrorHandling();
 
-  /// 3. Notification Service init firebase app
-  NotificationService.instance.initialize(DefaultFirebaseOptions.currentPlatform).ignore();
+  /// 3. Notification Service
+  /// Starts early to catch launch notifications.
+  NotificationService.instance.initialize(options).ignore();
 
-  /// 4. Parallel Initialization
-  /// DI are the heaviest tasks. Running them together is more efficient.
+  /// 4. Parallel Initialization (Dependency Injection)
+  /// Registering modules is critical for other services.
   await MergeDependencies.instance.registerModules();
 
   /// 5. Non-Critical Background setup (Fire and forget where safe)
@@ -49,12 +49,10 @@ Future<void> main() async {
 }
 
 void _setupErrorHandling() {
-  // Catch Flutter-specific errors (widget tree, etc)
   FlutterError.onError = (errorDetails) {
     logMessage('widget error: $errorDetails', stackTrace: errorDetails.stack);
   };
 
-  // Catch all other asynchronous errors
   PlatformDispatcher.instance.onError = (error, stack) {
     logMessage('platform dispatcher error: $error', stackTrace: stack);
     return true;
@@ -62,14 +60,6 @@ void _setupErrorHandling() {
 }
 
 void _setupBlocObserver() {
-  /// Bloc observer registration
-  ///
-  /// - Debug mode: Full logging + performance monitoring
-  /// - Profile mode: Performance monitoring only (for profiling)
-  /// - Release mode: No observers (production)
-  ///
-  /// Observer order matters: PerformanceBlocObserver must run first to start timers
-  /// before LoggingBlocObserver logs the events.
   if (kDebugMode) {
     Bloc.observer = MultiBlocObserver(observers: [PerformanceBlocObserver(), const LoggingBlocObserver()]);
   } else if (kProfileMode) {

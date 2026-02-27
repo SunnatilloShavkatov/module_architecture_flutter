@@ -17,7 +17,7 @@ if (hasKeystore) {
 }
 
 android {
-    namespace = "uz.shs.module_architecture_flutter"
+    namespace = "uz.shs.module_architecture_mobile"
     compileSdk = 36
 
     compileOptions {
@@ -37,7 +37,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "uz.shs.module_architecture_flutter"
+        applicationId = "uz.shs.module_architecture_mobile"
         minSdk = 26
         targetSdk = 36
         multiDexEnabled = true
@@ -50,11 +50,27 @@ android {
         }
     }
 
+    flavorDimensions += "app"
+
+    productFlavors {
+        create("dev") {
+            dimension = "app"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+            resValue("string", "app_name", "Module Mobile Dev")
+        }
+        create("prod") {
+            dimension = "app"
+            resValue("string", "app_name", "Module Mobile")
+        }
+    }
+
     applicationVariants.all {
+        val flavor = flavorName
         outputs.all {
             val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
             output.outputFileName =
-                "module_archicture_mobile_${flutter.versionName}_(${flutter.versionCode}).apk"
+                "module_archicture_mobile_${flavor}_${flutter.versionName}_(${flutter.versionCode}).apk"
         }
     }
 

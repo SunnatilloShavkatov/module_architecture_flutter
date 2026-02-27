@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb, Tar
 ///
 /// Example:
 /// ```dart
-/// import 'firebase_options.dart';
+/// import 'firebase_options_dev.dart';
 /// // ...
 /// await Firebase.initializeApp(
 ///   options: DefaultFirebaseOptions.currentPlatform,
@@ -57,7 +57,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '738452141157',
     projectId: 'sample-562f9',
     storageBucket: 'sample-562f9.firebasestorage.app',
-    iosBundleId: 'uz.shs.moduleArchitectureFlutter',
+    iosBundleId: 'uz.shs.moduleArchitectureMobile.dev',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -66,6 +66,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '738452141157',
     projectId: 'sample-562f9',
     storageBucket: 'sample-562f9.firebasestorage.app',
-    iosBundleId: 'uz.shs.moduleArchitectureFlutter',
+    iosBundleId: 'uz.shs.moduleArchitectureMobile.dev',
   );
 }
