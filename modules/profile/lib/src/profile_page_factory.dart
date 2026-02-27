@@ -9,7 +9,7 @@ final class ProfilePageFactory implements PageFactory {
   @override
   Widget create(Injector di) => BlocProvider(
     lazy: false,
-    create: (_) => di.get<ProfileBloc>()..add(const GetPackageVersionEvent()),
+    create: (_) => di.get<ProfileBloc>()..add(const ProfileInitialEvent()),
     child: const ProfilePage(),
   );
 }

@@ -4,8 +4,8 @@ sealed class ProfileEvent extends Equatable {
   const ProfileEvent();
 }
 
-final class GetPackageVersionEvent extends ProfileEvent {
-  const GetPackageVersionEvent();
+final class ProfileInitialEvent extends ProfileEvent {
+  const ProfileInitialEvent();
 
   @override
   List<Object?> get props => [];
