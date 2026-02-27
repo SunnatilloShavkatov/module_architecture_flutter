@@ -1,6 +1,8 @@
 enum Environment { dev, prod }
 
 abstract class AppConfig {
+  const AppConfig();
+
   String get baseUrl;
 
   String get apiToken;
@@ -9,6 +11,8 @@ abstract class AppConfig {
 }
 
 class DevEnvironment extends AppConfig {
+  const DevEnvironment();
+
   @override
   String get baseUrl => devBaseUrl;
 
@@ -20,6 +24,8 @@ class DevEnvironment extends AppConfig {
 }
 
 class ProdEnvironment extends AppConfig {
+  const ProdEnvironment();
+
   @override
   String get baseUrl => prodBaseUrl;
 
@@ -48,9 +54,9 @@ class AppEnvironment {
     _currentEnv = env;
     switch (env) {
       case Environment.prod:
-        return ProdEnvironment();
+        return const ProdEnvironment();
       case Environment.dev:
-        return DevEnvironment();
+        return const DevEnvironment();
     }
   }
 
@@ -58,11 +64,11 @@ class AppEnvironment {
 }
 
 /// prod
-const String prodBaseUrl = '';
+const String prodBaseUrl = 'https://handbook.uz';
 const String prodApiToken = '';
 
 /// dev
-const String devBaseUrl = '';
+const String devBaseUrl = 'https://handbook.uz';
 const String devApiToken = '';
 
 ///
