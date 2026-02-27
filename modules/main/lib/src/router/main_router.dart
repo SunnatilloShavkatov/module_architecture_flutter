@@ -42,7 +42,7 @@ final class MainRouter implements AppRouter<RouteBase> {
             GoRoute(
               path: Routes.mainMore,
               name: Routes.mainMore,
-              builder: (_, _) => di.get<PageFactory>(instanceName: InstanceNameKeys.moreFactory).create(di),
+              builder: (_, _) => di.get<PageFactory>(instanceName: InstanceNameKeys.profileFactory).create(di),
             ),
           ],
         ),

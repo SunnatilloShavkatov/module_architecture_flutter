@@ -1,7 +1,7 @@
-part of 'more_remote_data_source.dart';
+part of 'profile_remote_data_source.dart';
 
-final class MoreRemoteDataSourceImpl implements MoreRemoteDataSource {
-  const MoreRemoteDataSourceImpl(this._networkProvider);
+final class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
+  const ProfileRemoteDataSourceImpl(this._networkProvider);
 
   final NetworkProvider _networkProvider;
 

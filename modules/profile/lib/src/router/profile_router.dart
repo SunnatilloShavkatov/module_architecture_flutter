@@ -1,10 +1,10 @@
 import 'package:core/core.dart';
-import 'package:more/src/presentation/settings/settings_page.dart';
-import 'package:more/src/presentation/settings/sheet/choose_theme_mode_sheet.dart';
 import 'package:navigation/navigation.dart';
+import 'package:profile/src/presentation/settings/settings_page.dart';
+import 'package:profile/src/presentation/settings/sheet/choose_theme_mode_sheet.dart';
 
-final class MoreRouter implements AppRouter<RouteBase> {
-  const MoreRouter();
+final class ProfileRouter implements AppRouter<RouteBase> {
+  const ProfileRouter();
 
   @override
   List<GoRoute> getRouters(Injector di) => [

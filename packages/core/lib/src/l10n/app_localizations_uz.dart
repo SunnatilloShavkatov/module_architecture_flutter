@@ -21,6 +21,9 @@ class AppLocalizationsUz extends AppLocalizations {
   String get more => 'Ko\'proq';
 
   @override
+  String get profile => 'Profil';
+
+  @override
   String get settings => 'Sozlamalar';
 
   @override

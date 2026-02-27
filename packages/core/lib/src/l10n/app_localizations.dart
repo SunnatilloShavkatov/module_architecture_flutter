@@ -117,6 +117,12 @@ abstract class AppLocalizations {
   /// **'Еще'**
   String get more;
 
+  /// No description provided for @profile.
+  ///
+  /// In ru, this message translates to:
+  /// **'Профиль'**
+  String get profile;
+
   /// No description provided for @settings.
   ///
   /// In ru, this message translates to:

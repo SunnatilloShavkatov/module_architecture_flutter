@@ -1,15 +1,15 @@
 import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:more/src/presentation/more/bloc/more_bloc.dart';
 import 'package:navigation/navigation.dart';
+import 'package:profile/src/presentation/profile/bloc/profile_bloc.dart';
 
-class MorePage extends StatelessWidget {
-  const MorePage({super.key});
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('More')),
+    appBar: AppBar(title: Text(context.localizations.profile)),
     body: SafeAreaWithMinimum(
       minimum: Dimensions.kPaddingAll16,
       child: Column(
@@ -32,7 +32,7 @@ class MorePage extends StatelessWidget {
     ),
     bottomNavigationBar: SafeAreaWithMinimum(
       minimum: Dimensions.kPaddingAll16,
-      child: BlocBuilder<MoreBloc, MoreState>(
+      child: BlocBuilder<ProfileBloc, ProfileState>(
         buildWhen: (prev, curr) => curr is PackageVersionState,
         builder: (_, state) {
           if (state is! PackageVersionState) {

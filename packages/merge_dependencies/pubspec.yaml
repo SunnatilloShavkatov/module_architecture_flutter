@@ -29,8 +29,8 @@ dependencies:
     path: ../../modules/initial
   main:
     path: ../../modules/main
-  more:
-    path: ../../modules/more
+  profile:
+    path: ../../modules/profile
   system:
     path: ../../modules/system
 
