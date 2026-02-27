@@ -140,7 +140,7 @@ final ThemeData lightTheme = ThemeData(
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 0,
     showSelectedLabels: true,
-    backgroundColor: Colors.white,
+    backgroundColor: AppPalette.bottomNavBgLight,
     type: BottomNavigationBarType.fixed,
     selectedItemColor: colorLightScheme.primary,
     unselectedItemColor: AppPalette.navBarUnselected,
@@ -329,7 +329,7 @@ final ThemeData darkTheme = ThemeData(
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 0,
     showSelectedLabels: true,
-    backgroundColor: Colors.black,
+    backgroundColor: AppPalette.bottomNavBgDark,
     type: BottomNavigationBarType.fixed,
     selectedItemColor: colorDarkScheme.primary,
     unselectedItemColor: AppPalette.navBarUnselected,

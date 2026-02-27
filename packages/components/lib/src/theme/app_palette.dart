@@ -53,6 +53,8 @@ final class AppPalette {
   static const Color divider = Color(0xFF343434);
   static const Color bottomBarShadow = Color(0xFFE6E9EF);
   static const Color navBarUnselected = Color(0xFF667085);
+  static const Color bottomNavBgLight = surfaceLight;
+  static const Color bottomNavBgDark = surfaceDark;
   static const Color tabLabelLight = Color(0xFF17171C);
   static const Color tabUnselectedLight = Color(0xFFB3BBCD);
   static const Color tabUnselectedDark = Color(0xFFBFBFBF);
