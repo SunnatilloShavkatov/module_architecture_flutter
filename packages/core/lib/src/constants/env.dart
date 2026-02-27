@@ -1,42 +1,44 @@
+import 'package:core/src/constants/.key.dart';
+
 enum Environment { dev, prod }
 
 abstract class AppConfig {
   const AppConfig();
 
+  String get appName;
+
   String get baseUrl;
 
-  String get apiToken;
-
-  String get appName;
+  String get telegramBotUrl;
 }
 
 class DevEnvironment extends AppConfig {
   const DevEnvironment();
 
   @override
+  String get appName => 'App Name Dev';
+
+  @override
   String get baseUrl => devBaseUrl;
 
   @override
-  String get apiToken => devApiToken;
-
-  @override
-  String get appName => 'App Name Dev';
+  String get telegramBotUrl => devTelegramBotUrl;
 }
 
 class ProdEnvironment extends AppConfig {
   const ProdEnvironment();
 
   @override
+  String get appName => 'App Name';
+
+  @override
   String get baseUrl => prodBaseUrl;
 
   @override
-  String get apiToken => prodApiToken;
-
-  @override
-  String get appName => 'App Name';
+  String get telegramBotUrl => prodTelegramBotUrl;
 }
 
-class AppEnvironment {
+final class AppEnvironment {
   AppEnvironment._internal();
 
   static AppEnvironment get instance => _singleton;
@@ -62,14 +64,3 @@ class AppEnvironment {
 
   Environment get currentEnv => _currentEnv;
 }
-
-/// prod
-const String prodBaseUrl = 'https://handbook.uz';
-const String prodApiToken = '';
-
-/// dev
-const String devBaseUrl = 'https://handbook.uz';
-const String devApiToken = '';
-
-///
-///

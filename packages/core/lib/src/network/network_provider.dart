@@ -59,7 +59,6 @@ final class NetworkProviderImpl extends NetworkProvider {
   @override
   void changeEnv() {
     _dio.options.baseUrl = AppEnvironment.instance.config.baseUrl;
-    _dio.options.headers = {..._dio.options.headers, 'api-token': AppEnvironment.instance.config.apiToken};
   }
 
   @override

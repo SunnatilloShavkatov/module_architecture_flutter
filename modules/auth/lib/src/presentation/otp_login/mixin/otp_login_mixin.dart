@@ -1,15 +1,13 @@
 part of '../otp_login_page.dart';
 
 mixin OtpLoginMixin on State<OtpLoginPage> {
-  static const String _telegramBotUrl = 'https://t.me/handbookuz_bot';
-
   late final TextEditingController _codeController = TextEditingController();
   String? _errorMessage;
 
   OtpLoginBloc get _bloc => context.read<OtpLoginBloc>();
 
   Future<void> openTelegramBot() async {
-    final Uri url = Uri.parse(_telegramBotUrl);
+    final Uri url = Uri.parse(AppEnvironment.instance.config.telegramBotUrl);
     final bool opened = await launchUrl(url, mode: LaunchMode.externalApplication);
     if (opened || !mounted) {
       return;

@@ -45,3 +45,4 @@ app.*.map.json
 /android/app/release
 pubspec.lock
 devtools_options.yaml
+/packages/core/lib/src/constants/.key.dart

@@ -44,10 +44,7 @@ final class CoreInjection implements Injection {
             sendTimeout: const Duration(seconds: 20),
             receiveTimeout: const Duration(seconds: 25),
             connectTimeout: const Duration(seconds: 30),
-            headers: <String, dynamic>{
-              'api-token': AppEnvironment.instance.config.apiToken,
-              if (accessToken != null) 'Authorization': 'Bearer $accessToken',
-            },
+            headers: <String, String>{if (accessToken != null) 'Authorization': 'Bearer $accessToken'},
           )
           ..httpClientAdapter = IOHttpClientAdapter(
             createHttpClient: () =>
