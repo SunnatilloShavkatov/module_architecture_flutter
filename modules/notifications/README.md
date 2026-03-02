@@ -1,0 +1,3 @@
+# notifications
+
+Notifications module package.

@@ -4,6 +4,7 @@ import 'package:profile/src/data/datasource/profile_remote_data_source.dart';
 import 'package:profile/src/data/repository/profile_repository_impl.dart';
 import 'package:profile/src/domain/repository/profile_repository.dart';
 import 'package:profile/src/domain/usecases/get_profile_user.dart';
+import 'package:profile/src/domain/usecases/update_profile_user.dart';
 import 'package:profile/src/presentation/profile/bloc/profile_bloc.dart';
 import 'package:profile/src/profile_page_factory.dart';
 
@@ -25,7 +26,8 @@ final class ProfileInjection implements Injection {
       ..registerLazySingleton<ProfileRepository>(() => ProfileRepositoryImpl(di.get(), di.get()))
       /// usecases
       ..registerLazySingleton(() => GetProfileUser(di.get()))
+      ..registerLazySingleton(() => UpdateProfileUser(di.get()))
       /// bloc
-      ..registerFactory(() => ProfileBloc(di.get(), di.get()));
+      ..registerFactory(() => ProfileBloc(di.get(), di.get(), di.get()));
   }
 }

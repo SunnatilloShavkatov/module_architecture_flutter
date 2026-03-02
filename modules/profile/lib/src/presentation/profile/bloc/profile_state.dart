@@ -19,12 +19,26 @@ final class ProfileLoadingState extends LoadingState {
   const ProfileLoadingState();
 }
 
+final class ProfileUpdatingState extends LoadingState {
+  const ProfileUpdatingState();
+}
+
 sealed class SuccessState extends ProfileState {
   const SuccessState();
 }
 
 final class ProfileSuccessState extends SuccessState {
   const ProfileSuccessState({required this.user, required this.version});
+
+  final ProfileUserEntity user;
+  final PackageInfo version;
+
+  @override
+  List<Object?> get props => [user, version];
+}
+
+final class ProfileUpdatedState extends SuccessState {
+  const ProfileUpdatedState({required this.user, required this.version});
 
   final ProfileUserEntity user;
   final PackageInfo version;

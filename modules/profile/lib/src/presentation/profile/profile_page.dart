@@ -16,23 +16,25 @@ class ProfilePage extends StatelessWidget {
       child: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) => switch (state) {
           ProfileInitialState() || ProfileLoadingState() => const Center(child: CircularProgressIndicator.adaptive()),
+          ProfileUpdatedState() => _ProfileContentView(user: state.user),
           ProfileFailureState() => _ProfileFailureView(
             message: state.message,
             onReload: () => context.read<ProfileBloc>().add(const ProfileInitialEvent()),
           ),
           ProfileSuccessState() => _ProfileContentView(user: state.user),
+          ProfileUpdatingState() => Dimensions.kZeroBox,
         },
       ),
     ),
     bottomNavigationBar: SafeAreaWithMinimum(
       minimum: Dimensions.kPaddingAll16,
       child: BlocBuilder<ProfileBloc, ProfileState>(
-        buildWhen: (prev, curr) => curr is ProfileSuccessState,
+        buildWhen: (prev, curr) => curr is ProfileSuccessState || curr is ProfileUpdatedState,
         builder: (_, state) {
-          if (state is! ProfileSuccessState) {
+          if (state is! ProfileSuccessState && state is! ProfileUpdatedState) {
             return const SizedBox.shrink();
           }
-          return Text('${state.version.version} (${state.version.buildNumber})', textAlign: TextAlign.center);
+          return const Text('1.0.0', textAlign: TextAlign.center);
         },
       ),
     ),
@@ -68,7 +70,7 @@ final class _ProfileContentView extends StatelessWidget {
   final ProfileUserEntity user;
 
   String get displayName {
-    final name = user.firstName.trim();
+    final name = '${user.firstName} ${user.lastName}'.trim();
     return name.isEmpty ? 'User' : name;
   }
 
@@ -79,7 +81,7 @@ final class _ProfileContentView extends StatelessWidget {
   }
 
   String get phone {
-    final value = user.phone.trim();
+    final value = (user.phone ?? '').trim();
     return value.isEmpty ? '+998 90 123 45 67' : phoneFormat(value);
   }
 
@@ -123,7 +125,10 @@ final class _ProfileContentView extends StatelessWidget {
               Dimensions.kGap16,
               ElevatedButton(
                 onPressed: () async {
-                  await context.pushNamed(Routes.settings);
+                  final result = await context.pushNamed(Routes.editProfile, extra: user);
+                  if (result is bool && result && context.mounted) {
+                    context.read<ProfileBloc>().add(const ProfileInitialEvent());
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: context.color.primary.withValues(alpha: 0.1),
@@ -146,8 +151,20 @@ final class _ProfileContentView extends StatelessWidget {
             await context.pushNamed(Routes.settings);
           },
         ),
-        const _ProfileMenuItem(icon: Icons.notifications_outlined, title: 'Notifications'),
-        const _ProfileMenuItem(icon: Icons.payment_outlined, title: 'Payment Methods'),
+        _ProfileMenuItem(
+          icon: Icons.notifications_outlined,
+          title: 'Notifications',
+          onTap: () async {
+            await context.pushNamed(Routes.notifications);
+          },
+        ),
+        _ProfileMenuItem(
+          icon: Icons.payment_outlined,
+          title: 'Payment Methods',
+          onTap: () async {
+            await context.pushNamed(Routes.paymentMethods);
+          },
+        ),
         const _ProfileMenuItem(icon: Icons.location_on_outlined, title: 'Addresses'),
         Dimensions.kGap24,
         const _ProfileSectionTitle(title: 'SUPPORT'),

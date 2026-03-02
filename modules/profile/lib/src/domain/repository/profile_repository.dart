@@ -5,4 +5,12 @@ abstract interface class ProfileRepository {
   const ProfileRepository();
 
   ResultFuture<ProfileUserEntity> getProfileUser();
+
+  ResultFuture<ProfileUserEntity> updateProfile({
+    required String username,
+    required String firstName,
+    required String lastName,
+    required String phone,
+    required String specialization,
+  });
 }

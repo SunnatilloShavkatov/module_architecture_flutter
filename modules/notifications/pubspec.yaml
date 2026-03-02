@@ -1,0 +1,28 @@
+name: notifications
+version: 0.0.1
+homepage: "none"
+publish_to: "none"
+description: "Notifications module."
+
+environment:
+  sdk: ">=3.11.0 <4.0.0"
+  flutter: ">=3.41.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # packages
+  core:
+    path: ../../packages/core
+  components:
+    path: ../../packages/components
+  navigation:
+    path: ../../packages/navigation
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  analysis_lints: any
+
+flutter:
+  uses-material-design: true

@@ -19,7 +19,15 @@ final class Routes {
   static const String login = '/login';
   static const String otpLogin = '/otp-login';
 
-  /// more
+  /// profile
   static const String settings = '/settings';
+  static const String editProfile = '/edit-profile';
   static const String chooseThemeModeSheet = '/choose-theme-mode-sheet';
+
+  /// notifications
+  static const String notifications = '/notifications';
+
+  /// payment
+  static const String paymentMethods = '/payment-methods';
+  static const String addCard = '/add-card';
 }
