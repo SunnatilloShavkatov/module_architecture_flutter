@@ -74,7 +74,7 @@ final class CoreInjection implements Injection {
         dio: di.get<Dio>(),
         accessTokenGetter: () async => await di.get<LocalSource>().accessToken ?? '',
         toNoInternetPageNavigator: di.get<AppNavigationService>().navigateToNoInternet,
-        forbiddenFunction: () async {},
+        forbiddenFunction: () => _onLogout(di),
         refreshTokenFunction: () => _onLogout(di),
         logPrint: (String message) {
           logMessage('dio: $message');

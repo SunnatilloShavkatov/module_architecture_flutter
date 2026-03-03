@@ -11,8 +11,8 @@ typedef ForbiddenFunction = Future<void> Function();
 typedef ToNoInternetPageNavigator = Future<void> Function();
 
 /// An interceptor that will try to send failed request again
-class RetryInterceptor extends InterceptorsWrapper {
-  RetryInterceptor({
+class RetryInterceptor extends Interceptor {
+  const RetryInterceptor({
     required this.dio,
     required this.logPrint,
     this.retries = 1,
@@ -51,8 +51,12 @@ class RetryInterceptor extends InterceptorsWrapper {
   /// the last value of [retryDelays] will be used.
   final List<Duration> retryDelays;
 
+  /// Guard flag so that [forbiddenFunction] is only called once
+  /// even when multiple parallel requests all receive a 403.
+  static bool _isForbiddenHandled = false;
+
   /// Returns true only if the response hasn't been cancelled or got
-  /// a bas status code.
+  /// a bad status code.
   Future<bool> defaultRetryEvaluator(DioException error, int attempt) async {
     bool shouldRetry = false;
     if (error.type == DioExceptionType.badResponse) {
@@ -62,8 +66,15 @@ class RetryInterceptor extends InterceptorsWrapper {
         await refreshTokenFunction?.call();
         shouldRetry = true;
       } else if (statusCode == 403) {
-        await forbiddenFunction?.call();
-        shouldRetry = true;
+        if (!_isForbiddenHandled) {
+          _isForbiddenHandled = true;
+          try {
+            await forbiddenFunction?.call();
+          } finally {
+            _isForbiddenHandled = false;
+          }
+        }
+        shouldRetry = false;
       }
     } else if (error.type == DioExceptionType.connectionError) {
       await toNoInternetPageNavigator();
@@ -105,7 +116,7 @@ class RetryInterceptor extends InterceptorsWrapper {
     }
     err.requestOptions.headers = header;
     try {
-      await dio.fetch<void>(err.requestOptions).then((Response<void> value) => handler.resolve(value));
+      await dio.fetch<void>(err.requestOptions).then((value) => handler.resolve(value));
     } on DioException catch (e, s) {
       logPrint('error: $e $s');
       super.onError(e, handler);
