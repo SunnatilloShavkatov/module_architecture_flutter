@@ -9,7 +9,7 @@ import 'package:module_architecture_mobile/app/app.dart';
 Future<void> mainCommon({required Environment env, required FirebaseOptions options}) async {
   /// 1. Initialize Flutter and Environment
   final WidgetsBinding binding = WidgetsFlutterBinding.ensureInitialized();
-  MergeDependencies.initEnvironment(env: env);
+  AppEnvironment.initEnvironment(env: env);
   FlutterNativeSplash.preserve(widgetsBinding: binding);
 
   /// 2. Global Error Handling (Modern Approach)

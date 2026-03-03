@@ -1,4 +1,4 @@
-import 'package:core/src/constants/.key.dart';
+import 'package:core/src/constants/_environment_keys.dart' as keys;
 
 enum Environment { dev, prod }
 
@@ -12,55 +12,31 @@ abstract class AppConfig {
   String get telegramBotUrl;
 }
 
-class DevEnvironment extends AppConfig {
-  const DevEnvironment();
+class EnvironmentConfig extends AppConfig {
+  const EnvironmentConfig();
 
   @override
-  String get appName => 'App Name Dev';
+  String get appName => keys.appName;
 
   @override
-  String get baseUrl => devBaseUrl;
+  String get baseUrl => keys.baseUrl;
 
   @override
-  String get telegramBotUrl => devTelegramBotUrl;
-}
-
-class ProdEnvironment extends AppConfig {
-  const ProdEnvironment();
-
-  @override
-  String get appName => 'App Name';
-
-  @override
-  String get baseUrl => prodBaseUrl;
-
-  @override
-  String get telegramBotUrl => prodTelegramBotUrl;
+  String get telegramBotUrl => keys.telegramBotUrl;
 }
 
 final class AppEnvironment {
-  AppEnvironment._internal();
+  const AppEnvironment._({required Environment env}) : _env = env, config = const EnvironmentConfig();
 
-  static AppEnvironment get instance => _singleton;
+  factory AppEnvironment.initEnvironment({required Environment env}) => _instance = AppEnvironment._(env: env);
 
-  static final AppEnvironment _singleton = AppEnvironment._internal();
+  static AppEnvironment? _instance;
 
-  late AppConfig config;
-  late Environment _currentEnv;
+  // ignore: prefer_constructors_over_static_methods // Singleton access — cannot be a constructor.
+  static AppEnvironment get instance => _instance ?? AppEnvironment.initEnvironment(env: Environment.dev);
 
-  void initEnvironment({required Environment env}) {
-    config = _getConfig(env);
-  }
+  final AppConfig config;
+  final Environment _env;
 
-  AppConfig _getConfig(Environment env) {
-    _currentEnv = env;
-    switch (env) {
-      case Environment.prod:
-        return const ProdEnvironment();
-      case Environment.dev:
-        return const DevEnvironment();
-    }
-  }
-
-  Environment get currentEnv => _currentEnv;
+  Environment get env => _env;
 }

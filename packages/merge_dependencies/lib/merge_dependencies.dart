@@ -59,10 +59,6 @@ final class MergeDependencies {
     _isInitialized = true;
   }
 
-  static void initEnvironment({required Environment env}) {
-    AppEnvironment.instance.initEnvironment(env: env);
-  }
-
   static final GoRouter router = GoRouter(
     initialLocation: Routes.initial,
     errorBuilder: (context, state) => NotFoundPage(settings: state),

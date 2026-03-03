@@ -46,3 +46,6 @@ app.*.map.json
 pubspec.lock
 devtools_options.yaml
 /packages/core/lib/src/constants/.key.dart
+.env.json
+.env.dev.json
+.env.prod.json

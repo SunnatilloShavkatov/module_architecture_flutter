@@ -9,7 +9,7 @@ final class Constants {
 
   static String get baseUrl => AppEnvironment.instance.config.baseUrl;
 
-  static Environment get environment => AppEnvironment.instance.currentEnv;
+  static Environment get environment => AppEnvironment.instance.env;
 
   static const String defaultSmsCodeMatcher = r'([0-9]{6})\s*(?=\r?\n[A-Za-z0-9]{6,})';
 
