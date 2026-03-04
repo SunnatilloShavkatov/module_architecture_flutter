@@ -1,9 +1,9 @@
 // ignore_for_file: do_not_use_environment // Environment constants must be declared here as a single source of truth for dart-define values.
 
 // Raw compile-time values — never use these directly outside this file.
-const String _appNameRaw = String.fromEnvironment('APP_NAME');
-const String _baseUrlRaw = String.fromEnvironment('BASE_URL');
-const String _telegramBotUrlRaw = String.fromEnvironment('TELEGRAM_BOT_URL');
+const String _appNameRaw = String.fromEnvironment('appName');
+const String _baseUrlRaw = String.fromEnvironment('baseUrl');
+const String _telegramBotUrlRaw = String.fromEnvironment('telegramBotUrl');
 
 // XOR key — change this to any arbitrary byte sequence.
 const List<int> _xorKey = [0x4B, 0x3F, 0x7A, 0x21, 0x5C, 0x8E, 0xA1, 0x2D];

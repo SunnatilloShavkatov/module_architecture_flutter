@@ -26,7 +26,7 @@ class EnvironmentConfig extends AppConfig {
 }
 
 final class AppEnvironment {
-  const AppEnvironment._({required Environment env}) : _env = env, config = const EnvironmentConfig();
+  const AppEnvironment._({required this.env}) : config = const EnvironmentConfig();
 
   factory AppEnvironment.initEnvironment({required Environment env}) => _instance = AppEnvironment._(env: env);
 
@@ -35,8 +35,6 @@ final class AppEnvironment {
   // ignore: prefer_constructors_over_static_methods // Singleton access — cannot be a constructor.
   static AppEnvironment get instance => _instance ?? AppEnvironment.initEnvironment(env: Environment.dev);
 
+  final Environment env;
   final AppConfig config;
-  final Environment _env;
-
-  Environment get env => _env;
 }
