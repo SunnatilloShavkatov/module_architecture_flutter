@@ -8,6 +8,7 @@ mixin OtpLoginMixin on State<OtpLoginPage> {
 
   Future<void> openTelegramBot() async {
     final Uri url = Uri.parse(AppEnvironment.instance.config.telegramBotUrl);
+    print('urlurl:$url');
     final bool opened = await launchUrl(url, mode: LaunchMode.externalApplication);
     if (opened || !mounted) {
       return;
