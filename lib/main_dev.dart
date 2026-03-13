@@ -5,13 +5,13 @@ import 'package:module_architecture_mobile/config/firebase_options_dev.dart';
 Future<void> main() => mainCommon(env: Environment.dev, options: DefaultFirebaseOptions.currentPlatform);
 
 ///  run
-///  flutter run --flavor dev -t lib/main_dev.dart --dart-define-from-file=.env.dev.json
+///  flutter run --flavor dev -t lib/main_dev.dart --dart-define-from-file=.enc.dev.json
 ///
 ///  apk
-///  flutter build apk --flavor dev -t lib/main_dev.dart --release --dart-define-from-file=.env.dev.json --split-debug-info=build/symbols
+///  flutter build apk --flavor dev -t lib/main_dev.dart --release --dart-define-from-file=.enc.dev.json --split-debug-info=build/symbols
 ///
 ///  aab
-///  flutter build appbundle --flavor dev -t lib/main_dev.dart --release --dart-define-from-file=.env.dev.json --obfuscate --split-debug-info=build/symbols
+///  flutter build appbundle --flavor dev -t lib/main_dev.dart --release --dart-define-from-file=.enc.dev.json --obfuscate --split-debug-info=build/symbols
 ///
 ///  ipa
-///  flutter build ipa --flavor dev -t lib/main_dev.dart --release --dart-define-from-file=.env.dev.json --obfuscate --split-debug-info=build/symbols
+///  flutter build ipa --flavor dev -t lib/main_dev.dart --release --dart-define-from-file=.enc.dev.json --obfuscate --split-debug-info=build/symbols

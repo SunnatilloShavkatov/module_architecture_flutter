@@ -49,3 +49,5 @@ devtools_options.yaml
 .env.json
 .env.dev.json
 .env.prod.json
+/.enc.dev.json
+/.enc.prod.json
