@@ -45,7 +45,7 @@ dependencies:
   firebase_messaging: ^16.1.2
   firebase_remote_config: ^6.2.0
   # local notification
-  flutter_local_notifications: ^20.1.0
+  flutter_local_notifications: ^21.0.0
 
 dev_dependencies:
   flutter_test:
