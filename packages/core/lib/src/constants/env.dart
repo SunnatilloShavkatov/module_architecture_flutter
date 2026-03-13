@@ -10,6 +10,8 @@ abstract class AppConfig {
   String get baseUrl;
 
   String get telegramBotUrl;
+
+  String get boxName;
 }
 
 class EnvironmentConfig extends AppConfig {
@@ -23,6 +25,9 @@ class EnvironmentConfig extends AppConfig {
 
   @override
   String get telegramBotUrl => keys.telegramBotUrl;
+
+  @override
+  String get boxName => keys.boxName;
 }
 
 final class AppEnvironment {

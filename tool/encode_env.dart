@@ -18,6 +18,7 @@ List<int> get _k1 => [_mix(0x10, 0x5B), _mix(0x22, 0x1D), _mix(0x70, 0x0A), _mix
 List<int> get _k2 => [_mix(0x20, 0x7C), _mix(0xF0, 0x7E), _mix(0x55, 0xF4), _mix(0x3A, 0x17)];
 
 List<int> get _xorKey => [..._k1, ..._k2];
+
 List<int> get _xorKey2 => [..._k2.reversed, ..._k1.reversed];
 
 // Salt: mixed into inner string before outer base64 pass
@@ -52,7 +53,7 @@ String _encodeValue(String value) {
 }
 
 Map<String, dynamic> _encodeMap(Map<String, dynamic> input) {
-  const keyMap = {'appName': 'k1', 'baseUrl': 'k2', 'telegramBotUrl': 'k3'};
+  const keyMap = {'appName': 'k1', 'baseUrl': 'k2', 'telegramBotUrl': 'k3', 'boxName': 'k4'};
   return {
     for (final entry in input.entries)
       keyMap[entry.key] ?? entry.key: entry.value is String ? _encodeValue(entry.value as String) : entry.value,

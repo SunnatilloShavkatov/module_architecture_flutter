@@ -9,6 +9,7 @@ List<int> get _k1 => [_mix(0x10, 0x5B), _mix(0x22, 0x1D), _mix(0x70, 0x0A), _mix
 List<int> get _k2 => [_mix(0x20, 0x7C), _mix(0xF0, 0x7E), _mix(0x55, 0xF4), _mix(0x3A, 0x17)];
 
 List<int> get _xorKey => [..._k1, ..._k2];
+
 List<int> get _xorKey2 => [..._k2.reversed, ..._k1.reversed];
 
 const int _saltLen = 4;
@@ -58,10 +59,15 @@ String _decode(String raw) {
 const String _appNameRaw = String.fromEnvironment('k1');
 const String _baseUrlRaw = String.fromEnvironment('k2');
 const String _telegramBotUrlRaw = String.fromEnvironment('k3');
+const String _boxName = String.fromEnvironment('k4');
 
 // Decoded at runtime
 String get appName => _decode(_appNameRaw);
+
 String get baseUrl => _decode(_baseUrlRaw);
+
 String get telegramBotUrl => _decode(_telegramBotUrlRaw);
+
+String get boxName => _decode(_boxName);
 
 String testDecode(String raw) => _decode(raw);

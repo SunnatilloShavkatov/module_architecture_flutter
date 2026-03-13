@@ -92,10 +92,12 @@ Future<void> _initStorage({required Injector di}) async {
     final HiveAesCipher cipher = HiveAesCipher(hiveKey);
 
     /// init hive
-    const String boxName = 'module_architecture_mobile_box';
     final Directory directory = await getApplicationDocumentsDirectory();
     Hive.init(directory.path);
-    final Box<dynamic> box = await Hive.openBox<dynamic>(boxName, encryptionCipher: cipher);
+    final Box<dynamic> box = await Hive.openBox<dynamic>(
+      AppEnvironment.instance.config.boxName,
+      encryptionCipher: cipher,
+    );
     di.registerSingleton<LocalSource>(LocalSourceImpl(box, storage));
   } catch (e, s) {
     logMessage('Failed init Storage', error: e, stackTrace: s);
