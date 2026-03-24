@@ -1,7 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class CustomCachedNetworkImage extends StatelessWidget {
   const CustomCachedNetworkImage({
@@ -10,44 +9,80 @@ class CustomCachedNetworkImage extends StatelessWidget {
     this.imageBuilder,
     this.placeholder,
     this.progressIndicatorBuilder,
-    this.errorWidget,
+    this.unsupportedImageBuilder,
+    this.errorBuilder,
+    this.httpHeaders,
     this.width,
     this.height,
     this.fit,
-  });
+  }) : assert(
+         placeholder == null || progressIndicatorBuilder == null,
+         'placeholder and progressIndicatorBuilder cannot be used simultaneously.',
+       );
+
+  /// Singleton cache manager — one instance shared across all widgets.
+  /// Avoids memory leaks caused by creating a new manager on every build().
+  static final _cacheManager = DefaultCacheManager(
+    maxNrOfCacheObjects: 1000,
+    stalePeriod: const Duration(days: 30),
+    connectionParameters: ConnectionParameters(
+      requestTimeout: const Duration(seconds: 30),
+      connectionTimeout: const Duration(seconds: 10),
+    ),
+  );
 
   final String imageUrl;
   final double? width;
   final double? height;
   final BoxFit? fit;
+
+  /// HTTP headers to attach to the network request (e.g., Authorization token).
+  final Map<String, String>? httpHeaders;
+
+  /// Called after the image loads successfully to wrap it in a custom widget.
   final ImageWidgetBuilder? imageBuilder;
+
+  /// Widget shown while the image is loading.
+  /// Cannot be used together with [progressIndicatorBuilder].
   final PlaceholderWidgetBuilder? placeholder;
+
+  /// Progress indicator widget shown during download.
+  /// Cannot be used together with [placeholder].
   final ProgressIndicatorBuilder? progressIndicatorBuilder;
-  final LoadingErrorWidgetBuilder? errorWidget;
+
+  /// Fallback widget for formats unsupported by the Flutter codec (e.g. SVG).
+  /// Receives the cached bytes directly — pass them to a renderer such as SvgPicture.memory().
+  /// If not provided, the error falls through to [errorBuilder].
+  final UnsupportedImageWidgetBuilder? unsupportedImageBuilder;
+
+  /// Widget shown when the image fails to load.
+  final ImageErrorWidgetBuilder? errorBuilder;
 
   @override
   Widget build(BuildContext context) {
     final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
+
+    // Cache at device pixel density to avoid storing oversized or undersized images.
     final int? cacheWidth = width == null ? null : (width! * devicePixelRatio).toInt();
     final int? cacheHeight = height == null ? null : (height! * devicePixelRatio).toInt();
+
     return CachedNetworkImage(
       fit: fit,
       width: width,
       height: height,
       cacheKey: imageUrl,
       imageUrl: imageUrl,
-
-      ///
+      httpHeaders: httpHeaders,
       memCacheWidth: cacheWidth,
       memCacheHeight: cacheHeight,
-
-      ///
       maxWidthDiskCache: cacheWidth,
       maxHeightDiskCache: cacheHeight,
       placeholder: placeholder,
-      errorWidget: errorWidget,
+      errorBuilder: errorBuilder,
       imageBuilder: imageBuilder,
+      unsupportedImageBuilder: unsupportedImageBuilder,
       progressIndicatorBuilder: progressIndicatorBuilder,
+      cacheManager: _cacheManager,
     );
   }
 
@@ -58,29 +93,6 @@ class CustomCachedNetworkImage extends StatelessWidget {
       ..add(StringProperty('imageUrl', imageUrl))
       ..add(DoubleProperty('width', width))
       ..add(DoubleProperty('height', height))
-      ..add(EnumProperty<BoxFit?>('fit', fit))
-      ..add(ObjectFlagProperty<ImageWidgetBuilder?>.has('imageBuilder', imageBuilder))
-      ..add(ObjectFlagProperty<PlaceholderWidgetBuilder?>.has('placeholder', placeholder))
-      ..add(ObjectFlagProperty<ProgressIndicatorBuilder?>.has('progressIndicatorBuilder', progressIndicatorBuilder))
-      ..add(ObjectFlagProperty<LoadingErrorWidgetBuilder?>.has('errorWidget', errorWidget));
+      ..add(EnumProperty<BoxFit?>('fit', fit));
   }
-}
-
-const String _imageCache = 'image_cache';
-
-class CustomImageCacheManager extends CacheManager with ImageCacheManager {
-  CustomImageCacheManager._internal()
-    : super(
-        Config(
-          _imageCache,
-          maxNrOfCacheObjects: 500,
-          fileService: HttpFileService(),
-          stalePeriod: const Duration(days: 30),
-          repo: JsonCacheInfoRepository(databaseName: _imageCache),
-        ),
-      );
-
-  static CacheManager instance = _instance;
-
-  static final CustomImageCacheManager _instance = CustomImageCacheManager._internal();
 }
