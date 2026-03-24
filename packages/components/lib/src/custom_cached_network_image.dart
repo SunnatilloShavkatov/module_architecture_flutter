@@ -20,17 +20,6 @@ class CustomCachedNetworkImage extends StatelessWidget {
          'placeholder and progressIndicatorBuilder cannot be used simultaneously.',
        );
 
-  /// Singleton cache manager — one instance shared across all widgets.
-  /// Avoids memory leaks caused by creating a new manager on every build().
-  static final _cacheManager = DefaultCacheManager(
-    maxNrOfCacheObjects: 1000,
-    stalePeriod: const Duration(days: 30),
-    connectionParameters: ConnectionParameters(
-      requestTimeout: const Duration(seconds: 30),
-      connectionTimeout: const Duration(seconds: 10),
-    ),
-  );
-
   final String imageUrl;
   final double? width;
   final double? height;
@@ -62,10 +51,6 @@ class CustomCachedNetworkImage extends StatelessWidget {
   Widget build(BuildContext context) {
     final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
 
-    // Cache at device pixel density to avoid storing oversized or undersized images.
-    final int? cacheWidth = width == null ? null : (width! * devicePixelRatio).toInt();
-    final int? cacheHeight = height == null ? null : (height! * devicePixelRatio).toInt();
-
     return CachedNetworkImage(
       fit: fit,
       width: width,
@@ -73,16 +58,15 @@ class CustomCachedNetworkImage extends StatelessWidget {
       cacheKey: imageUrl,
       imageUrl: imageUrl,
       httpHeaders: httpHeaders,
-      memCacheWidth: cacheWidth,
-      memCacheHeight: cacheHeight,
-      maxWidthDiskCache: cacheWidth,
-      maxHeightDiskCache: cacheHeight,
+      // Decode in memory at device pixel density — disk cache keeps the original size.
+      memCacheWidth: CustomImageCacheManager._toCacheSize(width, devicePixelRatio),
+      memCacheHeight: CustomImageCacheManager._toCacheSize(height, devicePixelRatio),
       placeholder: placeholder,
       errorBuilder: errorBuilder,
       imageBuilder: imageBuilder,
       unsupportedImageBuilder: unsupportedImageBuilder,
       progressIndicatorBuilder: progressIndicatorBuilder,
-      cacheManager: _cacheManager,
+      cacheManager: CustomImageCacheManager.cacheManager,
     );
   }
 
@@ -94,5 +78,31 @@ class CustomCachedNetworkImage extends StatelessWidget {
       ..add(DoubleProperty('width', width))
       ..add(DoubleProperty('height', height))
       ..add(EnumProperty<BoxFit?>('fit', fit));
+  }
+}
+
+final class CustomImageCacheManager {
+  const CustomImageCacheManager._();
+
+  /// Singleton cache manager — one instance shared across all widgets.
+  /// Avoids memory leaks caused by creating a new manager on every build().
+  static final DefaultCacheManager cacheManager = DefaultCacheManager(
+    maxNrOfCacheObjects: 1000,
+    stalePeriod: const Duration(days: 30),
+    connectionParameters: ConnectionParameters(
+      requestTimeout: const Duration(seconds: 30),
+      connectionTimeout: const Duration(seconds: 10),
+    ),
+  );
+
+  /// Converts a logical size to physical pixels for memory cache hints.
+  /// Returns null if [size] is null or rounds to zero — preventing the decoder
+  /// from producing a 0-sized image that would render as invisible.
+  static int? _toCacheSize(double? size, double dpr) {
+    if (size == null) {
+      return null;
+    }
+    final px = (size * dpr).toInt();
+    return px > 0 ? px : null;
   }
 }
