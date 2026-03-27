@@ -22,7 +22,7 @@ class NoInternetFailure extends Failure {
   const NoInternetFailure({required super.message});
 
   @override
-  List<Object?> get props => <Object?>[];
+  List<Object?> get props => <Object?>[message];
 }
 
 class CacheFailure extends Failure {
