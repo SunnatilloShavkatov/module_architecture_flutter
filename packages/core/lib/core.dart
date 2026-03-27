@@ -1,6 +1,6 @@
 export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:core/src/connectivity/network_info.dart';
-export 'package:dio/dio.dart' show Dio;
+export 'package:dio/dio.dart' show CancelToken, Dio, FormData, MultipartFile, RequestOptions, Response;
 export 'package:equatable/equatable.dart';
 export 'package:firebase_analytics/firebase_analytics.dart';
 export 'package:firebase_core/firebase_core.dart';
