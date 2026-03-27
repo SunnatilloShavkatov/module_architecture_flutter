@@ -15,12 +15,14 @@ mixin OtpLoginMixin on State<OtpLoginPage> {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Telegram ilovasini ochib bo'lmadi")));
   }
 
-  void stateListener(BuildContext context, OtpLoginState state) {
+  void _handleStates(BuildContext context, OtpLoginState state) {
     if (state is OtpLoginFailure) {
       setState(() => _errorMessage = state.message);
       return;
-    }
-    if (state is OtpLoginSuccess) {
+    } else if (state is OtpLoginSuccess) {
+      if (!context.mounted) {
+        return;
+      }
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Tizimga muvaffaqiyatli kirildi: ${state.auth.email}')));

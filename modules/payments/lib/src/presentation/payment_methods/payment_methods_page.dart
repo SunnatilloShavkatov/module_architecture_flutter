@@ -23,9 +23,8 @@ class PaymentMethodsPage extends StatelessWidget {
       body: SafeAreaWithMinimum(
         minimum: Dimensions.kPaddingAll16,
         child: switch (state) {
-          PaymentMethodsInitialState() || PaymentMethodsLoadingState() => const Center(
-            child: CircularProgressIndicator.adaptive(),
-          ),
+          PaymentMethodsInitialState() ||
+          PaymentMethodsLoadingState() => const Center(child: CircularProgressIndicator.adaptive()),
           PaymentMethodsFailureState() => _PaymentsFailureView(message: state.message),
           PaymentMethodsSuccessState() => _PaymentsContentView(paymentMethods: state.paymentMethods),
           PaymentMethodsActionSuccessState() => _PaymentsContentView(paymentMethods: state.paymentMethods),
@@ -70,7 +69,7 @@ final class _PaymentsContentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (paymentMethods.isEmpty) {
-      return const Center(child: Text('No payment methods'));
+      return Center(child: Text(context.localizations.noPaymentMethods));
     }
     return ListView.separated(
       itemCount: paymentMethods.length,

@@ -40,6 +40,10 @@ String _decode(String raw) {
   final originalLen = (packed[8] << 8) | packed[9];
   final layer4 = packed.sublist(10);
 
+  if (originalLen < 0 || originalLen > layer4.length) {
+    return '';
+  }
+
   // Undo Mutation
   final layer3 = _demutate(layer4, iv);
 

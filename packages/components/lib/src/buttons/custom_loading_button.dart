@@ -1,4 +1,4 @@
-import 'dart:async' show unawaited;
+import 'dart:async' show StreamSubscription, unawaited;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,11 +17,12 @@ class CustomLoadingButton extends StatefulWidget {
 
 class _CustomLoadingButtonState extends State<CustomLoadingButton> {
   final PublishSubject<void> _throttleSubject = PublishSubject<void>();
+  late final StreamSubscription<void> _subscription;
 
   @override
   void initState() {
     super.initState();
-    _throttleSubject.throttleTime(const Duration(seconds: 1), trailing: false).listen((_) {
+    _subscription = _throttleSubject.throttleTime(const Duration(seconds: 1), trailing: false).listen((_) {
       if (!widget.isLoading && widget.onPressed != null && mounted) {
         widget.onPressed?.call();
       }
@@ -45,6 +46,7 @@ class _CustomLoadingButtonState extends State<CustomLoadingButton> {
 
   @override
   void dispose() {
+    unawaited(_subscription.cancel());
     unawaited(_throttleSubject.close());
     super.dispose();
   }

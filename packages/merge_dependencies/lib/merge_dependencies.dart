@@ -6,6 +6,7 @@ import 'package:initial/initial.dart';
 import 'package:main/main.dart';
 import 'package:merge_dependencies/src/services/app_navigation_service_impl.dart';
 import 'package:navigation/navigation.dart';
+import 'package:notifications/notifications.dart';
 import 'package:profile/profile.dart';
 import 'package:system/system.dart';
 
@@ -28,6 +29,7 @@ final class MergeDependencies {
     HomeContainer(),
     InitialContainer(),
     MainContainer(),
+    NotificationsContainer(),
     ProfileContainer(),
     SystemContainer(),
   ];

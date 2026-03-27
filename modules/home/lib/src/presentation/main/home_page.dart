@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with HomeMixin {
   @override
   Widget build(BuildContext context) => BlocConsumer<HomeBloc, HomeState>(
-    listener: stateListener,
+    listener: _stateListener,
     builder: (context, state) => Scaffold(
       key: const Key('home'),
       appBar: AppBar(title: const Text('Handbook')),
@@ -26,13 +26,13 @@ class _HomePageState extends State<HomePage> with HomeMixin {
         minimum: Dimensions.kPaddingAll16,
         child: switch (state) {
           HomeInitialState() || HomeLoadingState() => const Center(child: CircularProgressIndicator.adaptive()),
-          HomeFailureState() => _HomeFailureView(message: state.message, onReload: reloadHome),
+          HomeFailureState() => _HomeFailureView(message: state.message, onReload: _reloadHome),
           HomeSuccessState() => _HomeContentView(
             firstName: state.firstName,
             categories: state.categories,
             businesses: state.businesses,
             appointments: state.appointments,
-            onReload: reloadHome,
+            onReload: _reloadHome,
           ),
         },
       ),

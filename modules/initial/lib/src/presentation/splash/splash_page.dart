@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
 import 'package:platform_methods/platform_methods.dart';
 
+part 'mixin/splash_mixin.dart';
+
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
@@ -12,31 +14,7 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> {
-  LocalSource get _localSource => AppInjector.instance.get<LocalSource>();
-
-  @override
-  void initState() {
-    super.initState();
-    _checkLoginStatus().ignore();
-  }
-
-  Future<void> _checkLoginStatus() async {
-    final bool isEmulator = await PlatformMethods.instance.isEmulator();
-    if (isEmulator && kReleaseMode) {
-      return;
-    }
-    final bool isLoggedIn = await _localSource.hasProfile;
-    if (!mounted) {
-      return;
-    }
-    if (isLoggedIn) {
-      context.pushReplacementNamed(Routes.mainHome);
-    } else {
-      context.pushReplacementNamed(Routes.welcome);
-    }
-  }
-
+class _SplashPageState extends State<SplashPage> with SplashMixin {
   @override
   Widget build(BuildContext context) => Scaffold(
     body: Center(child: Text('Logo', style: context.textTheme.labelLarge)),

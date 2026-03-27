@@ -29,6 +29,8 @@ dependencies:
     path: ../../modules/initial
   main:
     path: ../../modules/main
+  notifications:
+    path: ../../modules/notifications
   profile:
     path: ../../modules/profile
   system:

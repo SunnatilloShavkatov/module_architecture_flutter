@@ -6,7 +6,7 @@ import 'package:hive_ce/hive_ce.dart' show Box;
 abstract class LocalSource {
   const LocalSource();
 
-  Future<bool> get hasProfile;
+  bool get hasProfile;
 
   String? get locale;
 
@@ -41,6 +41,10 @@ abstract class LocalSource {
   Future<void> clear();
 }
 
+// Note: Hive box.put() updates in-memory state synchronously before the
+// returned Future completes (disk flush). Therefore sync getters for Hive
+// fields (firstName, phone, userId, etc.) return the new value immediately
+// after calling their async setters — no stale reads for Hive-backed fields.
 final class LocalSourceImpl implements LocalSource {
   const LocalSourceImpl(this._systemBox, this._secureStorage);
 
@@ -48,7 +52,7 @@ final class LocalSourceImpl implements LocalSource {
   final FlutterSecureStorage _secureStorage;
 
   @override
-  Future<bool> get hasProfile async => (await accessToken) != null;
+  bool get hasProfile => _systemBox.get(StorageKeys.userId) != null;
 
   @override
   Future<void> setLocale(String locale) async {

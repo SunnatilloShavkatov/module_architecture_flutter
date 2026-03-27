@@ -17,14 +17,11 @@ final class ProfileRouter implements AppRouter<RouteBase> {
       builder: (_, state) {
         final ProfileUserEntity user = state.extra is ProfileUserEntity
             ? state.extra! as ProfileUserEntity
-            : const ProfileUserEntity(
-                id: 0,
-                email: '',
-                firstName: '',
-                lastName: '',
-                role: 'CLIENT',
-              );
-        return BlocProvider<ProfileBloc>(create: (_) => di.get(), child: EditProfilePage(user: user));
+            : const ProfileUserEntity(id: 0, email: '', firstName: '', lastName: '', role: 'CLIENT');
+        return BlocProvider<ProfileBloc>(
+          create: (_) => di.get(),
+          child: EditProfilePage(user: user),
+        );
       },
     ),
     GoRoute(path: Routes.settings, name: Routes.settings, builder: (_, _) => const SettingsPage()),

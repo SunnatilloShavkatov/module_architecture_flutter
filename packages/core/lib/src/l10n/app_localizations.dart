@@ -158,6 +158,168 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Получить помощь'**
   String get getHelp;
+
+  /// No description provided for @loginTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войти'**
+  String get loginTitle;
+
+  /// No description provided for @loginSubtitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войдите в свой аккаунт чтобы продолжить'**
+  String get loginSubtitle;
+
+  /// No description provided for @emailLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Электронная почта'**
+  String get emailLabel;
+
+  /// No description provided for @passwordLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пароль'**
+  String get passwordLabel;
+
+  /// No description provided for @passwordHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите пароль'**
+  String get passwordHint;
+
+  /// No description provided for @rememberMe.
+  ///
+  /// In ru, this message translates to:
+  /// **'Запомнить меня'**
+  String get rememberMe;
+
+  /// No description provided for @loginButton.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войти'**
+  String get loginButton;
+
+  /// No description provided for @telegramLogin.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войти через Telegram'**
+  String get telegramLogin;
+
+  /// No description provided for @emailRequired.
+  ///
+  /// In ru, this message translates to:
+  /// **'Email обязателен'**
+  String get emailRequired;
+
+  /// No description provided for @passwordRequired.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пароль обязателен'**
+  String get passwordRequired;
+
+  /// No description provided for @loginSuccessMessage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Успешный вход в систему'**
+  String get loginSuccessMessage;
+
+  /// No description provided for @noNotifications.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет уведомлений'**
+  String get noNotifications;
+
+  /// No description provided for @addCard.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить карту'**
+  String get addCard;
+
+  /// No description provided for @saveCard.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранить карту'**
+  String get saveCard;
+
+  /// No description provided for @cardNumber.
+  ///
+  /// In ru, this message translates to:
+  /// **'Номер карты'**
+  String get cardNumber;
+
+  /// No description provided for @expiryDate.
+  ///
+  /// In ru, this message translates to:
+  /// **'Срок действия (ММ/ГГ)'**
+  String get expiryDate;
+
+  /// No description provided for @invalidCardNumber.
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверный номер карты'**
+  String get invalidCardNumber;
+
+  /// No description provided for @noPaymentMethods.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет способов оплаты'**
+  String get noPaymentMethods;
+
+  /// No description provided for @categories.
+  ///
+  /// In ru, this message translates to:
+  /// **'Категории'**
+  String get categories;
+
+  /// No description provided for @barbershops.
+  ///
+  /// In ru, this message translates to:
+  /// **'Парикмахерские'**
+  String get barbershops;
+
+  /// No description provided for @haveGoodDay.
+  ///
+  /// In ru, this message translates to:
+  /// **'Хорошего дня'**
+  String get haveGoodDay;
+
+  /// No description provided for @welcomeGreeting.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добро пожаловать'**
+  String get welcomeGreeting;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In ru, this message translates to:
+  /// **'Редактировать профиль'**
+  String get editProfile;
+
+  /// No description provided for @profileUpdatedSuccess.
+  ///
+  /// In ru, this message translates to:
+  /// **'Профиль успешно обновлён'**
+  String get profileUpdatedSuccess;
+
+  /// No description provided for @usernameLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя пользователя'**
+  String get usernameLabel;
+
+  /// No description provided for @mobileNumber.
+  ///
+  /// In ru, this message translates to:
+  /// **'Номер телефона'**
+  String get mobileNumber;
+
+  /// No description provided for @fieldRequired.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обязательное поле'**
+  String get fieldRequired;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

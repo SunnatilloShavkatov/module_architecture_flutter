@@ -13,27 +13,26 @@ final class ProfileRepositoryImpl implements ProfileRepository {
 
   @override
   ResultFuture<ProfileUserEntity> getProfileUser() async {
+    ProfileUserModel? cached;
     try {
-      final ProfileUserModel? cached = _localSource.getProfileUser();
-      try {
-        final result = await _remoteSource.getProfileUser();
-        await _localSource.saveProfileUser(result);
-        return Right(result);
-      } on ServerException catch (error) {
-        if (cached != null) {
-          return Right(cached);
-        }
-        return Left(error.failure);
-      } on Exception catch (error) {
-        if (cached != null) {
-          return Right(cached);
-        }
-        return Left(ServerFailure(message: error.toString()));
+      cached = _localSource.getProfileUser();
+    } catch (_) {
+      // local cache read failed, proceed without cache
+    }
+    try {
+      final result = await _remoteSource.getProfileUser();
+      await _localSource.saveProfileUser(result);
+      return Right(result);
+    } on ServerException catch (error) {
+      if (cached != null) {
+        return Right(cached);
       }
-    } on ServerException catch (error, _) {
       return Left(error.failure);
-    } on Exception catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+    } on Exception catch (error) {
+      if (cached != null) {
+        return Right(cached);
+      }
+      return Left(ServerFailure(message: error.toString()));
     }
   }
 

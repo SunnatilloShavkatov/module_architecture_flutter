@@ -38,7 +38,7 @@ final class HomeBloc extends Bloc<HomeEvent, HomeState> {
     List<HomeBusinessEntity> businesses = [];
     List<HomeAppointmentEntity> appointments = [];
 
-    categoriesResult.fold((left) => failure = left, (right) => categories = right);
+    categoriesResult.fold((left) => failure ??= left, (right) => categories = right);
     businessesResult.fold((left) => failure ??= left, (right) => businesses = right);
     appointmentsResult.fold((left) => failure ??= left, (right) => appointments = right);
 

@@ -1,7 +1,7 @@
 part of '../home_page.dart';
 
 mixin HomeMixin on State<HomePage> {
-  void stateListener(BuildContext context, HomeState state) {
+  void _stateListener(BuildContext context, HomeState state) {
     if (state is HomeFailureState) {
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
@@ -9,7 +9,7 @@ mixin HomeMixin on State<HomePage> {
     }
   }
 
-  void reloadHome() {
+  void _reloadHome() {
     context.read<HomeBloc>().add(const HomeRefreshEvent());
   }
 }

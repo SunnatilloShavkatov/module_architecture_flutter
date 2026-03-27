@@ -12,7 +12,7 @@ typedef ToNoInternetPageNavigator = Future<void> Function();
 
 /// An interceptor that will try to send failed request again
 class RetryInterceptor extends Interceptor {
-  const RetryInterceptor({
+  RetryInterceptor({
     required this.dio,
     required this.logPrint,
     this.retries = 1,
@@ -53,7 +53,7 @@ class RetryInterceptor extends Interceptor {
 
   /// Guard flag so that [forbiddenFunction] is only called once
   /// even when multiple parallel requests all receive a 403.
-  static bool _isForbiddenHandled = false;
+  bool _isForbiddenHandled = false;
 
   /// Returns true only if the response hasn't been cancelled or got
   /// a bad status code.
@@ -122,6 +122,7 @@ class RetryInterceptor extends Interceptor {
       super.onError(e, handler);
     } on Exception catch (e, s) {
       logPrint('error: $e $s');
+      handler.next(err);
     }
   }
 

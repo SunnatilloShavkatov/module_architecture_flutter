@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 import 'package:notifications/src/domain/entities/notification_entity.dart';
 import 'package:notifications/src/domain/repository/notifications_repository.dart';
 
-final class GetNotifications extends UsecaseWithoutParams<List<NotificationEntity>> {
+class GetNotifications extends UsecaseWithoutParams<List<NotificationEntity>> {
   const GetNotifications(this._repo);
 
   final NotificationsRepository _repo;

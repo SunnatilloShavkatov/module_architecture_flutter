@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:notifications/src/domain/entities/notification_entity.dart';
 import 'package:notifications/src/presentation/notifications/bloc/notifications_bloc.dart';
 
+part 'mixin/notifications_mixin.dart';
+
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
 
@@ -11,10 +13,7 @@ class NotificationsPage extends StatefulWidget {
   State<NotificationsPage> createState() => _NotificationsPageState();
 }
 
-class _NotificationsPageState extends State<NotificationsPage> {
-  int _selectedFilterIndex = 0;
-  final List<String> _filters = ['All', 'Unread', 'Promos'];
-
+class _NotificationsPageState extends State<NotificationsPage> with NotificationsMixin {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: const Text('Notifications')),
@@ -22,9 +21,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
       minimum: Dimensions.kPaddingAll16,
       child: BlocBuilder<NotificationsBloc, NotificationsState>(
         builder: (context, state) => switch (state) {
-          NotificationsInitialState() || NotificationsLoadingState() => const Center(
-            child: CircularProgressIndicator.adaptive(),
-          ),
+          NotificationsInitialState() ||
+          NotificationsLoadingState() => const Center(child: CircularProgressIndicator.adaptive()),
           NotificationsFailureState() => Center(
             child: Text(
               state.message,
@@ -36,18 +34,12 @@ class _NotificationsPageState extends State<NotificationsPage> {
             notifications: _filterNotifications(state.notifications),
             filters: _filters,
             selectedFilterIndex: _selectedFilterIndex,
-            onFilterChanged: (index) => setState(() => _selectedFilterIndex = index),
+            onFilterChanged: _onFilterChanged,
           ),
         },
       ),
     ),
   );
-
-  List<NotificationEntity> _filterNotifications(List<NotificationEntity> notifications) => switch (_selectedFilterIndex) {
-    1 => notifications.where((notification) => !notification.isRead).toList(),
-    2 => notifications.where((notification) => notification.type.toLowerCase() == 'promo').toList(),
-    _ => notifications,
-  };
 }
 
 final class _NotificationsContent extends StatelessWidget {
@@ -85,7 +77,7 @@ final class _NotificationsContent extends StatelessWidget {
       Dimensions.kGap16,
       Expanded(
         child: notifications.isEmpty
-            ? const Center(child: Text('No notifications'))
+            ? Center(child: Text(context.localizations.noNotifications))
             : ListView.separated(
                 itemCount: notifications.length,
                 separatorBuilder: (_, _) => Dimensions.kGap12,

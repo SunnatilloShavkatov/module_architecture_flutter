@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:core/src/connectivity/network_info.dart';
 import 'package:core/src/constants/env.dart';
+import 'package:core/src/constants/storage_keys.dart';
 import 'package:core/src/core_abstractions/injection.dart';
 import 'package:core/src/core_abstractions/injector.dart';
 import 'package:core/src/di/app_injector.dart';
@@ -101,24 +102,28 @@ Future<void> _initStorage({required Injector di}) async {
     di.registerSingleton<LocalSource>(LocalSourceImpl(box, storage));
   } catch (e, s) {
     logMessage('Failed init Storage', error: e, stackTrace: s);
+    rethrow;
   }
 }
 
+const int _kHiveKeySize = 32; // AES-256 requires 32-byte key
+const Duration _kLogoutTimeout = Duration(seconds: 5);
+
 Future<Uint8List> _getOrCreateHiveKey(FlutterSecureStorage storage) async {
   try {
-    final String? storedKey = await storage.read(key: 'hive_key');
+    final String? storedKey = await storage.read(key: StorageKeys.hiveKey);
 
     if (storedKey != null && storedKey.isNotEmpty) {
       return base64Decode(storedKey);
     }
 
     final Random secureRandom = Random.secure();
-    final Uint8List keyBytes = Uint8List(32);
+    final Uint8List keyBytes = Uint8List(_kHiveKeySize);
     for (var i = 0; i < keyBytes.length; i++) {
       keyBytes[i] = secureRandom.nextInt(256);
     }
 
-    await storage.write(key: 'hive_key', value: base64Encode(keyBytes));
+    await storage.write(key: StorageKeys.hiveKey, value: base64Encode(keyBytes));
 
     return keyBytes;
   } catch (e, s) {
@@ -132,7 +137,7 @@ Future<void> _onLogout(Injector di) async {
     await Future.wait(<Future<void>>[
       // FirebaseAuth.instance.signOut(),
       // FirebaseSubscriptions.instance.unsubscribeFromAllTopics(),
-    ]).timeout(const Duration(seconds: 5), onTimeout: () => throw TimeoutException('Timeout Exception 5 seconds'));
+    ]).timeout(_kLogoutTimeout, onTimeout: () => throw TimeoutException('Timeout Exception $_kLogoutTimeout'));
   } on Exception catch (e, s) {
     logMessage('Error: ', error: e, stackTrace: s);
   }

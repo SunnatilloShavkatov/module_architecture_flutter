@@ -7,6 +7,4 @@ mixin MainMixin on State<MainPage> {
     }
     widget.navigationShell.goBranch(index);
   }
-
-  Injector get di => AppInjector.instance;
 }

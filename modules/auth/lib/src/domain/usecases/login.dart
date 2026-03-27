@@ -2,7 +2,7 @@ import 'package:auth/src/domain/entities/user_entity.dart';
 import 'package:auth/src/domain/repos/auth_repo.dart';
 import 'package:core/core.dart';
 
-base class Login extends UsecaseWithParams<UserEntity, LoginParams> {
+class Login extends UsecaseWithParams<UserEntity, LoginParams> {
   const Login(this._repo);
 
   final AuthRepo _repo;

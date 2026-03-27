@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 import 'package:profile/src/domain/entities/profile_user_entity.dart';
 import 'package:profile/src/domain/repository/profile_repository.dart';
 
-final class UpdateProfileUser extends UsecaseWithParams<ProfileUserEntity, UpdateProfileUserParams> {
+class UpdateProfileUser extends UsecaseWithParams<ProfileUserEntity, UpdateProfileUserParams> {
   const UpdateProfileUser(this._repo);
 
   final ProfileRepository _repo;

@@ -19,7 +19,7 @@ class _OtpLoginPageState extends State<OtpLoginPage> with OtpLoginMixin {
   @override
   Widget build(BuildContext context) => BlocConsumer<OtpLoginBloc, OtpLoginState>(
     listenWhen: (prev, curr) => prev.runtimeType != curr.runtimeType,
-    listener: stateListener,
+    listener: _handleStates,
     builder: (context, state) => Scaffold(
       body: SafeAreaWithMinimum(
         minimum: Dimensions.kPaddingAll16,

@@ -45,11 +45,7 @@ final class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
         'phone': phone,
         'specialization': specialization,
       };
-      await _networkProvider.fetchMethod<dynamic>(
-        ProfileApiPaths.profile,
-        methodType: RMethodTypes.put,
-        data: data,
-      );
+      await _networkProvider.fetchMethod<dynamic>(ProfileApiPaths.profile, methodType: RMethodTypes.put, data: data);
       return await getProfileUser();
     } on FormatException {
       throw ServerException.formatException(locale: _networkProvider.locale);

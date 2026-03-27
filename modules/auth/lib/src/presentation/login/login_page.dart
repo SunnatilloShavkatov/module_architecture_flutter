@@ -18,8 +18,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> with LoginMixin {
   @override
   Widget build(BuildContext context) => BlocConsumer<LoginBloc, LoginState>(
-    listenWhen: (prev, curr) => prev.runtimeType != curr.runtimeType,
-    listener: stateListener,
+    listenWhen: (prev, curr) => curr is LoginFailure || curr is LoginSuccess,
+    listener: _handleStates,
     builder: (context, state) => Scaffold(
       body: SafeAreaWithMinimum(
         minimum: Dimensions.kPaddingAll16,
@@ -43,12 +43,20 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text('Handbook', textAlign: TextAlign.center, style: context.textTheme.headlineSmall),
-                    Dimensions.kGap8,
-                    Text('Tizimga kirish', textAlign: TextAlign.center, style: context.textTheme.titleLarge),
+                    Text(
+                      context.localizations.handbookTitle,
+                      textAlign: TextAlign.center,
+                      style: context.textTheme.headlineSmall,
+                    ),
                     Dimensions.kGap8,
                     Text(
-                      'Davom etish uchun hisobingizga kiring',
+                      context.localizations.loginTitle,
+                      textAlign: TextAlign.center,
+                      style: context.textTheme.titleLarge,
+                    ),
+                    Dimensions.kGap8,
+                    Text(
+                      context.localizations.loginSubtitle,
                       textAlign: TextAlign.center,
                       style: TextStyle(color: context.color.textSecondary),
                     ),
@@ -58,7 +66,7 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        labelText: 'Electron pochta',
+                        labelText: context.localizations.emailLabel,
                         hintText: 'email@example.com',
                         filled: true,
                         fillColor: context.color.background,
@@ -67,7 +75,7 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                           borderSide: BorderSide.none,
                         ),
                       ),
-                      validator: emailValidator,
+                      validator: _emailValidator,
                     ),
                     Dimensions.kGap12,
                     TextFormField(
@@ -75,8 +83,8 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                       textInputAction: TextInputAction.done,
                       obscureText: _isPasswordObscured,
                       decoration: InputDecoration(
-                        labelText: 'Parol',
-                        hintText: 'Parolni kiriting',
+                        labelText: context.localizations.passwordLabel,
+                        hintText: context.localizations.passwordHint,
                         filled: true,
                         fillColor: context.color.background,
                         border: OutlineInputBorder(
@@ -84,12 +92,12 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                           borderSide: BorderSide.none,
                         ),
                         suffixIcon: IconButton(
-                          onPressed: togglePasswordVisibility,
+                          onPressed: _togglePasswordVisibility,
                           icon: Icon(_isPasswordObscured ? Icons.visibility_off_outlined : Icons.visibility_outlined),
                         ),
                       ),
-                      validator: passwordValidator,
-                      onFieldSubmitted: (_) => loginPressed(),
+                      validator: _passwordValidator,
+                      onFieldSubmitted: (_) => _loginPressed(),
                     ),
                     Dimensions.kGap12,
                     Row(
@@ -98,12 +106,12 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                           constraints: Dimensions.kBoxConstraints24,
                           child: Checkbox(
                             value: _rememberMe,
-                            onChanged: (value) => setRememberMe(isChecked: value ?? false),
+                            onChanged: (value) => _setRememberMe(isChecked: value ?? false),
                             activeColor: context.color.primary,
                           ),
                         ),
                         Dimensions.kGap8,
-                        const Text('Eslab qolish'),
+                        Text(context.localizations.rememberMe),
                       ],
                     ),
                     if (_errorMessage != null) ...[
@@ -113,11 +121,11 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                     Dimensions.kGap12,
                     CustomLoadingButton(
                       isLoading: state is LoginLoading,
-                      onPressed: loginPressed,
-                      child: const Text('Kirish'),
+                      onPressed: _loginPressed,
+                      child: Text(context.localizations.loginButton),
                     ),
                     Dimensions.kGap8,
-                    TextButton(onPressed: _openOtpPage, child: const Text('Telegram orqali kirish')),
+                    TextButton(onPressed: _openOtpPage, child: Text(context.localizations.telegramLogin)),
                   ],
                 ),
               ),

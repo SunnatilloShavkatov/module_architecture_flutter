@@ -11,42 +11,44 @@ mixin LoginMixin on State<LoginPage> {
 
   LoginBloc get _bloc => context.read<LoginBloc>();
 
-  String? emailValidator(String? value) {
+  String? _emailValidator(String? value) {
     if ((value ?? '').trim().isEmpty) {
-      return 'Email required';
+      return context.localizations.emailRequired;
     }
     return null;
   }
 
-  String? passwordValidator(String? value) {
+  String? _passwordValidator(String? value) {
     if ((value ?? '').trim().isEmpty) {
-      return 'Password required';
+      return context.localizations.passwordRequired;
     }
     return null;
   }
 
-  void togglePasswordVisibility() {
+  void _togglePasswordVisibility() {
     setState(() => _isPasswordObscured = !_isPasswordObscured);
   }
 
-  void setRememberMe({required bool isChecked}) {
+  void _setRememberMe({required bool isChecked}) {
     setState(() => _rememberMe = isChecked);
   }
 
-  void stateListener(BuildContext context, LoginState state) {
+  void _handleStates(BuildContext context, LoginState state) {
     if (state is LoginFailure) {
       setState(() => _errorMessage = state.message);
       return;
-    }
-    if (state is LoginSuccess) {
+    } else if (state is LoginSuccess) {
+      if (!context.mounted) {
+        return;
+      }
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Tizimga muvaffaqiyatli kirildi: ${state.auth.email}')));
+      ).showSnackBar(SnackBar(content: Text('${context.localizations.loginSuccessMessage}: ${state.auth.email}')));
       context.goNamed(Routes.mainHome);
     }
   }
 
-  void loginPressed() {
+  void _loginPressed() {
     final currentForm = _formKey.currentState;
     if (currentForm == null || !currentForm.validate()) {
       return;

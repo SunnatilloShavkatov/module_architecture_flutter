@@ -15,5 +15,8 @@ final class StorageKeys {
   static const String userData = 'user_data';
   static const String userId = 'user_id';
 
+  /// Hive encryption key stored in FlutterSecureStorage
+  static const String hiveKey = 'hive_key';
+
   static const Set<String> keep = <String>{locale, themeMode};
 }
