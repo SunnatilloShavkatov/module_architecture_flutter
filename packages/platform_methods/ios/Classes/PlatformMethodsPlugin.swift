@@ -6,6 +6,7 @@ public class PlatformMethodsPlugin: NSObject, FlutterPlugin {
         label: "uz.nasiya.platform_methods.work_queue",
         qos: .utility
     )
+    private let inAppReviewManager = InAppReviewManager()
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "platform_methods", binaryMessenger: registrar.messenger())
@@ -46,6 +47,40 @@ public class PlatformMethodsPlugin: NSObject, FlutterPlugin {
         case "isEmulator":
             let value = isEmulator()
             result(value)
+        case "isReviewAvailable":
+            DispatchQueue.main.async {
+                result(self.inAppReviewManager.isReviewAvailable())
+            }
+        case "requestReview":
+            inAppReviewManager.requestReview { reviewResult in
+                switch reviewResult {
+                case .success:
+                    result(nil)
+                case .failure(let error):
+                    result(
+                        FlutterError(
+                            code: error.code,
+                            message: error.message,
+                            details: error.details
+                        )
+                    )
+                }
+            }
+        case "openStoreListing":
+            inAppReviewManager.openStoreListing { reviewResult in
+                switch reviewResult {
+                case .success:
+                    result(nil)
+                case .failure(let error):
+                    result(
+                        FlutterError(
+                            code: error.code,
+                            message: error.message,
+                            details: error.details
+                        )
+                    )
+                }
+            }
         default:
             result(FlutterMethodNotImplemented)
         }

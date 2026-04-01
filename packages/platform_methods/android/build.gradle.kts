@@ -60,6 +60,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.play:review-ktx:2.0.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
     testImplementation("org.mockito:mockito-core:5.20.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test")

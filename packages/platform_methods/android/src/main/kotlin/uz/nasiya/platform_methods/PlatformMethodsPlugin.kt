@@ -1,13 +1,17 @@
 package uz.nasiya.platform_methods
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ContentResolver
+import android.content.Context
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -19,21 +23,29 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 /** PlatformMethodsPlugin */
-class PlatformMethodsPlugin : FlutterPlugin, MethodCallHandler {
+class PlatformMethodsPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     companion object {
         private const val CHANNEL_NAME = "platform_methods"
         private const val ERROR_GETTING_ID = "ERROR_GETTING_ID"
         private const val ERROR_EMULATOR_CHECK = "ERROR_EMULATOR_CHECK"
+        private const val ERROR_REVIEW_CHECK = "ERROR_REVIEW_CHECK"
+        private const val ERROR_REVIEW_REQUEST = "ERROR_REVIEW_REQUEST"
+        private const val ERROR_STORE_LISTING = "ERROR_STORE_LISTING"
     }
 
     private lateinit var channel: MethodChannel
+    private lateinit var applicationContext: Context
     private lateinit var contentResolver: ContentResolver
+    private var activity: Activity? = null
+    private lateinit var inAppReviewManager: InAppReviewManager
     private val ioScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val mainHandler = Handler(Looper.getMainLooper())
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPluginBinding) {
+        applicationContext = flutterPluginBinding.applicationContext
         contentResolver = flutterPluginBinding.applicationContext.contentResolver
+        inAppReviewManager = InAppReviewManager(applicationContext) { activity }
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, CHANNEL_NAME)
         channel.setMethodCallHandler(this)
     }
@@ -77,14 +89,83 @@ class PlatformMethodsPlugin : FlutterPlugin, MethodCallHandler {
                 }
             }
 
+            "isReviewAvailable" -> {
+                ioScope.launch {
+                    try {
+                        val isReviewAvailable = inAppReviewManager.isReviewAvailable()
+                        postResult {
+                            result.success(isReviewAvailable)
+                        }
+                    } catch (t: Throwable) {
+                        postResult {
+                            mapResultError(
+                                result,
+                                t,
+                                ERROR_REVIEW_CHECK,
+                                "Failed to detect in-app review availability"
+                            )
+                        }
+                    }
+                }
+            }
+
+            "requestReview" -> {
+                postResult {
+                    inAppReviewManager.requestReview(
+                        onComplete = { result.success(null) },
+                        onError = { error ->
+                            mapResultError(
+                                result,
+                                error,
+                                ERROR_REVIEW_REQUEST,
+                                "Failed to launch in-app review flow"
+                            )
+                        }
+                    )
+                }
+            }
+
+            "openStoreListing" -> {
+                postResult {
+                    inAppReviewManager.openStoreListing(
+                        onComplete = { result.success(null) },
+                        onError = { error ->
+                            mapResultError(
+                                result,
+                                error,
+                                ERROR_STORE_LISTING,
+                                "Failed to open store listing"
+                            )
+                        }
+                    )
+                }
+            }
+
             else -> {
                 result.notImplemented()
             }
         }
     }
 
+    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        activity = binding.activity
+    }
+
+    override fun onDetachedFromActivityForConfigChanges() {
+        activity = null
+    }
+
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+        activity = binding.activity
+    }
+
+    override fun onDetachedFromActivity() {
+        activity = null
+    }
+
     override fun onDetachedFromEngine(binding: FlutterPluginBinding) {
         ioScope.cancel()
+        activity = null
         channel.setMethodCallHandler(null)
     }
 

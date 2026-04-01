@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:platform_methods/platform_methods.dart';
 
 void main() {
@@ -14,6 +15,89 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String? id;
+  String? status;
+  bool isLoading = false;
+
+  void _setError(Object error) {
+    if (error is PlatformException) {
+      status = '[${error.code}] ${error.message ?? 'Unknown platform error'}';
+      return;
+    }
+    status = error.toString();
+  }
+
+  Future<void> _run(
+    Future<void> Function() action, {
+    String? successMessage,
+  }) async {
+    setState(() {
+      isLoading = true;
+      status = null;
+    });
+    try {
+      await action();
+      setState(() {
+        status = successMessage;
+      });
+    } catch (error) {
+      setState(() {
+        _setError(error);
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _loadDeviceId() async {
+    setState(() {
+      isLoading = true;
+      status = null;
+    });
+    try {
+      final String? getID = await PlatformMethods.instance.getDeviceId();
+      setState(() {
+        id = getID;
+      });
+    } catch (error) {
+      setState(() {
+        _setError(error);
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _checkReviewAvailability() async {
+    setState(() {
+      isLoading = true;
+      status = null;
+    });
+    try {
+      final bool isAvailable = await PlatformMethods.instance
+          .isReviewAvailable();
+      setState(() {
+        status = 'Review available: $isAvailable';
+      });
+    } catch (error) {
+      setState(() {
+        _setError(error);
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -33,15 +117,32 @@ class _MyAppState extends State<MyApp> {
             spacing: 16,
             children: [
               if (id != null) SelectableText('ID: $id'),
+              if (status != null) SelectableText(status!),
               ElevatedButton(
-                onPressed: () async {
-                  final String? getID = await PlatformMethods.instance
-                      .getDeviceId();
-                  setState(() {
-                    id = getID;
-                  });
-                },
-                child: Text('Get ID'),
+                onPressed: isLoading ? null : _loadDeviceId,
+                child: const Text('Get ID'),
+              ),
+              ElevatedButton(
+                onPressed: isLoading ? null : _checkReviewAvailability,
+                child: const Text('Check Review Availability'),
+              ),
+              ElevatedButton(
+                onPressed: isLoading
+                    ? null
+                    : () => _run(
+                        PlatformMethods.instance.requestReview,
+                        successMessage: 'Review flow requested',
+                      ),
+                child: const Text('Request Review'),
+              ),
+              ElevatedButton(
+                onPressed: isLoading
+                    ? null
+                    : () => _run(
+                        PlatformMethods.instance.openStoreListing,
+                        successMessage: 'Store listing opened',
+                      ),
+                child: const Text('Open Store Listing'),
               ),
             ],
           ),

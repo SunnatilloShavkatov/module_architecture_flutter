@@ -9,4 +9,10 @@ class PlatformMethods {
   Future<bool> isEmulator() => PlatformMethodsPlatform.instance.isEmulator();
 
   Future<String?> getDeviceId() => PlatformMethodsPlatform.instance.getDeviceId();
+
+  Future<bool> isReviewAvailable() => PlatformMethodsPlatform.instance.isReviewAvailable();
+
+  Future<void> requestReview() => PlatformMethodsPlatform.instance.requestReview();
+
+  Future<void> openStoreListing() => PlatformMethodsPlatform.instance.openStoreListing();
 }

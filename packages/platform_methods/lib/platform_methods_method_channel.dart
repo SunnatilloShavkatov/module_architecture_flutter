@@ -27,4 +27,28 @@ class MethodChannelPlatformMethods extends PlatformMethodsPlatform {
     }
     return await methodChannel.invokeMethod<bool?>('isEmulator') ?? false;
   }
+
+  @override
+  Future<bool> isReviewAvailable() async {
+    if (kIsWeb) {
+      return false;
+    }
+    return await methodChannel.invokeMethod<bool?>('isReviewAvailable') ?? false;
+  }
+
+  @override
+  Future<void> requestReview() async {
+    if (kIsWeb) {
+      return;
+    }
+    await methodChannel.invokeMethod<void>('requestReview');
+  }
+
+  @override
+  Future<void> openStoreListing() async {
+    if (kIsWeb) {
+      return;
+    }
+    await methodChannel.invokeMethod<void>('openStoreListing');
+  }
 }

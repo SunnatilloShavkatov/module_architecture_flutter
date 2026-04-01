@@ -29,4 +29,16 @@ abstract class PlatformMethodsPlatform extends PlatformInterface {
   Future<String?> getDeviceId() {
     throw UnimplementedError('getId() has not been implemented.');
   }
+
+  Future<bool> isReviewAvailable() {
+    throw UnimplementedError('isReviewAvailable() has not been implemented.');
+  }
+
+  Future<void> requestReview() {
+    throw UnimplementedError('requestReview() has not been implemented.');
+  }
+
+  Future<void> openStoreListing() {
+    throw UnimplementedError('openStoreListing() has not been implemented.');
+  }
 }

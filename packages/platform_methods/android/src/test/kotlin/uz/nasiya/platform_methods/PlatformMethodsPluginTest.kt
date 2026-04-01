@@ -15,13 +15,13 @@ import kotlin.test.Test
 
 internal class PlatformMethodsPluginTest {
     @Test
-    fun onMethodCall_isPhysicalDevice_returnsExpectedValue() {
+    fun onMethodCall_unknownMethod_returnsNotImplemented() {
         val plugin = PlatformMethodsPlugin()
 
-        val call = MethodCall("isPhysicalDevice", null)
+        val call = MethodCall("unknownMethod", null)
         val mockResult: MethodChannel.Result = Mockito.mock(MethodChannel.Result::class.java)
         plugin.onMethodCall(call, mockResult)
 
-        Mockito.verify(mockResult).success(true)
+        Mockito.verify(mockResult).notImplemented()
     }
 }
