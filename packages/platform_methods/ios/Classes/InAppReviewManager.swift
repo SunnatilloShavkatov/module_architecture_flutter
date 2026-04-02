@@ -9,10 +9,6 @@ struct InAppReviewError: Error {
 }
 
 final class InAppReviewManager {
-    private enum Constants {
-        static let appStoreIdKey = "PlatformMethodsAppStoreId"
-    }
-
     func isReviewAvailable() -> Bool {
         return activeWindowScene() != nil
     }
@@ -25,29 +21,37 @@ final class InAppReviewManager {
                 return
             }
 
-            self.openStoreListing(
-                writeReview: true,
-                completion: completion
+            completion(
+                .failure(
+                    InAppReviewError(
+                        code: "REVIEW_UNAVAILABLE",
+                        message: "No active UIWindowScene available to request review",
+                        details: nil
+                    )
+                )
             )
         }
     }
 
-    func openStoreListing(completion: @escaping (Result<Void, InAppReviewError>) -> Void) {
+    func openStoreListing(
+        appStoreId: String?,
+        completion: @escaping (Result<Void, InAppReviewError>) -> Void
+    ) {
         DispatchQueue.main.async {
-            self.openStoreListing(writeReview: false, completion: completion)
+            self.openStoreListing(appStoreId: appStoreId, completion: completion)
         }
     }
 
     private func openStoreListing(
-        writeReview: Bool,
+        appStoreId: String?,
         completion: @escaping (Result<Void, InAppReviewError>) -> Void
     ) {
-        guard let appStoreId = appStoreId() else {
+        guard let appStoreId, !appStoreId.isEmpty else {
             completion(
                 .failure(
                     InAppReviewError(
                         code: "APP_STORE_ID_MISSING",
-                        message: "PlatformMethodsAppStoreId is missing from Info.plist",
+                        message: "The appStoreId argument is required on iOS",
                         details: nil
                     )
                 )
@@ -55,10 +59,9 @@ final class InAppReviewManager {
             return
         }
 
-        let suffix = writeReview ? "?action=write-review" : ""
         let candidateUrls = [
-            URL(string: "itms-apps://itunes.apple.com/app/id\(appStoreId)\(suffix)"),
-            URL(string: "https://apps.apple.com/app/id\(appStoreId)\(suffix)")
+            URL(string: "itms-apps://itunes.apple.com/app/id\(appStoreId)?action=write-review"),
+            URL(string: "https://apps.apple.com/app/id\(appStoreId)?action=write-review")
         ].compactMap { $0 }
 
         guard !candidateUrls.isEmpty else {
@@ -108,16 +111,5 @@ final class InAppReviewManager {
         return UIApplication.shared.connectedScenes
             .compactMap { $0 as? UIWindowScene }
             .first { $0.activationState == .foregroundActive }
-    }
-
-    private func appStoreId() -> String? {
-        let rawValue = Bundle.main.object(forInfoDictionaryKey: Constants.appStoreIdKey)
-        if let appStoreId = rawValue as? String, !appStoreId.isEmpty {
-            return appStoreId
-        }
-        if let appStoreId = rawValue as? NSNumber {
-            return appStoreId.stringValue
-        }
-        return nil
     }
 }

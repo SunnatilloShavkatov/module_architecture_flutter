@@ -16,5 +16,6 @@ class PlatformMethods {
 
   Future<void> requestReview() => PlatformMethodsPlatform.instance.requestReview();
 
-  Future<void> openStoreListing() => PlatformMethodsPlatform.instance.openStoreListing();
+  Future<void> openStoreListing({String? appStoreId}) =>
+      PlatformMethodsPlatform.instance.openStoreListing(appStoreId: appStoreId);
 }

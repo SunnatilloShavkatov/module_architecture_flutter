@@ -38,7 +38,7 @@ abstract class PlatformMethodsPlatform extends PlatformInterface {
     throw UnimplementedError('requestReview() has not been implemented.');
   }
 
-  Future<void> openStoreListing() {
+  Future<void> openStoreListing({String? appStoreId}) {
     throw UnimplementedError('openStoreListing() has not been implemented.');
   }
 }

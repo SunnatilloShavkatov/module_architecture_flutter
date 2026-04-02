@@ -54,12 +54,12 @@ class MethodChannelPlatformMethods extends PlatformMethodsPlatform {
   }
 
   @override
-  Future<void> openStoreListing() async {
+  Future<void> openStoreListing({String? appStoreId}) async {
     if (kIsWeb) {
       return;
     }
     try {
-      await methodChannel.invokeMethod<void>('openStoreListing');
+      await methodChannel.invokeMethod<void>('openStoreListing', {'appStoreId': appStoreId});
     } on PlatformException catch (e) {
       throw ReviewException(code: e.code, message: e.message ?? '', details: e.details?.toString());
     }

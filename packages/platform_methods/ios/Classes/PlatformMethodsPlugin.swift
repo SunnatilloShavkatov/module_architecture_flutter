@@ -67,7 +67,8 @@ public class PlatformMethodsPlugin: NSObject, FlutterPlugin {
                 }
             }
         case "openStoreListing":
-            inAppReviewManager.openStoreListing { reviewResult in
+            let appStoreId = (call.arguments as? [String: Any])?["appStoreId"] as? String
+            inAppReviewManager.openStoreListing(appStoreId: appStoreId) { reviewResult in
                 switch reviewResult {
                 case .success:
                     result(nil)

@@ -1,11 +1,11 @@
 package uz.nasiya.platform_methods
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.Context
 import android.net.Uri
 import android.os.Build
-import android.content.pm.PackageManager
 import com.google.android.play.core.review.ReviewManagerFactory
 
 internal class InAppReviewManager(
@@ -31,12 +31,7 @@ internal class InAppReviewManager(
     fun requestReview(onComplete: () -> Unit, onError: (Throwable) -> Unit) {
         val currentActivity = activityProvider()
         if (currentActivity == null || currentActivity.isFinishing || currentActivity.isDestroyed) {
-            openStoreListing(
-                onComplete = onComplete,
-                onError = { storeError ->
-                    onError(IllegalStateException("Activity is unavailable for in-app review", storeError))
-                }
-            )
+            onError(IllegalStateException("Activity is unavailable for in-app review"))
             return
         }
 
@@ -45,12 +40,7 @@ internal class InAppReviewManager(
             .addOnSuccessListener { reviewInfo ->
                 val freshActivity = activityProvider()
                 if (freshActivity == null || freshActivity.isFinishing || freshActivity.isDestroyed) {
-                    openStoreListing(
-                        onComplete = onComplete,
-                        onError = { storeError ->
-                            onError(IllegalStateException("Activity became unavailable before launching review flow", storeError))
-                        }
-                    )
+                    onError(IllegalStateException("Activity became unavailable before launching review flow"))
                     return@addOnSuccessListener
                 }
                 reviewManager.launchReviewFlow(freshActivity, reviewInfo)
@@ -58,25 +48,11 @@ internal class InAppReviewManager(
                         onComplete()
                     }
                     .addOnFailureListener { launchError ->
-                        openStoreListing(
-                            onComplete = onComplete,
-                            onError = { storeError ->
-                                onError(IllegalStateException("Failed to launch in-app review flow", launchError).apply {
-                                    addSuppressed(storeError)
-                                })
-                            }
-                        )
+                        onError(IllegalStateException("Failed to launch in-app review flow", launchError))
                     }
             }
             .addOnFailureListener { requestError ->
-                openStoreListing(
-                    onComplete = onComplete,
-                    onError = { storeError ->
-                        onError(IllegalStateException("Failed to request in-app review flow", requestError).apply {
-                            addSuppressed(storeError)
-                        })
-                    }
-                )
+                onError(IllegalStateException("Failed to request in-app review flow", requestError))
             }
     }
 
