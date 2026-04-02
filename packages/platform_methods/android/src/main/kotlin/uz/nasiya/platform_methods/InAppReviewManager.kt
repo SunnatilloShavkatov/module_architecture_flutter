@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.content.pm.PackageManager
 import com.google.android.play.core.review.ReviewManagerFactory
 
 internal class InAppReviewManager(
@@ -41,7 +43,17 @@ internal class InAppReviewManager(
         val reviewManager = ReviewManagerFactory.create(applicationContext)
         reviewManager.requestReviewFlow()
             .addOnSuccessListener { reviewInfo ->
-                reviewManager.launchReviewFlow(currentActivity, reviewInfo)
+                val freshActivity = activityProvider()
+                if (freshActivity == null || freshActivity.isFinishing || freshActivity.isDestroyed) {
+                    openStoreListing(
+                        onComplete = onComplete,
+                        onError = { storeError ->
+                            onError(IllegalStateException("Activity became unavailable before launching review flow", storeError))
+                        }
+                    )
+                    return@addOnSuccessListener
+                }
+                reviewManager.launchReviewFlow(freshActivity, reviewInfo)
                     .addOnSuccessListener {
                         onComplete()
                     }
@@ -99,7 +111,15 @@ internal class InAppReviewManager(
 
     private fun hasPlayStoreInstalled(): Boolean {
         return try {
-            applicationContext.packageManager.getApplicationInfo(PLAY_STORE_PACKAGE, 0)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                applicationContext.packageManager.getApplicationInfo(
+                    PLAY_STORE_PACKAGE,
+                    PackageManager.ApplicationInfoFlags.of(0L)
+                )
+            } else {
+                @Suppress("DEPRECATION")
+                applicationContext.packageManager.getApplicationInfo(PLAY_STORE_PACKAGE, 0)
+            }
             true
         } catch (_: Exception) {
             false

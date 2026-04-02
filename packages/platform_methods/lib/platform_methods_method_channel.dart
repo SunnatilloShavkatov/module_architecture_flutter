@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'package:platform_methods/platform_methods_platform_interface.dart';
+import 'package:platform_methods/review_exception.dart';
 
 /// An implementation of [PlatformMethodsPlatform] that uses method channels.
 class MethodChannelPlatformMethods extends PlatformMethodsPlatform {
@@ -33,7 +34,11 @@ class MethodChannelPlatformMethods extends PlatformMethodsPlatform {
     if (kIsWeb) {
       return false;
     }
-    return await methodChannel.invokeMethod<bool?>('isReviewAvailable') ?? false;
+    try {
+      return await methodChannel.invokeMethod<bool?>('isReviewAvailable') ?? false;
+    } on PlatformException catch (e) {
+      throw ReviewException(code: e.code, message: e.message ?? '', details: e.details?.toString());
+    }
   }
 
   @override
@@ -41,7 +46,11 @@ class MethodChannelPlatformMethods extends PlatformMethodsPlatform {
     if (kIsWeb) {
       return;
     }
-    await methodChannel.invokeMethod<void>('requestReview');
+    try {
+      await methodChannel.invokeMethod<void>('requestReview');
+    } on PlatformException catch (e) {
+      throw ReviewException(code: e.code, message: e.message ?? '', details: e.details?.toString());
+    }
   }
 
   @override
@@ -49,6 +58,10 @@ class MethodChannelPlatformMethods extends PlatformMethodsPlatform {
     if (kIsWeb) {
       return;
     }
-    await methodChannel.invokeMethod<void>('openStoreListing');
+    try {
+      await methodChannel.invokeMethod<void>('openStoreListing');
+    } on PlatformException catch (e) {
+      throw ReviewException(code: e.code, message: e.message ?? '', details: e.details?.toString());
+    }
   }
 }

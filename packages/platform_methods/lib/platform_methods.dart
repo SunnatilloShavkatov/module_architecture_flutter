@@ -1,5 +1,7 @@
 import 'package:platform_methods/platform_methods_platform_interface.dart';
 
+export 'review_exception.dart';
+
 class PlatformMethods {
   const PlatformMethods._();
 

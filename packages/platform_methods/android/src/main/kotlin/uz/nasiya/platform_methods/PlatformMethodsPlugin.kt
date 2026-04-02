@@ -90,22 +90,11 @@ class PlatformMethodsPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             }
 
             "isReviewAvailable" -> {
-                ioScope.launch {
-                    try {
-                        val isReviewAvailable = inAppReviewManager.isReviewAvailable()
-                        postResult {
-                            result.success(isReviewAvailable)
-                        }
-                    } catch (t: Throwable) {
-                        postResult {
-                            mapResultError(
-                                result,
-                                t,
-                                ERROR_REVIEW_CHECK,
-                                "Failed to detect in-app review availability"
-                            )
-                        }
-                    }
+                try {
+                    val isReviewAvailable = inAppReviewManager.isReviewAvailable()
+                    result.success(isReviewAvailable)
+                } catch (t: Throwable) {
+                    mapResultError(result, t, ERROR_REVIEW_CHECK, "Failed to detect in-app review availability")
                 }
             }
 

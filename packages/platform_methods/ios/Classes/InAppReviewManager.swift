@@ -34,10 +34,7 @@ final class InAppReviewManager {
 
     func openStoreListing(completion: @escaping (Result<Void, InAppReviewError>) -> Void) {
         DispatchQueue.main.async {
-            self.openStoreListing(
-                writeReview: false,
-                completion: completion
-            )
+            self.openStoreListing(writeReview: false, completion: completion)
         }
     }
 
