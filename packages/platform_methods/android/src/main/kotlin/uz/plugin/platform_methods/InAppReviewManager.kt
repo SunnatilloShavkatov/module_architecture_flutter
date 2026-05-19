@@ -1,4 +1,4 @@
-package uz.nasiya.platform_methods
+package uz.plugin.platform_methods
 
 import android.app.Activity
 import android.content.Intent

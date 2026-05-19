@@ -3,7 +3,7 @@ import UIKit
 
 public class PlatformMethodsPlugin: NSObject, FlutterPlugin {
     private let workQueue = DispatchQueue(
-        label: "uz.nasiya.platform_methods.work_queue",
+        label: "uz.plugin.platform_methods.work_queue",
         qos: .utility
     )
     private let inAppReviewManager = InAppReviewManager()

@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "uz.nasiya.platform_methods_example"
+    namespace = "uz.plugin.platform_methods_example"
     compileSdk = 36
 
     compileOptions {
@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "uz.nasiya.platform_methods_example"
+        applicationId = "uz.plugin.platform_methods_example"
         minSdk = 26
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

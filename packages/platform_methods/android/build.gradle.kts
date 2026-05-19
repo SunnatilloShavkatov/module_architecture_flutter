@@ -1,20 +1,17 @@
 plugins {
     id("com.android.library")
-    kotlin("android")
 }
 
-group = "uz.nasiya.platform_methods"
+group = "uz.plugin.platform_methods"
 version = "1.0-SNAPSHOT"
 
 buildscript {
-    val kotlinVersion by extra("2.2.20")
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
         classpath("com.android.tools.build:gradle:8.13.0")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }
 }
 
@@ -26,18 +23,12 @@ allprojects {
 }
 
 android {
-    namespace = "uz.nasiya.platform_methods"
+    namespace = "uz.plugin.platform_methods"
     compileSdk = 36
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
-        }
     }
 
     sourceSets["main"].java.srcDirs("src/main/kotlin")
@@ -56,6 +47,12 @@ android {
                 it.outputs.upToDateWhen { false }
             }
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
     }
 }
 

@@ -23,7 +23,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: uz.nasiya.platform_methods
+        package: uz.plugin.platform_methods
         pluginClass: PlatformMethodsPlugin
       ios:
         pluginClass: PlatformMethodsPlugin

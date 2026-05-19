@@ -11,13 +11,14 @@ plugins {
 
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
-val hasKeystore = keystorePropertiesFile.exists()
-if (hasKeystore) {
+if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
+val hasKeystore = keystoreProperties.containsKey("keyAlias")
 
 android {
     namespace = "uz.shs.module_architecture_mobile"
+    ndkVersion = "28.2.13676358"
     compileSdk = 36
 
     compileOptions {

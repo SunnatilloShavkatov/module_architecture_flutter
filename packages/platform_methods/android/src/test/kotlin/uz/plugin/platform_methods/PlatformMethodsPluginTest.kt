@@ -1,4 +1,4 @@
-package uz.nasiya.platform_methods
+package uz.plugin.platform_methods
 
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
