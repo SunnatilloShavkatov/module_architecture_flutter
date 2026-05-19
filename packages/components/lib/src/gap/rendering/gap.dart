@@ -1,11 +1,7 @@
 import 'package:flutter/rendering.dart';
 
 class RenderGap extends RenderBox {
-  RenderGap({required double mainAxisExtent, double? crossAxisExtent, Axis? fallbackDirection, Color? color})
-    : _mainAxisExtent = mainAxisExtent,
-      _crossAxisExtent = crossAxisExtent,
-      _color = color,
-      _fallbackDirection = fallbackDirection;
+  RenderGap({required this._mainAxisExtent, this._crossAxisExtent, this._fallbackDirection, this._color});
 
   double get mainAxisExtent => _mainAxisExtent;
   double _mainAxisExtent;

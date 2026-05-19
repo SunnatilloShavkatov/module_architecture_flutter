@@ -5,8 +5,8 @@ publish_to: "none"
 description: "A new Flutter project."
 
 environment:
-  sdk: ">=3.11.0 <4.0.0"
-  flutter: ">=3.41.0"
+  sdk: ">=3.12.0 <4.0.0"
+  flutter: ">=3.44.0"
 
 dependencies:
   flutter:
@@ -37,13 +37,11 @@ dependencies:
   connectivity_plus: ^7.1.1
   # package info
   package_info_plus: ^10.1.0
-  # cached network image
-  flutter_cache_manager: ^3.4.1
   # firebase
-  firebase_core: ^4.8.0
-  firebase_analytics: ^12.4.0
-  firebase_messaging: ^16.2.1
-  firebase_remote_config: ^6.5.0
+  firebase_core: ^4.9.0
+  firebase_analytics: ^12.4.1
+  firebase_messaging: ^16.2.2
+  firebase_remote_config: ^6.5.1
   # local notification
   flutter_local_notifications: ^21.0.0
 

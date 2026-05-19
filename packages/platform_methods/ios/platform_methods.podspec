@@ -13,7 +13,10 @@ A new Flutter project.
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
+  s.source_files = 'platform_methods/Sources/platform_methods/**/*.swift'
+  s.resource_bundles = {
+    'platform_methods_privacy' => ['platform_methods/Sources/platform_methods/Resources/PrivacyInfo.xcprivacy']
+  }
   s.dependency 'Flutter'
   s.dependency 'KeychainAccess'
   s.platform = :ios, '15.0'

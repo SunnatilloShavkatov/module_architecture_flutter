@@ -1,7 +1,7 @@
 import 'package:flutter/rendering.dart';
 
 class RenderSliverGap extends RenderSliver {
-  RenderSliverGap({required double mainAxisExtent, Color? color}) : _mainAxisExtent = mainAxisExtent, _color = color;
+  RenderSliverGap({required this._mainAxisExtent, this._color});
 
   double get mainAxisExtent => _mainAxisExtent;
   double _mainAxisExtent;

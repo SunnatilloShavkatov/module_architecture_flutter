@@ -5,8 +5,8 @@ publish_to: "none"
 description: "A Flutter plugin to demonstrate platform method calls."
 
 environment:
-  sdk: ">=3.11.0 <4.0.0"
-  flutter: ">=3.41.0"
+  sdk: ">=3.12.0 <4.0.0"
+  flutter: ">=3.44.0"
 
 dependencies:
   flutter:
@@ -16,7 +16,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  analysis_lints: any
+  analysis_lints: ^1.0.9
 
 flutter:
 

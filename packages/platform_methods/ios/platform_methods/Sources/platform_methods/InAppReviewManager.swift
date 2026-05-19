@@ -38,11 +38,11 @@ final class InAppReviewManager {
         completion: @escaping (Result<Void, InAppReviewError>) -> Void
     ) {
         DispatchQueue.main.async {
-            self.openStoreListing(appStoreId: appStoreId, completion: completion)
+            self.openStoreListingInternal(appStoreId: appStoreId, completion: completion)
         }
     }
 
-    private func openStoreListing(
+    private func openStoreListingInternal(
         appStoreId: String?,
         completion: @escaping (Result<Void, InAppReviewError>) -> Void
     ) {
