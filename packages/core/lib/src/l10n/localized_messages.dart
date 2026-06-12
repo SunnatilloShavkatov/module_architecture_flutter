@@ -11,7 +11,7 @@ final class LocalizedMessages {
     return value;
   }
 
-  String tr(String key, {required String? locale}) => _getText(key, locale: locale);
+  String tr(String key, {String? locale}) => _getText(key, locale: locale);
 }
 
 final class LocalizationKeys {

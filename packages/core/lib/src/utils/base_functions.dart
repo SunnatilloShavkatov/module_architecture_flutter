@@ -6,7 +6,7 @@ String get defaultLocale => switch (defaultSystemLocale) {
   'ru' => 'ru',
   'en' => 'en',
   'uz' => 'uz',
-  _ => 'ru',
+  _ => 'uz',
 };
 
 String get defaultTheme => SchedulerBinding.instance.platformDispatcher.platformBrightness.name;

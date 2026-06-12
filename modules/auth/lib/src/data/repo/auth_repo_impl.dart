@@ -17,9 +17,10 @@ final class AuthRepoImpl implements AuthRepo {
       await _localDataSource.saveUser(result);
       return Right(result);
     } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message ?? '', statusCode: e.statusCode));
-    } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      return Left(e.failure);
+    } catch (e, s) {
+      logMessage('Login Error: $e', error: e, stackTrace: s);
+      return Left(ServerFailure(message: LocalizedMessages.instance.tr(LocalizationKeys.somethingWrong)));
     }
   }
 
@@ -30,9 +31,10 @@ final class AuthRepoImpl implements AuthRepo {
       await _localDataSource.saveUser(result);
       return Right(result);
     } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message ?? '', statusCode: e.statusCode));
-    } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      return Left(e.failure);
+    } catch (e, s) {
+      logMessage('OTP Login Error: $e', error: e, stackTrace: s);
+      return Left(ServerFailure(message: LocalizedMessages.instance.tr(LocalizationKeys.somethingWrong)));
     }
   }
 }

@@ -35,6 +35,7 @@ export 'src/error/server_error.dart';
 export 'src/extension/extension.dart';
 export 'src/icons/app_icons.dart';
 export 'src/l10n/app_localizations.dart';
+export 'src/l10n/localized_messages.dart';
 export 'src/local_source/local_source.dart';
 export 'src/native_splash/flutter_native_splash.dart';
 export 'src/network/network_provider.dart';
