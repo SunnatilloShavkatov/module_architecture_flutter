@@ -17,7 +17,7 @@ Future<void> mainCommon({required Environment env, required FirebaseOptions opti
 
   /// 3. Notification Service
   /// Starts early to catch launch notifications.
-  NotificationService.instance.initialize(options).ignore();
+  await NotificationService.instance.initialize(options);
 
   /// 4. Parallel Initialization (Dependency Injection)
   /// Registering modules is critical for other services.
