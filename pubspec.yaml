@@ -11,7 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   # firebase
-  firebase_core: ^4.10.0
+  firebase_core: ^4.11.0
+  firebase_app_check: ^0.4.5
   # packages
   merge_dependencies:
     path: packages/merge_dependencies

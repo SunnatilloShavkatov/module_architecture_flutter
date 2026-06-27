@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ Future<void> mainCommon({required Environment env, required FirebaseOptions opti
   /// 3. Notification Service
   /// Starts early to catch launch notifications.
   await NotificationService.instance.initialize(options);
+  FirebaseAppCheck.instance.activate().ignore();
 
   /// 4. Parallel Initialization (Dependency Injection)
   /// Registering modules is critical for other services.

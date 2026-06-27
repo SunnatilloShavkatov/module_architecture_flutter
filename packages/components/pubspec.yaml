@@ -16,7 +16,7 @@ dependencies:
   # rx
   rxdart: ^0.28.0
   # cached network image
-  cached_network_image_ce: ^4.7.0
+  cached_network_image_ce: ^4.9.0
 
 dev_dependencies:
   flutter_test:
