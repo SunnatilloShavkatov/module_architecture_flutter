@@ -69,6 +69,8 @@ final class ServerException implements Exception {
         errorMessage = LocalizedMessages.instance.tr(LocalizationKeys.somethingWrong, locale: locale);
       case DioExceptionType.badCertificate:
         errorMessage = LocalizedMessages.instance.tr(LocalizationKeys.badCertificate, locale: locale);
+      case DioExceptionType.transformTimeout:
+        errorMessage = LocalizedMessages.instance.tr(LocalizationKeys.transformTimeout, locale: locale);
     }
     return ServerException(message: errorMessage, statusCode: statusCode);
   }

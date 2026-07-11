@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   # intl  
-  intl: ^0.20.2
+  intl: any
   # rx
   rxdart: ^0.28.0
   # cached network image
