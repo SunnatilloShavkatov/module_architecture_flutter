@@ -22,7 +22,7 @@ let package = Package(
             ],
             path: "Sources/platform_methods",
             resources: [
-                .process("PrivacyInfo.xcprivacy"),
+                .process("Resources/PrivacyInfo.xcprivacy"),
             ]
         ),
     ]
