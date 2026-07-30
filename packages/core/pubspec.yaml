@@ -5,8 +5,8 @@ publish_to: "none"
 description: "A new Flutter project."
 
 environment:
-  sdk: ">=3.12.0 <4.0.0"
-  flutter: ">=3.44.0"
+  sdk: ">=3.11.0 <4.0.0"
+  flutter: ">=3.41.0"
 
 dependencies:
   flutter:
@@ -27,23 +27,23 @@ dependencies:
   # path
   path_provider: ^2.1.6
   # rest api
-  dio: ^5.10.0
+  dio: ^5.11.0
   # url launchers
   url_launcher: ^6.3.2
   # otp autofill
   pinput: ^6.0.2
   smart_auth: ^3.2.0
   # connectivity plus
-  connectivity_plus: ^7.2.0
+  connectivity_plus: ^7.3.1
   # package info
-  package_info_plus: ^10.2.0
+  package_info_plus: ^10.2.1
   # firebase
-  firebase_core: ^4.11.0
-  firebase_analytics: ^12.4.3
-  firebase_messaging: ^16.4.1
-  firebase_remote_config: ^6.5.3
+  firebase_core: ^4.12.1
+  firebase_analytics: ^12.4.5
+  firebase_messaging: ^16.4.3
+  firebase_remote_config: ^6.5.5
   # local notification
-  flutter_local_notifications: ^22.0.1
+  flutter_local_notifications: ^22.2.0
 
 dev_dependencies:
   flutter_test:

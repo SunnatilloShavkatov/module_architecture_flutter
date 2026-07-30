@@ -1,7 +1,8 @@
+import 'package:components/src/gap/rendering/gap_color_painter.dart';
 import 'package:flutter/rendering.dart';
 
-class RenderGap extends RenderBox {
-  RenderGap({required this._mainAxisExtent, this._crossAxisExtent, this._fallbackDirection, this._color});
+class RenderGap extends RenderBox with GapColorPainter {
+  RenderGap(this._mainAxisExtent, this._crossAxisExtent, this._fallbackDirection, this._color);
 
   double get mainAxisExtent => _mainAxisExtent;
   double _mainAxisExtent;
@@ -10,6 +11,17 @@ class RenderGap extends RenderBox {
     if (_mainAxisExtent != value) {
       _mainAxisExtent = value;
       markNeedsLayout();
+    }
+  }
+
+  @override
+  Color? get color => _color;
+  Color? _color;
+
+  set color(Color? value) {
+    if (_color != value) {
+      _color = value;
+      markNeedsPaint();
     }
   }
 
@@ -39,16 +51,6 @@ class RenderGap extends RenderBox {
       return parentNode.direction;
     } else {
       return fallbackDirection;
-    }
-  }
-
-  Color? get color => _color;
-  Color? _color;
-
-  set color(Color? value) {
-    if (_color != value) {
-      _color = value;
-      markNeedsPaint();
     }
   }
 
@@ -105,12 +107,7 @@ class RenderGap extends RenderBox {
   }
 
   @override
-  void paint(PaintingContext context, Offset offset) {
-    if (color != null) {
-      final Paint paint = Paint()..color = color!;
-      context.canvas.drawRect(offset & size, paint);
-    }
-  }
+  void paint(PaintingContext context, Offset offset) => paintColor(context, offset, size);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {

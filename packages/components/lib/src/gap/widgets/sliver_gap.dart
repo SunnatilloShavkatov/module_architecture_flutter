@@ -24,8 +24,7 @@ class SliverGap extends LeafRenderObjectWidget {
   final Color? color;
 
   @override
-  RenderObject createRenderObject(BuildContext context) =>
-      RenderSliverGap(mainAxisExtent: mainAxisExtent, color: color);
+  RenderObject createRenderObject(BuildContext context) => RenderSliverGap(mainAxisExtent, color);
 
   @override
   void updateRenderObject(BuildContext context, RenderSliverGap renderObject) {

@@ -1,7 +1,8 @@
+import 'package:components/src/gap/rendering/gap_color_painter.dart';
 import 'package:flutter/rendering.dart';
 
-class RenderSliverGap extends RenderSliver {
-  RenderSliverGap({required this._mainAxisExtent, this._color});
+class RenderSliverGap extends RenderSliver with GapColorPainter {
+  RenderSliverGap(this._mainAxisExtent, this._color);
 
   double get mainAxisExtent => _mainAxisExtent;
   double _mainAxisExtent;
@@ -13,6 +14,7 @@ class RenderSliverGap extends RenderSliver {
     }
   }
 
+  @override
   Color? get color => _color;
   Color? _color;
 
@@ -42,13 +44,10 @@ class RenderSliverGap extends RenderSliver {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    if (color != null) {
-      final Paint paint = Paint()..color = color!;
-      final Size size = constraints
-          .asBoxConstraints(minExtent: geometry!.paintExtent, maxExtent: geometry!.paintExtent)
-          .constrain(Size.zero);
-      context.canvas.drawRect(offset & size, paint);
-    }
+    final Size size = constraints
+        .asBoxConstraints(minExtent: geometry!.paintExtent, maxExtent: geometry!.paintExtent)
+        .constrain(Size.zero);
+    paintColor(context, offset, size);
   }
 
   @override
