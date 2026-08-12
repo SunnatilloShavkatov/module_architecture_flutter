@@ -396,8 +396,7 @@ class ExamplePage extends StatelessWidget {
 
 ## Related Documentation
 
-- [Flutter Rules - UI Components & Styling](../../flutter-rules.md#13-ui-components--styling)
-- [Flutter Rules - Package Usage Rules](../../flutter-rules.md#14-package-usage-rules)
+- [CLAUDE.md](../../CLAUDE.md)
 - [Architecture Overview](../../docs/architecture/overview.md)
 
 ## License

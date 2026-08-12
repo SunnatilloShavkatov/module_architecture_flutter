@@ -23,9 +23,9 @@ class _MainPageState extends State<MainPage> with MainMixin {
       onTap: _onTabTapped,
       currentIndex: widget.navigationShell.currentIndex,
       items: [
-        BottomNavigationBarItem(label: context.localizations.home, icon: const Icon(Icons.home)),
+        BottomNavigationBarItem(label: context.l10n.home, icon: const Icon(Icons.home)),
         const BottomNavigationBarItem(label: 'Route', icon: Icon(Icons.route)),
-        BottomNavigationBarItem(label: context.localizations.resources, icon: const Icon(Icons.book_rounded)),
+        BottomNavigationBarItem(label: context.l10n.resources, icon: const Icon(Icons.book_rounded)),
         const BottomNavigationBarItem(label: 'Profile', icon: Icon(Icons.person_rounded)),
       ],
     ),

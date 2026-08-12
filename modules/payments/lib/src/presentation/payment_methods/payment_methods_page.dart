@@ -69,7 +69,7 @@ final class _PaymentsContentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (paymentMethods.isEmpty) {
-      return Center(child: Text(context.localizations.noPaymentMethods));
+      return Center(child: Text(context.l10n.noPaymentMethods));
     }
     return ListView.separated(
       itemCount: paymentMethods.length,

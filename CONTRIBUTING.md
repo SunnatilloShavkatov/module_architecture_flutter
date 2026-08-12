@@ -658,14 +658,14 @@ docs: update README with new module structure
 - [Module Structure Details](docs/architecture/module_structure.md)
 - [Dependency Injection Guide](docs/architecture/dependency_injection.md)
 - [Domain Layer Patterns](docs/domain_layer)
-- [Flutter Rules (Complete)](flutter-rules.md)
+- [CLAUDE.md (Complete)](CLAUDE.md)
 
 ---
 
 ## 🆘 Getting Help
 
 - **Architecture Questions**: See [docs/architecture/](docs/architecture)
-- **Code Patterns**: See [flutter-rules.md](flutter-rules.md)
+- **Code Patterns**: See [CLAUDE.md](CLAUDE.md)
 - **Issues**: Open a GitHub issue with the `question` label
 
 ---

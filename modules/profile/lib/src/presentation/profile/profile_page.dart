@@ -10,7 +10,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(context.localizations.profile)),
+    appBar: AppBar(title: Text(context.l10n.profile)),
     body: SafeAreaWithMinimum(
       minimum: Dimensions.kPaddingAll16,
       child: BlocBuilder<ProfileBloc, ProfileState>(
@@ -91,7 +91,7 @@ final class _ProfileContentView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          context.localizations.profile,
+          context.l10n.profile,
           style: context.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.w700,
             color: context.color.textPrimary,

@@ -20,11 +20,15 @@ If no clear owner exists after step 4, create a new module.
 
 ## 3. Current Module Ownership Map
 
+(Verify against `ls modules/` before trusting this list — it drifts.)
+
 - `modules/auth` -> authentication and session flows
 - `modules/home` -> home/dashboard content
 - `modules/initial` -> startup/welcome/splash
-- `modules/main` -> app shell, tab/root flow
-- `modules/more` -> settings and more menu
+- `modules/main` -> app shell, tab/root flow (StatefulShellRoute, hosts other modules' pages via `PageFactory`)
+- `modules/profile` -> profile, settings, edit profile
+- `modules/notifications` -> notifications list/flow
+- `modules/payments` -> payment methods, add card
 - `modules/system` -> not found/no internet/system screens
 
 ## 4. Create-New-Module Trigger

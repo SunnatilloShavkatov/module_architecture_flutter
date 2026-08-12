@@ -77,7 +77,7 @@ final class _NotificationsContent extends StatelessWidget {
       Dimensions.kGap16,
       Expanded(
         child: notifications.isEmpty
-            ? Center(child: Text(context.localizations.noNotifications))
+            ? Center(child: Text(context.l10n.noNotifications))
             : ListView.separated(
                 itemCount: notifications.length,
                 separatorBuilder: (_, _) => Dimensions.kGap12,

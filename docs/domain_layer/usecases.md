@@ -409,4 +409,4 @@ test('Login use case success', () async {
 
 - [Repositories](repositories.md)
 - [Entities](entities.md)
-- See `flutter-rules.md` for Bloc patterns
+- See `CLAUDE.md` for Bloc patterns

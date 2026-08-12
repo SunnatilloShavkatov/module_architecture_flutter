@@ -1,6 +1,6 @@
 # TEMPLATE REFERENCE (The Architectural Seed)
 
-If this project is empty and you don't have an existing module like `auth` or `referral` to clone, use this file as your absolute **Source of Truth** for syntax and structure. **CLONE THIS EXACTLY** for any new feature. Do NOT invent your own simple representations. Use this exact level of complexity.
+If this project is empty, and you don't have an existing module like `auth` or `referral` to clone, use this file as your absolute **Source of Truth** for syntax and structure. **CLONE THIS EXACTLY** for any new feature. Do NOT invent your own simple representations. Use this exact level of complexity.
 
 ---
 
@@ -383,14 +383,14 @@ mixin LoginMixin on State<LoginPage> {
         _step = LoginStep.login;
         Future<void>.microtask(_passwordFocus.requestFocus);
       } else {
-        showErrorMessage(context, message: context.localizations.userNotFound);
+        showErrorMessage(context, message: context.l10n.userNotFound);
       }
     } else if (state is LoginSuccessState) {
       context.goNamed(Routes.placementStart);
     } else if (state is LoginFailureState || state is CheckUserFailure) {
       showErrorMessage(context, message: (state as dynamic).message);
     } else if (state is ProblemHasOccurredState) {
-      showErrorMessage(context, message: context.localizations.problemHasOccurred);
+      showErrorMessage(context, message: context.l10n.problemHasOccurred);
     }
   }
 
@@ -472,14 +472,14 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
               child: ListView(
                 padding: Dimensions.kPaddingAll16.copyWith(bottom: context.viewInsets.bottom + 16),
                 children: <Widget>[
-                  Text(context.localizations.welcome, style: context.textStyle.geistW700x30),
+                  Text(context.l10n.welcome, style: context.textStyle.geistW700x30),
                   Dimensions.kGap24,
                   Form(
                     key: _formKeyIdentity,
                     child: EmailPhoneTextField(
                       focusNode: _identityFocus,
                       controller: _identityController,
-                      titleText: context.localizations.emailOrPhoneNumber,
+                      titleText: context.l10n.emailOrPhoneNumber,
                     ),
                   ),
                   if (_step == LoginStep.login) ...<Widget>[
@@ -489,7 +489,7 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                       child: CustomPasswordTextField(
                         focusNode: _passwordFocus,
                         controller: _passwordController,
-                        titleText: context.localizations.password,
+                        titleText: context.l10n.password,
                       ),
                     ),
                   ],
@@ -506,7 +506,7 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
           builder: (_, state) => CustomLoadingButton(
             onPressed: _loginPressed,
             isLoading: state is LoadingState,
-            child: Text(_step == LoginStep.login ? context.localizations.logIn : context.localizations.continueText),
+            child: Text(_step == LoginStep.login ? context.l10n.logIn : context.l10n.continueText),
           ),
         ),
       ),

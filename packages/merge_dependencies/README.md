@@ -164,7 +164,7 @@ This package depends on:
 
 - [Module Structure](../../docs/architecture/module_structure.md)
 - [Dependency Injection](../../docs/architecture/dependency_injection.md)
-- [Flutter Rules - Package Usage](../../flutter-rules.md)
+- [CLAUDE.md](../../CLAUDE.md)
 
 ## License
 

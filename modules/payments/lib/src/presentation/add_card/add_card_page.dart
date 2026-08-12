@@ -22,7 +22,7 @@ class _AddCardPageState extends State<AddCardPage> with AddCardMixin {
         curr is PaymentMethodsActionSuccessState,
     listener: _handleStates,
     builder: (context, state) => Scaffold(
-      appBar: AppBar(title: Text(context.localizations.addCard)),
+      appBar: AppBar(title: Text(context.l10n.addCard)),
       body: SafeAreaWithMinimum(
         minimum: Dimensions.kPaddingAll16,
         child: Form(
@@ -33,18 +33,18 @@ class _AddCardPageState extends State<AddCardPage> with AddCardMixin {
                 controller: _numberController,
                 keyboardType: TextInputType.number,
                 validator: (value) =>
-                    (value ?? '').replaceAll(' ', '').length < 16 ? context.localizations.invalidCardNumber : null,
+                    (value ?? '').replaceAll(' ', '').length < 16 ? context.l10n.invalidCardNumber : null,
                 decoration: InputDecoration(
-                  labelText: context.localizations.cardNumber,
+                  labelText: context.l10n.cardNumber,
                   border: const OutlineInputBorder(),
                 ),
               ),
               Dimensions.kGap12,
               TextFormField(
                 controller: _expiryController,
-                validator: (value) => (value ?? '').trim().isEmpty ? context.localizations.fieldRequired : null,
+                validator: (value) => (value ?? '').trim().isEmpty ? context.l10n.fieldRequired : null,
                 decoration: InputDecoration(
-                  labelText: context.localizations.expiryDate,
+                  labelText: context.l10n.expiryDate,
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -52,7 +52,7 @@ class _AddCardPageState extends State<AddCardPage> with AddCardMixin {
               CustomLoadingButton(
                 isLoading: state is PaymentMethodsLoadingState,
                 onPressed: _submit,
-                child: Text(context.localizations.saveCard),
+                child: Text(context.l10n.saveCard),
               ),
             ],
           ),

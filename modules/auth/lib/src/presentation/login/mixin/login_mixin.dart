@@ -13,14 +13,14 @@ mixin LoginMixin on State<LoginPage> {
 
   String? _emailValidator(String? value) {
     if ((value ?? '').trim().isEmpty) {
-      return context.localizations.emailRequired;
+      return context.l10n.emailRequired;
     }
     return null;
   }
 
   String? _passwordValidator(String? value) {
     if ((value ?? '').trim().isEmpty) {
-      return context.localizations.passwordRequired;
+      return context.l10n.passwordRequired;
     }
     return null;
   }
@@ -43,7 +43,7 @@ mixin LoginMixin on State<LoginPage> {
       }
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('${context.localizations.loginSuccessMessage}: ${state.auth.email}')));
+      ).showSnackBar(SnackBar(content: Text('${context.l10n.loginSuccessMessage}: ${state.auth.email}')));
       context.goNamed(Routes.mainHome);
     }
   }

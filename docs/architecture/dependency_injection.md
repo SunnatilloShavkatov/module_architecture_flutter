@@ -355,4 +355,4 @@ di.registerLazySingleton<A>(() => A(di.get<B>())); // ✅
 
 - [Module Structure](module_structure.md)
 - [Domain Layer](../domain_layer/repositories.md)
-- See `flutter-rules.md` for Bloc and presentation patterns
+- See `CLAUDE.md` for Bloc and presentation patterns

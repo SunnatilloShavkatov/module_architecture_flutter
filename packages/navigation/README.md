@@ -137,7 +137,7 @@ class NameRoutes {
 ## Related Documentation
 
 - [Module Structure](../../docs/architecture/module_structure.md)
-- [Flutter Rules](../../flutter-rules.md#14-package-usage-rules)
+- [CLAUDE.md](../../CLAUDE.md)
 
 ## License
 

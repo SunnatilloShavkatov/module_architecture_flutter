@@ -141,7 +141,7 @@ final class AuthRepoImpl implements AuthRepo {
 }
 ```
 
-Implementations should be in the Data Layer (see `flutter-rules.md` for implementation patterns).
+Implementations should be in the Data Layer (see `CLAUDE.md` for implementation patterns).
 
 ## Repository Usage
 
@@ -327,4 +327,4 @@ class MockAuthRepo implements AuthRepo {
 
 - [Use Cases](usecases.md)
 - [Entities](entities.md)
-- See `flutter-rules.md` for repository implementation patterns
+- See `CLAUDE.md` for repository implementation patterns

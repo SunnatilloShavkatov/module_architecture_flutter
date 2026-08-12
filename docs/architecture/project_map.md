@@ -11,6 +11,8 @@ This document provides a project-aware map so implementation is added in the cor
 
 ## Module Inventory
 
+(Verify against `ls modules/` before trusting this list — it drifts.)
+
 - `modules/auth`
   - full feature module with data/domain/presentation/di/router
   - reference for auth flow with bloc + mixin + page
@@ -20,8 +22,13 @@ This document provides a project-aware map so implementation is added in the cor
   - startup/welcome flow pages + router + container
 - `modules/main`
   - app shell module with page + mixin + router + DI
-- `modules/more`
-  - settings/more feature with bloc/event/state + pages + DI + router
+  - hosts other modules' pages through `PageFactory` (see `modules/main/lib/src/router/main_router.dart`) — never imports another module's page/bloc directly
+- `modules/profile`
+  - profile/settings/edit-profile feature with bloc/event/state + pages + DI + router
+- `modules/notifications`
+  - notifications feature with bloc/event/state + pages + DI + router
+- `modules/payments`
+  - payment methods/add card feature with bloc/event/state + pages + DI + router
 - `modules/system`
   - system pages (not found / internet connection) + router + container
 

@@ -27,7 +27,7 @@ The `core` package provides essential functionality used across all feature modu
 - Module-based dependency registration
 
 ### Extensions
-- **Localization**: `context.localizations` - Access translations
+- **Localization**: `context.l10n` - Access translations
 - **Theme Colors**: `context.color` - Access theme colors
 - **Text Styles**: `context.textStyle` - Access text styles
 - **Platform**: Platform detection utilities
@@ -133,8 +133,8 @@ ResultFuture<LoginEntity> login({
 
 ```
 // In widgets
-Text(context.localizations.appName)
-Text(context.localizations.loginButton)
+Text(context.l10n.appName)
+Text(context.l10n.loginButton)
 ```
 
 ### Theme Colors
@@ -199,7 +199,7 @@ final class AuthInjection implements Injection {
 - `ModuleContainer` - Module registration interface
 
 ### Extensions
-- `BuildContextExtension` - `context.localizations`, `context.color`, `context.textStyle`
+- `BuildContextExtension` - `context.l10n`, `context.color`, `context.textStyle`
 - `PlatformExtension` - Platform detection
 - `DateParseExtension` - Date utilities
 - `MoneyFormatExtension` - Currency formatting
@@ -260,7 +260,7 @@ final class AuthInjection implements Injection {
 
 - [Architecture Overview](../../docs/architecture/overview.md)
 - [Dependency Injection](../../docs/architecture/dependency_injection.md)
-- [Flutter Rules](../../flutter-rules.md#14-package-usage-rules)
+- [CLAUDE.md](../../CLAUDE.md)
 
 ## License
 

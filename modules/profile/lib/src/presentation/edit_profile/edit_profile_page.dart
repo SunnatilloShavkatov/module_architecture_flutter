@@ -22,7 +22,7 @@ class _EditProfilePageState extends State<EditProfilePage> with EditProfileMixin
     listenWhen: (prev, curr) => curr is ProfileUpdatedState || curr is ProfileFailureState,
     listener: _handleStates,
     builder: (context, state) => Scaffold(
-      appBar: AppBar(title: Text(context.localizations.editProfile)),
+      appBar: AppBar(title: Text(context.l10n.editProfile)),
       body: SafeAreaWithMinimum(
         minimum: Dimensions.kPaddingAll16,
         child: SingleChildScrollView(
@@ -57,6 +57,16 @@ class _EditProfilePageState extends State<EditProfilePage> with EditProfileMixin
       ),
     ),
   );
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _phoneController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _specializationController.dispose();
+    super.dispose();
+  }
 }
 
 final class _ProfileTextField extends StatelessWidget {
@@ -70,7 +80,7 @@ final class _ProfileTextField extends StatelessWidget {
   Widget build(BuildContext context) => TextFormField(
     controller: controller,
     keyboardType: keyboardType,
-    validator: (value) => (value ?? '').trim().isEmpty ? context.localizations.fieldRequired : null,
+    validator: (value) => (value ?? '').trim().isEmpty ? context.l10n.fieldRequired : null,
     decoration: InputDecoration(labelText: label, border: const OutlineInputBorder()),
   );
 }

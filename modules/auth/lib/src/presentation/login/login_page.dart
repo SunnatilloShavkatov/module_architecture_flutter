@@ -44,19 +44,19 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      context.localizations.handbookTitle,
+                      context.l10n.handbookTitle,
                       textAlign: TextAlign.center,
                       style: context.textTheme.headlineSmall,
                     ),
                     Dimensions.kGap8,
                     Text(
-                      context.localizations.loginTitle,
+                      context.l10n.loginTitle,
                       textAlign: TextAlign.center,
                       style: context.textTheme.titleLarge,
                     ),
                     Dimensions.kGap8,
                     Text(
-                      context.localizations.loginSubtitle,
+                      context.l10n.loginSubtitle,
                       textAlign: TextAlign.center,
                       style: TextStyle(color: context.color.textSecondary),
                     ),
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        labelText: context.localizations.emailLabel,
+                        labelText: context.l10n.emailLabel,
                         hintText: 'email@example.com',
                         filled: true,
                         fillColor: context.color.background,
@@ -83,8 +83,8 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                       textInputAction: TextInputAction.done,
                       obscureText: _isPasswordObscured,
                       decoration: InputDecoration(
-                        labelText: context.localizations.passwordLabel,
-                        hintText: context.localizations.passwordHint,
+                        labelText: context.l10n.passwordLabel,
+                        hintText: context.l10n.passwordHint,
                         filled: true,
                         fillColor: context.color.background,
                         border: OutlineInputBorder(
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                           ),
                         ),
                         Dimensions.kGap8,
-                        Text(context.localizations.rememberMe),
+                        Text(context.l10n.rememberMe),
                       ],
                     ),
                     if (_errorMessage != null) ...[
@@ -122,10 +122,10 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                     CustomLoadingButton(
                       isLoading: state is LoginLoading,
                       onPressed: _loginPressed,
-                      child: Text(context.localizations.loginButton),
+                      child: Text(context.l10n.loginButton),
                     ),
                     Dimensions.kGap8,
-                    TextButton(onPressed: _openOtpPage, child: Text(context.localizations.telegramLogin)),
+                    TextButton(onPressed: _openOtpPage, child: Text(context.l10n.telegramLogin)),
                   ],
                 ),
               ),

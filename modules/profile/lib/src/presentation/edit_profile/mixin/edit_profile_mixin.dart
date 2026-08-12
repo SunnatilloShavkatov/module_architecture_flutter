@@ -14,7 +14,7 @@ mixin EditProfileMixin on State<EditProfilePage> {
     if (!context.mounted) {
       return;
     } else if (state is ProfileUpdatedState) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.localizations.profileUpdatedSuccess)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.profileUpdatedSuccess)));
       context.pop(true);
     } else if (state is ProfileFailureState) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
@@ -26,7 +26,7 @@ mixin EditProfileMixin on State<EditProfilePage> {
     if (form == null || !form.validate()) {
       return;
     }
-    context.read<ProfileBloc>().add(
+    bloc.add(
       UpdateProfilePressedEvent(
         username: _usernameController.text.trim(),
         firstName: _firstNameController.text.trim(),
@@ -37,13 +37,5 @@ mixin EditProfileMixin on State<EditProfilePage> {
     );
   }
 
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _phoneController.dispose();
-    _firstNameController.dispose();
-    _lastNameController.dispose();
-    _specializationController.dispose();
-    super.dispose();
-  }
+  ProfileBloc get bloc => context.read<ProfileBloc>();
 }

@@ -115,7 +115,7 @@ Prefer `KeyboardDismiss` where form UX needs tap-to-dismiss behavior and it is n
 In module presentation code:
 
 - size: use `context.width`, `context.height`, `context.padding`, `context.viewInsets`;
-- localization: use `context.localizations.<key>`;
+- localization: use `context.l10n.<key>`;
 - avoid direct `MediaQuery.of(context)` when extension getters already cover the requirement.
 
 ## 7. Navigation and User Feedback
@@ -130,7 +130,7 @@ Do not reference helpers that are not present in this repository.
 
 User-facing text in module presentation must come from localization keys:
 
-- required: `context.localizations.<key>`
+- required: `context.l10n.<key>`
 - avoid hardcoded UI strings in pages/widgets
 
 Hardcoded strings are allowed only for temporary debug text in explicitly marked development-only code.
@@ -141,7 +141,7 @@ Do:
 
 ```
 Text(
-  context.localizations.welcomeSubtitle,
+  context.l10n.welcomeSubtitle,
   style: context.textStyle.defaultW700x24.copyWith(color: context.color.textPrimary),
 )
 ```
