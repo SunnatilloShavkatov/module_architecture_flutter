@@ -17,8 +17,7 @@ mixin OtpLoginMixin on State<OtpLoginPage> {
 
   void _handleStates(BuildContext context, OtpLoginState state) {
     if (state is OtpLoginFailure) {
-      setState(() => _errorMessage = state.message);
-      return;
+      _errorMessage = state.message;
     } else if (state is OtpLoginSuccess) {
       if (!context.mounted) {
         return;
@@ -42,11 +41,5 @@ mixin OtpLoginMixin on State<OtpLoginPage> {
 
   void goBackToLogin() {
     context.pop();
-  }
-
-  @override
-  void dispose() {
-    _codeController.dispose();
-    super.dispose();
   }
 }

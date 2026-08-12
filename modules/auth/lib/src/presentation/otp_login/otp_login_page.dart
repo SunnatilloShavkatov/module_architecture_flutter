@@ -100,4 +100,10 @@ class _OtpLoginPageState extends State<OtpLoginPage> with OtpLoginMixin {
       ),
     ),
   );
+
+  @override
+  void dispose() {
+    _codeController.dispose();
+    super.dispose();
+  }
 }

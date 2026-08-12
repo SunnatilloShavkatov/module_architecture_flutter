@@ -5,7 +5,7 @@ import 'package:core/core.dart';
 
 final class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(this._login) : super(const LoginInitialState()) {
-    on<LoginSubmitEvent>(_loginHandler);
+    on<LoginSubmitEvent>(_loginHandler, transformer: throttle());
   }
 
   final Login _login;

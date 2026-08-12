@@ -5,7 +5,7 @@ import 'package:core/core.dart';
 
 final class OtpLoginBloc extends Bloc<OtpLoginEvent, OtpLoginState> {
   OtpLoginBloc(this._otpLogin) : super(const OtpLoginInitialState()) {
-    on<OtpLoginSubmitEvent>(_otpLoginHandler);
+    on<OtpLoginSubmitEvent>(_otpLoginHandler, transformer: throttle());
   }
 
   final OtpLogin _otpLogin;
