@@ -129,11 +129,11 @@ abstract class AppLocalizations {
   /// **'Настройки'**
   String get settings;
 
-  /// No description provided for @handbookTitle.
+  /// No description provided for @appName.
   ///
   /// In ru, this message translates to:
-  /// **'Handbook'**
-  String get handbookTitle;
+  /// **'AppName'**
+  String get appName;
 
   /// No description provided for @welcomeSubtitle.
   ///
@@ -344,6 +344,162 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Светлая тема'**
   String get lightMode;
+
+  /// No description provided for @retryButton.
+  ///
+  /// In ru, this message translates to:
+  /// **'Повторить попытку'**
+  String get retryButton;
+
+  /// No description provided for @paymentMethodsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Способы оплаты'**
+  String get paymentMethodsTitle;
+
+  /// No description provided for @addNewCard.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить новую карту'**
+  String get addNewCard;
+
+  /// No description provided for @expiresLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Срок действия'**
+  String get expiresLabel;
+
+  /// No description provided for @loginViaEmail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войти через email'**
+  String get loginViaEmail;
+
+  /// No description provided for @otpLoginTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вход по коду'**
+  String get otpLoginTitle;
+
+  /// No description provided for @otpEnterCodeHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите код из Telegram-бота'**
+  String get otpEnterCodeHint;
+
+  /// No description provided for @getCodeViaTelegram.
+  ///
+  /// In ru, this message translates to:
+  /// **'Получить код (Telegram)'**
+  String get getCodeViaTelegram;
+
+  /// No description provided for @telegramAppNotFound.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось открыть приложение Telegram'**
+  String get telegramAppNotFound;
+
+  /// No description provided for @otpCodeRequired.
+  ///
+  /// In ru, this message translates to:
+  /// **'Требуется код подтверждения'**
+  String get otpCodeRequired;
+
+  /// No description provided for @goBack.
+  ///
+  /// In ru, this message translates to:
+  /// **'Назад'**
+  String get goBack;
+
+  /// No description provided for @saveButton.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранить'**
+  String get saveButton;
+
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Уведомления'**
+  String get notificationsTitle;
+
+  /// No description provided for @otpCodeLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Код подтверждения'**
+  String get otpCodeLabel;
+
+  /// No description provided for @noCategoriesFound.
+  ///
+  /// In ru, this message translates to:
+  /// **'Категории не найдены'**
+  String get noCategoriesFound;
+
+  /// No description provided for @noActiveBarbershops.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет активных парикмахерских'**
+  String get noActiveBarbershops;
+
+  /// No description provided for @upcomingAppointmentsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Предстоящие записи'**
+  String get upcomingAppointmentsTitle;
+
+  /// No description provided for @noUpcomingAppointments.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет предстоящих записей'**
+  String get noUpcomingAppointments;
+
+  /// No description provided for @unknownBusiness.
+  ///
+  /// In ru, this message translates to:
+  /// **'Неизвестная компания'**
+  String get unknownBusiness;
+
+  /// No description provided for @firstNameLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя'**
+  String get firstNameLabel;
+
+  /// No description provided for @lastNameLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Фамилия'**
+  String get lastNameLabel;
+
+  /// No description provided for @occupationLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Профессия'**
+  String get occupationLabel;
+
+  /// No description provided for @addressesTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Адреса'**
+  String get addressesTitle;
+
+  /// No description provided for @accountSectionTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'АККАУНТ'**
+  String get accountSectionTitle;
+
+  /// No description provided for @supportSectionTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'ПОДДЕРЖКА'**
+  String get supportSectionTitle;
+
+  /// No description provided for @helpCenterTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Центр помощи'**
+  String get helpCenterTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

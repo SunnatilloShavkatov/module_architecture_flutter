@@ -59,7 +59,7 @@ final class _ProfileFailureView extends StatelessWidget {
           style: context.textTheme.bodyLarge?.copyWith(color: context.colorScheme.error),
         ),
         Dimensions.kGap16,
-        CustomLoadingButton(onPressed: onReload, child: const Text("Qayta urinib ko'rish")),
+        CustomLoadingButton(onPressed: onReload, child: Text(context.l10n.retryButton)),
       ],
     ),
   );
@@ -138,38 +138,38 @@ final class _ProfileContentView extends StatelessWidget {
                   shape: const RoundedRectangleBorder(borderRadius: Dimensions.kBorderRadius24),
                   padding: Dimensions.kPaddingHor16Ver12,
                 ),
-                child: const Text('Edit Profile'),
+                child: Text(context.l10n.editProfile),
               ),
             ],
           ),
         ),
         Dimensions.kGap32,
-        const _ProfileSectionTitle(title: 'ACCOUNT'),
+        _ProfileSectionTitle(title: context.l10n.accountSectionTitle),
         _ProfileMenuItem(
           icon: Icons.settings_outlined,
-          title: 'Settings',
+          title: context.l10n.settings,
           onTap: () async {
             await context.pushNamed(Routes.settings);
           },
         ),
         _ProfileMenuItem(
           icon: Icons.notifications_outlined,
-          title: 'Notifications',
+          title: context.l10n.notificationsTitle,
           onTap: () async {
             await context.pushNamed(Routes.notifications);
           },
         ),
         _ProfileMenuItem(
           icon: Icons.payment_outlined,
-          title: 'Payment Methods',
+          title: context.l10n.paymentMethodsTitle,
           onTap: () async {
             await context.pushNamed(Routes.paymentMethods);
           },
         ),
-        const _ProfileMenuItem(icon: Icons.location_on_outlined, title: 'Addresses'),
+        _ProfileMenuItem(icon: Icons.location_on_outlined, title: context.l10n.addressesTitle),
         Dimensions.kGap24,
-        const _ProfileSectionTitle(title: 'SUPPORT'),
-        const _ProfileMenuItem(icon: Icons.help_outline, title: 'Help Center'),
+        _ProfileSectionTitle(title: context.l10n.supportSectionTitle),
+        _ProfileMenuItem(icon: Icons.help_outline, title: context.l10n.helpCenterTitle),
       ],
     ),
   );

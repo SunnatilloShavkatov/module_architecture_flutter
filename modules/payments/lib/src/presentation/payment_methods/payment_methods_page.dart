@@ -19,7 +19,7 @@ class PaymentMethodsPage extends StatelessWidget {
       }
     },
     builder: (context, state) => Scaffold(
-      appBar: AppBar(title: const Text('Payment Methods')),
+      appBar: AppBar(title: Text(context.l10n.paymentMethodsTitle)),
       body: SafeAreaWithMinimum(
         minimum: Dimensions.kPaddingAll16,
         child: switch (state) {
@@ -39,7 +39,7 @@ class PaymentMethodsPage extends StatelessWidget {
               context.read<PaymentMethodsBloc>().add(const PaymentMethodsLoadEvent());
             }
           },
-          child: const Text('Add New Card'),
+          child: Text(context.l10n.addNewCard),
         ),
       ),
     ),
@@ -94,7 +94,10 @@ final class _PaymentsContentView extends StatelessWidget {
                       '${method.cardBrand} ending in ${method.cardLast4}',
                       style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
                     ),
-                    Text('Expires ${method.expiryDate}', style: context.textTheme.bodySmall),
+                    Text(
+                      '${context.l10n.expiresLabel} ${method.expiryDate}',
+                      style: context.textTheme.bodySmall,
+                    ),
                   ],
                 ),
               ),

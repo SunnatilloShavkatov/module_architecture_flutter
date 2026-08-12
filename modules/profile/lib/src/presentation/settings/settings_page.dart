@@ -14,9 +14,8 @@ class SettingsPage extends StatelessWidget {
     body: Center(
       child: Column(
         children: [
-          Text('Locale ${AppInjector.instance.get<RouteNavigationObserver>().currentRoutes}'),
           ListTile(
-            title: const Text('Choose theme mode'),
+            title: Text(context.l10n.chooseThemeMode),
             onTap: () async {
               final themeMode = await context.pushNamed(Routes.chooseThemeModeSheet);
               if (themeMode != null && themeMode is ThemeMode && context.mounted) {

@@ -27,7 +27,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settings => 'Настройки';
 
   @override
-  String get handbookTitle => 'Handbook';
+  String get appName => 'AppName';
 
   @override
   String get welcomeSubtitle => 'добро пожаловать в систему';
@@ -133,4 +133,82 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get lightMode => 'Светлая тема';
+
+  @override
+  String get retryButton => 'Повторить попытку';
+
+  @override
+  String get paymentMethodsTitle => 'Способы оплаты';
+
+  @override
+  String get addNewCard => 'Добавить новую карту';
+
+  @override
+  String get expiresLabel => 'Срок действия';
+
+  @override
+  String get loginViaEmail => 'Войти через email';
+
+  @override
+  String get otpLoginTitle => 'Вход по коду';
+
+  @override
+  String get otpEnterCodeHint => 'Введите код из Telegram-бота';
+
+  @override
+  String get getCodeViaTelegram => 'Получить код (Telegram)';
+
+  @override
+  String get telegramAppNotFound => 'Не удалось открыть приложение Telegram';
+
+  @override
+  String get otpCodeRequired => 'Требуется код подтверждения';
+
+  @override
+  String get goBack => 'Назад';
+
+  @override
+  String get saveButton => 'Сохранить';
+
+  @override
+  String get notificationsTitle => 'Уведомления';
+
+  @override
+  String get otpCodeLabel => 'Код подтверждения';
+
+  @override
+  String get noCategoriesFound => 'Категории не найдены';
+
+  @override
+  String get noActiveBarbershops => 'Нет активных парикмахерских';
+
+  @override
+  String get upcomingAppointmentsTitle => 'Предстоящие записи';
+
+  @override
+  String get noUpcomingAppointments => 'Нет предстоящих записей';
+
+  @override
+  String get unknownBusiness => 'Неизвестная компания';
+
+  @override
+  String get firstNameLabel => 'Имя';
+
+  @override
+  String get lastNameLabel => 'Фамилия';
+
+  @override
+  String get occupationLabel => 'Профессия';
+
+  @override
+  String get addressesTitle => 'Адреса';
+
+  @override
+  String get accountSectionTitle => 'АККАУНТ';
+
+  @override
+  String get supportSectionTitle => 'ПОДДЕРЖКА';
+
+  @override
+  String get helpCenterTitle => 'Центр помощи';
 }

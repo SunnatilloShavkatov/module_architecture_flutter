@@ -1,4 +1,5 @@
 import 'package:components/components.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
 
@@ -15,7 +16,7 @@ class NotFoundPage extends StatelessWidget {
         onPressed: () {
           context.pop();
         },
-        child: const Text('Go back'),
+        child: Text(context.l10n.goBack),
       ),
     ),
   );

@@ -20,7 +20,10 @@ If no clear owner exists after step 4, create a new module.
 
 ## 3. Current Module Ownership Map
 
-(Verify against `ls modules/` before trusting this list — it drifts.)
+This repo is a template — projects cloned from it keep only the modules they need, so this list
+will not match every copy. **Always run `ls modules/` first and use that, not this list.** A module
+named below missing from `ls modules/` is not a problem to fix; a module in `ls modules/` not named
+below just needs a one-line addition here, not a redesign.
 
 - `modules/auth` -> authentication and session flows
 - `modules/home` -> home/dashboard content

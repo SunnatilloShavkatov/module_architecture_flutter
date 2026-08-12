@@ -16,7 +16,7 @@ class NotificationsPage extends StatefulWidget {
 class _NotificationsPageState extends State<NotificationsPage> with NotificationsMixin {
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Notifications')),
+    appBar: AppBar(title: Text(context.l10n.notificationsTitle)),
     body: SafeAreaWithMinimum(
       minimum: Dimensions.kPaddingAll16,
       child: BlocBuilder<NotificationsBloc, NotificationsState>(

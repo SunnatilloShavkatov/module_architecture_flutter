@@ -41,11 +41,11 @@ class _OtpLoginPageState extends State<OtpLoginPage> with OtpLoginMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text('Handbook', textAlign: TextAlign.center, style: context.textTheme.headlineSmall),
+                  Text(context.l10n.appName, textAlign: TextAlign.center, style: context.textTheme.headlineSmall),
                   Dimensions.kGap8,
-                  Text('OTP orqali kirish', textAlign: TextAlign.center, style: context.textTheme.titleLarge),
+                  Text(context.l10n.otpLoginTitle, textAlign: TextAlign.center, style: context.textTheme.titleLarge),
                   Dimensions.kGap8,
-                  const Text('Telegram botdan olingan kodni kiriting', textAlign: TextAlign.center),
+                  Text(context.l10n.otpEnterCodeHint, textAlign: TextAlign.center),
                   Dimensions.kGap20,
                   InkWell(
                     onTap: openTelegramBot,
@@ -62,7 +62,7 @@ class _OtpLoginPageState extends State<OtpLoginPage> with OtpLoginMixin {
                         children: [
                           Icon(Icons.telegram, color: context.color.primary),
                           Dimensions.kGap8,
-                          Text('Kodni olish (Telegram)', style: TextStyle(color: context.color.primary)),
+                          Text(context.l10n.getCodeViaTelegram, style: TextStyle(color: context.color.primary)),
                         ],
                       ),
                     ),
@@ -72,7 +72,7 @@ class _OtpLoginPageState extends State<OtpLoginPage> with OtpLoginMixin {
                     controller: _codeController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      labelText: 'Tasdiqlash kodi',
+                      labelText: context.l10n.otpCodeLabel,
                       hintText: '123456',
                       filled: true,
                       fillColor: context.color.background,
@@ -88,10 +88,10 @@ class _OtpLoginPageState extends State<OtpLoginPage> with OtpLoginMixin {
                   CustomLoadingButton(
                     isLoading: state is OtpLoginLoading,
                     onPressed: submitOtp,
-                    child: const Text('Kirish'),
+                    child: Text(context.l10n.loginButton),
                   ),
                   Dimensions.kGap8,
-                  TextButton(onPressed: goBackToLogin, child: const Text('Email orqali kirish')),
+                  TextButton(onPressed: goBackToLogin, child: Text(context.l10n.loginViaEmail)),
                 ],
               ),
             ),

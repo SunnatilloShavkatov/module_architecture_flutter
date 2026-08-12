@@ -11,7 +11,9 @@ This document provides a project-aware map so implementation is added in the cor
 
 ## Module Inventory
 
-(Verify against `ls modules/` before trusting this list — it drifts.)
+This repo is a template — a cloned project keeps only what it needs, so this inventory won't match
+every copy. Verify against `ls modules/` before trusting this list; a listed module missing from
+the actual project is expected, not a bug.
 
 - `modules/auth`
   - full feature module with data/domain/presentation/di/router

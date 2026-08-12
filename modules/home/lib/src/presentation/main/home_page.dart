@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> with HomeMixin {
     listener: _stateListener,
     builder: (context, state) => Scaffold(
       key: const Key('home'),
-      appBar: AppBar(title: const Text('Handbook')),
+      appBar: AppBar(title: Text(context.l10n.appName)),
       body: SafeAreaWithMinimum(
         minimum: Dimensions.kPaddingAll16,
         child: switch (state) {
@@ -57,7 +57,7 @@ final class _HomeFailureView extends StatelessWidget {
           style: context.textTheme.bodyLarge?.copyWith(color: context.colorScheme.error),
         ),
         Dimensions.kGap16,
-        CustomLoadingButton(onPressed: onReload, child: const Text("Qayta urinib ko'rish")),
+        CustomLoadingButton(onPressed: onReload, child: Text(context.l10n.retryButton)),
       ],
     ),
   );
@@ -93,19 +93,22 @@ final class _HomeContentView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Welcome, $displayName',
+              '${context.l10n.welcomeGreeting}, $displayName',
               style: context.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w700,
                 color: context.color.textPrimary,
               ),
             ),
             Dimensions.kGap4,
-            Text('Have a good day', style: context.textTheme.bodyMedium?.copyWith(color: context.color.textSecondary)),
+            Text(
+              context.l10n.haveGoodDay,
+              style: context.textTheme.bodyMedium?.copyWith(color: context.color.textSecondary),
+            ),
             Dimensions.kGap24,
-            const _HomeSectionTitle(title: 'Categories'),
+            _HomeSectionTitle(title: context.l10n.categories),
             Dimensions.kGap12,
             if (visibleCategories.isEmpty)
-              const _HomeEmptySectionText(message: 'No categories found')
+              _HomeEmptySectionText(message: context.l10n.noCategoriesFound)
             else
               Wrap(
                 spacing: 8,
@@ -113,10 +116,10 @@ final class _HomeContentView extends StatelessWidget {
                 children: visibleCategories.map((category) => _CategoryBadge(category: category)).toList(),
               ),
             Dimensions.kGap24,
-            const _HomeSectionTitle(title: 'Barbershops'),
+            _HomeSectionTitle(title: context.l10n.barbershops),
             Dimensions.kGap12,
             if (visibleBusinesses.isEmpty)
-              const _HomeEmptySectionText(message: 'No active barbershops')
+              _HomeEmptySectionText(message: context.l10n.noActiveBarbershops)
             else
               Column(
                 children: [
@@ -127,10 +130,10 @@ final class _HomeContentView extends StatelessWidget {
                 ],
               ),
             Dimensions.kGap24,
-            const _HomeSectionTitle(title: 'Upcoming Appointments'),
+            _HomeSectionTitle(title: context.l10n.upcomingAppointmentsTitle),
             Dimensions.kGap12,
             if (visibleAppointments.isEmpty)
-              const _HomeEmptySectionText(message: 'No upcoming appointments')
+              _HomeEmptySectionText(message: context.l10n.noUpcomingAppointments)
             else
               Column(
                 children: [
@@ -269,7 +272,7 @@ final class _AppointmentTile extends StatelessWidget {
         ),
         Dimensions.kGap4,
         Text(
-          appointment.business?.name ?? 'Unknown business',
+          appointment.business?.name ?? context.l10n.unknownBusiness,
           style: context.textTheme.bodySmall?.copyWith(color: context.color.textSecondary),
         ),
         Dimensions.kGap8,

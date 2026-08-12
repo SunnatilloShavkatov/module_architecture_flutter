@@ -27,7 +27,7 @@ class AppLocalizationsUz extends AppLocalizations {
   String get settings => 'Sozlamalar';
 
   @override
-  String get handbookTitle => 'Handbook';
+  String get appName => 'AppName';
 
   @override
   String get welcomeSubtitle => 'tizimiga hush kelibsiz';
@@ -133,4 +133,82 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get lightMode => 'Kunduzgi rejim';
+
+  @override
+  String get retryButton => 'Qayta urinib ko\'rish';
+
+  @override
+  String get paymentMethodsTitle => 'To\'lov usullari';
+
+  @override
+  String get addNewCard => 'Yangi karta qo\'shish';
+
+  @override
+  String get expiresLabel => 'Amal qilish muddati';
+
+  @override
+  String get loginViaEmail => 'Elektron pochta orqali kirish';
+
+  @override
+  String get otpLoginTitle => 'OTP orqali kirish';
+
+  @override
+  String get otpEnterCodeHint => 'Telegram botdan olingan kodni kiriting';
+
+  @override
+  String get getCodeViaTelegram => 'Kodni olish (Telegram)';
+
+  @override
+  String get telegramAppNotFound => 'Telegram ilovasini ochib bo\'lmadi';
+
+  @override
+  String get otpCodeRequired => 'Tasdiqlash kodi majburiy';
+
+  @override
+  String get goBack => 'Orqaga';
+
+  @override
+  String get saveButton => 'Saqlash';
+
+  @override
+  String get notificationsTitle => 'Bildirishnomalar';
+
+  @override
+  String get otpCodeLabel => 'Tasdiqlash kodi';
+
+  @override
+  String get noCategoriesFound => 'Kategoriyalar topilmadi';
+
+  @override
+  String get noActiveBarbershops => 'Faol sartaroshxonalar yo\'q';
+
+  @override
+  String get upcomingAppointmentsTitle => 'Yaqinlashib kelayotgan uchrashuvlar';
+
+  @override
+  String get noUpcomingAppointments => 'Yaqinlashib kelayotgan uchrashuvlar yo\'q';
+
+  @override
+  String get unknownBusiness => 'Noma\'lum biznes';
+
+  @override
+  String get firstNameLabel => 'Ism';
+
+  @override
+  String get lastNameLabel => 'Familiya';
+
+  @override
+  String get occupationLabel => 'Kasb';
+
+  @override
+  String get addressesTitle => 'Manzillar';
+
+  @override
+  String get accountSectionTitle => 'HISOB';
+
+  @override
+  String get supportSectionTitle => 'YORDAM';
+
+  @override
+  String get helpCenterTitle => 'Yordam markazi';
 }

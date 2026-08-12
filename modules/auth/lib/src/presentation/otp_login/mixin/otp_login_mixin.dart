@@ -12,7 +12,7 @@ mixin OtpLoginMixin on State<OtpLoginPage> {
     if (opened || !mounted) {
       return;
     }
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Telegram ilovasini ochib bo'lmadi")));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.l10n.telegramAppNotFound)));
   }
 
   void _handleStates(BuildContext context, OtpLoginState state) {
@@ -24,7 +24,7 @@ mixin OtpLoginMixin on State<OtpLoginPage> {
       }
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Tizimga muvaffaqiyatli kirildi: ${state.auth.email}')));
+      ).showSnackBar(SnackBar(content: Text('${context.l10n.loginSuccessMessage}: ${state.auth.email}')));
       context.goNamed(Routes.mainHome);
     }
   }
@@ -34,7 +34,7 @@ mixin OtpLoginMixin on State<OtpLoginPage> {
     if (code.isEmpty) {
       // setState needed here: no bloc event fires on this path, so nothing
       // else triggers a rebuild — this is the only way _errorMessage shows up.
-      setState(() => _errorMessage = 'Tasdiqlash kodi majburiy');
+      setState(() => _errorMessage = context.l10n.otpCodeRequired);
       return;
     }
     // No setState here: the OtpLoginSubmitEvent below leads to a state

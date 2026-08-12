@@ -1,4 +1,5 @@
 import 'package:components/components.dart';
+import 'package:core/core.dart' show LocalizationstExtension;
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
 
@@ -18,7 +19,7 @@ class WelcomePage extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  'Handbook',
+                  context.l10n.appName,
                   style: context.textTheme.headlineMedium?.copyWith(
                     color: context.color.primary,
                     fontSize: 32,
@@ -27,7 +28,7 @@ class WelcomePage extends StatelessWidget {
                 ),
                 Dimensions.kGap8,
                 Text(
-                  'tizimiga hush kelibsiz',
+                  context.l10n.welcomeSubtitle,
                   textAlign: TextAlign.center,
                   style: context.textTheme.headlineSmall?.copyWith(
                     fontSize: 24,
@@ -37,7 +38,7 @@ class WelcomePage extends StatelessWidget {
                 ),
                 Dimensions.kGap12,
                 Text(
-                  'Sizni premium dastyoringiz',
+                  context.l10n.welcomeDescription,
                   textAlign: TextAlign.center,
                   style: context.textTheme.bodyLarge?.copyWith(fontSize: 16, color: context.color.textSecondary),
                 ),
@@ -48,7 +49,7 @@ class WelcomePage extends StatelessWidget {
             widthFactor: 1,
             child: CustomLoadingButton(
               onPressed: () => context.pushNamed(Routes.login),
-              child: const Text('Electron pochta orqali kirish'),
+              child: Text(context.l10n.loginViaEmail),
             ),
           ),
           Dimensions.kGap3,
@@ -56,7 +57,7 @@ class WelcomePage extends StatelessWidget {
             widthFactor: 1,
             child: CustomLoadingButton(
               onPressed: () => context.pushNamed(Routes.otpLogin),
-              child: const Text('Telegram orqali kirish'),
+              child: Text(context.l10n.telegramLogin),
             ),
           ),
           Dimensions.kGap24,
@@ -64,7 +65,7 @@ class WelcomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Yordam olish',
+                context.l10n.getHelp,
                 style: context.textTheme.bodyMedium?.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,

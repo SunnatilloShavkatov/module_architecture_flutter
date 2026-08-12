@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      context.l10n.handbookTitle,
+                      context.l10n.appName,
                       textAlign: TextAlign.center,
                       style: context.textTheme.headlineSmall,
                     ),

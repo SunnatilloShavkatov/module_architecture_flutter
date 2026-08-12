@@ -4,6 +4,20 @@ This file is the single source of truth for architecture rules. Do not follow a 
 style if it conflicts with the rules below — the rules below are correct, not every existing
 module is. `AGENTS.md` only adds output-formatting notes on top of this file.
 
+**This repo is a template.** New projects get started by copying it, then keeping only the modules
+they need. Every concrete module/file cited below (`auth`, `profile`, `payments`, `home`,
+`notifications`, `main`, `system`, `initial`, `login_bloc.dart`, `profile_bloc.dart`, etc.) is an
+**illustration of a pattern from this specific copy of the template** — not a required module, not
+proof the pattern only applies there. If a cited file doesn't exist in the copy you're working in,
+that's expected, not an error: apply the *pattern* (the naming, the wiring, the decision rule) to
+whatever module you're actually in. Never treat "module X isn't here" as a reason to invent a
+module X, restore a deleted example, or skip a rule — the rule is the point, the module name is not.
+
+Same applies to the "Verified examples" tables scattered through this file: they document real
+files in the template copy this file was written against, to prove the rule reflects working code,
+not a guess. Before citing one as a reference in a future project, confirm the file still exists
+there — if it doesn't, find (or write) the closest equivalent in that project instead.
+
 ## 0. Mandatory Docs Read (agents keep skipping this — stop skipping it)
 
 `docs/` is not optional background reading. Before touching a task in the listed category,
@@ -148,7 +162,7 @@ In-repo reference for this exact wiring: `modules/auth/lib/src/presentation/logi
 
 Any route that needs input data gets a typed `Args` class in `presentation/<feature>/args/<feature>_args.dart` — a plain `final class` holding the fields, nothing else. The page's constructor takes that `args` object, not the raw entity/values directly.
 
-```dart
+```
 // presentation/edit_profile/args/edit_profile_args.dart
 final class EditProfileArgs {
   const EditProfileArgs({required this.user});
@@ -208,7 +222,7 @@ final class ChatArgs {
 }
 ```
 
-```dart
+```
 // router — one call handles pushNamed(extra: ChatArgs(...)), extra going null on an
 // orientation change, a deep-link URL with ?chat_id=123, and a push-notification
 // payload delivered as a raw Map — none of them crash.
@@ -219,7 +233,7 @@ GoRoute(
 ),
 ```
 
-Decision: is this route trivial (a settings toggle, a confirmation sheet with nothing to lose if it briefly shows empty) and definitely never opened from outside an in-app `pushNamed`? → plain `Args` class, bang cast is acceptable (§5). Otherwise — any route carrying data the user would notice disappearing (a chat, a payment flow, anything mid-form) — add `.empty()` + `.fromQueryParameters()` + `.parse()` to the `Args` class and call `.parse()` in the router instead of casting. Default to `.parse()` when unsure; the bang cast is the exception for genuinely low-stakes routes, not the default. Both shapes can coexist in the same router file — pick per route, not per module.
+Decision: is this route trivial (a settings toggle, a confirmation sheet with nothing to lose if it briefly shows empty) and definitely never opened from outside an in-app `pushNamed`? → plain `Args` class, bang cast is acceptable (§5). Otherwise, — any route carrying data the user would notice disappearing (a chat, a payment flow, anything mid-form) — add `.empty()` + `.fromQueryParameters()` + `.parse()` to the `Args` class and call `.parse()` in the router instead of casting. Default to `.parse()` when unsure; the bang cast is the exception for genuinely low-stakes routes, not the default. Both shapes can coexist in the same router file — pick per route, not per module.
 
 ## 6. Pagination (infinite scroll list) — do not hand-roll a package for this
 

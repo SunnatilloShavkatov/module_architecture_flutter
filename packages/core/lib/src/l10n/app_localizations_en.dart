@@ -27,7 +27,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings => 'Settings';
 
   @override
-  String get handbookTitle => 'Handbook';
+  String get appName => 'AppName';
 
   @override
   String get welcomeSubtitle => 'welcome to the system';
@@ -133,4 +133,82 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lightMode => 'Light mode';
+
+  @override
+  String get retryButton => 'Try again';
+
+  @override
+  String get paymentMethodsTitle => 'Payment Methods';
+
+  @override
+  String get addNewCard => 'Add New Card';
+
+  @override
+  String get expiresLabel => 'Expires';
+
+  @override
+  String get loginViaEmail => 'Sign in via email';
+
+  @override
+  String get otpLoginTitle => 'Sign in via OTP';
+
+  @override
+  String get otpEnterCodeHint => 'Enter the code from the Telegram bot';
+
+  @override
+  String get getCodeViaTelegram => 'Get code (Telegram)';
+
+  @override
+  String get telegramAppNotFound => 'Could not open Telegram app';
+
+  @override
+  String get otpCodeRequired => 'Verification code required';
+
+  @override
+  String get goBack => 'Go back';
+
+  @override
+  String get saveButton => 'Save';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get otpCodeLabel => 'Verification code';
+
+  @override
+  String get noCategoriesFound => 'No categories found';
+
+  @override
+  String get noActiveBarbershops => 'No active barbershops';
+
+  @override
+  String get upcomingAppointmentsTitle => 'Upcoming Appointments';
+
+  @override
+  String get noUpcomingAppointments => 'No upcoming appointments';
+
+  @override
+  String get unknownBusiness => 'Unknown business';
+
+  @override
+  String get firstNameLabel => 'First Name';
+
+  @override
+  String get lastNameLabel => 'Last Name';
+
+  @override
+  String get occupationLabel => 'Occupation';
+
+  @override
+  String get addressesTitle => 'Addresses';
+
+  @override
+  String get accountSectionTitle => 'ACCOUNT';
+
+  @override
+  String get supportSectionTitle => 'SUPPORT';
+
+  @override
+  String get helpCenterTitle => 'Help Center';
 }
