@@ -36,5 +36,9 @@
   "profileUpdatedSuccess": "Профиль успешно обновлён",
   "usernameLabel": "Имя пользователя",
   "mobileNumber": "Номер телефона",
-  "fieldRequired": "Обязательное поле"
+  "fieldRequired": "Обязательное поле",
+  "chooseThemeMode": "Выберите тему",
+  "deviceMode": "Как в системе",
+  "darkMode": "Тёмная тема",
+  "lightMode": "Светлая тема"
 }

@@ -1,10 +1,10 @@
 import 'package:core/core.dart';
 import 'package:navigation/navigation.dart';
-import 'package:profile/src/domain/entities/profile_user_entity.dart';
+import 'package:profile/src/presentation/choose_theme_mode_sheet/choose_theme_mode_sheet.dart';
+import 'package:profile/src/presentation/edit_profile/args/edit_profile_args.dart';
 import 'package:profile/src/presentation/edit_profile/edit_profile_page.dart';
 import 'package:profile/src/presentation/profile/bloc/profile_bloc.dart';
 import 'package:profile/src/presentation/settings/settings_page.dart';
-import 'package:profile/src/presentation/settings/sheet/choose_theme_mode_sheet.dart';
 
 final class ProfileRouter implements AppRouter<RouteBase> {
   const ProfileRouter();
@@ -14,15 +14,10 @@ final class ProfileRouter implements AppRouter<RouteBase> {
     GoRoute(
       path: Routes.editProfile,
       name: Routes.editProfile,
-      builder: (_, state) {
-        final ProfileUserEntity user = state.extra is ProfileUserEntity
-            ? state.extra! as ProfileUserEntity
-            : const ProfileUserEntity(id: 0, email: '', firstName: '', lastName: '', role: 'CLIENT');
-        return BlocProvider<ProfileBloc>(
-          create: (_) => di.get(),
-          child: EditProfilePage(user: user),
-        );
-      },
+      builder: (_, state) => BlocProvider<ProfileBloc>(
+        create: (_) => di.get(),
+        child: EditProfilePage(args: state.extra! as EditProfileArgs),
+      ),
     ),
     GoRoute(path: Routes.settings, name: Routes.settings, builder: (_, _) => const SettingsPage()),
     GoRoute(

@@ -121,4 +121,16 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get fieldRequired => 'Majburiy maydon';
+
+  @override
+  String get chooseThemeMode => 'Mavzuni tanlang';
+
+  @override
+  String get deviceMode => 'Qurilma rejimi';
+
+  @override
+  String get darkMode => 'Tungi rejim';
+
+  @override
+  String get lightMode => 'Kunduzgi rejim';
 }

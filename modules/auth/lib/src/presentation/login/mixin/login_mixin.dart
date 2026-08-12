@@ -35,7 +35,11 @@ mixin LoginMixin on State<LoginPage> {
 
   void _handleStates(BuildContext context, LoginState state) {
     if (state is LoginFailure) {
-      setState(() => _errorMessage = state.message);
+      // No setState: BlocConsumer's builder has no buildWhen filter, so the
+      // LoginFailure emission that triggers this listener already reruns
+      // build() and reads _errorMessage fresh — an extra setState here is a
+      // redundant second rebuild, not a fix for a missing one.
+      _errorMessage = state.message;
       return;
     } else if (state is LoginSuccess) {
       if (!context.mounted) {
@@ -53,7 +57,7 @@ mixin LoginMixin on State<LoginPage> {
     if (currentForm == null || !currentForm.validate()) {
       return;
     }
-    setState(() => _errorMessage = null);
+    _errorMessage = null;
     _bloc.add(LoginSubmitEvent(email: _emailController.text.trim(), password: _passwordController.text.trim()));
   }
 

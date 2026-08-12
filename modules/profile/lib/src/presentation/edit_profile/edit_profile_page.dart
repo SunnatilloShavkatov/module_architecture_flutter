@@ -2,15 +2,15 @@ import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
-import 'package:profile/src/domain/entities/profile_user_entity.dart';
+import 'package:profile/src/presentation/edit_profile/args/edit_profile_args.dart';
 import 'package:profile/src/presentation/profile/bloc/profile_bloc.dart';
 
 part 'mixin/edit_profile_mixin.dart';
 
 class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({super.key, required this.user});
+  const EditProfilePage({super.key, required this.args});
 
-  final ProfileUserEntity user;
+  final EditProfileArgs args;
 
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();

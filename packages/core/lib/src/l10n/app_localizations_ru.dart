@@ -121,4 +121,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get fieldRequired => 'Обязательное поле';
+
+  @override
+  String get chooseThemeMode => 'Выберите тему';
+
+  @override
+  String get deviceMode => 'Как в системе';
+
+  @override
+  String get darkMode => 'Тёмная тема';
+
+  @override
+  String get lightMode => 'Светлая тема';
 }

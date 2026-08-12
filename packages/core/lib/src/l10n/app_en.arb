@@ -36,5 +36,9 @@
   "profileUpdatedSuccess": "Profile updated successfully",
   "usernameLabel": "Username",
   "mobileNumber": "Mobile Number",
-  "fieldRequired": "Required"
+  "fieldRequired": "Required",
+  "chooseThemeMode": "Choose theme mode",
+  "deviceMode": "Device mode",
+  "darkMode": "Dark mode",
+  "lightMode": "Light mode"
 }

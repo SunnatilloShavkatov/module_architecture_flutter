@@ -1,4 +1,5 @@
 import 'package:components/components.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
 
@@ -6,33 +7,33 @@ class ChooseThemeModeSheet extends StatelessWidget {
   const ChooseThemeModeSheet({super.key});
 
   @override
-  Widget build(BuildContext context) => SafeArea(
+  Widget build(BuildContext context) => SafeAreaWithMinimum(
     minimum: Dimensions.kPaddingAll16,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Text('Choose theme mode', style: context.textTheme.headlineLarge, textAlign: TextAlign.center),
+        Text(context.l10n.chooseThemeMode, style: context.textTheme.headlineLarge, textAlign: TextAlign.center),
         Dimensions.kGap32,
         CustomLoadingButton(
           onPressed: () {
             context.pop(ThemeMode.system);
           },
-          child: const Text('Device mode'),
+          child: Text(context.l10n.deviceMode),
         ),
         Dimensions.kGap16,
         CustomLoadingButton(
           onPressed: () {
             context.pop(ThemeMode.dark);
           },
-          child: const Text('Dark mode'),
+          child: Text(context.l10n.darkMode),
         ),
         Dimensions.kGap16,
         CustomLoadingButton(
           onPressed: () {
             context.pop(ThemeMode.light);
           },
-          child: const Text('Light mode'),
+          child: Text(context.l10n.lightMode),
         ),
       ],
     ),

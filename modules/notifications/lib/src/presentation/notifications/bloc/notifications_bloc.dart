@@ -7,7 +7,7 @@ part 'notifications_state.dart';
 
 final class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   NotificationsBloc(this._getNotifications) : super(const NotificationsInitialState()) {
-    on<NotificationsLoadEvent>(_loadHandler);
+    on<NotificationsLoadEvent>(_loadHandler, transformer: droppable());
   }
 
   final GetNotifications _getNotifications;

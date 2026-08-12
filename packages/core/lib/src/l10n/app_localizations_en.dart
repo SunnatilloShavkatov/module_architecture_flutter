@@ -121,4 +121,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fieldRequired => 'Required';
+
+  @override
+  String get chooseThemeMode => 'Choose theme mode';
+
+  @override
+  String get deviceMode => 'Device mode';
+
+  @override
+  String get darkMode => 'Dark mode';
+
+  @override
+  String get lightMode => 'Light mode';
 }

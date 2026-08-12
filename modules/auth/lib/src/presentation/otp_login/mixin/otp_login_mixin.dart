@@ -32,10 +32,15 @@ mixin OtpLoginMixin on State<OtpLoginPage> {
   void submitOtp() {
     final code = _codeController.text.trim();
     if (code.isEmpty) {
+      // setState needed here: no bloc event fires on this path, so nothing
+      // else triggers a rebuild — this is the only way _errorMessage shows up.
       setState(() => _errorMessage = 'Tasdiqlash kodi majburiy');
       return;
     }
-    setState(() => _errorMessage = null);
+    // No setState here: the OtpLoginSubmitEvent below leads to a state
+    // emission that BlocConsumer's builder (no buildWhen filter) already
+    // rebuilds on, so it picks up _errorMessage = null on its own.
+    _errorMessage = null;
     _bloc.add(OtpLoginSubmitEvent(code: code));
   }
 

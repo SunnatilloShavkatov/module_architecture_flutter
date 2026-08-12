@@ -320,6 +320,30 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Обязательное поле'**
   String get fieldRequired;
+
+  /// No description provided for @chooseThemeMode.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите тему'**
+  String get chooseThemeMode;
+
+  /// No description provided for @deviceMode.
+  ///
+  /// In ru, this message translates to:
+  /// **'Как в системе'**
+  String get deviceMode;
+
+  /// No description provided for @darkMode.
+  ///
+  /// In ru, this message translates to:
+  /// **'Тёмная тема'**
+  String get darkMode;
+
+  /// No description provided for @lightMode.
+  ///
+  /// In ru, this message translates to:
+  /// **'Светлая тема'**
+  String get lightMode;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

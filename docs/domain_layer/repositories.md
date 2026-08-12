@@ -287,27 +287,11 @@ ResultFuture<LoginEntity> login({
 ResultFuture<OrderEntity> createOrder(CreateOrderParams params);
 ```
 
-## Part/Part Of Pattern
+## Interface and Implementation Stay Separate Files
 
-Some repositories use the `part`/`part of` pattern to keep interface and implementation together:
-
-```
-// domain/repos/auth_repo.dart
-part '../../data/repo/auth_repo_impl.dart';
-
-abstract interface class AuthRepo {
-  ResultFuture<LoginEntity> login(...);
-}
-
-// data/repo/auth_repo_impl.dart
-part of 'package:auth/src/domain/repos/auth_repo.dart';
-
-final class AuthRepoImpl implements AuthRepo {
-  // Implementation
-}
-```
-
-**Note**: This pattern is optional. Most modules keep interfaces and implementations separate.
+Repository interface (`domain/repos/` or `domain/repository/`) and implementation
+(`data/repo/` or `data/repository/`) are always separate files in this repo — see `CLAUDE.md §16`.
+Do not merge them into a `part`/`part of` single-file pair; that pattern was deliberately rejected here.
 
 ## Testing Repositories
 

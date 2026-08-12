@@ -2,12 +2,12 @@ part of '../edit_profile_page.dart';
 
 mixin EditProfileMixin on State<EditProfilePage> {
   late final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late final TextEditingController _usernameController = TextEditingController(text: widget.user.username ?? '');
-  late final TextEditingController _phoneController = TextEditingController(text: widget.user.phone ?? '');
-  late final TextEditingController _firstNameController = TextEditingController(text: widget.user.firstName);
-  late final TextEditingController _lastNameController = TextEditingController(text: widget.user.lastName);
+  late final TextEditingController _usernameController = TextEditingController(text: widget.args.user.username ?? '');
+  late final TextEditingController _phoneController = TextEditingController(text: widget.args.user.phone ?? '');
+  late final TextEditingController _firstNameController = TextEditingController(text: widget.args.user.firstName);
+  late final TextEditingController _lastNameController = TextEditingController(text: widget.args.user.lastName);
   late final TextEditingController _specializationController = TextEditingController(
-    text: widget.user.specialization ?? '',
+    text: widget.args.user.specialization ?? '',
   );
 
   void _handleStates(BuildContext context, ProfileState state) {

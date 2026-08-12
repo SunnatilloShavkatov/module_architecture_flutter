@@ -36,5 +36,9 @@
   "profileUpdatedSuccess": "Profil muvaffaqiyatli yangilandi",
   "usernameLabel": "Foydalanuvchi nomi",
   "mobileNumber": "Telefon raqami",
-  "fieldRequired": "Majburiy maydon"
+  "fieldRequired": "Majburiy maydon",
+  "chooseThemeMode": "Mavzuni tanlang",
+  "deviceMode": "Qurilma rejimi",
+  "darkMode": "Tungi rejim",
+  "lightMode": "Kunduzgi rejim"
 }
