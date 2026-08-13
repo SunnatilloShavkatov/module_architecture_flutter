@@ -1,6 +1,6 @@
 import 'package:components/components.dart';
 import 'package:core/core.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:navigation/navigation.dart';
 import 'package:profile/src/presentation/edit_profile/args/edit_profile_args.dart';
 import 'package:profile/src/presentation/profile/bloc/profile_bloc.dart';

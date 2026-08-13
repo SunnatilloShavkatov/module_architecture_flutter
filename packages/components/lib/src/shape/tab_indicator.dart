@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class TabBarIndicator extends Decoration {
   TabBarIndicator({required Color color, required double radius}) : _painter = _TabBarIndicator(color, radius);

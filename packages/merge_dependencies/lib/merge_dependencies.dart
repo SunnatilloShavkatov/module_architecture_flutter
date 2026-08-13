@@ -1,9 +1,9 @@
 import 'package:auth/auth.dart';
 import 'package:core/core.dart';
-import 'package:flutter/material.dart';
 import 'package:home/home.dart';
 import 'package:initial/initial.dart';
 import 'package:main/main.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:merge_dependencies/src/services/app_navigation_service_impl.dart';
 import 'package:navigation/navigation.dart';
 import 'package:notifications/notifications.dart';

@@ -1,7 +1,7 @@
 import 'package:components/src/extension/theme_extension.dart';
 import 'package:components/src/inputs/masked_text_input_formatter.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 
 class CustomPhoneTextField extends StatefulWidget {
   const CustomPhoneTextField({

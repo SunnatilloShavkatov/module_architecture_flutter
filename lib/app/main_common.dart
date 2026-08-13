@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:merge_dependencies/merge_dependencies.dart';
 import 'package:module_architecture_mobile/app/app.dart';
 

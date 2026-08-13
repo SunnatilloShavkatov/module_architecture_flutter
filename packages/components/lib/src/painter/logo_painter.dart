@@ -1,7 +1,7 @@
 // ignore_for_file: cascade_invocations, document_ignores
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class Logo extends StatelessWidget {
   const Logo({super.key, this.color = Colors.white, this.size = 14});

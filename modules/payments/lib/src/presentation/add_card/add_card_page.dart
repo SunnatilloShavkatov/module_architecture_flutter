@@ -1,6 +1,6 @@
 import 'package:components/components.dart';
 import 'package:core/core.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:navigation/navigation.dart';
 import 'package:payments/src/presentation/payment_methods/bloc/payment_methods_bloc.dart';
 

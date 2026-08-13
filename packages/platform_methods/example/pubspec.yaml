@@ -4,12 +4,13 @@ publish_to: "none"
 description: "Demonstrates how to use the platform_methods plugin."
 
 environment:
-  sdk: ">=3.11.0 <4.0.0"
-  flutter: ">=3.41.0"
+  sdk: ">=3.13.0 <4.0.0"
+  flutter: ">=3.47.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  material_ui: ^1.0.0
   platform_methods:
     path: ../
 

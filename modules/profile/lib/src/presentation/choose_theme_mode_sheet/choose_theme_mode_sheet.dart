@@ -1,6 +1,6 @@
 import 'package:components/components.dart';
 import 'package:core/core.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:navigation/navigation.dart';
 
 class ChooseThemeModeSheet extends StatelessWidget {

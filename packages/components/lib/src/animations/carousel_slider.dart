@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:components/src/animations/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 export 'carousel_slider_transforms.dart';
 

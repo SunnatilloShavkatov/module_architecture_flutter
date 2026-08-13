@@ -1,7 +1,7 @@
 import 'package:core/src/constants/storage_keys.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_ce/hive_ce.dart' show Box;
+import 'package:material_ui/material_ui.dart';
 
 abstract class LocalSource {
   const LocalSource();

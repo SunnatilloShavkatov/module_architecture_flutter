@@ -1,6 +1,6 @@
 import 'package:components/components.dart';
 import 'package:core/core.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:notifications/src/domain/entities/notification_entity.dart';
 import 'package:notifications/src/presentation/notifications/bloc/notifications_bloc.dart';
 

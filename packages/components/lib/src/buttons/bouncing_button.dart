@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class BouncingButton extends StatefulWidget {
   /// BouncingWidget constructor
@@ -128,7 +128,7 @@ class _BouncingButtonState extends State<BouncingButton> with SingleTickerProvid
 
   /// We start the animation
   void _onTapDown(TapDownDetails details) {
-    unawaited(_controller.forward());
+    _controller.forward();
   }
 
   /// We reverse the animation and notify the user of a press event
@@ -172,7 +172,7 @@ class _BouncingButtonState extends State<BouncingButton> with SingleTickerProvid
 
   void _reverseAnimation() {
     if (mounted) {
-      unawaited(_controller.reverse());
+      _controller.reverse();
     }
   }
 

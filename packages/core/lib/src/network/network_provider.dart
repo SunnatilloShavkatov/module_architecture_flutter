@@ -6,7 +6,7 @@ import 'package:core/src/error/server_error.dart';
 import 'package:core/src/local_source/local_source.dart';
 import 'package:core/src/utils/utils.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 @protected
 CancelToken _cancelToken = CancelToken();

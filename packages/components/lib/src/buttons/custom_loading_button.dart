@@ -1,7 +1,7 @@
 import 'dart:async' show StreamSubscription, unawaited;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CustomLoadingButton extends StatefulWidget {

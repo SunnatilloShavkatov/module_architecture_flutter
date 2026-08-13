@@ -1,6 +1,6 @@
 import 'package:components/src/options/app_options.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 
 extension AppOptionsContextExt on BuildContext {
   AppOptions get options => AppOptions.of(this);

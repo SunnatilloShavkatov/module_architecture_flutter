@@ -3,7 +3,7 @@ import 'package:auth/src/presentation/otp_login/bloc/otp_login_event.dart';
 import 'package:auth/src/presentation/otp_login/bloc/otp_login_state.dart';
 import 'package:components/components.dart';
 import 'package:core/core.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:navigation/navigation.dart';
 
 part 'mixin/otp_login_mixin.dart';

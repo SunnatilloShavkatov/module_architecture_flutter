@@ -3,7 +3,7 @@ import 'dart:ui' show lerpDouble;
 import 'package:components/src/extension/theme_extension.dart';
 import 'package:components/src/painter/line_painter.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class BottomIndicatorBar extends StatelessWidget {
   const BottomIndicatorBar({required this.child, super.key, this.currentIndex = 0, this.length = 5});
