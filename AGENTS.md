@@ -12,5 +12,5 @@ output-style notes for AI agents; it does not override anything in `CLAUDE.md`.
 - Never invent a base class, JSON parse style, or bloc pattern — `CLAUDE.md` §1–2 and
   `docs/TEMPLATE_REFERENCE.md` already define them.
 - Never write dummy/placeholder logic; output production-ready code only.
-- After implementation, list touched files (see `CLAUDE.md` §10 Definition of Done).
+- After implementation, list touched files (see `CLAUDE.md` §17 Definition of Done).
 

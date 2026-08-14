@@ -32,6 +32,8 @@ dependencies:
     path: ../../modules/main
   notifications:
     path: ../../modules/notifications
+  payments:
+    path: ../../modules/payments
   profile:
     path: ../../modules/profile
   system:

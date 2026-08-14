@@ -7,6 +7,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:merge_dependencies/src/services/app_navigation_service_impl.dart';
 import 'package:navigation/navigation.dart';
 import 'package:notifications/notifications.dart';
+import 'package:payments/payments.dart';
 import 'package:profile/profile.dart';
 import 'package:system/system.dart';
 
@@ -30,6 +31,7 @@ final class MergeDependencies {
     InitialContainer(),
     MainContainer(),
     NotificationsContainer(),
+    PaymentsContainer(),
     ProfileContainer(),
     SystemContainer(),
   ];
