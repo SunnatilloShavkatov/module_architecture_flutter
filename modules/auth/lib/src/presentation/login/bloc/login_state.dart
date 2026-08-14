@@ -12,15 +12,15 @@ final class LoginInitialState extends LoginState {
   List<Object?> get props => [];
 }
 
-final class LoginLoading extends LoginState {
-  const LoginLoading();
+final class LoginLoadingState extends LoginState {
+  const LoginLoadingState();
 
   @override
   List<Object?> get props => [];
 }
 
-final class LoginSuccess extends LoginState {
-  const LoginSuccess({required this.auth});
+final class LoginSuccessState extends LoginState {
+  const LoginSuccessState({required this.auth});
 
   final UserEntity auth;
 
@@ -28,8 +28,8 @@ final class LoginSuccess extends LoginState {
   List<Object?> get props => [auth];
 }
 
-final class LoginFailure extends LoginState {
-  const LoginFailure({required this.message});
+final class LoginFailureState extends LoginState {
+  const LoginFailureState({required this.message});
 
   final String message;
 

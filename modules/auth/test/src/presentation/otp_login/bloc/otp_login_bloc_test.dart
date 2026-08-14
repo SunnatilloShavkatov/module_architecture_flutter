@@ -36,40 +36,38 @@ void main() {
 
   // ─── Success ─────────────────────────────────────────────────────────────────
   blocTest<OtpLoginBloc, OtpLoginState>(
-    'emits [OtpLoginLoading, OtpLoginSuccess] on successful OTP login',
+    'emits [OtpLoginLoadingState, OtpLoginSuccessState] on successful OTP login',
     build: () {
-      when(() => mockAuthRepo.otpLogin(code: any(named: 'code')))
-          .thenAnswer((_) async => const Right(tUser));
+      when(() => mockAuthRepo.otpLogin(code: any(named: 'code'))).thenAnswer((_) async => const Right(tUser));
       return otpLoginBloc;
     },
     act: (bloc) => bloc.add(const OtpLoginSubmitEvent(code: '123456')),
-    expect: () => [const OtpLoginLoading(), const OtpLoginSuccess(auth: tUser)],
+    expect: () => [const OtpLoginLoadingState(), const OtpLoginSuccessState(auth: tUser)],
     verify: (_) => verify(() => mockAuthRepo.otpLogin(code: '123456')).called(1),
   );
 
   // ─── Server failure ───────────────────────────────────────────────────────────
   blocTest<OtpLoginBloc, OtpLoginState>(
-    'emits [OtpLoginLoading, OtpLoginFailure] on server failure',
+    'emits [OtpLoginLoadingState, OtpLoginFailureState] on server failure',
     build: () {
-      when(() => mockAuthRepo.otpLogin(code: any(named: 'code')))
-          .thenAnswer((_) async => const Left(tServerFailure));
+      when(() => mockAuthRepo.otpLogin(code: any(named: 'code'))).thenAnswer((_) async => const Left(tServerFailure));
       return otpLoginBloc;
     },
     act: (bloc) => bloc.add(const OtpLoginSubmitEvent(code: '000000')),
-    expect: () => [const OtpLoginLoading(), const OtpLoginFailure(message: 'Invalid OTP code')],
+    expect: () => [const OtpLoginLoadingState(), const OtpLoginFailureState(message: 'Invalid OTP code')],
     verify: (_) => verify(() => mockAuthRepo.otpLogin(code: any(named: 'code'))).called(1),
   );
 
   // ─── No internet failure ──────────────────────────────────────────────────────
   blocTest<OtpLoginBloc, OtpLoginState>(
-    'emits [OtpLoginLoading, OtpLoginFailure] on no internet failure',
+    'emits [OtpLoginLoadingState, OtpLoginFailureState] on no internet failure',
     build: () {
       when(() => mockAuthRepo.otpLogin(code: any(named: 'code')))
           .thenAnswer((_) async => const Left(tNoInternetFailure));
       return otpLoginBloc;
     },
     act: (bloc) => bloc.add(const OtpLoginSubmitEvent(code: '123456')),
-    expect: () => [const OtpLoginLoading(), const OtpLoginFailure(message: 'No internet connection')],
+    expect: () => [const OtpLoginLoadingState(), const OtpLoginFailureState(message: 'No internet connection')],
   );
 
   // ─── Duplicate event while loading ───────────────────────────────────────────
@@ -88,7 +86,7 @@ void main() {
         ..add(const OtpLoginSubmitEvent(code: '123456'));
     },
     wait: const Duration(milliseconds: 300),
-    expect: () => [const OtpLoginLoading(), const OtpLoginSuccess(auth: tUser)],
+    expect: () => [const OtpLoginLoadingState(), const OtpLoginSuccessState(auth: tUser)],
     verify: (_) => verify(() => mockAuthRepo.otpLogin(code: any(named: 'code'))).called(1),
   );
 
@@ -96,18 +94,17 @@ void main() {
   blocTest<OtpLoginBloc, OtpLoginState>(
     'can submit again after a previous failure',
     build: () {
-      when(() => mockAuthRepo.otpLogin(code: any(named: 'code')))
-          .thenAnswer((_) async => const Right(tUser));
+      when(() => mockAuthRepo.otpLogin(code: any(named: 'code'))).thenAnswer((_) async => const Right(tUser));
       return otpLoginBloc;
     },
-    seed: () => const OtpLoginFailure(message: 'Previous error'),
+    seed: () => const OtpLoginFailureState(message: 'Previous error'),
     act: (bloc) => bloc.add(const OtpLoginSubmitEvent(code: '654321')),
-    expect: () => [const OtpLoginLoading(), const OtpLoginSuccess(auth: tUser)],
+    expect: () => [const OtpLoginLoadingState(), const OtpLoginSuccessState(auth: tUser)],
   );
 
-  // ─── OtpLoginSuccess carries correct user ─────────────────────────────────────
+  // ─── OtpLoginSuccessState carries correct user ─────────────────────────────────────
   blocTest<OtpLoginBloc, OtpLoginState>(
-    'OtpLoginSuccess contains the user returned from usecase',
+    'OtpLoginSuccessState contains the user returned from usecase',
     build: () {
       const specificUser = UserEntity(
         id: 42,
@@ -116,14 +113,13 @@ void main() {
         lastName: 'User',
         role: 'STAFF',
       );
-      when(() => mockAuthRepo.otpLogin(code: any(named: 'code')))
-          .thenAnswer((_) async => const Right(specificUser));
+      when(() => mockAuthRepo.otpLogin(code: any(named: 'code'))).thenAnswer((_) async => const Right(specificUser));
       return otpLoginBloc;
     },
     act: (bloc) => bloc.add(const OtpLoginSubmitEvent(code: '999999')),
     expect: () => [
-      const OtpLoginLoading(),
-      const OtpLoginSuccess(
+      const OtpLoginLoadingState(),
+      const OtpLoginSuccessState(
         auth: UserEntity(id: 42, email: 'specific@test.com', firstName: 'Specific', lastName: 'User', role: 'STAFF'),
       ),
     ],
@@ -133,8 +129,7 @@ void main() {
   blocTest<OtpLoginBloc, OtpLoginState>(
     'passes exact OTP code to AuthRepo',
     build: () {
-      when(() => mockAuthRepo.otpLogin(code: any(named: 'code')))
-          .thenAnswer((_) async => const Right(tUser));
+      when(() => mockAuthRepo.otpLogin(code: any(named: 'code'))).thenAnswer((_) async => const Right(tUser));
       return otpLoginBloc;
     },
     act: (bloc) => bloc.add(const OtpLoginSubmitEvent(code: '789012')),

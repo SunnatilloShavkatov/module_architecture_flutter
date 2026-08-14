@@ -146,7 +146,7 @@ class FlipHorizontalTransform implements SlideTransform {
 
   @override
   Widget transform(BuildContext context, Widget page, int index, int? currentPage, double pageDelta, int itemCount) {
-    final double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.sizeOf(context).width;
     if (index == currentPage! + 1 && pageDelta > 0.5) {
       return Transform(
         alignment: Alignment.center,
@@ -180,7 +180,7 @@ class FlipVerticalTransform implements SlideTransform {
 
   @override
   Widget transform(BuildContext context, Widget page, int index, int? currentPage, double pageDelta, int itemCount) {
-    final double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.sizeOf(context).width;
     if (index == currentPage! + 1 && pageDelta > 0.5) {
       return Transform(
         alignment: Alignment.center,
@@ -243,7 +243,7 @@ class StackTransform implements SlideTransform {
   @override
   Widget transform(BuildContext context, Widget page, int index, int? currentPage, double pageDelta, int itemCount) {
     if (index == currentPage) {
-      final double width = MediaQuery.of(context).size.width;
+      final double width = MediaQuery.sizeOf(context).width;
       return Transform(transform: Matrix4.identity()..translate(width * pageDelta), child: page);
     } else {
       return page;

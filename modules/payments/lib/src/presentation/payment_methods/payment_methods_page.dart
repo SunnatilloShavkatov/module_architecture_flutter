@@ -94,10 +94,7 @@ final class _PaymentsContentView extends StatelessWidget {
                       '${method.cardBrand} ending in ${method.cardLast4}',
                       style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
                     ),
-                    Text(
-                      '${context.l10n.expiresLabel} ${method.expiryDate}',
-                      style: context.textTheme.bodySmall,
-                    ),
+                    Text('${context.l10n.expiresLabel} ${method.expiryDate}', style: context.textTheme.bodySmall),
                   ],
                 ),
               ),

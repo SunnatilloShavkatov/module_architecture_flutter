@@ -18,7 +18,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> with LoginMixin {
   @override
   Widget build(BuildContext context) => BlocConsumer<LoginBloc, LoginState>(
-    listenWhen: (prev, curr) => curr is LoginFailure || curr is LoginSuccess,
+    listenWhen: (prev, curr) => curr is LoginFailureState || curr is LoginSuccessState,
     listener: _handleStates,
     builder: (context, state) => Scaffold(
       body: SafeAreaWithMinimum(
@@ -43,17 +43,9 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      context.l10n.appName,
-                      textAlign: TextAlign.center,
-                      style: context.textTheme.headlineSmall,
-                    ),
+                    Text(context.l10n.appName, textAlign: TextAlign.center, style: context.textTheme.headlineSmall),
                     Dimensions.kGap8,
-                    Text(
-                      context.l10n.loginTitle,
-                      textAlign: TextAlign.center,
-                      style: context.textTheme.titleLarge,
-                    ),
+                    Text(context.l10n.loginTitle, textAlign: TextAlign.center, style: context.textTheme.titleLarge),
                     Dimensions.kGap8,
                     Text(
                       context.l10n.loginSubtitle,
@@ -120,7 +112,7 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                     ],
                     Dimensions.kGap12,
                     CustomLoadingButton(
-                      isLoading: state is LoginLoading,
+                      isLoading: state is LoginLoadingState,
                       onPressed: _loginPressed,
                       child: Text(context.l10n.loginButton),
                     ),

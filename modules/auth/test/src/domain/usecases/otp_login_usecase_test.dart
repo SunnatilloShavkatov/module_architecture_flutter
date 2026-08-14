@@ -23,8 +23,7 @@ void main() {
 
   // ─── Success ─────────────────────────────────────────────────────────────────
   test('returns UserEntity from repo on success', () async {
-    when(() => mockRepo.otpLogin(code: any(named: 'code')))
-        .thenAnswer((_) async => const Right(tUser));
+    when(() => mockRepo.otpLogin(code: any(named: 'code'))).thenAnswer((_) async => const Right(tUser));
 
     final result = await useCase(tParams);
 
@@ -35,8 +34,7 @@ void main() {
 
   // ─── Server failure ───────────────────────────────────────────────────────────
   test('returns ServerFailure from repo on server error', () async {
-    when(() => mockRepo.otpLogin(code: any(named: 'code')))
-        .thenAnswer((_) async => const Left(tServerFailure));
+    when(() => mockRepo.otpLogin(code: any(named: 'code'))).thenAnswer((_) async => const Left(tServerFailure));
 
     final result = await useCase(tParams);
 
@@ -47,8 +45,7 @@ void main() {
 
   // ─── No internet failure ──────────────────────────────────────────────────────
   test('returns NoInternetFailure from repo on network error', () async {
-    when(() => mockRepo.otpLogin(code: any(named: 'code')))
-        .thenAnswer((_) async => const Left(tNoInternetFailure));
+    when(() => mockRepo.otpLogin(code: any(named: 'code'))).thenAnswer((_) async => const Left(tNoInternetFailure));
 
     final result = await useCase(tParams);
 
@@ -60,8 +57,7 @@ void main() {
   // ─── Correct code forwarded ───────────────────────────────────────────────────
   test('calls repo with exact code from params', () async {
     const specificParams = OtpLoginParams(code: '654321');
-    when(() => mockRepo.otpLogin(code: any(named: 'code')))
-        .thenAnswer((_) async => const Right(tUser));
+    when(() => mockRepo.otpLogin(code: any(named: 'code'))).thenAnswer((_) async => const Right(tUser));
 
     await useCase(specificParams);
 
@@ -70,8 +66,7 @@ void main() {
 
   // ─── Calls repo only once ─────────────────────────────────────────────────────
   test('calls repo exactly once', () async {
-    when(() => mockRepo.otpLogin(code: any(named: 'code')))
-        .thenAnswer((_) async => const Right(tUser));
+    when(() => mockRepo.otpLogin(code: any(named: 'code'))).thenAnswer((_) async => const Right(tUser));
 
     await useCase(tParams);
 

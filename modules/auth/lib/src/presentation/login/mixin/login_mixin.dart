@@ -34,20 +34,19 @@ mixin LoginMixin on State<LoginPage> {
   }
 
   void _handleStates(BuildContext context, LoginState state) {
-    if (state is LoginFailure) {
+    if (state is LoginFailureState) {
       // No setState: BlocConsumer's builder has no buildWhen filter, so the
-      // LoginFailure emission that triggers this listener already reruns
+      // LoginFailureState emission that triggers this listener already reruns
       // build() and reads _errorMessage fresh — an extra setState here is a
       // redundant second rebuild, not a fix for a missing one.
       _errorMessage = state.message;
       return;
-    } else if (state is LoginSuccess) {
+    } else if (state is LoginSuccessState) {
       if (!context.mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('${context.l10n.loginSuccessMessage}: ${state.auth.email}')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('${context.l10n.loginSuccessMessage}: ${state.auth.email}')));
       context.goNamed(Routes.mainHome);
     }
   }

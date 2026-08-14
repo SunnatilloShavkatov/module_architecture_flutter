@@ -11,14 +11,14 @@ final class OtpLoginBloc extends Bloc<OtpLoginEvent, OtpLoginState> {
   final OtpLogin _otpLogin;
 
   Future<void> _otpLoginHandler(OtpLoginSubmitEvent event, Emitter<OtpLoginState> emit) async {
-    if (state is OtpLoginLoading) {
+    if (state is OtpLoginLoadingState) {
       return;
     }
-    emit(const OtpLoginLoading());
+    emit(const OtpLoginLoadingState());
     final result = await _otpLogin(OtpLoginParams(code: event.code));
     result.fold(
-      (failure) => emit(OtpLoginFailure(message: failure.message)),
-      (auth) => emit(OtpLoginSuccess(auth: auth)),
+      (failure) => emit(OtpLoginFailureState(message: failure.message)),
+      (auth) => emit(OtpLoginSuccessState(auth: auth)),
     );
   }
 }

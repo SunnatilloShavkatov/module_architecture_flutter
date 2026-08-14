@@ -34,19 +34,13 @@ class _AddCardPageState extends State<AddCardPage> with AddCardMixin {
                 keyboardType: TextInputType.number,
                 validator: (value) =>
                     (value ?? '').replaceAll(' ', '').length < 16 ? context.l10n.invalidCardNumber : null,
-                decoration: InputDecoration(
-                  labelText: context.l10n.cardNumber,
-                  border: const OutlineInputBorder(),
-                ),
+                decoration: InputDecoration(labelText: context.l10n.cardNumber, border: const OutlineInputBorder()),
               ),
               Dimensions.kGap12,
               TextFormField(
                 controller: _expiryController,
                 validator: (value) => (value ?? '').trim().isEmpty ? context.l10n.fieldRequired : null,
-                decoration: InputDecoration(
-                  labelText: context.l10n.expiryDate,
-                  border: const OutlineInputBorder(),
-                ),
+                decoration: InputDecoration(labelText: context.l10n.expiryDate, border: const OutlineInputBorder()),
               ),
               Dimensions.kGap24,
               CustomLoadingButton(

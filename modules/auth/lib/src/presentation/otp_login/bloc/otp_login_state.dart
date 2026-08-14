@@ -12,15 +12,15 @@ final class OtpLoginInitialState extends OtpLoginState {
   List<Object?> get props => [];
 }
 
-final class OtpLoginLoading extends OtpLoginState {
-  const OtpLoginLoading();
+final class OtpLoginLoadingState extends OtpLoginState {
+  const OtpLoginLoadingState();
 
   @override
   List<Object?> get props => [];
 }
 
-final class OtpLoginSuccess extends OtpLoginState {
-  const OtpLoginSuccess({required this.auth});
+final class OtpLoginSuccessState extends OtpLoginState {
+  const OtpLoginSuccessState({required this.auth});
 
   final UserEntity auth;
 
@@ -28,8 +28,8 @@ final class OtpLoginSuccess extends OtpLoginState {
   List<Object?> get props => [auth];
 }
 
-final class OtpLoginFailure extends OtpLoginState {
-  const OtpLoginFailure({required this.message});
+final class OtpLoginFailureState extends OtpLoginState {
+  const OtpLoginFailureState({required this.message});
 
   final String message;
 

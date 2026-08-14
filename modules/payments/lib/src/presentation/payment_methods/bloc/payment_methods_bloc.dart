@@ -10,16 +10,19 @@ part 'payment_methods_state.dart';
 final class PaymentMethodsBloc extends Bloc<PaymentMethodsEvent, PaymentMethodsState> {
   PaymentMethodsBloc(this._getPaymentMethods, this._addPaymentMethod, this._deletePaymentMethod)
     : super(const PaymentMethodsInitialState()) {
-    on<PaymentMethodsLoadEvent>(_loadHandler, transformer: droppable());
-    on<PaymentMethodAddEvent>(_addHandler, transformer: throttle());
-    on<PaymentMethodDeleteEvent>(_deleteHandler, transformer: throttle());
+    on<PaymentMethodsLoadEvent>(_getPaymentMethodsHandler, transformer: droppable());
+    on<PaymentMethodAddEvent>(_addPaymentMethodHandler, transformer: throttle());
+    on<PaymentMethodDeleteEvent>(_deletePaymentMethodHandler, transformer: throttle());
   }
 
   final GetPaymentMethods _getPaymentMethods;
   final AddPaymentMethod _addPaymentMethod;
   final DeletePaymentMethod _deletePaymentMethod;
 
-  Future<void> _loadHandler(PaymentMethodsLoadEvent event, Emitter<PaymentMethodsState> emit) async {
+  Future<void> _getPaymentMethodsHandler(PaymentMethodsLoadEvent event, Emitter<PaymentMethodsState> emit) async {
+    if (state is PaymentMethodsLoadingState) {
+      return;
+    }
     emit(const PaymentMethodsLoadingState());
     final result = await _getPaymentMethods();
     result.fold(
@@ -28,7 +31,7 @@ final class PaymentMethodsBloc extends Bloc<PaymentMethodsEvent, PaymentMethodsS
     );
   }
 
-  Future<void> _addHandler(PaymentMethodAddEvent event, Emitter<PaymentMethodsState> emit) async {
+  Future<void> _addPaymentMethodHandler(PaymentMethodAddEvent event, Emitter<PaymentMethodsState> emit) async {
     if (state is PaymentMethodsLoadingState) {
       return;
     }
@@ -55,7 +58,7 @@ final class PaymentMethodsBloc extends Bloc<PaymentMethodsEvent, PaymentMethodsS
     );
   }
 
-  Future<void> _deleteHandler(PaymentMethodDeleteEvent event, Emitter<PaymentMethodsState> emit) async {
+  Future<void> _deletePaymentMethodHandler(PaymentMethodDeleteEvent event, Emitter<PaymentMethodsState> emit) async {
     if (state is PaymentMethodsLoadingState) {
       return;
     }

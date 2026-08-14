@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class _MockRemote extends Mock implements AuthRemoteDataSource {}
+
 class _MockLocal extends Mock implements AuthLocalDataSource {}
 
 void main() {
@@ -24,8 +25,12 @@ void main() {
 
   group('AuthRepoImpl', () {
     test('login returns Right(UserEntity) on success and saves user', () async {
-      when(() => mockRemote.login(email: any(named: 'email'), password: any(named: 'password')))
-          .thenAnswer((_) async => tUserModel);
+      when(
+        () => mockRemote.login(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer((_) async => tUserModel);
       when(() => mockLocal.saveUser(any())).thenAnswer((_) async => {});
 
       final result = await repo.login(email: 't@t.com', password: 'p');

@@ -24,8 +24,12 @@ void main() {
 
   // ─── Success ─────────────────────────────────────────────────────────────────
   test('returns UserEntity from repo on success', () async {
-    when(() => mockRepo.login(email: any(named: 'email'), password: any(named: 'password')))
-        .thenAnswer((_) async => const Right(tUser));
+    when(
+      () => mockRepo.login(
+        email: any(named: 'email'),
+        password: any(named: 'password'),
+      ),
+    ).thenAnswer((_) async => const Right(tUser));
 
     final result = await useCase(tParams);
 
@@ -36,8 +40,12 @@ void main() {
 
   // ─── Server failure ───────────────────────────────────────────────────────────
   test('returns ServerFailure from repo on server error', () async {
-    when(() => mockRepo.login(email: any(named: 'email'), password: any(named: 'password')))
-        .thenAnswer((_) async => const Left(tServerFailure));
+    when(
+      () => mockRepo.login(
+        email: any(named: 'email'),
+        password: any(named: 'password'),
+      ),
+    ).thenAnswer((_) async => const Left(tServerFailure));
 
     final result = await useCase(tParams);
 
@@ -48,8 +56,12 @@ void main() {
 
   // ─── No internet failure ──────────────────────────────────────────────────────
   test('returns NoInternetFailure from repo on network error', () async {
-    when(() => mockRepo.login(email: any(named: 'email'), password: any(named: 'password')))
-        .thenAnswer((_) async => const Left(tNoInternetFailure));
+    when(
+      () => mockRepo.login(
+        email: any(named: 'email'),
+        password: any(named: 'password'),
+      ),
+    ).thenAnswer((_) async => const Left(tNoInternetFailure));
 
     final result = await useCase(tParams);
 
@@ -60,8 +72,12 @@ void main() {
 
   // ─── Cache failure ────────────────────────────────────────────────────────────
   test('returns CacheFailure from repo on cache error', () async {
-    when(() => mockRepo.login(email: any(named: 'email'), password: any(named: 'password')))
-        .thenAnswer((_) async => const Left(tCacheFailure));
+    when(
+      () => mockRepo.login(
+        email: any(named: 'email'),
+        password: any(named: 'password'),
+      ),
+    ).thenAnswer((_) async => const Left(tCacheFailure));
 
     final result = await useCase(tParams);
 
@@ -71,8 +87,12 @@ void main() {
   // ─── Correct params forwarded ─────────────────────────────────────────────────
   test('calls repo with exact email and password from params', () async {
     const specificParams = LoginParams(email: 'specific@email.com', password: 'supersecret');
-    when(() => mockRepo.login(email: any(named: 'email'), password: any(named: 'password')))
-        .thenAnswer((_) async => const Right(tUser));
+    when(
+      () => mockRepo.login(
+        email: any(named: 'email'),
+        password: any(named: 'password'),
+      ),
+    ).thenAnswer((_) async => const Right(tUser));
 
     await useCase(specificParams);
 
@@ -81,11 +101,20 @@ void main() {
 
   // ─── Calls repo only once ─────────────────────────────────────────────────────
   test('calls repo exactly once', () async {
-    when(() => mockRepo.login(email: any(named: 'email'), password: any(named: 'password')))
-        .thenAnswer((_) async => const Right(tUser));
+    when(
+      () => mockRepo.login(
+        email: any(named: 'email'),
+        password: any(named: 'password'),
+      ),
+    ).thenAnswer((_) async => const Right(tUser));
 
     await useCase(tParams);
 
-    verify(() => mockRepo.login(email: any(named: 'email'), password: any(named: 'password'))).called(1);
+    verify(
+      () => mockRepo.login(
+        email: any(named: 'email'),
+        password: any(named: 'password'),
+      ),
+    ).called(1);
   });
 }

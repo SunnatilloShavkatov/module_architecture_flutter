@@ -86,7 +86,7 @@ class _OtpLoginPageState extends State<OtpLoginPage> with OtpLoginMixin {
                   ],
                   Dimensions.kGap16,
                   CustomLoadingButton(
-                    isLoading: state is OtpLoginLoading,
+                    isLoading: state is OtpLoginLoadingState,
                     onPressed: submitOtp,
                     child: Text(context.l10n.loginButton),
                   ),

@@ -1,17 +1,17 @@
 # TEMPLATE REFERENCE (The Architectural Seed)
 
-If this project is empty, and you don't have an existing module like `auth` or `referral` to clone, use this file as your absolute **Source of Truth** for syntax and structure. **CLONE THIS EXACTLY** for any new feature. Do NOT invent your own simple representations. Use this exact level of complexity.
+If this project is empty, and you don't have an existing module like `auth` or `profile` to clone, use this file as your absolute **Source of Truth** for syntax and structure. **CLONE THIS EXACTLY** for any new feature. Do NOT invent your own simple representations. Use this exact level of complexity.
 
 ---
 
 ## 1. DOMAIN LAYER
 
-### Elements (`domain/entities/referral_faq.dart`)
+### Elements (`domain/entities/faq_entity.dart`)
 ```dart
-import 'package:base_dependencies/base_dependencies.dart';
+import 'package:core/core.dart';
 
-class ReferralFAQ extends Equatable {
-  const ReferralFAQ({required this.steps, required this.questions});
+class FaqEntity extends Equatable {
+  const FaqEntity({required this.steps, required this.questions});
 
   final List<FaqStep> steps;
   final List<FaqStep> questions;
@@ -73,18 +73,20 @@ final class CheckUserParams {
 }
 ```
 
+> This section illustrates a two-step identity-check-then-login flow (`checkUser` → `login`) as a richer worked example of the domain/data/presentation chain than the single-step `auth` module currently in this repo uses. Treat `AuthRepository`/`CheckUser*` here as a pattern to adapt, not literal names to expect inside `modules/auth` — the real module's simpler two-usecase (`Login`, `OtpLogin`) shape is in `modules/auth/lib/src/domain`.
+
 ---
 
 ## 2. DATA LAYER
 
-### Model (`data/models/referral_faq_model.dart`)
+### Model (`data/models/faq_entity_model.dart`)
 ```dart
-import 'package:referral/src/domain/entities/referral_faq.dart';
+import 'package:your_module/src/domain/entities/faq_entity.dart';
 
-class ReferralFAQModel extends ReferralFAQ {
-  const ReferralFAQModel({required super.steps, required super.questions});
+class FaqEntityModel extends FaqEntity {
+  const FaqEntityModel({required super.steps, required super.questions});
 
-  factory ReferralFAQModel.fromMap(Map<String, dynamic> map) {
+  factory FaqEntityModel.fromMap(Map<String, dynamic> map) {
     final List<FaqStep> steps = [];
     final List<FaqStep> questions = [];
     if (map['steps'] != null && map['steps'] is List) {
@@ -97,7 +99,7 @@ class ReferralFAQModel extends ReferralFAQ {
         questions.add(FaqStepModel.fromMap(question));
       }
     }
-    return ReferralFAQModel(steps: steps, questions: questions);
+    return FaqEntityModel(steps: steps, questions: questions);
   }
 }
 
@@ -211,7 +213,7 @@ final class AuthRepositoryImpl implements AuthRepository {
 import 'package:auth/src/domain/entities/login_entity.dart';
 import 'package:auth/src/domain/usecases/check_user.dart' show CheckUser, CheckUserParams;
 import 'package:auth/src/domain/usecases/login.dart' show Login, LoginParams;
-import 'package:base_dependencies/base_dependencies.dart';
+import 'package:core/core.dart';
 import 'package:core/core.dart';
 import 'package:platform_methods/platform_methods.dart';
 
@@ -245,10 +247,10 @@ final class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state is LoginLoadingState) return;
     emit(const LoginLoadingState());
     final result = await _checkUser(
-      CheckUserParams(identity: event.identity, appVersion: event.appVersion, deviceType: Constants.currentDeviceType),
+      CheckUserParams(identity: event.identity, appVersion: event.appVersion, deviceType: 'MOBILE'),
     );
     result.fold(
-      (failure) => emit(CheckUserFailure(message: failure.message)),
+      (failure) => emit(CheckUserFailureState(message: failure.message)),
       (next) => emit(CheckUserSuccessState(next.next)),
     );
   }
@@ -349,8 +351,8 @@ final class LoginFailureState extends FailureState {
   @override
   List<Object?> get props => [message];
 }
-final class CheckUserFailure extends FailureState {
-  const CheckUserFailure({required this.message});
+final class CheckUserFailureState extends FailureState {
+  const CheckUserFailureState({required this.message});
   final String message;
   @override
   List<Object?> get props => [message];
@@ -386,8 +388,8 @@ mixin LoginMixin on State<LoginPage> {
         showErrorMessage(context, message: context.l10n.userNotFound);
       }
     } else if (state is LoginSuccessState) {
-      context.goNamed(Routes.placementStart);
-    } else if (state is LoginFailureState || state is CheckUserFailure) {
+      context.goNamed(Routes.mainHome);
+    } else if (state is LoginFailureState || state is CheckUserFailureState) {
       showErrorMessage(context, message: (state as dynamic).message);
     } else if (state is ProblemHasOccurredState) {
       showErrorMessage(context, message: context.l10n.problemHasOccurred);
@@ -437,7 +439,7 @@ mixin LoginMixin on State<LoginPage> {
 import 'dart:async';
 import 'package:auth/src/domain/entities/login_entity.dart';
 import 'package:auth/src/presentation/login/bloc/login_bloc.dart';
-import 'package:base_dependencies/base_dependencies.dart';
+import 'package:core/core.dart';
 import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
@@ -476,20 +478,23 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                   Dimensions.kGap24,
                   Form(
                     key: _formKeyIdentity,
-                    child: EmailPhoneTextField(
+                    child: CustomTextField(
                       focusNode: _identityFocus,
                       controller: _identityController,
-                      titleText: context.l10n.emailOrPhoneNumber,
+                      onChanged: (_) {},
+                      hintText: context.l10n.emailOrPhoneNumber,
                     ),
                   ),
                   if (_step == LoginStep.login) ...<Widget>[
                     Dimensions.kGap24,
                     Form(
                       key: _formKeyPassword,
-                      child: CustomPasswordTextField(
+                      child: CustomTextField(
                         focusNode: _passwordFocus,
                         controller: _passwordController,
-                        titleText: context.l10n.password,
+                        onChanged: (_) {},
+                        obscure: true,
+                        hintText: context.l10n.password,
                       ),
                     ),
                   ],
@@ -523,6 +528,7 @@ import 'package:auth/src/data/datasource/auth_remote_data_source.dart';
 import 'package:auth/src/data/repository/auth_repository_impl.dart';
 import 'package:auth/src/domain/repository/auth_repository.dart';
 import 'package:auth/src/domain/usecases/check_user.dart' show CheckUser;
+import 'package:auth/src/domain/usecases/login.dart' show Login;
 import 'package:auth/src/presentation/login/bloc/login_bloc.dart';
 import 'package:core/core.dart';
 
@@ -538,8 +544,9 @@ final class AuthInjection implements Injection {
       ..registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(di.get()))
       /// use cases
       ..registerLazySingleton<CheckUser>(() => CheckUser(di.get()))
+      ..registerLazySingleton<Login>(() => Login(di.get()))
       /// bloc
-      ..registerFactory(() => LoginBloc(di.get(), di.get(), di.get(), di.get(), di.get(), di.get()));
+      ..registerFactory(() => LoginBloc(di.get(), di.get(), di.get(), di.get(), di.get()));
   }
 }
 ```

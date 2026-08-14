@@ -33,37 +33,37 @@ void main() {
 
   // ─── Success ─────────────────────────────────────────────────────────────────
   blocTest<LoginBloc, LoginState>(
-    'emits [LoginLoading, LoginSuccess] on successful login',
+    'emits [LoginLoadingState, LoginSuccessState] on successful login',
     build: () {
       when(() => mockLogin(any())).thenAnswer((_) async => const Right(tUser));
       return loginBloc;
     },
     act: (bloc) => bloc.add(const LoginSubmitEvent(email: 'test@test.com', password: 'password')),
-    expect: () => [const LoginLoading(), const LoginSuccess(auth: tUser)],
+    expect: () => [const LoginLoadingState(), const LoginSuccessState(auth: tUser)],
     verify: (_) => verify(() => mockLogin(any())).called(1),
   );
 
   // ─── Server failure ───────────────────────────────────────────────────────────
   blocTest<LoginBloc, LoginState>(
-    'emits [LoginLoading, LoginFailure] on server failure',
+    'emits [LoginLoadingState, LoginFailureState] on server failure',
     build: () {
       when(() => mockLogin(any())).thenAnswer((_) async => const Left(tServerFailure));
       return loginBloc;
     },
     act: (bloc) => bloc.add(const LoginSubmitEvent(email: 'test@test.com', password: 'wrong')),
-    expect: () => [const LoginLoading(), const LoginFailure(message: 'Invalid credentials')],
+    expect: () => [const LoginLoadingState(), const LoginFailureState(message: 'Invalid credentials')],
     verify: (_) => verify(() => mockLogin(any())).called(1),
   );
 
   // ─── No internet failure ──────────────────────────────────────────────────────
   blocTest<LoginBloc, LoginState>(
-    'emits [LoginLoading, LoginFailure] on no internet failure',
+    'emits [LoginLoadingState, LoginFailureState] on no internet failure',
     build: () {
       when(() => mockLogin(any())).thenAnswer((_) async => const Left(tNoInternetFailure));
       return loginBloc;
     },
     act: (bloc) => bloc.add(const LoginSubmitEvent(email: 'test@test.com', password: 'password')),
-    expect: () => [const LoginLoading(), const LoginFailure(message: 'No internet connection')],
+    expect: () => [const LoginLoadingState(), const LoginFailureState(message: 'No internet connection')],
   );
 
   // ─── Duplicate event while loading ───────────────────────────────────────────
@@ -82,7 +82,7 @@ void main() {
         ..add(const LoginSubmitEvent(email: 'a@b.com', password: 'p'));
     },
     wait: const Duration(milliseconds: 300),
-    expect: () => [const LoginLoading(), const LoginSuccess(auth: tUser)],
+    expect: () => [const LoginLoadingState(), const LoginSuccessState(auth: tUser)],
     verify: (_) => verify(() => mockLogin(any())).called(1),
   );
 
@@ -93,14 +93,14 @@ void main() {
       when(() => mockLogin(any())).thenAnswer((_) async => const Right(tUser));
       return loginBloc;
     },
-    seed: () => const LoginFailure(message: 'Previous error'),
+    seed: () => const LoginFailureState(message: 'Previous error'),
     act: (bloc) => bloc.add(const LoginSubmitEvent(email: 'test@test.com', password: 'password')),
-    expect: () => [const LoginLoading(), const LoginSuccess(auth: tUser)],
+    expect: () => [const LoginLoadingState(), const LoginSuccessState(auth: tUser)],
   );
 
-  // ─── LoginSuccess contains correct user data ──────────────────────────────────
+  // ─── LoginSuccessState contains correct user data ──────────────────────────────────
   blocTest<LoginBloc, LoginState>(
-    'LoginSuccess contains the user returned from usecase',
+    'LoginSuccessState contains the user returned from usecase',
     build: () {
       const richUser = UserEntity(
         id: 99,
@@ -115,8 +115,8 @@ void main() {
     },
     act: (bloc) => bloc.add(const LoginSubmitEvent(email: 'admin@company.com', password: 'secret')),
     expect: () => [
-      const LoginLoading(),
-      const LoginSuccess(
+      const LoginLoadingState(),
+      const LoginSuccessState(
         auth: UserEntity(
           id: 99,
           email: 'admin@company.com',

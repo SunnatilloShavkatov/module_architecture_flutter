@@ -16,15 +16,14 @@ mixin OtpLoginMixin on State<OtpLoginPage> {
   }
 
   void _handleStates(BuildContext context, OtpLoginState state) {
-    if (state is OtpLoginFailure) {
+    if (state is OtpLoginFailureState) {
       _errorMessage = state.message;
-    } else if (state is OtpLoginSuccess) {
+    } else if (state is OtpLoginSuccessState) {
       if (!context.mounted) {
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('${context.l10n.loginSuccessMessage}: ${state.auth.email}')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('${context.l10n.loginSuccessMessage}: ${state.auth.email}')));
       context.goNamed(Routes.mainHome);
     }
   }

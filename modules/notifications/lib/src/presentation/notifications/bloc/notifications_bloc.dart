@@ -7,12 +7,15 @@ part 'notifications_state.dart';
 
 final class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   NotificationsBloc(this._getNotifications) : super(const NotificationsInitialState()) {
-    on<NotificationsLoadEvent>(_loadHandler, transformer: droppable());
+    on<NotificationsLoadEvent>(_getNotificationsHandler, transformer: droppable());
   }
 
   final GetNotifications _getNotifications;
 
-  Future<void> _loadHandler(NotificationsLoadEvent event, Emitter<NotificationsState> emit) async {
+  Future<void> _getNotificationsHandler(NotificationsLoadEvent event, Emitter<NotificationsState> emit) async {
+    if (state is NotificationsLoadingState) {
+      return;
+    }
     emit(const NotificationsLoadingState());
     final result = await _getNotifications();
     result.fold(
