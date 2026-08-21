@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  material_ui: ^1.0.0
+  material_ui: ^1.0.1
   # external packages
   go_router: ^17.5.0
 
