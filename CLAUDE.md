@@ -41,7 +41,7 @@ open the file — don't rely on memory of this summary, the doc has edge cases t
 
 ## 1. Reference Priority (fixes "clone wrong module" problem)
 
-1. **`docs/TEMPLATE_REFERENCE.md`** — always correct, always current. Primary reference for syntax/structure.
+1. **`docs/template_reference.md`** — the copy-paste shape of every file type in this project: constructor syntax, bloc/event/state, mixin, page, widget, args, router, sheet, DI, cross-module factories, plus a symptom→fix table of the mistakes agents actually make. **Open it before writing any file, not after.** It is written against `CLAUDE.md`; each of its sections names the rule it implements. If it ever disagrees with `CLAUDE.md`, `CLAUDE.md` wins — say so instead of following the doc.
 2. **`docs/presentation_layer/page_bloc_widget_mixin_plan.md`** — mandatory for any bloc/event/state/page/mixin work. Rules inlined below too, but the doc is authoritative on edge cases.
 3. An existing module (`modules/auth`, etc.) — use only for finding local folder-naming (`repo` vs `repository`). Never copy its bloc/state naming if it disagrees with sections 2–3 below — older modules may predate the current convention.
 
@@ -451,7 +451,7 @@ itemBuilder: (_, i) => _taskItemFactory.create(TaskItemArgs(stat: items[i], onTa
 - location: own top-level folder, `presentation/<name>_sheet/<name>_sheet.dart` — not nested inside another feature's folder.
 - optional input: `presentation/<name>_sheet/args/<name>_sheet_args.dart` — plain `final class` holding fields, no `Equatable` needed unless the args are compared.
 - optional own bloc when the sheet needs async state: `presentation/<name>_sheet/bloc/` — same rules as §2.
-- widget: `StatelessWidget`, root is `SafeAreaWithMinimum(minimum: Dimensions.kPaddingAll16T0, child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [...]))`.
+- widget: `StatelessWidget`, root is `SafeAreaWithMinimum(minimum: Dimensions.kPaddingAll16, child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [...]))`. Before using any `Dimensions.*` token, confirm it exists in `packages/components/lib/src/utils/dimensions.dart` — inventing a plausible-looking token name (`kPaddingAll16T0`, `kGap10`) is a compile error, and the token list is not guessable.
 - route: **`MaterialSheetRoute`, always** (from `package:navigation/navigation.dart`) — never a hand-rolled `GoRoute(pageBuilder: ... MaterialSheetPage(...))`. `MaterialSheetRoute` already does that wrapping, plus `restorationId`, `name`, and path/query `arguments`; writing the `pageBuilder` by hand loses those and is a bug, not a style choice. It takes `builder: (context, state) => ...` — the same signature as a plain `GoRoute`, so nothing else about the route changes. See §5b.
 
 ```
@@ -548,7 +548,7 @@ As of **Flutter 3.47** the Material and Cupertino widget libraries moved out of 
 - **forbidden imports, anywhere**: `package:flutter/material.dart`, `package:flutter/cupertino.dart`. They do not exist on this SDK. `package:flutter/widgets.dart`, `package:flutter/services.dart`, `package:flutter/foundation.dart`, `package:flutter/rendering.dart` still ship with the SDK and are fine when you need only those.
 - new module or new package? its `pubspec.yaml` gets `material_ui: ^1.0.1` under `dependencies` (and `cupertino_ui: ^1.0.0` only if it uses Cupertino types). Pin the same versions the rest of the repo uses — don't float them.
 - domain layer stays UI-free: no `material_ui`, no `cupertino_ui`, no Flutter import at all in `domain/` (§10) — swapping the package name doesn't make a UI import allowed there.
-- copying a snippet from `docs/TEMPLATE_REFERENCE.md`, Stack Overflow, or any pre-3.47 source? Swap its `package:flutter/material.dart` line for `package:material_ui/material_ui.dart` before saving. This is the single most common mechanical error in this repo.
+- copying a snippet from an old commit, Stack Overflow, or any pre-3.47 source? Swap its `package:flutter/material.dart` line for `package:material_ui/material_ui.dart` before saving. This is the single most common mechanical error in this repo.
 
 ## 13. Package Isolation (verified clean as of now — keep it that way)
 

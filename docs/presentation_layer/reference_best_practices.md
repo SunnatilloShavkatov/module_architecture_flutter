@@ -4,7 +4,7 @@ Use these practices when implementing new features.
 
 ## 1. Reference Scope
 
-`referral` and `marketplace` below are **pattern names from a past external project, not modules in this repo**. Do not import from them, do not invent `package:referral/...` or `package:marketplace/...` — they don't exist here. They're kept only as named examples of the shape to replicate. For real end-to-end reference in this repo, use `modules/auth` and `docs/TEMPLATE_REFERENCE.md`.
+`referral` and `marketplace` below are **pattern names from a past external project, not modules in this repo**. Do not import from them, do not invent `package:referral/...` or `package:marketplace/...` — they don't exist here. They're kept only as named examples of the shape to replicate. For real end-to-end reference in this repo, use `modules/auth` and `docs/template_reference.md`.
 
 ## 2. Core Practices to Reuse
 
