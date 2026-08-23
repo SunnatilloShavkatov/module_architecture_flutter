@@ -1,7 +1,7 @@
 part of 'home_remote_data_source.dart';
 
 final class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
-  const HomeRemoteDataSourceImpl(this._networkProvider);
+  const new(this._networkProvider);
 
   final NetworkProvider _networkProvider;
 

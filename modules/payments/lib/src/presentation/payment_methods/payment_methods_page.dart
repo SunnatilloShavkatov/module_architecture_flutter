@@ -6,7 +6,7 @@ import 'package:payments/src/domain/entities/payment_method_entity.dart';
 import 'package:payments/src/presentation/payment_methods/bloc/payment_methods_bloc.dart';
 
 class PaymentMethodsPage extends StatelessWidget {
-  const PaymentMethodsPage({super.key});
+  const new({super.key});
 
   @override
   Widget build(BuildContext context) => BlocConsumer<PaymentMethodsBloc, PaymentMethodsState>(
@@ -47,7 +47,7 @@ class PaymentMethodsPage extends StatelessWidget {
 }
 
 final class _PaymentsFailureView extends StatelessWidget {
-  const _PaymentsFailureView({required this.message});
+  const new({required this.message});
 
   final String message;
 
@@ -62,7 +62,7 @@ final class _PaymentsFailureView extends StatelessWidget {
 }
 
 final class _PaymentsContentView extends StatelessWidget {
-  const _PaymentsContentView({required this.paymentMethods});
+  const new({required this.paymentMethods});
 
   final List<PaymentMethodEntity> paymentMethods;
 

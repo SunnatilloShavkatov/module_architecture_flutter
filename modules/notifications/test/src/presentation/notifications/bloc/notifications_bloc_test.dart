@@ -6,7 +6,7 @@ import 'package:notifications/src/domain/entities/notification_entity.dart';
 import 'package:notifications/src/domain/usecases/get_notifications.dart';
 import 'package:notifications/src/presentation/notifications/bloc/notifications_bloc.dart';
 
-class _MockGetNotifications extends Mock implements GetNotifications {}
+class _MockGetNotifications extends Mock implements GetNotifications;
 
 void main() {
   late NotificationsBloc notificationsBloc;
@@ -52,10 +52,7 @@ void main() {
       return notificationsBloc;
     },
     act: (bloc) => bloc.add(const NotificationsLoadEvent()),
-    expect: () => [
-      const NotificationsLoadingState(),
-      NotificationsSuccessState(notifications: tNotifications),
-    ],
+    expect: () => [const NotificationsLoadingState(), NotificationsSuccessState(notifications: tNotifications)],
     verify: (_) => verify(() => mockGetNotifications()).called(1),
   );
 
@@ -67,10 +64,7 @@ void main() {
       return notificationsBloc;
     },
     act: (bloc) => bloc.add(const NotificationsLoadEvent()),
-    expect: () => [
-      const NotificationsLoadingState(),
-      const NotificationsSuccessState(notifications: []),
-    ],
+    expect: () => [const NotificationsLoadingState(), const NotificationsSuccessState(notifications: [])],
   );
 
   // ─── Server failure ───────────────────────────────────────────────────────────
@@ -81,10 +75,7 @@ void main() {
       return notificationsBloc;
     },
     act: (bloc) => bloc.add(const NotificationsLoadEvent()),
-    expect: () => [
-      const NotificationsLoadingState(),
-      const NotificationsFailureState(message: 'Server error'),
-    ],
+    expect: () => [const NotificationsLoadingState(), const NotificationsFailureState(message: 'Server error')],
     verify: (_) => verify(() => mockGetNotifications()).called(1),
   );
 
@@ -111,10 +102,7 @@ void main() {
     },
     seed: () => const NotificationsSuccessState(notifications: []),
     act: (bloc) => bloc.add(const NotificationsLoadEvent()),
-    expect: () => [
-      const NotificationsLoadingState(),
-      NotificationsSuccessState(notifications: tNotifications),
-    ],
+    expect: () => [const NotificationsLoadingState(), NotificationsSuccessState(notifications: tNotifications)],
   );
 
   // ─── Can reload after failure ─────────────────────────────────────────────────
@@ -126,10 +114,7 @@ void main() {
     },
     seed: () => const NotificationsFailureState(message: 'Previous error'),
     act: (bloc) => bloc.add(const NotificationsLoadEvent()),
-    expect: () => [
-      const NotificationsLoadingState(),
-      NotificationsSuccessState(notifications: tNotifications),
-    ],
+    expect: () => [const NotificationsLoadingState(), NotificationsSuccessState(notifications: tNotifications)],
   );
 
   // ─── Usecase called exactly once per event ────────────────────────────────────

@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 import 'package:navigation/navigation.dart';
 
 final class HomeRouter implements AppRouter<RouteBase> {
-  const HomeRouter();
+  const new();
 
   @override
   List<RouteBase> getRouters(Injector di) => [];

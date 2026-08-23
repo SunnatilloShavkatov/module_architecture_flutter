@@ -12,7 +12,7 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 final class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc(this._getHomeCategories, this._getHomeBusinesses, this._getHomeAppointments, this._localDataSource)
+  new(this._getHomeCategories, this._getHomeBusinesses, this._getHomeAppointments, this._localDataSource)
     : super(const HomeInitialState()) {
     on<HomeLoadEvent>(_homeLoadHandler, transformer: droppable());
     on<HomeRefreshEvent>(_homeRefreshHandler, transformer: droppable());

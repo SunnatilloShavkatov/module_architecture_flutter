@@ -1,7 +1,7 @@
 import 'package:core/core.dart' show Equatable;
 
 class PaymentMethodEntity extends Equatable {
-  const PaymentMethodEntity({
+  const new({
     required this.id,
     required this.cardLast4,
     required this.cardBrand,

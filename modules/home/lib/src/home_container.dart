@@ -4,7 +4,7 @@ import 'package:home/src/router/home_router.dart';
 import 'package:navigation/navigation.dart';
 
 final class HomeContainer implements ModuleContainer {
-  const HomeContainer();
+  const new();
 
   @override
   AppRouter<RouteBase> get router => const HomeRouter();

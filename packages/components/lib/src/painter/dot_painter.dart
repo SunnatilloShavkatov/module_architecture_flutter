@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
 class Dot extends StatelessWidget {
-  const Dot({super.key, this.size = 2, this.color});
+  const new({super.key, this.size = 2, this.color});
 
   final double size;
   final Color? color;
@@ -22,7 +22,7 @@ class Dot extends StatelessWidget {
 }
 
 class _DotPainter extends CustomPainter {
-  _DotPainter(this.radius, this.color);
+  new(this.radius, this.color);
 
   final double radius;
   final Color color;

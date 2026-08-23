@@ -27,6 +27,7 @@ export 'src/core_abstractions/injector.dart';
 export 'src/core_abstractions/module_container.dart';
 export 'src/core_abstractions/module_interactor.dart';
 export 'src/core_abstractions/page_factory.dart';
+export 'src/core_abstractions/widget_factory.dart';
 export 'src/core_container.dart';
 export 'src/di/app_injector.dart';
 export 'src/di/core_injection.dart';

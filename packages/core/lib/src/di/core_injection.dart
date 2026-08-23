@@ -27,7 +27,7 @@ import 'package:pinput/pinput.dart';
 import 'package:smart_auth/smart_auth.dart';
 
 final class CoreInjection implements Injection {
-  const CoreInjection();
+  const new();
 
   @override
   FutureOr<void> registerDependencies({required Injector di}) async {

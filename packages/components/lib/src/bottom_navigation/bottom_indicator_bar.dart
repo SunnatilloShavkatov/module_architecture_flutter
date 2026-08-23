@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
 class BottomIndicatorBar extends StatelessWidget {
-  const BottomIndicatorBar({required this.child, super.key, this.currentIndex = 0, this.length = 5});
+  const new({required this.child, super.key, this.currentIndex = 0, this.length = 5});
 
   final int currentIndex;
   final Widget child;

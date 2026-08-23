@@ -3,7 +3,7 @@ import 'package:profile/src/domain/entities/profile_user_entity.dart';
 import 'package:profile/src/domain/repository/profile_repository.dart';
 
 class UpdateProfileUser extends UsecaseWithParams<ProfileUserEntity, UpdateProfileUserParams> {
-  const UpdateProfileUser(this._repo);
+  const new(this._repo);
 
   final ProfileRepository _repo;
 
@@ -18,7 +18,7 @@ class UpdateProfileUser extends UsecaseWithParams<ProfileUserEntity, UpdateProfi
 }
 
 final class UpdateProfileUserParams {
-  const UpdateProfileUserParams({
+  const new({
     required this.username,
     required this.firstName,
     required this.lastName,

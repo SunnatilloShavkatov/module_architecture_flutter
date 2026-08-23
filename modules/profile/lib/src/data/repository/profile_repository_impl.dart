@@ -6,7 +6,7 @@ import 'package:profile/src/domain/entities/profile_user_entity.dart';
 import 'package:profile/src/domain/repository/profile_repository.dart';
 
 final class ProfileRepositoryImpl implements ProfileRepository {
-  const ProfileRepositoryImpl(this._remoteSource, this._localSource);
+  const new(this._remoteSource, this._localSource);
 
   final ProfileLocalDataSource _localSource;
   final ProfileRemoteDataSource _remoteSource;

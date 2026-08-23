@@ -5,9 +5,9 @@ import 'package:auth/src/data/repo/auth_repo_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class _MockRemote extends Mock implements AuthRemoteDataSource {}
+class _MockRemote extends Mock implements AuthRemoteDataSource;
 
-class _MockLocal extends Mock implements AuthLocalDataSource {}
+class _MockLocal extends Mock implements AuthLocalDataSource;
 
 void main() {
   late AuthRepoImpl repo;

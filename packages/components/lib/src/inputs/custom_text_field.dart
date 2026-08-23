@@ -8,7 +8,7 @@ typedef OnChanged = void Function(String);
 typedef OnFieldSubmitted = void Function(String);
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
+  const new({
     required this.controller,
     required this.onChanged,
     required this.focusNode,

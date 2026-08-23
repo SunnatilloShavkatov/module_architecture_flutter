@@ -1,7 +1,7 @@
 import 'package:core/core.dart' show Equatable;
 
 class NotificationEntity extends Equatable {
-  const NotificationEntity({
+  const new({
     required this.id,
     required this.title,
     required this.message,

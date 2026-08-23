@@ -1,7 +1,7 @@
 part of 'themes.dart';
 
 final class ThemeTextStyles extends ThemeExtension<ThemeTextStyles> {
-  const ThemeTextStyles({
+  const new({
     required this.appBarTitle,
     required this.buttonStyle,
     required this.inputTitleStyle,

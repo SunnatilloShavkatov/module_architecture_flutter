@@ -139,7 +139,7 @@ Pure Dart, no Flutter dependencies:
 import 'package:core/core.dart';
 
 // ❌ Wrong
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart'; // No UI package in domain
 ```
 
 ### 5. Immutable

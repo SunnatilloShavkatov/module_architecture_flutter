@@ -1,7 +1,7 @@
 import 'package:profile/src/domain/entities/profile_user_entity.dart';
 
 class ProfileUserModel extends ProfileUserEntity {
-  const ProfileUserModel({
+  const new({
     required super.id,
     required super.email,
     required super.firstName,
@@ -12,7 +12,7 @@ class ProfileUserModel extends ProfileUserEntity {
     super.specialization,
   });
 
-  factory ProfileUserModel.fromMap(Map<String, dynamic> map) => ProfileUserModel(
+  factory fromMap(Map<String, dynamic> map) => ProfileUserModel(
     id: map['userId'] ?? map['id'] ?? 0,
     email: map['email'] ?? '',
     firstName: map['firstName'] ?? '',

@@ -1,34 +1,34 @@
 part of 'profile_bloc.dart';
 
 sealed class ProfileState extends Equatable {
-  const ProfileState();
+  const new();
 
   @override
   List<Object?> get props => <Object?>[];
 }
 
 final class ProfileInitialState extends ProfileState {
-  const ProfileInitialState();
+  const new();
 }
 
 sealed class LoadingState extends ProfileState {
-  const LoadingState();
+  const new();
 }
 
 final class ProfileLoadingState extends LoadingState {
-  const ProfileLoadingState();
+  const new();
 }
 
 final class ProfileUpdatingState extends LoadingState {
-  const ProfileUpdatingState();
+  const new();
 }
 
 sealed class SuccessState extends ProfileState {
-  const SuccessState();
+  const new();
 }
 
 final class ProfileSuccessState extends SuccessState {
-  const ProfileSuccessState({required this.user, required this.version});
+  const new({required this.user, required this.version});
 
   final ProfileUserEntity user;
   final PackageInfo version;
@@ -38,7 +38,7 @@ final class ProfileSuccessState extends SuccessState {
 }
 
 final class ProfileUpdatedState extends SuccessState {
-  const ProfileUpdatedState({required this.user, required this.version});
+  const new({required this.user, required this.version});
 
   final ProfileUserEntity user;
   final PackageInfo version;
@@ -48,11 +48,11 @@ final class ProfileUpdatedState extends SuccessState {
 }
 
 sealed class FailureState extends ProfileState {
-  const FailureState();
+  const new();
 }
 
 final class ProfileFailureState extends FailureState {
-  const ProfileFailureState({required this.message});
+  const new({required this.message});
 
   final String message;
 

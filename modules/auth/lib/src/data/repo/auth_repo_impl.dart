@@ -5,7 +5,7 @@ import 'package:auth/src/domain/repos/auth_repo.dart';
 import 'package:core/core.dart';
 
 final class AuthRepoImpl implements AuthRepo {
-  const AuthRepoImpl(this._remoteDataSource, this._localDataSource);
+  const new(this._remoteDataSource, this._localDataSource);
 
   final AuthRemoteDataSource _remoteDataSource;
   final AuthLocalDataSource _localDataSource;

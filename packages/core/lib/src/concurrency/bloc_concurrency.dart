@@ -26,7 +26,7 @@ EventTransformer<Event> droppable<Event>() =>
     (events, mapper) => events.transform(_ExhaustMapStreamTransformer(mapper));
 
 class _ExhaustMapStreamTransformer<T> extends StreamTransformerBase<T, T> {
-  _ExhaustMapStreamTransformer(this.mapper);
+  new(this.mapper);
 
   final EventMapper<T> mapper;
 

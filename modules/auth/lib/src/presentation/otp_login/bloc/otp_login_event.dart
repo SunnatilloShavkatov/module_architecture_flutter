@@ -1,11 +1,11 @@
 import 'package:core/core.dart';
 
 sealed class OtpLoginEvent extends Equatable {
-  const OtpLoginEvent();
+  const new();
 }
 
 final class OtpLoginSubmitEvent extends OtpLoginEvent {
-  const OtpLoginSubmitEvent({required this.code});
+  const new({required this.code});
 
   final String code;
 

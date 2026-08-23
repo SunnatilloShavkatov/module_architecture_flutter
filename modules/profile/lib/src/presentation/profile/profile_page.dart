@@ -7,7 +7,7 @@ import 'package:profile/src/presentation/edit_profile/args/edit_profile_args.dar
 import 'package:profile/src/presentation/profile/bloc/profile_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  const new({super.key});
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -43,7 +43,7 @@ class ProfilePage extends StatelessWidget {
 }
 
 final class _ProfileFailureView extends StatelessWidget {
-  const _ProfileFailureView({required this.message, required this.onReload});
+  const new({required this.message, required this.onReload});
 
   final String message;
   final VoidCallback onReload;
@@ -66,7 +66,7 @@ final class _ProfileFailureView extends StatelessWidget {
 }
 
 final class _ProfileContentView extends StatelessWidget {
-  const _ProfileContentView({required this.user});
+  const new({required this.user});
 
   final ProfileUserEntity user;
 
@@ -176,7 +176,7 @@ final class _ProfileContentView extends StatelessWidget {
 }
 
 final class _ProfileSectionTitle extends StatelessWidget {
-  const _ProfileSectionTitle({required this.title});
+  const new({required this.title});
 
   final String title;
 
@@ -195,7 +195,7 @@ final class _ProfileSectionTitle extends StatelessWidget {
 }
 
 final class _ProfileMenuItem extends StatelessWidget {
-  const _ProfileMenuItem({required this.icon, required this.title, this.onTap});
+  const new({required this.icon, required this.title, this.onTap});
 
   final IconData icon;
   final String title;

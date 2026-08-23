@@ -6,7 +6,7 @@ import 'package:material_ui/material_ui.dart';
 /// A sliver widget that provides safe area padding with customizable minimum padding
 class SliverSafeAreaWithMinimum extends StatelessWidget {
   /// Creates a sliver that avoids operating system interfaces with minimum padding.
-  const SliverSafeAreaWithMinimum({
+  const new({
     super.key,
     this.left = true,
     this.top = true,
@@ -81,7 +81,7 @@ class SliverSafeAreaWithMinimum extends StatelessWidget {
 /// A widget that provides safe area padding with customizable minimum padding
 class SafeAreaWithMinimum extends StatelessWidget {
   /// Creates a widget that avoids operating system interfaces with minimum padding.
-  const SafeAreaWithMinimum({
+  const new({
     super.key,
     this.left = true,
     this.top = true,

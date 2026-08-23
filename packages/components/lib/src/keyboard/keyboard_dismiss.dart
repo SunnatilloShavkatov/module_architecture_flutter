@@ -45,7 +45,7 @@ enum GestureType {
 }
 
 class KeyboardDismiss extends StatelessWidget {
-  const KeyboardDismiss({
+  const new({
     super.key,
     this.child,
     this.behavior,

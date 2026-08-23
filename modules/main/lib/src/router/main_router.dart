@@ -5,10 +5,12 @@ import 'package:material_ui/material_ui.dart';
 import 'package:navigation/navigation.dart';
 
 final class MainRouter implements AppRouter<RouteBase> {
-  const MainRouter();
+  const new();
 
   @override
   List<RouteBase> getRouters(Injector di) => [
+    // Shell branch roots stay plain GoRoute: they are never pushed, the shell swaps them in an IndexedStack,
+    // so there is no push transition to lose. Every other page route uses CupertinoRoute (CLAUDE.md section 5b).
     StatefulShellRoute.indexedStack(
       builder: (_, state, navigationShell) => MainPage(key: ObjectKey(state.extra), navigationShell: navigationShell),
       branches: [

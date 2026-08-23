@@ -2,7 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:merge_dependencies/merge_dependencies.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  const new({super.key});
 
   @override
   Widget build(BuildContext context) => MaterialApp.router(

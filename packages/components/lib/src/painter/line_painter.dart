@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
 class Line extends StatelessWidget {
-  const Line({super.key, this.color, this.strokeHeight = 1, this.width = double.infinity});
+  const new({super.key, this.color, this.strokeHeight = 1, this.width = double.infinity});
 
   final Color? color;
   final double strokeHeight;
@@ -26,7 +26,7 @@ class Line extends StatelessWidget {
 }
 
 class _LinePainter extends CustomPainter {
-  const _LinePainter({required this.color, required this.strokeWidth});
+  const new({required this.color, required this.strokeWidth});
 
   final Color color;
   final double strokeWidth;

@@ -2,7 +2,7 @@ import 'package:components/src/gap/gap.dart';
 import 'package:material_ui/material_ui.dart';
 
 final class Dimensions {
-  const Dimensions._();
+  const new _();
 
   /// box
   static const Widget kZeroBox = SizedBox.shrink();

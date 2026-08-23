@@ -1,18 +1,18 @@
 part of 'payment_methods_bloc.dart';
 
 sealed class PaymentMethodsEvent extends Equatable {
-  const PaymentMethodsEvent();
+  const new();
 }
 
 final class PaymentMethodsLoadEvent extends PaymentMethodsEvent {
-  const PaymentMethodsLoadEvent();
+  const new();
 
   @override
   List<Object?> get props => [];
 }
 
 final class PaymentMethodAddEvent extends PaymentMethodsEvent {
-  const PaymentMethodAddEvent({
+  const new({
     required this.cardNumber,
     required this.cardLast4,
     required this.cardBrand,
@@ -31,7 +31,7 @@ final class PaymentMethodAddEvent extends PaymentMethodsEvent {
 }
 
 final class PaymentMethodDeleteEvent extends PaymentMethodsEvent {
-  const PaymentMethodDeleteEvent({required this.id});
+  const new({required this.id});
 
   final int id;
 

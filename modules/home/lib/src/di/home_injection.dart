@@ -12,12 +12,12 @@ import 'package:home/src/home_page_factory.dart';
 import 'package:home/src/presentation/main/bloc/home_bloc.dart';
 
 final class HomeInjection implements Injection {
-  const HomeInjection();
+  const new();
 
   @override
   FutureOr<void> registerDependencies({required Injector di}) {
     di
-      /// factories
+      /// page factories
       ..registerLazySingleton<PageFactory>(() => const HomePageFactory(), instanceName: InstanceNameKeys.homeFactory)
       /// data sources
       ..registerLazySingleton<HomeLocalDataSource>(() => HomeLocalDataSourceImpl(di.get()))

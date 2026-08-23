@@ -1,7 +1,7 @@
 import 'package:core/core.dart' show Equatable;
 
 class HomeBusinessEntity extends Equatable {
-  const HomeBusinessEntity({
+  const new({
     required this.id,
     required this.name,
     required this.rating,

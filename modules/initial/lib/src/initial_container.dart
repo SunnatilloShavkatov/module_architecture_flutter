@@ -3,7 +3,7 @@ import 'package:initial/src/router/initial_router.dart';
 import 'package:navigation/navigation.dart';
 
 final class InitialContainer implements ModuleContainer {
-  const InitialContainer();
+  const new();
 
   @override
   AppRouter<RouteBase> get router => const InitialRouter();

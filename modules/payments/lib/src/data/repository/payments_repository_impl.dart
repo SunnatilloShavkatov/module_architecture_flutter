@@ -4,7 +4,7 @@ import 'package:payments/src/domain/entities/payment_method_entity.dart';
 import 'package:payments/src/domain/repository/payments_repository.dart';
 
 final class PaymentsRepositoryImpl implements PaymentsRepository {
-  const PaymentsRepositoryImpl(this._remoteDataSource);
+  const new(this._remoteDataSource);
 
   final PaymentsRemoteDataSource _remoteDataSource;
 

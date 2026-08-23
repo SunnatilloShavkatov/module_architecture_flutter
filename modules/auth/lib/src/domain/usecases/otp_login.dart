@@ -3,7 +3,7 @@ import 'package:auth/src/domain/repos/auth_repo.dart';
 import 'package:core/core.dart';
 
 class OtpLogin extends UsecaseWithParams<UserEntity, OtpLoginParams> {
-  const OtpLogin(this._repo);
+  const new(this._repo);
 
   final AuthRepo _repo;
 
@@ -12,7 +12,7 @@ class OtpLogin extends UsecaseWithParams<UserEntity, OtpLoginParams> {
 }
 
 final class OtpLoginParams {
-  const OtpLoginParams({required this.code});
+  const new({required this.code});
 
   final String code;
 }

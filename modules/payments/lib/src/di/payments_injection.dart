@@ -8,7 +8,7 @@ import 'package:payments/src/domain/usecases/get_payment_methods.dart';
 import 'package:payments/src/presentation/payment_methods/bloc/payment_methods_bloc.dart';
 
 final class PaymentsInjection implements Injection {
-  const PaymentsInjection();
+  const new();
 
   @override
   void registerDependencies({required Injector di}) {

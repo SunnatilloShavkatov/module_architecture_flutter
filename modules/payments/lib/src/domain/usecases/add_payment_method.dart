@@ -3,7 +3,7 @@ import 'package:payments/src/domain/entities/payment_method_entity.dart';
 import 'package:payments/src/domain/repository/payments_repository.dart';
 
 class AddPaymentMethod extends UsecaseWithParams<PaymentMethodEntity, AddPaymentMethodParams> {
-  const AddPaymentMethod(this._repo);
+  const new(this._repo);
 
   final PaymentsRepository _repo;
 
@@ -18,7 +18,7 @@ class AddPaymentMethod extends UsecaseWithParams<PaymentMethodEntity, AddPayment
 }
 
 final class AddPaymentMethodParams {
-  const AddPaymentMethodParams({
+  const new({
     required this.cardNumber,
     required this.cardLast4,
     required this.cardBrand,

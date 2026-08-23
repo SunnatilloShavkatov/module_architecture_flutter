@@ -5,7 +5,7 @@ import 'package:profile/src/data/models/profile_user_model.dart';
 part 'profile_remote_data_source_impl.dart';
 
 abstract interface class ProfileRemoteDataSource {
-  const ProfileRemoteDataSource();
+  const new();
 
   Future<ProfileUserModel> getProfileUser();
 

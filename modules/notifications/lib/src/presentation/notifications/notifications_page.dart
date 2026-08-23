@@ -7,7 +7,7 @@ import 'package:notifications/src/presentation/notifications/bloc/notifications_
 part 'mixin/notifications_mixin.dart';
 
 class NotificationsPage extends StatefulWidget {
-  const NotificationsPage({super.key});
+  const new({super.key});
 
   @override
   State<NotificationsPage> createState() => _NotificationsPageState();
@@ -43,7 +43,7 @@ class _NotificationsPageState extends State<NotificationsPage> with Notification
 }
 
 final class _NotificationsContent extends StatelessWidget {
-  const _NotificationsContent({
+  const new({
     required this.notifications,
     required this.filters,
     required this.selectedFilterIndex,

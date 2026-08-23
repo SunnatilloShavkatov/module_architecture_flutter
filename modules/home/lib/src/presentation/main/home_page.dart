@@ -9,7 +9,7 @@ import 'package:material_ui/material_ui.dart';
 part 'mixin/home_mixin.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const new({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> with HomeMixin {
 }
 
 final class _HomeFailureView extends StatelessWidget {
-  const _HomeFailureView({required this.message, required this.onReload});
+  const new({required this.message, required this.onReload});
 
   final String message;
   final VoidCallback onReload;
@@ -64,7 +64,7 @@ final class _HomeFailureView extends StatelessWidget {
 }
 
 final class _HomeContentView extends StatelessWidget {
-  const _HomeContentView({
+  const new({
     required this.firstName,
     required this.categories,
     required this.businesses,
@@ -152,7 +152,7 @@ final class _HomeContentView extends StatelessWidget {
 }
 
 final class _HomeSectionTitle extends StatelessWidget {
-  const _HomeSectionTitle({required this.title});
+  const new({required this.title});
 
   final String title;
 
@@ -164,7 +164,7 @@ final class _HomeSectionTitle extends StatelessWidget {
 }
 
 final class _HomeEmptySectionText extends StatelessWidget {
-  const _HomeEmptySectionText({required this.message});
+  const new({required this.message});
 
   final String message;
 
@@ -174,7 +174,7 @@ final class _HomeEmptySectionText extends StatelessWidget {
 }
 
 final class _CategoryBadge extends StatelessWidget {
-  const _CategoryBadge({required this.category});
+  const new({required this.category});
 
   final HomeCategoryEntity category;
 
@@ -191,7 +191,7 @@ final class _CategoryBadge extends StatelessWidget {
 }
 
 final class _BusinessTile extends StatelessWidget {
-  const _BusinessTile({required this.business});
+  const new({required this.business});
 
   final HomeBusinessEntity business;
 
@@ -234,7 +234,7 @@ final class _BusinessTile extends StatelessWidget {
 }
 
 final class _AppointmentTile extends StatelessWidget {
-  const _AppointmentTile({required this.appointment});
+  const new({required this.appointment});
 
   final HomeAppointmentEntity appointment;
 

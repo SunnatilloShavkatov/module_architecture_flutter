@@ -1,5 +1,5 @@
 final class Routes {
-  const Routes._();
+  const new _();
 
   /// initial
   static const String initial = '/';

@@ -5,7 +5,7 @@ import 'package:notifications/src/data/models/notification_model.dart';
 part 'notifications_remote_data_source_impl.dart';
 
 abstract interface class NotificationsRemoteDataSource {
-  const NotificationsRemoteDataSource();
+  const new();
 
   Future<List<NotificationModel>> getNotifications();
 }

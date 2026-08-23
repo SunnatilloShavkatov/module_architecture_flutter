@@ -4,7 +4,7 @@ import 'package:profile/src/di/profile_injection.dart';
 import 'package:profile/src/router/profile_router.dart';
 
 final class ProfileContainer implements ModuleContainer {
-  const ProfileContainer();
+  const new();
 
   @override
   AppRouter<RouteBase> get router => const ProfileRouter();

@@ -1,25 +1,25 @@
 part of 'payment_methods_bloc.dart';
 
 sealed class PaymentMethodsState extends Equatable {
-  const PaymentMethodsState();
+  const new();
 }
 
 final class PaymentMethodsInitialState extends PaymentMethodsState {
-  const PaymentMethodsInitialState();
+  const new();
 
   @override
   List<Object?> get props => [];
 }
 
 final class PaymentMethodsLoadingState extends PaymentMethodsState {
-  const PaymentMethodsLoadingState();
+  const new();
 
   @override
   List<Object?> get props => [];
 }
 
 final class PaymentMethodsSuccessState extends PaymentMethodsState {
-  const PaymentMethodsSuccessState({required this.paymentMethods});
+  const new({required this.paymentMethods});
 
   final List<PaymentMethodEntity> paymentMethods;
 
@@ -28,7 +28,7 @@ final class PaymentMethodsSuccessState extends PaymentMethodsState {
 }
 
 final class PaymentMethodsActionSuccessState extends PaymentMethodsState {
-  const PaymentMethodsActionSuccessState({required this.message, required this.paymentMethods});
+  const new({required this.message, required this.paymentMethods});
 
   final String message;
   final List<PaymentMethodEntity> paymentMethods;
@@ -38,7 +38,7 @@ final class PaymentMethodsActionSuccessState extends PaymentMethodsState {
 }
 
 final class PaymentMethodsFailureState extends PaymentMethodsState {
-  const PaymentMethodsFailureState({required this.message});
+  const new({required this.message});
 
   final String message;
 

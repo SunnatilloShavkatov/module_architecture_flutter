@@ -16,7 +16,7 @@ export 'package:core/core.dart';
 export 'package:navigation/navigation.dart';
 
 final class MergeDependencies {
-  const MergeDependencies._();
+  const new _();
 
   static MergeDependencies get instance => _instance;
 

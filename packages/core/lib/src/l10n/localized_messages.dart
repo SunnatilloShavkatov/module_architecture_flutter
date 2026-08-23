@@ -1,7 +1,7 @@
 import 'package:core/src/utils/utils.dart';
 
 final class LocalizedMessages {
-  const LocalizedMessages._();
+  const new _();
 
   static const LocalizedMessages instance = LocalizedMessages._();
 
@@ -15,7 +15,7 @@ final class LocalizedMessages {
 }
 
 final class LocalizationKeys {
-  const LocalizationKeys._();
+  const new _();
 
   static const String connectionError = 'connectionError';
   static const String connectionTimeout = 'connectionTimeout';

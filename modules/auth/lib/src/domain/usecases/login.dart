@@ -3,7 +3,7 @@ import 'package:auth/src/domain/repos/auth_repo.dart';
 import 'package:core/core.dart';
 
 class Login extends UsecaseWithParams<UserEntity, LoginParams> {
-  const Login(this._repo);
+  const new(this._repo);
 
   final AuthRepo _repo;
 
@@ -12,7 +12,7 @@ class Login extends UsecaseWithParams<UserEntity, LoginParams> {
 }
 
 final class LoginParams {
-  const LoginParams({required this.email, required this.password});
+  const new({required this.email, required this.password});
 
   final String email;
   final String password;

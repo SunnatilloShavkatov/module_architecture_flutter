@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
 class CustomCachedNetworkImage extends StatelessWidget {
-  const CustomCachedNetworkImage({
+  const new({
     required this.imageUrl,
     super.key,
     this.imageBuilder,
@@ -82,7 +82,7 @@ class CustomCachedNetworkImage extends StatelessWidget {
 }
 
 final class CustomImageCacheManager {
-  const CustomImageCacheManager._();
+  const new _();
 
   /// Singleton cache manager — one instance shared across all widgets.
   /// Avoids memory leaks caused by creating a new manager on every build().

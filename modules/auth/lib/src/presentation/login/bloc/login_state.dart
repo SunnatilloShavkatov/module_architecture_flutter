@@ -2,25 +2,25 @@ import 'package:auth/src/domain/entities/user_entity.dart';
 import 'package:core/core.dart';
 
 sealed class LoginState extends Equatable {
-  const LoginState();
+  const new();
 }
 
 final class LoginInitialState extends LoginState {
-  const LoginInitialState();
+  const new();
 
   @override
   List<Object?> get props => [];
 }
 
 final class LoginLoadingState extends LoginState {
-  const LoginLoadingState();
+  const new();
 
   @override
   List<Object?> get props => [];
 }
 
 final class LoginSuccessState extends LoginState {
-  const LoginSuccessState({required this.auth});
+  const new({required this.auth});
 
   final UserEntity auth;
 
@@ -29,7 +29,7 @@ final class LoginSuccessState extends LoginState {
 }
 
 final class LoginFailureState extends LoginState {
-  const LoginFailureState({required this.message});
+  const new({required this.message});
 
   final String message;
 

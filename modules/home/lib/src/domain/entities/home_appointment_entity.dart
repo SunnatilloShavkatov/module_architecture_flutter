@@ -1,7 +1,7 @@
 import 'package:core/core.dart' show Equatable;
 
 class HomeAppointmentEntity extends Equatable {
-  const HomeAppointmentEntity({
+  const new({
     required this.id,
     required this.userId,
     required this.businessId,
@@ -44,12 +44,7 @@ class HomeAppointmentEntity extends Equatable {
 }
 
 class HomeAppointmentServiceEntity extends Equatable {
-  const HomeAppointmentServiceEntity({
-    required this.id,
-    required this.name,
-    required this.price,
-    required this.durationMin,
-  });
+  const new({required this.id, required this.name, required this.price, required this.durationMin});
 
   final int id;
   final String name;
@@ -61,7 +56,7 @@ class HomeAppointmentServiceEntity extends Equatable {
 }
 
 class HomeAppointmentBusinessEntity extends Equatable {
-  const HomeAppointmentBusinessEntity({required this.id, required this.name, required this.address});
+  const new({required this.id, required this.name, required this.address});
 
   final int id;
   final String name;
@@ -72,7 +67,7 @@ class HomeAppointmentBusinessEntity extends Equatable {
 }
 
 class HomeAppointmentStaffEntity extends Equatable {
-  const HomeAppointmentStaffEntity({required this.id, required this.name});
+  const new({required this.id, required this.name});
 
   final int id;
   final String name;

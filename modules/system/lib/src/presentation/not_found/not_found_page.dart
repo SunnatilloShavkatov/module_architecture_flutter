@@ -4,7 +4,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:navigation/navigation.dart';
 
 class NotFoundPage extends StatelessWidget {
-  const NotFoundPage({super.key, required this.settings});
+  const new({super.key, required this.settings});
 
   final GoRouterState settings;
 

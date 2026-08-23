@@ -12,13 +12,14 @@ dependencies:
   flutter:
     sdk: flutter
   material_ui: ^1.0.1
+  cupertino_ui: ^1.0.0
   # external packages
   go_router: ^17.5.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  analysis_lints: ^1.0.9
+  analysis_lints: ^1.1.0
 
 flutter:
   uses-material-design: true

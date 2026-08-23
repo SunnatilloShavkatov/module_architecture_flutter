@@ -8,11 +8,11 @@ import 'package:payments/src/domain/usecases/delete_payment_method.dart';
 import 'package:payments/src/domain/usecases/get_payment_methods.dart';
 import 'package:payments/src/presentation/payment_methods/bloc/payment_methods_bloc.dart';
 
-class _MockGetPaymentMethods extends Mock implements GetPaymentMethods {}
+class _MockGetPaymentMethods extends Mock implements GetPaymentMethods;
 
-class _MockAddPaymentMethod extends Mock implements AddPaymentMethod {}
+class _MockAddPaymentMethod extends Mock implements AddPaymentMethod;
 
-class _MockDeletePaymentMethod extends Mock implements DeletePaymentMethod {}
+class _MockDeletePaymentMethod extends Mock implements DeletePaymentMethod;
 
 void main() {
   late PaymentMethodsBloc paymentMethodsBloc;
@@ -20,13 +20,7 @@ void main() {
   late _MockAddPaymentMethod mockAddPaymentMethod;
   late _MockDeletePaymentMethod mockDeletePaymentMethod;
 
-  const tCard1 = PaymentMethodEntity(
-    id: 1,
-    cardLast4: '4242',
-    cardBrand: 'Visa',
-    expiryDate: '12/26',
-    isDefault: true,
-  );
+  const tCard1 = PaymentMethodEntity(id: 1, cardLast4: '4242', cardBrand: 'Visa', expiryDate: '12/26', isDefault: true);
   const tCard2 = PaymentMethodEntity(
     id: 2,
     cardLast4: '5353',
@@ -49,11 +43,7 @@ void main() {
     mockGetPaymentMethods = _MockGetPaymentMethods();
     mockAddPaymentMethod = _MockAddPaymentMethod();
     mockDeletePaymentMethod = _MockDeletePaymentMethod();
-    paymentMethodsBloc = PaymentMethodsBloc(
-      mockGetPaymentMethods,
-      mockAddPaymentMethod,
-      mockDeletePaymentMethod,
-    );
+    paymentMethodsBloc = PaymentMethodsBloc(mockGetPaymentMethods, mockAddPaymentMethod, mockDeletePaymentMethod);
     registerFallbackValue(
       const AddPaymentMethodParams(cardNumber: '', cardLast4: '', cardBrand: '', expiryDate: '', isDefault: false),
     );
@@ -75,10 +65,7 @@ void main() {
       return paymentMethodsBloc;
     },
     act: (bloc) => bloc.add(const PaymentMethodsLoadEvent()),
-    expect: () => [
-      const PaymentMethodsLoadingState(),
-      PaymentMethodsSuccessState(paymentMethods: tCards),
-    ],
+    expect: () => [const PaymentMethodsLoadingState(), PaymentMethodsSuccessState(paymentMethods: tCards)],
     verify: (_) => verify(() => mockGetPaymentMethods()).called(1),
   );
 
@@ -90,10 +77,7 @@ void main() {
       return paymentMethodsBloc;
     },
     act: (bloc) => bloc.add(const PaymentMethodsLoadEvent()),
-    expect: () => [
-      const PaymentMethodsLoadingState(),
-      const PaymentMethodsSuccessState(paymentMethods: []),
-    ],
+    expect: () => [const PaymentMethodsLoadingState(), const PaymentMethodsSuccessState(paymentMethods: [])],
   );
 
   // ─── Load server failure ──────────────────────────────────────────────────────
@@ -104,10 +88,7 @@ void main() {
       return paymentMethodsBloc;
     },
     act: (bloc) => bloc.add(const PaymentMethodsLoadEvent()),
-    expect: () => [
-      const PaymentMethodsLoadingState(),
-      const PaymentMethodsFailureState(message: 'Server error'),
-    ],
+    expect: () => [const PaymentMethodsLoadingState(), const PaymentMethodsFailureState(message: 'Server error')],
     verify: (_) => verify(() => mockGetPaymentMethods()).called(1),
   );
 
@@ -119,10 +100,7 @@ void main() {
       return paymentMethodsBloc;
     },
     act: (bloc) => bloc.add(const PaymentMethodsLoadEvent()),
-    expect: () => [
-      const PaymentMethodsLoadingState(),
-      const PaymentMethodsFailureState(message: 'No internet'),
-    ],
+    expect: () => [const PaymentMethodsLoadingState(), const PaymentMethodsFailureState(message: 'No internet')],
   );
 
   // ─── Add card success ─────────────────────────────────────────────────────────
@@ -153,10 +131,7 @@ void main() {
       return paymentMethodsBloc;
     },
     act: (bloc) => bloc.add(tAddEvent),
-    expect: () => [
-      const PaymentMethodsLoadingState(),
-      const PaymentMethodsFailureState(message: 'Server error'),
-    ],
+    expect: () => [const PaymentMethodsLoadingState(), const PaymentMethodsFailureState(message: 'Server error')],
   );
 
   // ─── Add card failure ─────────────────────────────────────────────────────────
@@ -167,10 +142,7 @@ void main() {
       return paymentMethodsBloc;
     },
     act: (bloc) => bloc.add(tAddEvent),
-    expect: () => [
-      const PaymentMethodsLoadingState(),
-      const PaymentMethodsFailureState(message: 'Server error'),
-    ],
+    expect: () => [const PaymentMethodsLoadingState(), const PaymentMethodsFailureState(message: 'Server error')],
     verify: (_) {
       verify(() => mockAddPaymentMethod(any())).called(1);
       verifyNever(() => mockGetPaymentMethods());
@@ -188,7 +160,10 @@ void main() {
     act: (bloc) => bloc.add(const PaymentMethodDeleteEvent(id: 1)),
     expect: () => [
       const PaymentMethodsLoadingState(),
-      const PaymentMethodsActionSuccessState(message: 'Card deleted successfully', paymentMethods: <PaymentMethodEntity>[tCard2]),
+      const PaymentMethodsActionSuccessState(
+        message: 'Card deleted successfully',
+        paymentMethods: <PaymentMethodEntity>[tCard2],
+      ),
     ],
     verify: (_) {
       verify(() => mockDeletePaymentMethod(any())).called(1);
@@ -204,10 +179,7 @@ void main() {
       return paymentMethodsBloc;
     },
     act: (bloc) => bloc.add(const PaymentMethodDeleteEvent(id: 1)),
-    expect: () => [
-      const PaymentMethodsLoadingState(),
-      const PaymentMethodsFailureState(message: 'Server error'),
-    ],
+    expect: () => [const PaymentMethodsLoadingState(), const PaymentMethodsFailureState(message: 'Server error')],
     verify: (_) {
       verify(() => mockDeletePaymentMethod(any())).called(1);
       verifyNever(() => mockGetPaymentMethods());
@@ -223,10 +195,7 @@ void main() {
       return paymentMethodsBloc;
     },
     act: (bloc) => bloc.add(const PaymentMethodDeleteEvent(id: 1)),
-    expect: () => [
-      const PaymentMethodsLoadingState(),
-      const PaymentMethodsFailureState(message: 'Server error'),
-    ],
+    expect: () => [const PaymentMethodsLoadingState(), const PaymentMethodsFailureState(message: 'Server error')],
   );
 
   // ─── Add while loading ignored ────────────────────────────────────────────────

@@ -11,13 +11,13 @@ import 'package:home/src/domain/usecases/get_home_categories.dart';
 import 'package:home/src/presentation/main/bloc/home_bloc.dart';
 import 'package:mocktail/mocktail.dart';
 
-class _MockGetHomeCategories extends Mock implements GetHomeCategories {}
+class _MockGetHomeCategories extends Mock implements GetHomeCategories;
 
-class _MockGetHomeBusinesses extends Mock implements GetHomeBusinesses {}
+class _MockGetHomeBusinesses extends Mock implements GetHomeBusinesses;
 
-class _MockGetHomeAppointments extends Mock implements GetHomeAppointments {}
+class _MockGetHomeAppointments extends Mock implements GetHomeAppointments;
 
-class _MockHomeLocalDataSource extends Mock implements HomeLocalDataSource {}
+class _MockHomeLocalDataSource extends Mock implements HomeLocalDataSource;
 
 // Returns a fresh mutable list each call.
 // HomeBloc calls .sort() on appointments — const lists throw on sort.
@@ -207,12 +207,10 @@ void main() {
   blocTest<HomeBloc, HomeState>(
     'uses message from the first failure when multiple usecases fail',
     build: () {
-      when(
-        () => mockGetHomeCategories(),
-      ).thenAnswer((_) async => const Left(ServerFailure(message: 'Categories error')));
-      when(
-        () => mockGetHomeBusinesses(),
-      ).thenAnswer((_) async => const Left(ServerFailure(message: 'Businesses error')));
+      when(() => mockGetHomeCategories())
+          .thenAnswer((_) async => const Left(ServerFailure(message: 'Categories error')));
+      when(() => mockGetHomeBusinesses())
+          .thenAnswer((_) async => const Left(ServerFailure(message: 'Businesses error')));
       when(() => mockGetHomeAppointments()).thenAnswer((_) async => const Right([]));
       return homeBloc;
     },

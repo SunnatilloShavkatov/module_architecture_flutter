@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
 class AppUpdateBottomSheetWidget extends StatelessWidget {
-  const AppUpdateBottomSheetWidget({required this.isForceUpdate, super.key, this.onTap, this.onClose});
+  const new({required this.isForceUpdate, super.key, this.onTap, this.onClose});
 
   final void Function()? onTap;
   final void Function()? onClose;

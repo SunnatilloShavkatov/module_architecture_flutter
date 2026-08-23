@@ -8,7 +8,7 @@ import 'package:platform_methods/platform_methods.dart';
 part 'mixin/splash_mixin.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({super.key});
+  const new({super.key});
 
   @override
   State<SplashPage> createState() => _SplashPageState();

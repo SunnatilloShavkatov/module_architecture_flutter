@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 
 class MoneyTextInputFormatter extends TextInputFormatter {
-  const MoneyTextInputFormatter({this.isUsd = false});
+  const new({this.isUsd = false});
 
   final bool isUsd;
 

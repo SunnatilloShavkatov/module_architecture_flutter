@@ -6,16 +6,16 @@ import 'package:core/core.dart';
 import 'package:navigation/navigation.dart';
 
 final class AuthRouter implements AppRouter<RouteBase> {
-  const AuthRouter();
+  const new();
 
   @override
   List<GoRoute> getRouters(Injector di) => [
-    GoRoute(
+    CupertinoRoute(
       path: Routes.login,
       name: Routes.login,
       builder: (context, state) => BlocProvider<LoginBloc>(create: (_) => di.get(), child: const LoginPage()),
     ),
-    GoRoute(
+    CupertinoRoute(
       path: Routes.otpLogin,
       name: Routes.otpLogin,
       builder: (context, state) => BlocProvider<OtpLoginBloc>(create: (_) => di.get(), child: const OtpLoginPage()),

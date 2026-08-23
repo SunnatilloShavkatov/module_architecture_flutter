@@ -7,7 +7,7 @@ import 'package:main/src/data/repository/main_repository_impl.dart';
 import 'package:main/src/domain/repository/main_repo.dart';
 
 final class MainInjection implements Injection {
-  const MainInjection();
+  const new();
 
   @override
   FutureOr<void> registerDependencies({required Injector di}) {

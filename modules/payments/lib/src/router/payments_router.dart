@@ -5,11 +5,11 @@ import 'package:payments/src/presentation/payment_methods/bloc/payment_methods_b
 import 'package:payments/src/presentation/payment_methods/payment_methods_page.dart';
 
 final class PaymentsRouter implements AppRouter<RouteBase> {
-  const PaymentsRouter();
+  const new();
 
   @override
   List<GoRoute> getRouters(Injector di) => [
-    GoRoute(
+    CupertinoRoute(
       path: Routes.paymentMethods,
       name: Routes.paymentMethods,
       builder: (_, _) => BlocProvider<PaymentMethodsBloc>(
@@ -17,7 +17,7 @@ final class PaymentsRouter implements AppRouter<RouteBase> {
         child: const PaymentMethodsPage(),
       ),
     ),
-    GoRoute(
+    CupertinoRoute(
       path: Routes.addCard,
       name: Routes.addCard,
       builder: (_, _) => BlocProvider<PaymentMethodsBloc>(create: (_) => di.get(), child: const AddCardPage()),

@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 // OtpLogin is final class — mock the AuthRepo and use a real OtpLogin
-class _MockAuthRepo extends Mock implements AuthRepo {}
+class _MockAuthRepo extends Mock implements AuthRepo;
 
 void main() {
   late OtpLoginBloc otpLoginBloc;

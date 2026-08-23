@@ -11,7 +11,7 @@ import 'package:auth/src/presentation/otp_login/bloc/otp_login_bloc.dart';
 import 'package:core/core.dart';
 
 final class AuthInjection implements Injection {
-  const AuthInjection();
+  const new();
 
   @override
   FutureOr<void> registerDependencies({required Injector di}) {

@@ -4,7 +4,7 @@ import 'package:core/core.dart';
 import 'package:navigation/navigation.dart';
 
 final class AuthContainer implements ModuleContainer {
-  const AuthContainer();
+  const new();
 
   @override
   Injection? get injection => const AuthInjection();

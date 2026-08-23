@@ -4,7 +4,7 @@ import 'package:home/src/domain/entities/home_business_entity.dart';
 import 'package:home/src/domain/entities/home_category_entity.dart';
 
 abstract interface class HomeRepo {
-  const HomeRepo();
+  const new();
 
   ResultFuture<List<HomeCategoryEntity>> getCategories();
 

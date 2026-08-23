@@ -8,7 +8,7 @@ import 'package:core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class _MockLogin extends Mock implements Login {}
+class _MockLogin extends Mock implements Login;
 
 void main() {
   late LoginBloc loginBloc;

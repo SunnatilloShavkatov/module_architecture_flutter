@@ -1,7 +1,7 @@
 part of 'auth_remote_data_source.dart';
 
 final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  const AuthRemoteDataSourceImpl(this._networkProvider);
+  const new(this._networkProvider);
 
   final NetworkProvider _networkProvider;
 

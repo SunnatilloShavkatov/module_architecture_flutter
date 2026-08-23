@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 import 'package:payments/src/domain/entities/payment_method_entity.dart';
 
 abstract interface class PaymentsRepository {
-  const PaymentsRepository();
+  const new();
 
   ResultFuture<List<PaymentMethodEntity>> getPaymentMethods();
 

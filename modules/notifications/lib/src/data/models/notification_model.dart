@@ -1,7 +1,7 @@
 import 'package:notifications/src/domain/entities/notification_entity.dart';
 
 class NotificationModel extends NotificationEntity {
-  const NotificationModel({
+  const new({
     required super.id,
     required super.title,
     required super.message,
@@ -11,7 +11,7 @@ class NotificationModel extends NotificationEntity {
     super.timeAgo,
   });
 
-  factory NotificationModel.fromMap(Map<String, dynamic> map) => NotificationModel(
+  factory fromMap(Map<String, dynamic> map) => NotificationModel(
     id: '${map['id'] ?? ''}',
     title: map['title'] ?? '',
     message: map['message'] ?? '',

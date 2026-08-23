@@ -10,7 +10,7 @@ import 'package:core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class _MockInjector extends Mock implements Injector {}
+class _MockInjector extends Mock implements Injector;
 
 void main() {
   late _MockInjector mockInjector;

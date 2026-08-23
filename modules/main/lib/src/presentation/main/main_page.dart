@@ -5,7 +5,7 @@ import 'package:navigation/navigation.dart';
 part 'mixin/main_mixin.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key, required this.navigationShell});
+  const new({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 

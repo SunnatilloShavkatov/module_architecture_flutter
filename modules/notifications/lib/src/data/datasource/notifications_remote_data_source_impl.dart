@@ -1,7 +1,7 @@
 part of 'notifications_remote_data_source.dart';
 
 final class NotificationsRemoteDataSourceImpl implements NotificationsRemoteDataSource {
-  const NotificationsRemoteDataSourceImpl(this._networkProvider);
+  const new(this._networkProvider);
 
   final NetworkProvider _networkProvider;
 

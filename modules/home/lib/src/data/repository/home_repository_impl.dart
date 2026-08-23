@@ -7,7 +7,7 @@ import 'package:home/src/domain/entities/home_category_entity.dart';
 import 'package:home/src/domain/repository/home_repo.dart';
 
 final class HomeRepoImpl implements HomeRepo {
-  const HomeRepoImpl(this._remoteSource, this._localSource);
+  const new(this._remoteSource, this._localSource);
 
   final HomeLocalDataSource _localSource;
   final HomeRemoteDataSource _remoteSource;

@@ -8,10 +8,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomLoadingButton(
-              onPressed: () {},
-              child: const Text('Submit'),
-            ),
+            body: CustomLoadingButton(onPressed: () {}, child: const Text('Submit')),
           ),
         ),
       );
@@ -23,12 +20,7 @@ void main() {
     testWidgets('shows loader and no child when loading', (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: CustomLoadingButton(
-              isLoading: true,
-              child: Text('Submit'),
-            ),
-          ),
+          home: Scaffold(body: CustomLoadingButton(isLoading: true, child: Text('Submit'))),
         ),
       );
 
@@ -42,10 +34,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomLoadingButton(
-              onPressed: () => tapCount++,
-              child: const Text('Submit'),
-            ),
+            body: CustomLoadingButton(onPressed: () => tapCount++, child: const Text('Submit')),
           ),
         ),
       );
@@ -63,10 +52,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomLoadingButton(
-              onPressed: () => tapCount++,
-              child: const Text('Submit'),
-            ),
+            body: CustomLoadingButton(onPressed: () => tapCount++, child: const Text('Submit')),
           ),
         ),
       );
@@ -87,11 +73,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomLoadingButton(
-              onPressed: () => tapCount++,
-              isLoading: true,
-              child: const Text('Submit'),
-            ),
+            body: CustomLoadingButton(onPressed: () => tapCount++, isLoading: true, child: const Text('Submit')),
           ),
         ),
       );

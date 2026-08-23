@@ -9,7 +9,7 @@ import 'package:navigation/navigation.dart';
 part 'mixin/otp_login_mixin.dart';
 
 class OtpLoginPage extends StatefulWidget {
-  const OtpLoginPage({super.key});
+  const new({super.key});
 
   @override
   State<OtpLoginPage> createState() => _OtpLoginPageState();

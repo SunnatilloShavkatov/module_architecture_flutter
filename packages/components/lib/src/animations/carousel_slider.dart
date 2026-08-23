@@ -13,7 +13,7 @@ const int _kMiddleValue = 100000;
 typedef CarouselSlideBuilder = Widget Function(int index);
 
 class CarouselSlider extends StatefulWidget {
-  const CarouselSlider({
+  const new({
     required List<Widget> this.children,
     super.key,
     this.slideTransform = const DefaultTransform(),
@@ -34,7 +34,7 @@ class CarouselSlider extends StatefulWidget {
   }) : slideBuilder = null,
        itemCount = children.length;
 
-  const CarouselSlider.builder({
+  const new builder({
     required this.slideBuilder,
     required this.itemCount,
     super.key,

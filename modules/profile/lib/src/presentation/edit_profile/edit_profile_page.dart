@@ -8,7 +8,7 @@ import 'package:profile/src/presentation/profile/bloc/profile_bloc.dart';
 part 'mixin/edit_profile_mixin.dart';
 
 class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({super.key, required this.args});
+  const new({super.key, required this.args});
 
   final EditProfileArgs args;
 
@@ -70,7 +70,7 @@ class _EditProfilePageState extends State<EditProfilePage> with EditProfileMixin
 }
 
 final class _ProfileTextField extends StatelessWidget {
-  const _ProfileTextField({required this.label, required this.controller, this.keyboardType});
+  const new({required this.label, required this.controller, this.keyboardType});
 
   final String label;
   final TextEditingController controller;

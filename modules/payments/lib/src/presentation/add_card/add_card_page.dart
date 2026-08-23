@@ -7,7 +7,7 @@ import 'package:payments/src/presentation/payment_methods/bloc/payment_methods_b
 part 'mixin/add_card_mixin.dart';
 
 class AddCardPage extends StatefulWidget {
-  const AddCardPage({super.key});
+  const new({super.key});
 
   @override
   State<AddCardPage> createState() => _AddCardPageState();

@@ -5,7 +5,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CustomLoadingButton extends StatefulWidget {
-  const CustomLoadingButton({super.key, this.onPressed, this.child, this.isLoading = false});
+  const new({super.key, this.onPressed, this.child, this.isLoading = false});
 
   final void Function()? onPressed;
   final Widget? child;

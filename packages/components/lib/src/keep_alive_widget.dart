@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
 class KeepAliveWidget extends StatefulWidget {
-  const KeepAliveWidget({required this.child, super.key, this.keepAlive = true});
+  const new({required this.child, super.key, this.keepAlive = true});
 
   final bool keepAlive;
   final Widget child;

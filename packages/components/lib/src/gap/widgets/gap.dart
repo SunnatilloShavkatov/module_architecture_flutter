@@ -22,7 +22,7 @@ class Gap extends StatelessWidget {
   ///
   /// The [mainAxisExtent] must not be null and must be positive.
   /// The [crossAxisExtent] must be either null or positive.
-  const Gap(this.mainAxisExtent, {super.key, this.crossAxisExtent, this.color})
+  const new(this.mainAxisExtent, {super.key, this.crossAxisExtent, this.color})
     : assert(mainAxisExtent >= 0 && mainAxisExtent < double.infinity, ''),
       assert(crossAxisExtent == null || crossAxisExtent >= 0, '');
 
@@ -30,7 +30,7 @@ class Gap extends StatelessWidget {
   /// direction of its parent and expands in the cross axis direction.
   ///
   /// The [mainAxisExtent] must not be null and must be positive.
-  const Gap.expand(double mainAxisExtent, {Key? key, Color? color})
+  const new expand(double mainAxisExtent, {Key? key, Color? color})
     : this(mainAxisExtent, key: key, crossAxisExtent: double.infinity, color: color);
 
   /// The amount of space this widget takes in the direction of its parent.
@@ -89,7 +89,7 @@ class MaxGap extends StatelessWidget {
   ///
   /// The [mainAxisExtent] must not be null and must be positive.
   /// The [crossAxisExtent] must be either null or positive.
-  const MaxGap(this.mainAxisExtent, {super.key, this.crossAxisExtent, this.color});
+  const new(this.mainAxisExtent, {super.key, this.crossAxisExtent, this.color});
 
   /// Creates a widget that takes, at most, the specified [mainAxisExtent] of
   /// space in a [Row], [Column], or [Flex] widget and expands in the cross axis
@@ -97,7 +97,7 @@ class MaxGap extends StatelessWidget {
   ///
   /// The [mainAxisExtent] must not be null and must be positive.
   /// The [crossAxisExtent] must be either null or positive.
-  const MaxGap.expand(double mainAxisExtent, {Key? key, Color? color})
+  const new expand(double mainAxisExtent, {Key? key, Color? color})
     : this(mainAxisExtent, key: key, crossAxisExtent: double.infinity, color: color);
 
   /// The amount of space this widget takes in the direction of the parent.
@@ -129,7 +129,7 @@ class MaxGap extends StatelessWidget {
 }
 
 class _RawGap extends LeafRenderObjectWidget {
-  const _RawGap(this.mainAxisExtent, {this.crossAxisExtent, this.color, this.fallbackDirection})
+  const new(this.mainAxisExtent, {this.crossAxisExtent, this.color, this.fallbackDirection})
     : assert(mainAxisExtent >= 0 && mainAxisExtent < double.infinity, ''),
       assert(crossAxisExtent == null || crossAxisExtent >= 0, '');
 

@@ -1,7 +1,7 @@
 import 'package:payments/src/domain/entities/payment_method_entity.dart';
 
 class PaymentMethodModel extends PaymentMethodEntity {
-  const PaymentMethodModel({
+  const new({
     required super.id,
     required super.cardLast4,
     required super.cardBrand,
@@ -9,7 +9,7 @@ class PaymentMethodModel extends PaymentMethodEntity {
     required super.isDefault,
   });
 
-  factory PaymentMethodModel.fromMap(Map<String, dynamic> map) => PaymentMethodModel(
+  factory fromMap(Map<String, dynamic> map) => PaymentMethodModel(
     id: map['id'] ?? 0,
     cardLast4: map['cardLast4'] ?? '',
     cardBrand: map['cardBrand'] ?? '',

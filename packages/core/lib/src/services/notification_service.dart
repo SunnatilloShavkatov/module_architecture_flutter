@@ -26,7 +26,7 @@ const InitializationSettings _initializationSettings = InitializationSettings(
 final FlutterLocalNotificationsPlugin _notifications = FlutterLocalNotificationsPlugin();
 
 final class NotificationService {
-  const NotificationService._();
+  const new _();
 
   static NotificationService get instance => _instance;
 

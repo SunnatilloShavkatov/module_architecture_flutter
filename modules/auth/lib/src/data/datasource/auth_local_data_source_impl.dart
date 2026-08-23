@@ -1,7 +1,7 @@
 part of 'auth_local_data_source.dart';
 
 final class AuthLocalDataSourceImpl implements AuthLocalDataSource {
-  const AuthLocalDataSourceImpl(this._localSource);
+  const new(this._localSource);
 
   final LocalSource _localSource;
 

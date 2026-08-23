@@ -20,10 +20,7 @@ void main() {
     test('ServerException.withException handles status codes properly', () {
       final dioError = DioException(
         requestOptions: RequestOptions(headers: {'language': 'en'}),
-        response: Response(
-          requestOptions: RequestOptions(),
-          statusCode: 404,
-        ),
+        response: Response(requestOptions: RequestOptions(), statusCode: 404),
         type: DioExceptionType.badResponse,
       );
 

@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 final class FlutterNativeSplash {
-  const FlutterNativeSplash._();
+  const new _();
 
   static WidgetsBinding? _widgetsBinding;
 

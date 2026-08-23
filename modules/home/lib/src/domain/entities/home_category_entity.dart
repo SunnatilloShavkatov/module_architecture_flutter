@@ -1,7 +1,7 @@
 import 'package:core/core.dart' show Equatable;
 
 class HomeCategoryEntity extends Equatable {
-  const HomeCategoryEntity({required this.id, required this.name, required this.slug, this.icon});
+  const new({required this.id, required this.name, required this.slug, this.icon});
 
   final int id;
   final String name;

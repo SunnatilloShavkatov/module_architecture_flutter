@@ -9,7 +9,7 @@ import 'package:notifications/src/domain/usecases/get_notifications.dart';
 import 'package:notifications/src/presentation/notifications/bloc/notifications_bloc.dart';
 
 final class NotificationsInjection implements Injection {
-  const NotificationsInjection();
+  const new();
 
   @override
   FutureOr<void> registerDependencies({required Injector di}) {

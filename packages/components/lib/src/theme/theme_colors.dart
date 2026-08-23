@@ -50,7 +50,7 @@ const ColorScheme colorDarkScheme = ColorScheme(
 );
 
 final class ThemeColors extends ThemeExtension<ThemeColors> {
-  const ThemeColors({
+  const new({
     required this.primary,
     required this.background,
     required this.onBackground,

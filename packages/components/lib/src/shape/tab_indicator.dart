@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 class TabBarIndicator extends Decoration {
-  TabBarIndicator({required Color color, required double radius}) : _painter = _TabBarIndicator(color, radius);
+  new({required Color color, required double radius}) : _painter = _TabBarIndicator(color, radius);
   final BoxPainter _painter;
 
   @override
@@ -9,7 +9,7 @@ class TabBarIndicator extends Decoration {
 }
 
 class _TabBarIndicator extends BoxPainter {
-  _TabBarIndicator(Color color, this.radius)
+  new(Color color, this.radius)
     : _paint = Paint()
         ..color = color
         ..isAntiAlias = true;

@@ -5,7 +5,7 @@ import 'package:material_ui/material_ui.dart';
 
 class BouncingButton extends StatefulWidget {
   /// BouncingWidget constructor
-  const BouncingButton({
+  const new({
     required this.child,
     required this.onPressed,
     super.key,

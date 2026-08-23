@@ -6,14 +6,14 @@ import 'package:flutter/foundation.dart';
 part 'internet_connection_checker.dart';
 
 abstract class NetworkInfo {
-  const NetworkInfo();
+  const new();
 
   Future<bool> get isConnected;
 }
 
 @immutable
 class NetworkInfoImpl implements NetworkInfo {
-  const NetworkInfoImpl(this.internetConnection);
+  const new(this.internetConnection);
 
   final InternetConnectionChecker internetConnection;
 

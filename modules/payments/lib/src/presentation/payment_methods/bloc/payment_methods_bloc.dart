@@ -8,7 +8,7 @@ part 'payment_methods_event.dart';
 part 'payment_methods_state.dart';
 
 final class PaymentMethodsBloc extends Bloc<PaymentMethodsEvent, PaymentMethodsState> {
-  PaymentMethodsBloc(this._getPaymentMethods, this._addPaymentMethod, this._deletePaymentMethod)
+  new(this._getPaymentMethods, this._addPaymentMethod, this._deletePaymentMethod)
     : super(const PaymentMethodsInitialState()) {
     on<PaymentMethodsLoadEvent>(_getPaymentMethodsHandler, transformer: droppable());
     on<PaymentMethodAddEvent>(_addPaymentMethodHandler, transformer: throttle());

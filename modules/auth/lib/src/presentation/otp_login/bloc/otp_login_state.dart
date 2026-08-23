@@ -2,25 +2,25 @@ import 'package:auth/src/domain/entities/user_entity.dart';
 import 'package:core/core.dart';
 
 sealed class OtpLoginState extends Equatable {
-  const OtpLoginState();
+  const new();
 }
 
 final class OtpLoginInitialState extends OtpLoginState {
-  const OtpLoginInitialState();
+  const new();
 
   @override
   List<Object?> get props => [];
 }
 
 final class OtpLoginLoadingState extends OtpLoginState {
-  const OtpLoginLoadingState();
+  const new();
 
   @override
   List<Object?> get props => [];
 }
 
 final class OtpLoginSuccessState extends OtpLoginState {
-  const OtpLoginSuccessState({required this.auth});
+  const new({required this.auth});
 
   final UserEntity auth;
 
@@ -29,7 +29,7 @@ final class OtpLoginSuccessState extends OtpLoginState {
 }
 
 final class OtpLoginFailureState extends OtpLoginState {
-  const OtpLoginFailureState({required this.message});
+  const new({required this.message});
 
   final String message;
 

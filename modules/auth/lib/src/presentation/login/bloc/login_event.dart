@@ -1,11 +1,11 @@
 import 'package:core/core.dart';
 
 sealed class LoginEvent extends Equatable {
-  const LoginEvent();
+  const new();
 }
 
 final class LoginSubmitEvent extends LoginEvent {
-  const LoginSubmitEvent({required this.email, required this.password});
+  const new({required this.email, required this.password});
 
   final String email;
   final String password;

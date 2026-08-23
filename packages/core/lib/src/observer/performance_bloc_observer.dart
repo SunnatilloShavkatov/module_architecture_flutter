@@ -14,10 +14,7 @@ final class PerformanceBlocObserver extends BlocObserver {
   ///
   /// [slowThresholdMs]: Threshold in milliseconds to consider an event "slow" (default: 100ms)
   /// [maxStatisticsEntries]: Maximum number of statistics entries to keep (default: 1000)
-  PerformanceBlocObserver({
-    this.slowThresholdMs = _defaultSlowThresholdMs,
-    this.maxStatisticsEntries = _defaultMaxStatisticsEntries,
-  });
+  new({this.slowThresholdMs = _defaultSlowThresholdMs, this.maxStatisticsEntries = _defaultMaxStatisticsEntries});
 
   /// Default threshold for slow events (100ms)
   static const int _defaultSlowThresholdMs = 100;

@@ -2,7 +2,7 @@ import 'package:components/src/gap/rendering/gap_color_painter.dart';
 import 'package:flutter/rendering.dart';
 
 class RenderSliverGap extends RenderSliver with GapColorPainter {
-  RenderSliverGap(this._mainAxisExtent, this._color);
+  new(this._mainAxisExtent, this._color);
 
   double get mainAxisExtent => _mainAxisExtent;
   double _mainAxisExtent;

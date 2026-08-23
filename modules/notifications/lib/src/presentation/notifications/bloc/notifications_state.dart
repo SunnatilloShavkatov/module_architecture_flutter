@@ -1,25 +1,25 @@
 part of 'notifications_bloc.dart';
 
 sealed class NotificationsState extends Equatable {
-  const NotificationsState();
+  const new();
 }
 
 final class NotificationsInitialState extends NotificationsState {
-  const NotificationsInitialState();
+  const new();
 
   @override
   List<Object?> get props => [];
 }
 
 final class NotificationsLoadingState extends NotificationsState {
-  const NotificationsLoadingState();
+  const new();
 
   @override
   List<Object?> get props => [];
 }
 
 final class NotificationsSuccessState extends NotificationsState {
-  const NotificationsSuccessState({required this.notifications});
+  const new({required this.notifications});
 
   final List<NotificationEntity> notifications;
 
@@ -28,7 +28,7 @@ final class NotificationsSuccessState extends NotificationsState {
 }
 
 final class NotificationsFailureState extends NotificationsState {
-  const NotificationsFailureState({required this.message});
+  const new({required this.message});
 
   final String message;
 

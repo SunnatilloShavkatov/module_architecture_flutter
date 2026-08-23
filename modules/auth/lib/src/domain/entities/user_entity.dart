@@ -1,7 +1,7 @@
 import 'package:core/core.dart' show Equatable;
 
 class UserEntity extends Equatable {
-  const UserEntity({
+  const new({
     required this.id,
     required this.email,
     required this.firstName,

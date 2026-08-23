@@ -3,7 +3,7 @@ import 'package:platform_methods/platform_methods_platform_interface.dart';
 export 'review_exception.dart';
 
 class PlatformMethods {
-  const PlatformMethods._();
+  const new _();
 
   static PlatformMethods get instance => _instance;
   static const PlatformMethods _instance = PlatformMethods._();

@@ -1,7 +1,7 @@
 part of 'notifications_local_data_source.dart';
 
 final class NotificationsLocalDataSourceImpl implements NotificationsLocalDataSource {
-  const NotificationsLocalDataSourceImpl();
+  const new();
 
   @override
   List<NotificationModel> getMockNotifications() {

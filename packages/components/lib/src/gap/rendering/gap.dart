@@ -2,7 +2,7 @@ import 'package:components/src/gap/rendering/gap_color_painter.dart';
 import 'package:flutter/rendering.dart';
 
 class RenderGap extends RenderBox with GapColorPainter {
-  RenderGap(this._mainAxisExtent, this._crossAxisExtent, this._fallbackDirection, this._color);
+  new(this._mainAxisExtent, this._crossAxisExtent, this._fallbackDirection, this._color);
 
   double get mainAxisExtent => _mainAxisExtent;
   double _mainAxisExtent;

@@ -7,7 +7,7 @@ import 'package:home/src/data/models/home_category_model.dart';
 part 'home_remote_data_source_impl.dart';
 
 abstract interface class HomeRemoteDataSource {
-  const HomeRemoteDataSource();
+  const new();
 
   Future<List<HomeCategoryModel>> getCategories();
 

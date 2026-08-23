@@ -1,7 +1,7 @@
 part of 'payments_remote_data_source.dart';
 
 final class PaymentsRemoteDataSourceImpl implements PaymentsRemoteDataSource {
-  const PaymentsRemoteDataSourceImpl(this._networkProvider);
+  const new(this._networkProvider);
 
   final NetworkProvider _networkProvider;
 

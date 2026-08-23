@@ -23,7 +23,7 @@ const Duration _kDefaultTimeout = Duration(seconds: 3);
 /// Immutable result of a single host-reachability probe.
 @immutable
 class AddressCheckResult {
-  const AddressCheckResult(this.options, {required this.isSuccess});
+  const new(this.options, {required this.isSuccess});
 
   final AddressCheckOptions options;
   final bool isSuccess;
@@ -48,7 +48,7 @@ class AddressCheckResult {
 /// provided — not both, not neither.
 @immutable
 class AddressCheckOptions {
-  const AddressCheckOptions({this.address, this.hostname, this.port = _kDefaultPort, this.timeout = _kDefaultTimeout})
+  const new({this.address, this.hostname, this.port = _kDefaultPort, this.timeout = _kDefaultTimeout})
     : assert(
         (address != null || hostname != null) && ((address != null) != (hostname != null)),
         'Provide either address or hostname — not both, not neither.',
@@ -115,7 +115,7 @@ enum InternetConnectionStatus { connected, disconnected }
 class InternetConnectionChecker {
   // ── Constructors ──────────────────────────────────────────────────────────
 
-  factory InternetConnectionChecker() => _instance;
+  factory() => _instance;
 
   /// Creates a custom instance.
   ///
@@ -128,7 +128,7 @@ class InternetConnectionChecker {
   ///
   /// [addresses] — custom probe list; if omitted [defaultAddresses] is used
   /// and each entry's timeout is overridden with [checkTimeout].
-  InternetConnectionChecker.createInstance({
+  new createInstance({
     this.checkTimeout = defaultTimeout,
     this.checkInterval = defaultInterval,
     List<AddressCheckOptions>? addresses,

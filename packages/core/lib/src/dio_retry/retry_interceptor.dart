@@ -12,7 +12,7 @@ typedef ToNoInternetPageNavigator = Future<void> Function();
 
 /// An interceptor that will try to send failed request again
 class RetryInterceptor extends Interceptor {
-  RetryInterceptor({
+  new({
     required this.dio,
     required this.logPrint,
     this.retries = 1,

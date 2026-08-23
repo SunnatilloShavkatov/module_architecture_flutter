@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
 class ModalProgressHUD extends StatelessWidget {
-  const ModalProgressHUD({
+  const new({
     required this.child,
     super.key,
     this.opacity = 0.3,

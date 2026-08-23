@@ -154,7 +154,7 @@ Entities are pure Dart:
 import 'package:core/core.dart' show Equatable;
 
 // ❌ Wrong
-import 'package:flutter/material.dart'; // No Flutter in domain
+import 'package:material_ui/material_ui.dart'; // No UI package in domain
 ```
 
 ### 4. No JSON Serialization

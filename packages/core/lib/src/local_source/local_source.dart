@@ -4,7 +4,7 @@ import 'package:hive_ce/hive_ce.dart' show Box;
 import 'package:material_ui/material_ui.dart';
 
 abstract class LocalSource {
-  const LocalSource();
+  const new();
 
   bool get hasProfile;
 
@@ -46,7 +46,7 @@ abstract class LocalSource {
 // fields (firstName, phone, userId, etc.) return the new value immediately
 // after calling their async setters — no stale reads for Hive-backed fields.
 final class LocalSourceImpl implements LocalSource {
-  const LocalSourceImpl(this._systemBox, this._secureStorage);
+  const new(this._systemBox, this._secureStorage);
 
   final Box<dynamic> _systemBox;
   final FlutterSecureStorage _secureStorage;

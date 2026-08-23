@@ -1,7 +1,7 @@
 import 'package:home/src/domain/entities/home_appointment_entity.dart';
 
 class HomeAppointmentModel extends HomeAppointmentEntity {
-  const HomeAppointmentModel({
+  const new({
     required super.id,
     required super.userId,
     required super.businessId,
@@ -15,7 +15,7 @@ class HomeAppointmentModel extends HomeAppointmentEntity {
     super.staff,
   });
 
-  factory HomeAppointmentModel.fromMap(Map<String, dynamic> map) {
+  factory fromMap(Map<String, dynamic> map) {
     final List<HomeAppointmentServiceEntity> services = [];
     final Map<String, dynamic> user = map['user'] != null ? Map<String, dynamic>.from(map['user'] as Map) : {};
     final Map<String, dynamic> business = map['business'] != null
@@ -68,14 +68,9 @@ class HomeAppointmentModel extends HomeAppointmentEntity {
 }
 
 class HomeAppointmentServiceModel extends HomeAppointmentServiceEntity {
-  const HomeAppointmentServiceModel({
-    required super.id,
-    required super.name,
-    required super.price,
-    required super.durationMin,
-  });
+  const new({required super.id, required super.name, required super.price, required super.durationMin});
 
-  factory HomeAppointmentServiceModel.fromMap(Map<String, dynamic> map) => HomeAppointmentServiceModel(
+  factory fromMap(Map<String, dynamic> map) => HomeAppointmentServiceModel(
     id: map['id'] ?? 0,
     name: map['name'] ?? '',
     price: (map['price'] is num) ? (map['price'] as num).toDouble() : 0,
@@ -86,18 +81,18 @@ class HomeAppointmentServiceModel extends HomeAppointmentServiceEntity {
 }
 
 class HomeAppointmentBusinessModel extends HomeAppointmentBusinessEntity {
-  const HomeAppointmentBusinessModel({required super.id, required super.name, required super.address});
+  const new({required super.id, required super.name, required super.address});
 
-  factory HomeAppointmentBusinessModel.fromMap(Map<String, dynamic> map) =>
+  factory fromMap(Map<String, dynamic> map) =>
       HomeAppointmentBusinessModel(id: map['id'] ?? 0, name: map['name'] ?? '', address: map['address'] ?? '');
 
   Map<String, dynamic> toMap() => {'id': id, 'name': name, 'address': address};
 }
 
 class HomeAppointmentStaffModel extends HomeAppointmentStaffEntity {
-  const HomeAppointmentStaffModel({required super.id, required super.name});
+  const new({required super.id, required super.name});
 
-  factory HomeAppointmentStaffModel.fromMap(Map<String, dynamic> map) =>
+  factory fromMap(Map<String, dynamic> map) =>
       HomeAppointmentStaffModel(id: map['id'] ?? 0, name: map['fullName'] ?? map['name'] ?? '');
 
   Map<String, dynamic> toMap() => {'id': id, 'fullName': name};

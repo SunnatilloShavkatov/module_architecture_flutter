@@ -5,7 +5,7 @@ import 'package:payments/src/data/models/payment_method_model.dart';
 part 'payments_remote_data_source_impl.dart';
 
 abstract interface class PaymentsRemoteDataSource {
-  const PaymentsRemoteDataSource();
+  const new();
 
   Future<List<PaymentMethodModel>> getPaymentMethods();
 

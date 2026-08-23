@@ -1,7 +1,7 @@
 import 'package:home/src/domain/entities/home_business_entity.dart';
 
 class HomeBusinessModel extends HomeBusinessEntity {
-  const HomeBusinessModel({
+  const new({
     required super.id,
     required super.name,
     required super.rating,
@@ -16,7 +16,7 @@ class HomeBusinessModel extends HomeBusinessEntity {
     required super.address,
   });
 
-  factory HomeBusinessModel.fromMap(Map<String, dynamic> map) => HomeBusinessModel(
+  factory fromMap(Map<String, dynamic> map) => HomeBusinessModel(
     id: '${map['id'] ?? ''}',
     name: map['name'] ?? '',
     rating: (map['rating'] is int) ? (map['rating'] as int).toDouble() : (map['rating'] ?? 0.0),

@@ -3,7 +3,7 @@ import 'package:profile/src/domain/entities/profile_user_entity.dart';
 import 'package:profile/src/domain/repository/profile_repository.dart';
 
 class GetProfileUser extends UsecaseWithoutParams<ProfileUserEntity> {
-  const GetProfileUser(this._repo);
+  const new(this._repo);
 
   final ProfileRepository _repo;
 

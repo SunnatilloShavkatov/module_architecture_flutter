@@ -1,5 +1,5 @@
 final class PaymentsApiPaths {
-  const PaymentsApiPaths._();
+  const new _();
 
   static const String clientPaymentMethods = '/api/payment-methods/client';
 

@@ -7,11 +7,11 @@ import 'package:profile/src/domain/usecases/get_profile_user.dart';
 import 'package:profile/src/domain/usecases/update_profile_user.dart';
 import 'package:profile/src/presentation/profile/bloc/profile_bloc.dart';
 
-class _MockGetProfileUser extends Mock implements GetProfileUser {}
+class _MockGetProfileUser extends Mock implements GetProfileUser;
 
-class _MockUpdateProfileUser extends Mock implements UpdateProfileUser {}
+class _MockUpdateProfileUser extends Mock implements UpdateProfileUser;
 
-class _MockInjector extends Mock implements Injector {}
+class _MockInjector extends Mock implements Injector;
 
 void main() {
   late ProfileBloc profileBloc;
@@ -19,12 +19,7 @@ void main() {
   late _MockUpdateProfileUser mockUpdateProfileUser;
   late _MockInjector mockInjector;
 
-  final tPackageInfo = PackageInfo(
-    appName: 'TestApp',
-    packageName: 'com.test.app',
-    version: '1.0.0',
-    buildNumber: '1',
-  );
+  final tPackageInfo = PackageInfo(appName: 'TestApp', packageName: 'com.test.app', version: '1.0.0', buildNumber: '1');
   const tUser = ProfileUserEntity(
     id: 1,
     email: 'user@test.com',
@@ -81,10 +76,7 @@ void main() {
       return profileBloc;
     },
     act: (bloc) => bloc.add(const ProfileInitialEvent()),
-    expect: () => [
-      const ProfileLoadingState(),
-      ProfileSuccessState(user: tUser, version: tPackageInfo),
-    ],
+    expect: () => [const ProfileLoadingState(), ProfileSuccessState(user: tUser, version: tPackageInfo)],
     verify: (_) => verify(() => mockGetProfileUser()).called(1),
   );
 
@@ -96,10 +88,7 @@ void main() {
       return profileBloc;
     },
     act: (bloc) => bloc.add(const ProfileInitialEvent()),
-    expect: () => [
-      const ProfileLoadingState(),
-      const ProfileFailureState(message: 'Profile load failed'),
-    ],
+    expect: () => [const ProfileLoadingState(), const ProfileFailureState(message: 'Profile load failed')],
     verify: (_) => verify(() => mockGetProfileUser()).called(1),
   );
 
@@ -111,10 +100,7 @@ void main() {
       return profileBloc;
     },
     act: (bloc) => bloc.add(const ProfileInitialEvent()),
-    expect: () => [
-      const ProfileLoadingState(),
-      const ProfileFailureState(message: 'No internet'),
-    ],
+    expect: () => [const ProfileLoadingState(), const ProfileFailureState(message: 'No internet')],
   );
 
   // ─── Update success ───────────────────────────────────────────────────────────
@@ -125,10 +111,7 @@ void main() {
       return profileBloc;
     },
     act: (bloc) => bloc.add(tUpdateEvent),
-    expect: () => [
-      const ProfileUpdatingState(),
-      ProfileUpdatedState(user: tUpdatedUser, version: tPackageInfo),
-    ],
+    expect: () => [const ProfileUpdatingState(), ProfileUpdatedState(user: tUpdatedUser, version: tPackageInfo)],
     verify: (_) => verify(() => mockUpdateProfileUser(any())).called(1),
   );
 
@@ -140,10 +123,7 @@ void main() {
       return profileBloc;
     },
     act: (bloc) => bloc.add(tUpdateEvent),
-    expect: () => [
-      const ProfileUpdatingState(),
-      const ProfileFailureState(message: 'Profile load failed'),
-    ],
+    expect: () => [const ProfileUpdatingState(), const ProfileFailureState(message: 'Profile load failed')],
     verify: (_) => verify(() => mockUpdateProfileUser(any())).called(1),
   );
 
@@ -155,10 +135,7 @@ void main() {
       return profileBloc;
     },
     act: (bloc) => bloc.add(tUpdateEvent),
-    expect: () => [
-      const ProfileUpdatingState(),
-      const ProfileFailureState(message: 'No internet'),
-    ],
+    expect: () => [const ProfileUpdatingState(), const ProfileFailureState(message: 'No internet')],
   );
 
   // ─── Load ignored while loading ───────────────────────────────────────────────
@@ -177,10 +154,7 @@ void main() {
         ..add(const ProfileInitialEvent());
     },
     wait: const Duration(milliseconds: 300),
-    expect: () => [
-      const ProfileLoadingState(),
-      ProfileSuccessState(user: tUser, version: tPackageInfo),
-    ],
+    expect: () => [const ProfileLoadingState(), ProfileSuccessState(user: tUser, version: tPackageInfo)],
     verify: (_) => verify(() => mockGetProfileUser()).called(1),
   );
 
@@ -200,10 +174,7 @@ void main() {
         ..add(tUpdateEvent);
     },
     wait: const Duration(milliseconds: 300),
-    expect: () => [
-      const ProfileUpdatingState(),
-      ProfileUpdatedState(user: tUpdatedUser, version: tPackageInfo),
-    ],
+    expect: () => [const ProfileUpdatingState(), ProfileUpdatedState(user: tUpdatedUser, version: tPackageInfo)],
     verify: (_) => verify(() => mockUpdateProfileUser(any())).called(1),
   );
 

@@ -6,7 +6,7 @@ import 'package:material_ui/material_ui.dart';
 
 @immutable
 final class AppOptions {
-  const AppOptions({required this.themeMode, required this.locale});
+  const new({required this.themeMode, required this.locale});
 
   final Locale locale;
   final ThemeMode themeMode;
@@ -45,7 +45,7 @@ final class AppOptions {
 }
 
 class _ModelBindingScope extends InheritedWidget {
-  const _ModelBindingScope({required this.model, required super.child});
+  const new({required this.model, required super.child});
 
   final AppOptions model;
 
@@ -60,7 +60,7 @@ class _ModelBindingScope extends InheritedWidget {
 }
 
 class ModelBinding extends StatefulWidget {
-  const ModelBinding({super.key, required this.child, required this.initialModel});
+  const new({super.key, required this.child, required this.initialModel});
 
   final AppOptions initialModel;
   final Widget child;

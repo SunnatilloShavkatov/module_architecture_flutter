@@ -442,7 +442,7 @@ import 'package:auth/src/presentation/login/bloc/login_bloc.dart';
 import 'package:core/core.dart';
 import 'package:components/components.dart';
 import 'package:core/core.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:navigation/navigation.dart';
 
 part 'mixin/login_mixin.dart';
@@ -565,10 +565,18 @@ final class AuthRouter implements AppRouter<RouteBase> {
 
   @override
   List<GoRoute> getRouters(Injector di) => [
-    GoRoute(
+    // CupertinoRoute, not GoRoute — this app's MaterialApp comes from package:material_ui, so go_router
+    // falls back to NoTransitionPage on a plain GoRoute (no push animation, no iOS swipe-back). See CLAUDE.md §5b.
+    CupertinoRoute(
       path: Routes.login,
       name: Routes.login,
       builder: (_, _) => BlocProvider<LoginBloc>(create: (_) => di.get(), child: const LoginPage()),
+    ),
+    // bottom sheet — MaterialSheetRoute, never a hand-written pageBuilder + MaterialSheetPage.
+    MaterialSheetRoute(
+      path: Routes.chooseThemeModeSheet,
+      name: Routes.chooseThemeModeSheet,
+      builder: (_, _) => const ChooseThemeModeSheet(),
     ),
   ];
 }

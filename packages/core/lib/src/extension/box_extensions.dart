@@ -11,7 +11,7 @@ extension LazyBoxX<T> on LazyBox<T> {
 }
 
 class _BoxListenable<B extends BoxBase<dynamic>> extends ValueListenable<B> {
-  _BoxListenable(this.box, this.keys);
+  new(this.box, this.keys);
 
   final B box;
 

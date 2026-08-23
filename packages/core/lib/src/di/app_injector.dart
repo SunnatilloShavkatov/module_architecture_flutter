@@ -6,7 +6,7 @@ import 'package:get_it/get_it.dart';
 final GetIt _getIt = GetIt.instance;
 
 final class AppInjector implements Injector {
-  const AppInjector._();
+  const new _();
 
   static const AppInjector instance = AppInjector._();
 

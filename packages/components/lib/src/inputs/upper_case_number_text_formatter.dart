@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 
 class UpperCaseNumberTextFormatter extends TextInputFormatter {
-  const UpperCaseNumberTextFormatter();
+  const new();
 
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {

@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 ///
 /// **Environment**: Debug mode only.
 final class LoggingBlocObserver extends BlocObserver {
-  const LoggingBlocObserver();
+  const new();
 
   @override
   void onCreate(BlocBase<dynamic> bloc) {

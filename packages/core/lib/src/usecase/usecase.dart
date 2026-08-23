@@ -1,13 +1,13 @@
 import 'package:core/src/utils/utils.dart';
 
 abstract class UsecaseWithParams<Types, Params> {
-  const UsecaseWithParams();
+  const new();
 
   ResultFuture<Types> call(Params params);
 }
 
 abstract class UsecaseWithoutParams<Types> {
-  const UsecaseWithoutParams();
+  const new();
 
   ResultFuture<Types> call();
 }

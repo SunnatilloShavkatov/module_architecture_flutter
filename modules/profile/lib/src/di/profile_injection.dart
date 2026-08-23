@@ -9,7 +9,7 @@ import 'package:profile/src/presentation/profile/bloc/profile_bloc.dart';
 import 'package:profile/src/profile_page_factory.dart';
 
 final class ProfileInjection implements Injection {
-  const ProfileInjection();
+  const new();
 
   @override
   void registerDependencies({required Injector di}) {

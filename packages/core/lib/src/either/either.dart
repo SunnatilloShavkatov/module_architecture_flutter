@@ -13,7 +13,7 @@ typedef Lazy<T> = T Function();
 /// [Right] is used for "success".
 @immutable
 sealed class Either<L, R> {
-  const Either();
+  const new();
 
   /// Represents the left side of [Either] class which
   /// by convention is a "Failure".
@@ -94,7 +94,7 @@ sealed class Either<L, R> {
 
 /// Used for "failure"
 class Left<L, R> extends Either<L, R> {
-  const Left(this.value);
+  const new(this.value);
 
   final L value;
 
@@ -127,7 +127,7 @@ class Left<L, R> extends Either<L, R> {
 
 /// Used for "success"
 class Right<L, R> extends Either<L, R> {
-  const Right(this.value);
+  const new(this.value);
 
   final R value;
 

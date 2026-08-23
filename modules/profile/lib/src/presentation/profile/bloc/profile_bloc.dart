@@ -8,7 +8,7 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc(this._getProfileUser, this._updateProfileUser, this._di) : super(const ProfileInitialState()) {
+  new(this._getProfileUser, this._updateProfileUser, this._di) : super(const ProfileInitialState()) {
     on<ProfileInitialEvent>(_getProfileUserHandler, transformer: droppable());
     on<UpdateProfilePressedEvent>(_updateProfileHandler, transformer: throttle());
   }

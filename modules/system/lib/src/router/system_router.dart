@@ -3,11 +3,11 @@ import 'package:navigation/navigation.dart';
 import 'package:system/src/presentation/internet_connection/internet_connection_page.dart';
 
 final class SystemRouter implements AppRouter<RouteBase> {
-  const SystemRouter();
+  const new();
 
   @override
   List<GoRoute> getRouters(Injector di) => [
-    GoRoute(
+    CupertinoRoute(
       path: Routes.noInternet,
       name: Routes.noInternet,
       builder: (context, state) => const InternetConnectionPage(),

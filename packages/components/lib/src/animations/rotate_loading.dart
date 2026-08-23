@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
 class RotateLoading extends StatelessWidget {
-  const RotateLoading({required this.child, super.key});
+  const new({required this.child, super.key});
 
   final Widget child;
 
@@ -12,7 +12,7 @@ class RotateLoading extends StatelessWidget {
 
 /// Class use to render an animated icon with rotation
 class RotateIcon extends StatefulWidget {
-  const RotateIcon({required this.child, required this.duration, super.key});
+  const new({required this.child, required this.duration, super.key});
 
   final Widget child;
   final Duration duration;

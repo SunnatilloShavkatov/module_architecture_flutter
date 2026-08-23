@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:core/src/constants/env.dart';
 
 final class Constants {
-  const Constants._();
+  const new _();
 
   static AppConfig get config => AppEnvironment.instance.config;
 

@@ -9,7 +9,7 @@ import 'package:navigation/navigation.dart';
 part 'mixin/login_mixin.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const new({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();

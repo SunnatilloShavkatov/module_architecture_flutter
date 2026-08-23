@@ -1,18 +1,18 @@
 part of 'profile_bloc.dart';
 
 sealed class ProfileEvent extends Equatable {
-  const ProfileEvent();
+  const new();
 }
 
 final class ProfileInitialEvent extends ProfileEvent {
-  const ProfileInitialEvent();
+  const new();
 
   @override
   List<Object?> get props => [];
 }
 
 final class UpdateProfilePressedEvent extends ProfileEvent {
-  const UpdateProfilePressedEvent({
+  const new({
     required this.username,
     required this.firstName,
     required this.lastName,

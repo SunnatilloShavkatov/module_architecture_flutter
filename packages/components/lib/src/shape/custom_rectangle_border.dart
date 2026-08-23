@@ -2,7 +2,7 @@ import 'package:material_ui/material_ui.dart';
 
 class CustomRectangleBorder extends OutlinedBorder {
   /// Creates a [CustomRectangleBorder].
-  const CustomRectangleBorder({super.side, this.isTop = false, this.isBottom = false});
+  const new({super.side, this.isTop = false, this.isBottom = false});
 
   final bool isTop;
   final bool isBottom;

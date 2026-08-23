@@ -1,5 +1,5 @@
 class ReviewException implements Exception {
-  const ReviewException({required this.code, required this.message, this.details});
+  const new({required this.code, required this.message, this.details});
 
   final String code;
   final String message;

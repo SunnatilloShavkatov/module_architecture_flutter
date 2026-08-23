@@ -5,7 +5,7 @@ import 'package:pinput/pinput.dart';
 import 'package:smart_auth/smart_auth.dart';
 
 class SmsRetrieverImpl implements SmsRetriever {
-  const SmsRetrieverImpl(this._smartAuth);
+  const new(this._smartAuth);
 
   final SmartAuth _smartAuth;
 

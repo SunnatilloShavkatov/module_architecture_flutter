@@ -1,7 +1,7 @@
 import 'package:auth/src/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
-  const UserModel({
+  const new({
     required super.id,
     required super.email,
     required super.firstName,
@@ -13,7 +13,7 @@ class UserModel extends UserEntity {
     super.specialization,
   });
 
-  factory UserModel.fromMap(Map<String, dynamic> map) => UserModel(
+  factory fromMap(Map<String, dynamic> map) => UserModel(
     id: map['userId'] ?? map['id'] ?? 0,
     email: map['email'] ?? '',
     firstName: map['firstName'] ?? '',

@@ -4,7 +4,7 @@ typedef AsyncFunc<T> = Future<T> Function();
 typedef DisposableFunc<T> = FutureOr<T> Function(T param);
 
 abstract interface class Injector {
-  const Injector();
+  const new();
 
   void registerLazySingleton<T extends Object>(T Function() function, {String? instanceName});
 

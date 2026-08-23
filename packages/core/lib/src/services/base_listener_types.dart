@@ -3,7 +3,7 @@ import 'dart:async';
 enum BaseListenerTypes { initial, progressUpdate, purchaseSuccess }
 
 class BaseUpdateListenerData<T> {
-  BaseUpdateListenerData({required this.type, required this.object});
+  new({required this.type, required this.object});
 
   final BaseListenerTypes type;
   final T object;

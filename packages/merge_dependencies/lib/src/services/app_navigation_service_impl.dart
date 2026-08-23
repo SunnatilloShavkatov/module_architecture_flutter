@@ -3,7 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:navigation/navigation.dart';
 
 class AppNavigationServiceImpl implements AppNavigationService {
-  const AppNavigationServiceImpl(this._rootNavigatorKey, this._navigatorObserver);
+  const new(this._rootNavigatorKey, this._navigatorObserver);
 
   final RouteNavigationObserver _navigatorObserver;
   final GlobalKey<NavigatorState> _rootNavigatorKey;

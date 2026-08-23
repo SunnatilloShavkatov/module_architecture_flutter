@@ -7,11 +7,11 @@ import 'package:profile/src/presentation/profile/bloc/profile_bloc.dart';
 import 'package:profile/src/presentation/settings/settings_page.dart';
 
 final class ProfileRouter implements AppRouter<RouteBase> {
-  const ProfileRouter();
+  const new();
 
   @override
   List<GoRoute> getRouters(Injector di) => [
-    GoRoute(
+    CupertinoRoute(
       path: Routes.editProfile,
       name: Routes.editProfile,
       builder: (_, state) => BlocProvider<ProfileBloc>(
@@ -19,11 +19,11 @@ final class ProfileRouter implements AppRouter<RouteBase> {
         child: EditProfilePage(args: state.extra! as EditProfileArgs),
       ),
     ),
-    GoRoute(path: Routes.settings, name: Routes.settings, builder: (_, _) => const SettingsPage()),
-    GoRoute(
+    CupertinoRoute(path: Routes.settings, name: Routes.settings, builder: (_, _) => const SettingsPage()),
+    MaterialSheetRoute(
       path: Routes.chooseThemeModeSheet,
       name: Routes.chooseThemeModeSheet,
-      pageBuilder: (_, state) => MaterialSheetPage(key: state.pageKey, builder: (_) => const ChooseThemeModeSheet()),
+      builder: (_, state) => const ChooseThemeModeSheet(),
     ),
   ];
 }

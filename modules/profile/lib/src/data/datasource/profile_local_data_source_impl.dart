@@ -4,7 +4,7 @@ import 'package:profile/src/data/models/profile_user_model.dart';
 part 'profile_local_data_source.dart';
 
 class ProfileLocalDataSourceImpl implements ProfileLocalDataSource {
-  const ProfileLocalDataSourceImpl(this._localSource);
+  const new(this._localSource);
 
   final LocalSource _localSource;
 

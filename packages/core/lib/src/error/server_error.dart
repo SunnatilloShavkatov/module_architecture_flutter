@@ -3,9 +3,9 @@ import 'package:core/src/l10n/localized_messages.dart';
 import 'package:dio/dio.dart';
 
 final class ServerException implements Exception {
-  const ServerException({this.message, this.statusCode});
+  const new({this.message, this.statusCode});
 
-  factory ServerException.withException({required DioException error}) {
+  factory withException({required DioException error}) {
     int? statusCode;
     String? errorMessage;
     final String? locale = error.requestOptions.headers['language'];
@@ -75,16 +75,16 @@ final class ServerException implements Exception {
     return ServerException(message: errorMessage, statusCode: statusCode);
   }
 
-  factory ServerException.withLocaleException({required String message, required String? locale}) =>
+  factory withLocaleException({required String message, required String? locale}) =>
       ServerException(message: LocalizedMessages.instance.tr(message, locale: locale));
 
-  factory ServerException.typeError({required String? locale}) =>
+  factory typeError({required String? locale}) =>
       ServerException(message: LocalizedMessages.instance.tr(LocalizationKeys.typeError, locale: locale));
 
-  factory ServerException.formatException({required String? locale}) =>
+  factory formatException({required String? locale}) =>
       ServerException(message: LocalizedMessages.instance.tr(LocalizationKeys.formatException, locale: locale));
 
-  factory ServerException.unknownError({required String? locale}) =>
+  factory unknownError({required String? locale}) =>
       ServerException(message: LocalizedMessages.instance.tr(LocalizationKeys.unknownError, locale: locale));
 
   final int? statusCode;

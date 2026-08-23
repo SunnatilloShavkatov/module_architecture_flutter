@@ -4,7 +4,7 @@ import 'package:home/src/presentation/main/home_page.dart';
 import 'package:material_ui/material_ui.dart';
 
 final class HomePageFactory implements PageFactory {
-  const HomePageFactory();
+  const new();
 
   @override
   Widget create(Injector di) =>

@@ -1,5 +1,5 @@
 abstract interface class AppNavigationService {
-  const AppNavigationService();
+  const new();
 
   Future<void> navigateToNoInternet();
 

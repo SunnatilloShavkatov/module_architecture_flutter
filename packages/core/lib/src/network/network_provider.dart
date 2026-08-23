@@ -12,7 +12,7 @@ import 'package:material_ui/material_ui.dart';
 CancelToken _cancelToken = CancelToken();
 
 abstract class NetworkProvider {
-  const NetworkProvider();
+  const new();
 
   Future<Response<T>> fetchMethod<T>(
     String path, {
@@ -45,7 +45,7 @@ abstract class NetworkProvider {
 }
 
 final class NetworkProviderImpl extends NetworkProvider {
-  const NetworkProviderImpl(this._dio, this._localSource);
+  const new(this._dio, this._localSource);
 
   final Dio _dio;
   final LocalSource _localSource;

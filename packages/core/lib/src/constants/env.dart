@@ -3,7 +3,7 @@ import 'package:core/src/constants/_environment_keys.dart' as keys;
 enum Environment { dev, prod }
 
 abstract class AppConfig {
-  const AppConfig();
+  const new();
 
   String get appName;
 
@@ -15,7 +15,7 @@ abstract class AppConfig {
 }
 
 class EnvironmentConfig extends AppConfig {
-  const EnvironmentConfig();
+  const new();
 
   @override
   String get appName => keys.appName;
@@ -31,9 +31,9 @@ class EnvironmentConfig extends AppConfig {
 }
 
 final class AppEnvironment {
-  const AppEnvironment._({required this.env}) : config = const EnvironmentConfig();
+  const new _({required this.env}) : config = const EnvironmentConfig();
 
-  factory AppEnvironment.initEnvironment({required Environment env}) => _instance = AppEnvironment._(env: env);
+  factory initEnvironment({required Environment env}) => _instance = AppEnvironment._(env: env);
 
   static AppEnvironment? _instance;
 

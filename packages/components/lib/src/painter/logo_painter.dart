@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
 class Logo extends StatelessWidget {
-  const Logo({super.key, this.color = Colors.white, this.size = 14});
+  const new({super.key, this.color = Colors.white, this.size = 14});
 
   final Color color;
   final double size;
@@ -25,7 +25,7 @@ class Logo extends StatelessWidget {
 }
 
 class _LogoPainter extends CustomPainter {
-  const _LogoPainter({required this.color});
+  const new({required this.color});
 
   final Color color;
 

@@ -12,7 +12,7 @@ class SliverGap extends LeafRenderObjectWidget {
   /// Creates a sliver that takes a fixed [mainAxisExtent] of space.
   ///
   /// The [mainAxisExtent] must not be null and must be positive.
-  const SliverGap(this.mainAxisExtent, {super.key, this.color})
+  const new(this.mainAxisExtent, {super.key, this.color})
     : assert(mainAxisExtent >= 0 && mainAxisExtent < double.infinity, '');
 
   /// The amount of space this widget takes in the direction of the parent.

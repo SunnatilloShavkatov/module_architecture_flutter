@@ -1,5 +1,5 @@
 final class StorageKeys {
-  const StorageKeys._();
+  const new _();
 
   /// system
   static const String locale = 'locale';

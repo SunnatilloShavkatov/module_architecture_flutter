@@ -3,7 +3,7 @@ import 'package:navigation/navigation.dart';
 import 'package:system/src/router/system_router.dart';
 
 final class SystemContainer implements ModuleContainer {
-  const SystemContainer();
+  const new();
 
   @override
   AppRouter<RouteBase> get router => const SystemRouter();

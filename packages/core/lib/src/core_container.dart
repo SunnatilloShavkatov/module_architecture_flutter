@@ -4,7 +4,7 @@ import 'package:core/src/core_abstractions/module_container.dart';
 import 'package:core/src/di/core_injection.dart';
 
 final class CoreContainer implements ModuleContainer {
-  const CoreContainer();
+  const new();
 
   @override
   AppRouter<Object>? get router => null;

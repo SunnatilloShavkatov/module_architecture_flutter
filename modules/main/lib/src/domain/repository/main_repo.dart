@@ -1,3 +1,3 @@
 abstract interface class MainRepo {
-  const MainRepo();
+  const new();
 }

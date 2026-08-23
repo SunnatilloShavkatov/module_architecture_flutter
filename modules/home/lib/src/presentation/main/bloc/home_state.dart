@@ -1,30 +1,25 @@
 part of 'home_bloc.dart';
 
 sealed class HomeState extends Equatable {
-  const HomeState();
+  const new();
 }
 
 final class HomeInitialState extends HomeState {
-  const HomeInitialState();
+  const new();
 
   @override
   List<Object?> get props => [];
 }
 
 final class HomeLoadingState extends HomeState {
-  const HomeLoadingState();
+  const new();
 
   @override
   List<Object?> get props => [];
 }
 
 final class HomeSuccessState extends HomeState {
-  const HomeSuccessState({
-    required this.firstName,
-    required this.categories,
-    required this.businesses,
-    required this.appointments,
-  });
+  const new({required this.firstName, required this.categories, required this.businesses, required this.appointments});
 
   final String firstName;
   final List<HomeCategoryEntity> categories;
@@ -36,7 +31,7 @@ final class HomeSuccessState extends HomeState {
 }
 
 final class HomeFailureState extends HomeState {
-  const HomeFailureState({required this.message});
+  const new({required this.message});
 
   final String message;
 

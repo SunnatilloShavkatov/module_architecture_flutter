@@ -1,6 +1,9 @@
+/// Instance names for DI registrations that share a type: `PageFactory`, `WidgetFactory<T>`,
+/// `ModuleInteractor<T, P>`. Key string equals the implementation's class name; group by kind.
 final class InstanceNameKeys {
-  const InstanceNameKeys._();
+  const new _();
 
+  /// page factories
   static const String homeFactory = 'HomePageFactory';
   static const String messageFactory = 'MessagePageFactory';
   static const String dashboardFactory = 'DashboardPageFactory';

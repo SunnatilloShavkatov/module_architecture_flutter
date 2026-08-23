@@ -6,7 +6,7 @@ part of 'themes.dart';
 /// and [ThemeData] component themes must reference these constants
 /// instead of using inline `Color(0x...)` literals.
 final class AppPalette {
-  const AppPalette._();
+  const new _();
 
   // ─── Brand ────────────────────────────────────────────────────────────
   static const Color primary = Color(0xFF3B82F6);

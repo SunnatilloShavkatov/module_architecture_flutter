@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 
 class CustomLinearProgress extends StatelessWidget {
-  const CustomLinearProgress({
+  const new({
     required this.percent,
     super.key,
     this.valueColor = Colors.white,
@@ -66,7 +66,7 @@ class CustomLinearProgress extends StatelessWidget {
 }
 
 class LinearProgressPainter extends CustomPainter {
-  const LinearProgressPainter({
+  const new({
     required this.backgroundColor,
     required this.valueColor,
     required this.percent,

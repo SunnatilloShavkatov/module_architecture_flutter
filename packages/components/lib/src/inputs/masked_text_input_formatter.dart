@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 
 class MaskedTextInputFormatter extends TextInputFormatter {
-  const MaskedTextInputFormatter({required this.mask, required this.separator, required this.filter});
+  const new({required this.mask, required this.separator, required this.filter});
 
   final String mask;
   final String separator;
