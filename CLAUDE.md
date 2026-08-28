@@ -541,12 +541,12 @@ class FeatureModel extends FeatureEntity {
 
 ## 12a. Widget Imports — `material_ui` / `cupertino_ui`, never `package:flutter/...` (Flutter 3.47+)
 
-As of **Flutter 3.47** the Material and Cupertino widget libraries moved out of the Flutter SDK into standalone packages. This repo is on that layout: every `pubspec.yaml` here depends on `material_ui: ^1.0.1` (and `cupertino_ui: ^1.0.0` where Cupertino widgets are used), and `package:flutter/material.dart` / `package:flutter/cupertino.dart` **no longer resolve**. There are zero of those imports left in the repo — keep it that way.
+As of **Flutter 3.47** the Material and Cupertino widget libraries moved out of the Flutter SDK into standalone packages. This repo is on that layout: every `pubspec.yaml` here depends on `material_ui: ^1.1.0` (and `cupertino_ui: ^1.0.1` where Cupertino widgets are used), and `package:flutter/material.dart` / `package:flutter/cupertino.dart` **no longer resolve**. There are zero of those imports left in the repo — keep it that way.
 
 - widget / theme / painting / gesture imports come from **`package:material_ui/material_ui.dart`** — this is the default, use it for `StatelessWidget`, `BuildContext`, `Widget`, `Color`, `TextStyle`, `Colors`, `Curves`, `EdgeInsets`, `MaterialApp`, `Scaffold`, everything.
 - **`package:cupertino_ui/cupertino_ui.dart`** only when you need actual Cupertino types (`CupertinoPage`, `CupertinoActivityIndicator`, `CupertinoTheme`, …). Don't add it "just in case" — it's on 2 of the repo's pubspecs, not all of them.
 - **forbidden imports, anywhere**: `package:flutter/material.dart`, `package:flutter/cupertino.dart`. They do not exist on this SDK. `package:flutter/widgets.dart`, `package:flutter/services.dart`, `package:flutter/foundation.dart`, `package:flutter/rendering.dart` still ship with the SDK and are fine when you need only those.
-- new module or new package? its `pubspec.yaml` gets `material_ui: ^1.0.1` under `dependencies` (and `cupertino_ui: ^1.0.0` only if it uses Cupertino types). Pin the same versions the rest of the repo uses — don't float them.
+- new module or new package? its `pubspec.yaml` gets `material_ui: ^1.1.0` under `dependencies` (and `cupertino_ui: ^1.0.1` only if it uses Cupertino types). Pin the same versions the rest of the repo uses — don't float them.
 - domain layer stays UI-free: no `material_ui`, no `cupertino_ui`, no Flutter import at all in `domain/` (§10) — swapping the package name doesn't make a UI import allowed there.
 - copying a snippet from an old commit, Stack Overflow, or any pre-3.47 source? Swap its `package:flutter/material.dart` line for `package:material_ui/material_ui.dart` before saving. This is the single most common mechanical error in this repo.
 
@@ -587,7 +587,7 @@ flutter analyze
 - [ ] entity has no `fromMap`/`toMap`, model has both, list fields non-null (§10–11)
 - [ ] API endpoints are module-local, not added to a global `ApiPaths` (§11)
 - [ ] no forbidden API used: `Navigator 1.0`, `MediaQuery.of(context)`, `print()` (§12)
-- [ ] every widget file imports `material_ui`/`cupertino_ui`; zero `package:flutter/material.dart` or `package:flutter/cupertino.dart` imports; new pubspec has `material_ui: ^1.0.1` (§12a)
+- [ ] every widget file imports `material_ui`/`cupertino_ui`; zero `package:flutter/material.dart` or `package:flutter/cupertino.dart` imports; new pubspec has `material_ui: ^1.1.0` (§12a)
 - [ ] every new full-screen page route is `CupertinoRoute`, not plain `GoRoute` — or the shell/placeholder exception is stated (§5b)
 - [ ] user-facing strings via `context.l10n.*`, not hardcoded (§12)
 - [ ] bottom-sheet route uses own top-level folder + `MaterialSheetRoute` (never a handwritten `pageBuilder`/`MaterialSheetPage`) (§9)

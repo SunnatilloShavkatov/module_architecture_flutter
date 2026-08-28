@@ -11,10 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  material_ui: ^1.0.1
-  cupertino_ui: ^1.0.0
+  material_ui: ^1.1.0
+  cupertino_ui: ^1.0.1
   # external packages
-  go_router: ^17.5.0
+  go_router: ^18.0.0
 
 dev_dependencies:
   flutter_test:

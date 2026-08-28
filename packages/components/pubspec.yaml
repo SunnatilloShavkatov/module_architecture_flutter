@@ -11,14 +11,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  material_ui: ^1.0.1
-  cupertino_ui: ^1.0.0
-  # intl
-  intl: any
+  intl: ^0.20.3
+  # widget
+  material_ui: ^1.1.0
+  cupertino_ui: ^1.0.1
   # rx
   rxdart: ^0.28.0
   # cached network image
-  cached_network_image_ce: ^4.10.0
+  cached_network_image_ce: ^4.10.1
 
 dev_dependencies:
   flutter_test:
