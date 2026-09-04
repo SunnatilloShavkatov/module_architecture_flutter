@@ -2,10 +2,10 @@
 
 Two files govern this repo, and they do different jobs:
 
-| File                        | What it is                                                                 | When to open it |
-|-----------------------------|----------------------------------------------------------------------------|-----------------|
-| **[`CLAUDE.md`](CLAUDE.md)** | The rules and the *why*. Single source of truth; overrides any module's local style. | Every session, before planning |
-| **[`docs/template_reference.md`](docs/template_reference.md)** | The *shape* — copy-paste form of every file type, each section pointing back at the rule it implements. | Before writing **each** file |
+| File                                                           | What it is                                                                                              | When to open it                |
+|----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|--------------------------------|
+| **[`CLAUDE.md`](CLAUDE.md)**                                   | The rules and the *why*. Single source of truth; overrides any module's local style.                    | Every session, before planning |
+| **[`docs/template_reference.md`](docs/template_reference.md)** | The *shape* — copy-paste form of every file type, each section pointing back at the rule it implements. | Before writing **each** file   |
 
 This file adds only the working procedure and output style. It overrides nothing.
 
