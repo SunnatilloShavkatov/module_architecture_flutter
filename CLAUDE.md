@@ -54,12 +54,12 @@ part 'feature_event.dart';
 part 'feature_state.dart';
 
 final class FeatureBloc extends Bloc<FeatureEvent, FeatureState> {
-  FeatureBloc(this._useCase) : super(const FeatureInitialState()) {
-    on<GetFeatureEvent>(_getFeatureHandler, transformer: droppable());
+  new(this._useCase) : super(const FeatureInitialState()) {
+    on<FeatureLoadEvent>(_getFeatureHandler, transformer: droppable());
   }
   final GetFeature _useCase;
 
-  Future<void> _getFeatureHandler(GetFeatureEvent event, Emitter<FeatureState> emit) async { ... }
+  Future<void> _getFeatureHandler(FeatureLoadEvent event, Emitter<FeatureState> emit) async { ... }
 }
 ```
 
@@ -67,8 +67,8 @@ final class FeatureBloc extends Bloc<FeatureEvent, FeatureState> {
 - root `Event`/`State`: `sealed class extends Equatable`
 - concrete event/state: `final class`
 - handler method: **`_<verb><Target>Handler`** — e.g. `_getProfileHandler`, `_sendOtpHandler`. **NEVER `_onXxx`.**
-- event names: `GetXxxEvent`, `CreateXxxEvent`, `UpdateXxxEvent`, `DeleteXxxEvent`, `ResetXxxEvent`, `SendXxxEvent` — verb-first, explicit target, `Event` suffix always.
-- state names: `XxxInitialState`, `XxxLoadingState`, `XxxLoadedState`/`XxxSuccessState`, `XxxErrorState`/`XxxFailureState`. Multi-flow pages: grouped sealed states (`XxxInfoState`, `XxxCodeState`) — see plan doc §3.4.
+- event names: **feature-first, then verb** — `<Feature><Verb>Event`: `HomeLoadEvent`, `HomeRefreshEvent`, `LoginSubmitEvent`, `PaymentMethodAddEvent`, `PaymentMethodDeleteEvent`, `NotificationsLoadEvent`. The feature prefix matches the bloc (`HomeBloc` → `Home*Event`), the verb says what happens, `Event` suffix always. Verb-first names (`GetXxxEvent`, `UpdateXxxPressedEvent`) are **wrong** — 8 of the 9 events in this repo are feature-first, and the one exception (`UpdateProfilePressedEvent`) is on the migration list, not the reference.
+- state names: `XxxInitialState`, `XxxLoadingState`, `XxxSuccessState`, `XxxFailureState` — this exact four, every bloc in the repo. `XxxLoadedState`/`XxxErrorState` do **not** appear anywhere here; don't introduce them. Multi-flow pages: grouped sealed states — an intermediate `sealed class LoadingState extends XxxState` with `XxxLoadingState`/`XxxUpdatingState` under it, as in `profile_state.dart`; see plan doc §3.4.
 - every concrete state overrides `props` even if empty (`=> []`).
 - transformer is **required on every `on<Event>()` call that triggers a usecase/network call, no exceptions** — such an event registered without one is a bug, not a style choice. Pick by what the event does, not by feel:
   - **event calls a usecase that maps to POST/PATCH/PUT/DELETE on the backend** (create, update, delete, submit, confirm, pay, send, upload — any write) → **`throttle()`, always.** This is the #1 real-world bug in Dart/backend apps: a double tap (or a slow network making a button feel unresponsive so the user taps again) fires the same write request twice within ~1s. `throttle()` is the fix — non-negotiable for every write-triggering event, not a case-by-case judgment call.
@@ -109,7 +109,7 @@ mixin FeatureMixin on State<FeaturePage> {
   bool _isPaginating = false;
 
   void _handleStates(_, FeatureState state) {
-    if (state is FeatureLoadedState) {
+    if (state is FeatureSuccessState) {
       // Mutate the field. No setState call here.
       _list = state.items;
       _page++;
@@ -132,7 +132,7 @@ Widget build(BuildContext context) => BlocListener<FeatureBloc, FeatureState>(
 );
 ```
 
-This is the whole trick: `BlocListener`'s `listener` and `BlocBuilder`'s `builder` both run off the **same state stream**. When the bloc emits `FeatureLoadedState`, the listener mutates `_list`/`_page`, and the builder — listening to the exact same emission — reruns `build()` on its own and reads the now-updated field. No `setState` involved, because nothing needed to be told to rebuild; it was already going to.
+This is the whole trick: `BlocListener`'s `listener` and `BlocBuilder`'s `builder` both run off the **same state stream**. When the bloc emits `FeatureSuccessState`, the listener mutates `_list`/`_page`, and the builder — listening to the exact same emission — reruns `build()` on its own and reads the now-updated field. No `setState` involved, because nothing needed to be told to rebuild; it was already going to.
 
 The rule, not a feel-based call:
 
@@ -269,7 +269,7 @@ CupertinoRoute(
 No pagination package, no `PagingController`. Just: a page counter in the mixin + a scroll listener + a merge-and-dedupe on load-more.
 
 - events: one `Get<Feature>ListEvent(page: 1)` for first load, one `GetPaginated<Feature>ListEvent(page: n)` for load-more — two separate events, two separate handlers, both `droppable()`.
-- states: first-load family (`XxxLoadingState`/`XxxLoadedState`/`XxxErrorState`) separate from a `PaginationState` sealed family (`XxxPaginationLoadingState`/`XxxPaginationLoadedState`/`XxxPaginationErrorState`) — first load shows a full-page spinner, page 2+ must not.
+- states: first-load family (`XxxLoadingState`/`XxxSuccessState`/`XxxFailureState`) separate from a `PaginationState` sealed family (`XxxPaginationLoadingState`/`XxxPaginationSuccessState`/`XxxPaginationFailureState`) — first load shows a full-page spinner, page 2+ must not.
 - mixin state: `List<Item> _list = []`, `int _page = 1`, `bool _isPaginating = false`, `final ScrollController _scrollController = ScrollController()`.
 - `initState()`: dispatch first-page event, then `_scrollController.addListener(_scrollListener)`. `dispose()`: remove listener + dispose controller.
 - scroll listener:
@@ -472,7 +472,7 @@ MaterialSheetRoute(
 ```dart
 // entity — no JSON, no fromMap/toMap, extends Equatable, all fields final
 class FeatureEntity extends Equatable {
-  const FeatureEntity({required this.id, required this.items});
+  const new({required this.id, required this.items});
   final String? id;              // scalar/object fields: nullable
   final List<ItemEntity> items;  // list fields: non-null, required
   @override
@@ -481,13 +481,14 @@ class FeatureEntity extends Equatable {
 
 // repository — abstract interface class, returns ResultFuture<T>, no impl body
 abstract interface class FeatureRepository {
-  const FeatureRepository();
+  const new();
   ResultFuture<FeatureEntity> getFeature();
 }
 
-// usecase — final class, extends UsecaseWithParams/UsecaseWithoutParams, one operation, depends on interface not impl
-final class GetFeature extends UsecaseWithoutParams<FeatureEntity> {
-  const GetFeature(this._repo);
+// usecase — plain `class` (no `final`), extends UsecaseWithParams/UsecaseWithoutParams,
+// one operation, depends on interface not impl
+class GetFeature extends UsecaseWithoutParams<FeatureEntity> {
+  const new(this._repo);
   final FeatureRepository _repo;
   @override
   ResultFuture<FeatureEntity> call() => _repo.getFeature();
@@ -497,6 +498,7 @@ final class GetFeature extends UsecaseWithoutParams<FeatureEntity> {
 - entity naming: `Xxx` folder-local convention aside, suffix `Entity` when disambiguation needed, otherwise follow module's existing style.
 - repo interface naming: `repo`/`repository`/`repos` — match the target module's existing style, don't mix within one module (see `docs/architecture/module_structure.md §3`).
 - one usecase = one business operation. Never bundle two operations in one usecase class.
+- **`final` modifier, by kind — not by feel.** Infrastructure classes are `final class`: bloc, event, state, `<M>Container`, `<M>Injection`, `<M>Router`, `PageFactory`/`WidgetFactory` impls, `<Usecase>Params`, `<M>ApiPaths`, every `*Impl`. Domain/data data-carrying classes are plain `class` with no modifier: entity, model, usecase. This is not a stylistic preference — it is what all 31 of those classes do today (10/10 entity, 10/10 model, 11/11 usecase carry no modifier). Adding `final` to a usecase or entity contradicts every existing one.
 
 ## 11. Data Layer Contract (non-negotiable)
 
@@ -530,7 +532,7 @@ class FeatureModel extends FeatureEntity {
 - import only `package:components/components.dart` and `package:core/core.dart` — never `.../src/...`.
 - widget imports: `package:material_ui/material_ui.dart` (default), `package:cupertino_ui/cupertino_ui.dart` when Cupertino types are needed. `package:flutter/material.dart` and `package:flutter/cupertino.dart` are **forbidden and don't resolve** on Flutter 3.47+ — see §12a.
 - colors: `context.color.*` first, `context.colorScheme.*` for Material interop, hardcoded `Colors.*` only when no token exists.
-- text: `context.textStyle.*` first, avoid ad-hoc `TextStyle(...)`.
+- text: `context.textTheme.*` first (38 uses in this repo vs 2 for `context.textStyle.*`), avoid ad-hoc `TextStyle(...)`. Need a one-off tweak? `context.textTheme.bodyMedium?.copyWith(color: context.color.textSecondary)` — not a bare `TextStyle(...)`. `context.textStyle.*` is the custom `ThemeExtension` and stays available, but it is not the default reach.
 - spacing: `Dimensions.kGap*`/`Gap(...)`/`Dimensions.kPadding*` — avoid raw `EdgeInsets`/`SizedBox` when a token exists.
 - safe area: `SafeAreaWithMinimum`, not plain `SafeArea`, unless explicitly not wanted.
 - primary/submit buttons: `CustomLoadingButton` (built-in double-tap throttle), not raw `ElevatedButton`.
@@ -541,12 +543,12 @@ class FeatureModel extends FeatureEntity {
 
 ## 12a. Widget Imports — `material_ui` / `cupertino_ui`, never `package:flutter/...` (Flutter 3.47+)
 
-As of **Flutter 3.47** the Material and Cupertino widget libraries moved out of the Flutter SDK into standalone packages. This repo is on that layout: every `pubspec.yaml` here depends on `material_ui: ^1.1.0` (and `cupertino_ui: ^1.0.1` where Cupertino widgets are used), and `package:flutter/material.dart` / `package:flutter/cupertino.dart` **no longer resolve**. There are zero of those imports left in the repo — keep it that way.
+As of **Flutter 3.47** the Material and Cupertino widget libraries moved out of the Flutter SDK into standalone packages. This repo is on that layout: every `pubspec.yaml` here depends on `material_ui: ^1.1.1` (and `cupertino_ui: ^1.0.2` where Cupertino widgets are used), and `package:flutter/material.dart` / `package:flutter/cupertino.dart` **no longer resolve**. There are zero of those imports left in the repo — keep it that way.
 
 - widget / theme / painting / gesture imports come from **`package:material_ui/material_ui.dart`** — this is the default, use it for `StatelessWidget`, `BuildContext`, `Widget`, `Color`, `TextStyle`, `Colors`, `Curves`, `EdgeInsets`, `MaterialApp`, `Scaffold`, everything.
 - **`package:cupertino_ui/cupertino_ui.dart`** only when you need actual Cupertino types (`CupertinoPage`, `CupertinoActivityIndicator`, `CupertinoTheme`, …). Don't add it "just in case" — it's on 2 of the repo's pubspecs, not all of them.
 - **forbidden imports, anywhere**: `package:flutter/material.dart`, `package:flutter/cupertino.dart`. They do not exist on this SDK. `package:flutter/widgets.dart`, `package:flutter/services.dart`, `package:flutter/foundation.dart`, `package:flutter/rendering.dart` still ship with the SDK and are fine when you need only those.
-- new module or new package? its `pubspec.yaml` gets `material_ui: ^1.1.0` under `dependencies` (and `cupertino_ui: ^1.0.1` only if it uses Cupertino types). Pin the same versions the rest of the repo uses — don't float them.
+- new module or new package? its `pubspec.yaml` gets `material_ui: ^1.1.1` under `dependencies` (and `cupertino_ui: ^1.0.2` only if it uses Cupertino types). Pin the same versions the rest of the repo uses — don't float them.
 - domain layer stays UI-free: no `material_ui`, no `cupertino_ui`, no Flutter import at all in `domain/` (§10) — swapping the package name doesn't make a UI import allowed there.
 - copying a snippet from an old commit, Stack Overflow, or any pre-3.47 source? Swap its `package:flutter/material.dart` line for `package:material_ui/material_ui.dart` before saving. This is the single most common mechanical error in this repo.
 
@@ -570,6 +572,12 @@ As of **Flutter 3.47** the Material and Cupertino widget libraries moved out of 
 
 ## 16. Quality Gate (before calling anything done)
 
+Fast gate (changed files only — recommended during development):
+```bash
+./scripts/quick_check.sh
+```
+
+Full gate (entire repo):
 ```bash
 dart fix --apply
 dart format ./
@@ -587,7 +595,7 @@ flutter analyze
 - [ ] entity has no `fromMap`/`toMap`, model has both, list fields non-null (§10–11)
 - [ ] API endpoints are module-local, not added to a global `ApiPaths` (§11)
 - [ ] no forbidden API used: `Navigator 1.0`, `MediaQuery.of(context)`, `print()` (§12)
-- [ ] every widget file imports `material_ui`/`cupertino_ui`; zero `package:flutter/material.dart` or `package:flutter/cupertino.dart` imports; new pubspec has `material_ui: ^1.1.0` (§12a)
+- [ ] every widget file imports `material_ui`/`cupertino_ui`; zero `package:flutter/material.dart` or `package:flutter/cupertino.dart` imports; new pubspec has `material_ui: ^1.1.1` (§12a)
 - [ ] every new full-screen page route is `CupertinoRoute`, not plain `GoRoute` — or the shell/placeholder exception is stated (§5b)
 - [ ] user-facing strings via `context.l10n.*`, not hardcoded (§12)
 - [ ] bottom-sheet route uses own top-level folder + `MaterialSheetRoute` (never a handwritten `pageBuilder`/`MaterialSheetPage`) (§9)

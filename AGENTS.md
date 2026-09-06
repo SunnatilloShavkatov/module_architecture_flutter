@@ -16,9 +16,13 @@ This file adds only the working procedure and output style. It overrides nothing
 3. **Open `docs/template_reference.md` at the section for the file you're about to write.** Not the whole file — the section. §0 (non-negotiables) applies to everything.
 4. **Copy the shape from the template, not from a nearby module.** Modules predate rules; the template doesn't. If an existing module disagrees with `CLAUDE.md`, write the new code correctly and say the old file mismatches — never propagate it, never "fix" it silently as scope creep.
 5. **Build in order:** domain (entity → repo interface → usecase) → data (model → api paths → datasource → repo impl) → presentation (bloc → page/mixin → widgets) → DI → router.
-6. **Run the gate:** `dart fix --apply && dart format ./ && flutter analyze`. Clean output, or it isn't done.
+6. **Run the gate:** `./scripts/quick_check.sh` (or full gate `dart fix --apply && dart format ./ && flutter analyze`). Clean output, or it isn't done.
 7. **Self-check against the symptom→fix table** at `docs/template_reference.md` §12, then the Definition of Done in `CLAUDE.md` §17.
 8. **Report:** owner module + reason, touched files, anything you deliberately left out.
+
+## Execution Mandate
+
+Any time you finish generating, modifying, or creating files, execute `./scripts/quick_check.sh` via the terminal before declaring the task complete. If `flutter analyze` flags any issues in the modified files, fix them immediately.
 
 ## The five that get missed most (full detail in the template's §0 and §12)
 

@@ -14,7 +14,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.20.3
-  material_ui: ^1.1.0
+  material_ui: ^1.1.1
   # di
   get_it: ^9.2.1
   # equatable
@@ -28,7 +28,7 @@ dependencies:
   # path
   path_provider: ^2.1.6
   # rest api
-  dio: ^5.11.0
+  dio: ^5.11.1
   # url launchers
   url_launcher: ^6.3.2
   # otp autofill

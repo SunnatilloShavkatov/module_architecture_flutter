@@ -13,8 +13,8 @@ dependencies:
     sdk: flutter
   intl: ^0.20.3
   # widget
-  material_ui: ^1.1.0
-  cupertino_ui: ^1.0.1
+  material_ui: ^1.1.1
+  cupertino_ui: ^1.0.2
   # rx
   rxdart: ^0.28.0
   # cached network image
