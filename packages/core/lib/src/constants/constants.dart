@@ -11,6 +11,8 @@ final class Constants {
 
   static Environment get environment => AppEnvironment.instance.env;
 
+  static const int defaultPageLimit = 10;
+
   static const String defaultSmsCodeMatcher = r'([0-9]{6})\s*(?=\r?\n[A-Za-z0-9]{6,})';
 
   static final String appLink = Platform.isIOS

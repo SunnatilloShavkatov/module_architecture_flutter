@@ -4,9 +4,9 @@ import 'package:home/src/data/datasource/home_remote_data_source.dart';
 import 'package:home/src/domain/entities/home_appointment_entity.dart';
 import 'package:home/src/domain/entities/home_business_entity.dart';
 import 'package:home/src/domain/entities/home_category_entity.dart';
-import 'package:home/src/domain/repository/home_repo.dart';
+import 'package:home/src/domain/repository/home_repository.dart';
 
-final class HomeRepoImpl implements HomeRepo {
+final class HomeRepositoryImpl implements HomeRepository {
   const new(this._remoteSource, this._localSource);
 
   final HomeLocalDataSource _localSource;

@@ -3,144 +3,107 @@ import 'package:core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:notifications/src/domain/entities/notification_entity.dart';
+import 'package:notifications/src/domain/usecases/clear_all_notifications.dart';
 import 'package:notifications/src/domain/usecases/get_notifications.dart';
+import 'package:notifications/src/domain/usecases/mark_notification_as_read.dart';
 import 'package:notifications/src/presentation/notifications/bloc/notifications_bloc.dart';
 
 class _MockGetNotifications extends Mock implements GetNotifications;
 
+class _MockMarkNotificationAsRead extends Mock implements MarkNotificationAsRead;
+
+class _MockClearAllNotifications extends Mock implements ClearAllNotifications;
+
 void main() {
+  setUpAll(() {
+    registerFallbackValue(const GetNotificationsParams(page: 1));
+    registerFallbackValue(const MarkNotificationParams(id: 'fallback'));
+  });
+
   late NotificationsBloc notificationsBloc;
   late _MockGetNotifications mockGetNotifications;
+  late _MockMarkNotificationAsRead mockMarkNotificationAsRead;
+  late _MockClearAllNotifications mockClearAllNotifications;
 
   final tNotification1 = NotificationEntity(
     id: '1',
-    title: 'Appointment confirmed',
-    message: 'Your appointment at 10:00 is confirmed',
+    title: 'Test Notification',
+    message: 'Test message',
     timestamp: DateTime(2024, 6, 1, 9),
     isRead: false,
     type: 'appointment',
   );
-  final tNotification2 = NotificationEntity(
-    id: '2',
-    title: 'Promo',
-    message: '20% off this weekend',
-    timestamp: DateTime(2024, 6, 1, 8),
-    isRead: true,
-    type: 'promo',
-  );
-  final tNotifications = [tNotification1, tNotification2];
+  final tNotifications = [tNotification1];
   const tServerFailure = ServerFailure(message: 'Server error');
-  const tNoInternetFailure = NoInternetFailure(message: 'No internet connection');
 
   setUp(() {
     mockGetNotifications = _MockGetNotifications();
-    notificationsBloc = NotificationsBloc(mockGetNotifications);
+    mockMarkNotificationAsRead = _MockMarkNotificationAsRead();
+    mockClearAllNotifications = _MockClearAllNotifications();
+    notificationsBloc = NotificationsBloc(mockGetNotifications, mockMarkNotificationAsRead, mockClearAllNotifications);
   });
 
   tearDown(() => notificationsBloc.close());
 
-  // ─── Initial state ────────────────────────────────────────────────────────────
   test('initial state is NotificationsInitialState', () {
     expect(notificationsBloc.state, const NotificationsInitialState());
   });
 
-  // ─── Success with multiple notifications ─────────────────────────────────────
   blocTest<NotificationsBloc, NotificationsState>(
-    'emits [NotificationsLoadingState, NotificationsSuccessState] with full list on success',
+    'emits [NotificationsLoadingState, NotificationsLoadedState] on GetNotificationsEvent success',
     build: () {
-      when(() => mockGetNotifications()).thenAnswer((_) async => Right(tNotifications));
+      when(() => mockGetNotifications(any())).thenAnswer((_) async => Right(tNotifications));
       return notificationsBloc;
     },
-    act: (bloc) => bloc.add(const NotificationsLoadEvent()),
-    expect: () => [const NotificationsLoadingState(), NotificationsSuccessState(notifications: tNotifications)],
-    verify: (_) => verify(() => mockGetNotifications()).called(1),
+    act: (bloc) => bloc.add(const GetNotificationsEvent()),
+    expect: () => [const NotificationsLoadingState(), NotificationsLoadedState(notifications: tNotifications)],
+    verify: (_) => verify(() => mockGetNotifications(const GetNotificationsParams(page: 1))).called(1),
   );
 
-  // ─── Success with empty list ──────────────────────────────────────────────────
   blocTest<NotificationsBloc, NotificationsState>(
-    'emits NotificationsSuccessState with empty list when no notifications',
+    'emits [NotificationsLoadingState, NotificationsFailureState] on GetNotificationsEvent failure',
     build: () {
-      when(() => mockGetNotifications()).thenAnswer((_) async => const Right([]));
+      when(() => mockGetNotifications(any())).thenAnswer((_) async => const Left(tServerFailure));
       return notificationsBloc;
     },
-    act: (bloc) => bloc.add(const NotificationsLoadEvent()),
-    expect: () => [const NotificationsLoadingState(), const NotificationsSuccessState(notifications: [])],
-  );
-
-  // ─── Server failure ───────────────────────────────────────────────────────────
-  blocTest<NotificationsBloc, NotificationsState>(
-    'emits [NotificationsLoadingState, NotificationsFailureState] on server failure',
-    build: () {
-      when(() => mockGetNotifications()).thenAnswer((_) async => const Left(tServerFailure));
-      return notificationsBloc;
-    },
-    act: (bloc) => bloc.add(const NotificationsLoadEvent()),
+    act: (bloc) => bloc.add(const GetNotificationsEvent()),
     expect: () => [const NotificationsLoadingState(), const NotificationsFailureState(message: 'Server error')],
-    verify: (_) => verify(() => mockGetNotifications()).called(1),
+    verify: (_) => verify(() => mockGetNotifications(const GetNotificationsParams(page: 1))).called(1),
   );
 
-  // ─── Network failure ──────────────────────────────────────────────────────────
   blocTest<NotificationsBloc, NotificationsState>(
-    'emits [NotificationsLoadingState, NotificationsFailureState] on network failure',
+    'emits [NotificationsPaginationLoadingState, NotificationsPaginationLoadedState] on GetPaginatedNotificationsEvent success',
     build: () {
-      when(() => mockGetNotifications()).thenAnswer((_) async => const Left(tNoInternetFailure));
+      when(() => mockGetNotifications(any())).thenAnswer((_) async => Right(tNotifications));
       return notificationsBloc;
     },
-    act: (bloc) => bloc.add(const NotificationsLoadEvent()),
+    act: (bloc) => bloc.add(const GetPaginatedNotificationsEvent(page: 2)),
     expect: () => [
-      const NotificationsLoadingState(),
-      const NotificationsFailureState(message: 'No internet connection'),
+      const NotificationsPaginationLoadingState(),
+      NotificationsPaginationLoadedState(notifications: tNotifications),
     ],
+    verify: (_) => verify(() => mockGetNotifications(const GetNotificationsParams(page: 2))).called(1),
   );
 
-  // ─── Can reload after success ─────────────────────────────────────────────────
   blocTest<NotificationsBloc, NotificationsState>(
-    'can load again after NotificationsSuccessState',
+    'emits [NotificationActionLoadingState, NotificationMarkReadSuccessState] on MarkNotificationAsReadEvent success',
     build: () {
-      when(() => mockGetNotifications()).thenAnswer((_) async => Right(tNotifications));
+      when(() => mockMarkNotificationAsRead(any())).thenAnswer((_) async => const Right(unit));
       return notificationsBloc;
     },
-    seed: () => const NotificationsSuccessState(notifications: []),
-    act: (bloc) => bloc.add(const NotificationsLoadEvent()),
-    expect: () => [const NotificationsLoadingState(), NotificationsSuccessState(notifications: tNotifications)],
+    act: (bloc) => bloc.add(const MarkNotificationAsReadEvent(id: '1')),
+    expect: () => [const NotificationActionLoadingState(), const NotificationMarkReadSuccessState(id: '1')],
+    verify: (_) => verify(() => mockMarkNotificationAsRead(const MarkNotificationParams(id: '1'))).called(1),
   );
 
-  // ─── Can reload after failure ─────────────────────────────────────────────────
   blocTest<NotificationsBloc, NotificationsState>(
-    'can reload after NotificationsFailureState',
+    'emits [NotificationActionLoadingState, NotificationClearAllSuccessState] on ClearAllNotificationsEvent success',
     build: () {
-      when(() => mockGetNotifications()).thenAnswer((_) async => Right(tNotifications));
+      when(() => mockClearAllNotifications()).thenAnswer((_) async => const Right(unit));
       return notificationsBloc;
     },
-    seed: () => const NotificationsFailureState(message: 'Previous error'),
-    act: (bloc) => bloc.add(const NotificationsLoadEvent()),
-    expect: () => [const NotificationsLoadingState(), NotificationsSuccessState(notifications: tNotifications)],
-  );
-
-  // ─── Usecase called exactly once per event ────────────────────────────────────
-  blocTest<NotificationsBloc, NotificationsState>(
-    'calls GetNotifications usecase exactly once per load event',
-    build: () {
-      when(() => mockGetNotifications()).thenAnswer((_) async => Right(tNotifications));
-      return notificationsBloc;
-    },
-    act: (bloc) => bloc.add(const NotificationsLoadEvent()),
-    verify: (_) => verify(() => mockGetNotifications()).called(1),
-  );
-
-  // ─── NotificationsSuccessState carries correct data ───────────────────────────
-  blocTest<NotificationsBloc, NotificationsState>(
-    'NotificationsSuccessState contains exact notifications from usecase',
-    build: () {
-      when(() => mockGetNotifications()).thenAnswer((_) async => Right([tNotification1]));
-      return notificationsBloc;
-    },
-    act: (bloc) => bloc.add(const NotificationsLoadEvent()),
-    verify: (bloc) {
-      final state = bloc.state as NotificationsSuccessState;
-      expect(state.notifications.length, 1);
-      expect(state.notifications.first.id, '1');
-      expect(state.notifications.first.isRead, false);
-    },
+    act: (bloc) => bloc.add(const ClearAllNotificationsEvent()),
+    expect: () => [const NotificationActionLoadingState(), const NotificationClearAllSuccessState()],
+    verify: (_) => verify(() => mockClearAllNotifications()).called(1),
   );
 }

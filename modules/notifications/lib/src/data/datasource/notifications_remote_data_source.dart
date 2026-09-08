@@ -7,5 +7,11 @@ part 'notifications_remote_data_source_impl.dart';
 abstract interface class NotificationsRemoteDataSource {
   const new();
 
-  Future<List<NotificationModel>> getNotifications();
+  Future<List<NotificationModel>> getNotifications({required int page, int limit = Constants.defaultPageLimit});
+
+  Future<void> markAsRead({required String id});
+
+  Future<void> clearAll();
+
+  Future<int> getUnreadCount();
 }

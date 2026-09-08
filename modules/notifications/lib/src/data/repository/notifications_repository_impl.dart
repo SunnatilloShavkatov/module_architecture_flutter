@@ -11,21 +11,60 @@ final class NotificationsRepositoryImpl implements NotificationsRepository {
   final NotificationsLocalDataSource _localDataSource;
 
   @override
-  ResultFuture<List<NotificationEntity>> getNotifications() async {
+  ResultFuture<List<NotificationEntity>> getNotifications({
+    required int page,
+    int limit = Constants.defaultPageLimit,
+  }) async {
     try {
-      final result = await _remoteDataSource.getNotifications();
-      if (result.isEmpty) {
+      final result = await _remoteDataSource.getNotifications(page: page, limit: limit);
+      if (result.isEmpty && page == 1) {
         return Right(_localDataSource.getMockNotifications());
       }
       return Right(result);
-    } on ServerException catch (_) {
-      return Right(_localDataSource.getMockNotifications());
-    } on Exception catch (e) {
+    } on ServerException catch (error) {
       final local = _localDataSource.getMockNotifications();
-      if (local.isNotEmpty) {
+      if (local.isNotEmpty && page == 1) {
         return Right(local);
       }
-      return Left(ServerFailure(message: e.toString()));
+      return Left(error.failure);
+    } on Exception catch (error) {
+      return Left(ServerFailure(message: error.toString()));
+    }
+  }
+
+  @override
+  ResultFuture<Unit> markAsRead({required String id}) async {
+    try {
+      await _remoteDataSource.markAsRead(id: id);
+      return const Right(unit);
+    } on ServerException catch (error) {
+      return Left(error.failure);
+    } on Exception catch (error) {
+      return Left(ServerFailure(message: error.toString()));
+    }
+  }
+
+  @override
+  ResultFuture<Unit> clearAll() async {
+    try {
+      await _remoteDataSource.clearAll();
+      return const Right(unit);
+    } on ServerException catch (error) {
+      return Left(error.failure);
+    } on Exception catch (error) {
+      return Left(ServerFailure(message: error.toString()));
+    }
+  }
+
+  @override
+  ResultFuture<int> getUnreadCount() async {
+    try {
+      final count = await _remoteDataSource.getUnreadCount();
+      return Right(count);
+    } on ServerException catch (error) {
+      return Left(error.failure);
+    } on Exception catch (error) {
+      return Left(ServerFailure(message: error.toString()));
     }
   }
 }

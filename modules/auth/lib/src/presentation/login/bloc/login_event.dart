@@ -1,4 +1,4 @@
-import 'package:core/core.dart';
+part of 'login_bloc.dart';
 
 sealed class LoginEvent extends Equatable {
   const new();

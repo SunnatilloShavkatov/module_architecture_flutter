@@ -13,6 +13,10 @@ final class AppPalette {
   static const Color secondary = Color(0xFF69D7C7);
   static const Color green = Color(0xFF32B141);
 
+  static const Color white = Colors.white;
+  static const Color black26 = Colors.black26;
+  static const Color shadowSuccessful = Color(0xFF32B141);
+
   // ─── Primary variants ─────────────────────────────────────────────────
   static const Color primaryContainer = Color(0xFF3700B3);
   static const Color onPrimaryContainer = Color.fromRGBO(15, 184, 211, 0.1);

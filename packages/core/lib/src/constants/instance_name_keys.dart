@@ -8,4 +8,10 @@ final class InstanceNameKeys {
   static const String messageFactory = 'MessagePageFactory';
   static const String dashboardFactory = 'DashboardPageFactory';
   static const String profileFactory = 'ProfilePageFactory';
+
+  /// interactors
+  static const String getUnreadNotificationsCountInteractor = 'GetUnreadNotificationsCountInteractor';
+
+  /// widget factories
+  static const String notificationItemFactory = 'NotificationItemFactory';
 }

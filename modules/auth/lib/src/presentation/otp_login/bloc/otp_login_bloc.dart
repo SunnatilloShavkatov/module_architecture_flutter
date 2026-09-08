@@ -1,7 +1,9 @@
+import 'package:auth/src/domain/entities/user_entity.dart';
 import 'package:auth/src/domain/usecases/otp_login.dart';
-import 'package:auth/src/presentation/otp_login/bloc/otp_login_event.dart';
-import 'package:auth/src/presentation/otp_login/bloc/otp_login_state.dart';
 import 'package:core/core.dart';
+
+part 'otp_login_event.dart';
+part 'otp_login_state.dart';
 
 final class OtpLoginBloc extends Bloc<OtpLoginEvent, OtpLoginState> {
   new(this._otpLogin) : super(const OtpLoginInitialState()) {
@@ -18,7 +20,7 @@ final class OtpLoginBloc extends Bloc<OtpLoginEvent, OtpLoginState> {
     final result = await _otpLogin(OtpLoginParams(code: event.code));
     result.fold(
       (failure) => emit(OtpLoginFailureState(message: failure.message)),
-      (auth) => emit(OtpLoginSuccessState(auth: auth)),
+      (user) => emit(OtpLoginSuccessState(user: user)),
     );
   }
 }

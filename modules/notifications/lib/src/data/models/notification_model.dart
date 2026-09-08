@@ -13,12 +13,12 @@ class NotificationModel extends NotificationEntity {
 
   factory fromMap(Map<String, dynamic> map) => NotificationModel(
     id: '${map['id'] ?? ''}',
-    title: map['title'] ?? '',
-    message: map['message'] ?? '',
+    title: map['title'] as String? ?? '',
+    message: map['message'] as String? ?? '',
     timestamp: DateTime.tryParse(map['timestamp']?.toString() ?? '') ?? DateTime.now(),
-    isRead: map['isRead'] ?? false,
-    type: map['type'] ?? 'info',
-    timeAgo: map['timeAgo'],
+    isRead: map['isRead'] as bool? ?? false,
+    type: map['type'] as String? ?? 'info',
+    timeAgo: map['timeAgo'] as String?,
   );
 
   Map<String, dynamic> toMap() => {

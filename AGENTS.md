@@ -1,45 +1,51 @@
-# AGENTS.md
+# AGENTS.md — Modular Architecture Standarti va Qoidalari
 
-Two files govern this repo, and they do different jobs:
+> **Asosiy qoida:** Foydalanuvchiga barcha javoblar va tushuntirishlar **O'zbek tilida**, kod, identifikatorlar va izohlar esa **Ingliz tilida** yoziladi.
+> Bu loyiha — mustaqil etalon shablon (template). Barcha etalonlar shu loyihaning o'zida to'liq implement qilingan.
 
-| File                                                           | What it is                                                                                              | When to open it                |
-|----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|--------------------------------|
-| **[`CLAUDE.md`](CLAUDE.md)**                                   | The rules and the *why*. Single source of truth; overrides any module's local style.                    | Every session, before planning |
-| **[`docs/template_reference.md`](docs/template_reference.md)** | The *shape* — copy-paste form of every file type, each section pointing back at the rule it implements. | Before writing **each** file   |
+## 1. Arxitektura va Modul Tuzilishi
 
-This file adds only the working procedure and output style. It overrides nothing.
+Loyiha Feature-First va Clean Architecture tamoyillariga asoslangan:
+- `modules/<module>/lib/src/`:
+  - `domain/`: `entities/`, `repository/`, `usecases/`, `interactor/` (tashqi framework yoki UI bog'liqligi yo'q).
+  - `data/`: `datasource/` (`*_remote_data_source.dart` + `part '*_remote_data_source_impl.dart'`), `models/`, `repository/`.
+  - `presentation/`: `<feature>/` (`bloc/`, `mixin/`, `widgets/`, `args/`, `factory/`), `<feature>_page.dart`.
+  - `di/`: `<module>_injection.dart` (`Injection` interfeysi orqali DI ro'yxatdan o'tkazish).
+  - `router/`: `<module>_router.dart` (`AppRouter` interfeysi, `CupertinoRoute`, `MaterialSheetRoute`, `MaterialDialogRoute`).
+  - `container/`: `<module>_container.dart` (`ModuleContainer` orqali router va DI ni eksport qilish).
 
-## The loop (follow it in this order — most mistakes come from skipping a step)
+> Tafsilotlar: `docs/rules/module.md`
 
-1. **Pick the owner module.** State `Owner module:` + `Reason:`. Ambiguous? `docs/architecture/module_selection.md`, cross-checked against `ls modules/`.
-2. **Open the docs the task needs.** `CLAUDE.md` §0 maps task → required doc. "I remember this pattern" is not a substitute; the docs carry edge cases the summary drops.
-3. **Open `docs/template_reference.md` at the section for the file you're about to write.** Not the whole file — the section. §0 (non-negotiables) applies to everything.
-4. **Copy the shape from the template, not from a nearby module.** Modules predate rules; the template doesn't. If an existing module disagrees with `CLAUDE.md`, write the new code correctly and say the old file mismatches — never propagate it, never "fix" it silently as scope creep.
-5. **Build in order:** domain (entity → repo interface → usecase) → data (model → api paths → datasource → repo impl) → presentation (bloc → page/mixin → widgets) → DI → router.
-6. **Run the gate:** `./scripts/quick_check.sh` (or full gate `dart fix --apply && dart format ./ && flutter analyze`). Clean output, or it isn't done.
-7. **Self-check against the symptom→fix table** at `docs/template_reference.md` §12, then the Definition of Done in `CLAUDE.md` §17.
-8. **Report:** owner module + reason, touched files, anything you deliberately left out.
+## 2. Qoidalar Kartasi (Rules Map)
 
-## Execution Mandate
+AI Agent har bir vazifani bajarishdan oldin mos qoida faylini o'qishi shart:
 
-Any time you finish generating, modifying, or creating files, execute `./scripts/quick_check.sh` via the terminal before declaring the task complete. If `flutter analyze` flags any issues in the modified files, fix them immediately.
+| Mavzu | Qoida fayli | Loyihadagi Haqiqiy Etalon |
+|---|---|---|
+| Modul va qatlamlar | `docs/rules/module.md` | `modules/notifications/lib/src/container/notifications_container.dart` |
+| BLoC, Event, State | `docs/rules/bloc.md` | `modules/notifications/lib/src/presentation/notifications/bloc/` |
+| Sahifa, Mixin, Lifecycle | `docs/rules/page-mixin.md` | `modules/notifications/lib/src/presentation/notifications/` |
+| Data, Remote DS, Model | `docs/rules/data-api.md` | `modules/notifications/lib/src/data/` |
+| Router, Navigatsiya, Args | `docs/rules/navigation.md` | `modules/notifications/lib/src/router/notifications_router.dart` |
+| UI, Dimensions, MaterialUI | `docs/rules/ui.md` | `modules/notifications/lib/src/presentation/notifications/notifications_page.dart` |
+| Lokalizatsiya (l10n) | `docs/rules/l10n.md` | `packages/core/lib/src/l10n/` & `modules/auth/lib/src/presentation/login/login_page.dart` |
+| Testlash (Unit, Bloc, Repo)| `docs/rules/testing.md` | `modules/notifications/test/notifications_test.dart` |
 
-## The five that get missed most (full detail in the template's §0 and §12)
+## 3. Eng Ko'p Xato Qilinadigan 7 Qoida (Non-negotiables)
 
-- `const new()` / `new(...)` / `const new _()` / `factory fromMap(...)` — Dart 3.47 constructor shorthand in declarations. Call sites keep the class name.
-- `package:material_ui/material_ui.dart` — `package:flutter/material.dart` does not resolve here.
-- `CupertinoRoute` for pages, `MaterialSheetRoute` for sheets. A bare `GoRoute` loses the transition and the iOS swipe-back.
-- Handler naming `_<verb><Target>Handler`, and a transformer on every event that calls a usecase (`throttle()` for writes, `droppable()` for reads).
-- `setState` only where nothing else will rebuild the field — never duplicating a rebuild a `BlocBuilder`/`BlocConsumer` already does.
+1. **Dart 3.47 Constructor Shorthand**: Deklaratsiyalarda `const new(...)`, `new(...)`, `const new _()`, `factory parse(...)` ishlatiladi. Chaqiruv joylarida klass nomi saqlanadi (`NotificationModel(...)`).
+2. **Material UI Import**: Hech qachon `package:flutter/material.dart` import qilinmaydi. Faqat `package:material_ui/material_ui.dart` va `package:components/components.dart`.
+3. **Bo'shliq va O'lchamlar**: Xom `SizedBox(height: ..., width: ...)` taqiqlangan. Faqat `Dimensions.kGap*`, `Dimensions.kPadding*`, `Dimensions.kRadius*`.
+4. **BLoC Event/State Bog'lanishi**: Har doim `part '..._event.dart';` va `part '..._state.dart';`. BLoC klassida mutable field bo'lishi taqiqlangan.
+5. **Transformers va Handler Nomi**: Har bir `on<Event>` da `transformer:` (`droppable()` o'qish uchun, `throttle()` yozish uchun). Handler nomi `_<verb><Target>Handler`.
+6. **Modullararo Izolyatsiya**: Modullar bir-birini to'g'ridan-to'g'ri import qilmaydi (`arch-guard` qoidasi). Aloqa faqat `core` dagi interactor, args yoki DI orqali bo'ladi.
+7. **setState Intizomi**: `setState` faqat va faqat lokal tranzit UI holatlar uchungina (masalan, password visibility, local checkbox). `BlocBuilder`/`BlocConsumer` rebuild qiladigan holatda ortiqcha `setState` taqiqlangan.
 
-Never guess an API name. `Dimensions.*` tokens, `context.color.*`, `context.textStyle.*` and the `components` exports are finite lists — read the file (`packages/components/lib/components.dart`, `.../utils/dimensions.dart`) instead of inventing a plausible name. If something you need genuinely isn't exported from a barrel, add the export line to the barrel rather than importing `package:<pkg>/src/...`.
+## 4. Ish Yakunlash Darvozasi (Verification Gate)
 
-## Output discipline
-
-- No long theoretical preamble. `Owner module:` + `Reason:`, then the code.
-- One file path + one code block per file, no narration between blocks.
-- Production-ready only — no `TODO`, no placeholder logic, no dummy data.
-- Never invent a base class, JSON-parsing style, bloc pattern, or fourth architecture. They are already defined in `CLAUDE.md` §1–2 and the template reference.
-- Close with the touched-file list.
-
-`components` / `core` / `navigation` / `merge_dependencies` package READMEs also point here and at `CLAUDE.md`.
+Har qanday o'zgarishdan so'ng terminalda quyidagi tekshiruvlar to'liq o'tishi shart:
+```bash
+./scripts/arch_guard_scan.sh   # 0 violations bo'lishi shart
+./scripts/quick_check.sh       # dart fix, format va analyze toza bo'lishi shart
+flutter test                   # Barcha testlar yashil o'tishi shart
+```

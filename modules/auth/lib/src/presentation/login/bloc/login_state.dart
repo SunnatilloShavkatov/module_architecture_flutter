@@ -1,5 +1,4 @@
-import 'package:auth/src/domain/entities/user_entity.dart';
-import 'package:core/core.dart';
+part of 'login_bloc.dart';
 
 sealed class LoginState extends Equatable {
   const new();
@@ -20,12 +19,12 @@ final class LoginLoadingState extends LoginState {
 }
 
 final class LoginSuccessState extends LoginState {
-  const new({required this.auth});
+  const new({required this.user});
 
-  final UserEntity auth;
+  final UserEntity user;
 
   @override
-  List<Object?> get props => [auth];
+  List<Object?> get props => [user];
 }
 
 final class LoginFailureState extends LoginState {

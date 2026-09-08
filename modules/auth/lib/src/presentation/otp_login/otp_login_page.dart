@@ -1,6 +1,4 @@
 import 'package:auth/src/presentation/otp_login/bloc/otp_login_bloc.dart';
-import 'package:auth/src/presentation/otp_login/bloc/otp_login_event.dart';
-import 'package:auth/src/presentation/otp_login/bloc/otp_login_state.dart';
 import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:material_ui/material_ui.dart';

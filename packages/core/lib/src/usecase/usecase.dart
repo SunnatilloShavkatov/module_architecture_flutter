@@ -1,4 +1,5 @@
 import 'package:core/src/utils/utils.dart';
+import 'package:flutter/foundation.dart' show immutable;
 
 abstract class UsecaseWithParams<Types, Params> {
   const new();
@@ -11,3 +12,19 @@ abstract class UsecaseWithoutParams<Types> {
 
   ResultFuture<Types> call();
 }
+
+abstract class UsecaseWithParamsVoid<Params> {
+  const new();
+
+  ResultFuture<Unit> call(Params params);
+}
+
+@immutable
+final class Unit {
+  const new();
+
+  @override
+  String toString() => 'Unit';
+}
+
+const unit = Unit();

@@ -1,165 +1,189 @@
 #!/usr/bin/env bash
-# arch-guard.sh — .claude/rules/flutter-architecture.md dagi qoidalarni majburlaydi.
+# arch-guard.sh — enforces .claude/rules/flutter-architecture.md
 #
-# RULES bloki §2 jadvalidan mexanik hosil qilingan. Faqat ≥90% ustunlikka ega qatorlar.
-# Jadval o'zgarsa — bu blok ham o'zgarishi shart (ikkalasi belgi-ba-belgi mos turishi kerak).
+# Reads a hook payload on stdin: {"tool_input":{"file_path":"/abs/path/x.dart"}}
+# Exit 0 = allowed. Exit 2 = violation (message on stderr).
 #
-# Kirish : stdin da {"tool_input":{"file_path":"/abs/path.dart"}}
-# Chiqish: 0 = toza, 2 = qoida buzilgan (stderr da sabab)
+# Scope: modules/*/lib/**/*.dart only. packages/**, root lib/** and test/** are
+# out of scope — they follow different conventions (see rules §9, §10).
+#
+# The RULES block below is generated mechanically from the table in
+# .claude/rules/flutter-architecture.md §2. Keep both in sync.
+#
+# All content checks run against a comment-stripped copy of the file, so a rule
+# never fires on commented-out code.
 
 set -uo pipefail
 
-# ─────────────────────────────────────────────────────────────────────────────
-# RULES: "papka_qismi|ruxsat_etilgan_suffikslar|klass_suffiksi"
-# Tartib muhim — birinchi mos kelgan qator qo'llanadi.
-# Faqat modules/*/lib/src/ ga tegishli (packages/ o'z sxemasiga ega, o'lchov konvensiya topmadi).
-# ─────────────────────────────────────────────────────────────────────────────
+# "path_marker|allowed_file_suffixes|matching_class_suffixes"
+# Suffix lists are positional: the Nth file suffix requires the Nth class suffix.
+# Markers starting with @ are positional (not path substrings).
 RULES=(
-  "/lib/src/presentation/*/bloc/|_bloc.dart,_event.dart,_state.dart|Bloc,Event,State"
-  "/lib/src/presentation/*/mixin/|_mixin.dart|Mixin"
-  "/lib/src/presentation/*/args/|_args.dart|Args"
-  "/lib/src/presentation/|_page.dart,_sheet.dart|Page,Sheet"
-  "/lib/src/domain/entities/|_entity.dart|Entity"
-  "/lib/src/domain/repository/|_repository.dart,_repo.dart|Repository,Repo"
-  "/lib/src/domain/repos/|_repository.dart,_repo.dart|Repository,Repo"
-  "/lib/src/data/models/|_model.dart|Model"
-  "/lib/src/data/datasource/|_data_source.dart,_data_source_impl.dart,_api_paths.dart|DataSource,DataSourceImpl,ApiPaths"
-  "/lib/src/data/repository/|_impl.dart|Impl"
-  "/lib/src/data/repo/|_impl.dart|Impl"
-  "/lib/src/router/|_router.dart|Router"
-  "/lib/src/di/|_injection.dart|Injection"
+  "@src_root|_container,_factory|Container,Factory"
+  "@presentation_root|_page,_sheet,_dialog,_widget|Page,Sheet,Dialog,Widget"
+  "/src/data/models/|_model|Model"
+  "/src/data/datasource/|_source,_impl,_api_paths,_datasource|Source,Impl,ApiPaths,DataSource"
+  "/src/data/repository/|_impl|RepositoryImpl"
+  "/src/domain/repository/|_repository|Repository"
+  "/src/domain/interactor/|_interactor|Interactor"
+  "/src/di/|_injection|Injection"
+  "/src/router/|_router|Router"
+  "/bloc/|_bloc,_event,_state|Bloc,Event,State"
+  "/mixin/|_mixin|Mixin"
+  "/args/|_args|Args"
 )
 
-MODULES="auth|home|initial|main|notifications|payments|profile|system"
-PACKAGES="core|components|navigation|platform_methods|merge_dependencies"
+payload=$(cat)
+file_path=$(printf '%s' "$payload" | sed -n 's/.*"file_path"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
 
-fail() { printf 'arch-guard: %s\n  %s\n' "$1" "$REL" >&2; exit 2; }
+[ -z "$file_path" ] && exit 0
+[ -f "$file_path" ] || exit 0
 
-# ── kirishni o'qish ──────────────────────────────────────────────────────────
-RAW=$(cat)
-FILE=$(printf '%s' "$RAW" | sed -n 's/.*"file_path"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
-[ -n "$FILE" ] || exit 0
-case "$FILE" in *.dart) ;; *) exit 0 ;; esac
-[ -f "$FILE" ] || exit 0
-
-ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
-REL=${FILE#"$ROOT"/}
-BASE=${REL##*/}
-
-# generatsiya qilingan / test / vendor fayllar tekshirilmaydi
-case "$REL" in
-  */test/*|*/integration_test/*|*.g.dart|*.freezed.dart|*/l10n/app_localizations*|*/build/*|*/.dart_tool/*|*/example/*)
-    exit 0 ;;
+case "$file_path" in
+  *.dart) ;;
+  *) exit 0 ;;
 esac
 
-# To'liq izoh qatorlari olib tashlanadi — izohga olingan kod qoida buzmaydi.
-SRC=$(sed -e 's|^[[:space:]]*//.*$||' -e 's|^[[:space:]]*\*.*$||' "$FILE")
+rel=${file_path#"$PWD"/}
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 1. Import qoidalari (§3) — o'lchovda 0 buzilish
-# ─────────────────────────────────────────────────────────────────────────────
-grep -q "^import 'package:flutter/material.dart'" <<<"$SRC" &&
-  fail "package:flutter/material.dart taqiqlanadi -> package:material_ui/material_ui.dart"
-grep -q "^import 'package:flutter/cupertino.dart'" <<<"$SRC" &&
-  fail "package:flutter/cupertino.dart taqiqlanadi -> package:cupertino_ui/cupertino_ui.dart"
-grep -qE "^import '\.{1,2}/" <<<"$SRC" &&
-  fail "nisbiy import taqiqlanadi -> package: yo'li ishlatilsin"
-
-# o'z paketidan tashqari hech qanday src/ ga kirish yo'q
-OWNER=$(sed -nE 's|^(modules\|packages)/([a-z_]+)/.*|\2|p' <<<"$REL")
-while read -r dep; do
-  [ -z "$dep" ] && continue
-  [ "$dep" = "$OWNER" ] && continue
-  fail "package:$dep/src/... deep import taqiqlanadi -> package:$dep/$dep.dart barreli"
-done < <(grep -oE "^import 'package:($MODULES|$PACKAGES)/src/" <<<"$SRC" | sed -E "s|^import 'package:||;s|/src/$||" | sort -u)
-
-# modul boshqa modulni import qilmaydi
-case "$REL" in
-  modules/*)
-    while read -r dep; do
-      [ -z "$dep" ] && continue
-      [ "$dep" = "$OWNER" ] && continue
-      fail "modullararo import taqiqlanadi (package:$dep/) -> PageFactory / WidgetFactory / ModuleInteractor"
-    done < <(grep -oE "^import 'package:($MODULES)/" <<<"$SRC" | sed -E "s|^import 'package:||;s|/$||" | sort -u)
-    ;;
+# --- scope -------------------------------------------------------------------
+case "$rel" in
+  modules/*/lib/*) ;;
+  *) exit 0 ;;
+esac
+case "$rel" in
+  */test/*|*_test.dart|*/test_helpers/*) exit 0 ;;
 esac
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 2. Taqiqlangan API (§5, §6) — o'lchovda 0 buzilish
-# ─────────────────────────────────────────────────────────────────────────────
-grep -qE '(^|[^A-Za-z_])Navigator\.(push|pop|of)\(' <<<"$SRC" &&
-  fail "Navigator 1.0 taqiqlanadi -> context.pushNamed / goNamed / pop"
-grep -q 'MediaQuery.of(' <<<"$SRC" &&
-  fail "MediaQuery.of(context) taqiqlanadi -> context.width / context.height / context.padding"
-grep -qE '(^|[^A-Za-z_.])print\(' <<<"$SRC" &&
-  fail "print() taqiqlanadi -> loyiha loggeri"
+base=$(basename "$rel" .dart)
+fail() { echo "arch-guard: $rel" >&2; echo "  $1" >&2; exit 2; }
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 3. Qatlamga xos taqiqlar
-# ─────────────────────────────────────────────────────────────────────────────
-case "$REL" in
-  modules/*/lib/src/domain/*)
-    grep -qE '\b(fromMap|toMap)\b' <<<"$SRC" &&
-      fail "domain/ da fromMap/toMap taqiqlanadi -> data/models/ ichida"
-    grep -qE "^import 'package:(material_ui|cupertino_ui|flutter)/" <<<"$SRC" &&
-      fail "domain/ UI'dan xoli bo'lishi shart — widget importi taqiqlanadi"
-    ;;
-esac
+# --- opt-out --------------------------------------------------------------
+if head -3 "$file_path" | grep -qE '^// arch-guard: ignore[[:space:]]+[^[:space:]]'; then
+  exit 0
+fi
 
-case "$REL" in
-  modules/*/lib/src/presentation/*)
-    grep -qE '(^|[^A-Za-z_.])Colors\.' <<<"$SRC" &&
-      fail "Colors.* hardcode taqiqlanadi -> context.color.* / context.colorScheme.*"
-    grep -q 'Color(0x' <<<"$SRC" &&
-      fail "Color(0x...) hardcode taqiqlanadi -> context.color.*"
-    ;;
-esac
+# Comment-stripped copy — every content check reads this, never the raw file.
+code=$(mktemp -t arch-guard)
+trap 'rm -f "$code"' EXIT
+sed -E 's@^[[:space:]]*//.*$@@' "$file_path" > "$code"
 
-case "$BASE" in
-  *_router.dart)
-    grep -q 'pageBuilder:' <<<"$SRC" &&
-      fail "modul router'ida pageBuilder: taqiqlanadi -> CupertinoRoute / MaterialSheetRoute"
-    ;;
-  *_bloc.dart)
-    grep -qE 'Future<void> _on[A-Z]' <<<"$SRC" &&
-      fail "handler nomi _on<Xxx> taqiqlanadi -> _<verb><Target>Handler"
-    while IFS= read -r line; do
-      grep -q 'transformer:' <<<"$line" ||
-        fail "on<Event>() da transformer: majburiy (throttle=yozuv, droppable=o'qish): ${line#"${line%%[![:space:]]*}"}"
-    done < <(grep -E '^\s*on<[A-Za-z0-9_]+>\(' <<<"$SRC")
-    ;;
-  *_mixin.dart)
-    grep -qE "^part of '" <<<"$(head -1 "$FILE")" ||
-      fail "mixin fayli \"part of '../<feature>_page.dart';\" bilan boshlanishi shart"
-    ;;
-esac
+has_decl() { # $1 = class-name suffix; case-insensitive
+  grep -qiE '^[a-z ]*(class|mixin|enum|typedef|extension) [A-Za-z0-9_]*'"$1"'\b' "$code"
+}
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 4. RULES: fayl suffiksi + klass suffiksi (§2)
-# ─────────────────────────────────────────────────────────────────────────────
-case "$REL" in modules/*) ;; *) exit 0 ;; esac
-
+# --- 1. structure: file suffix + class suffix (rules §2) ----------------------
+matched=""
 for rule in "${RULES[@]}"; do
-  frag=${rule%%|*}; rest=${rule#*|}
-  files=${rest%%|*}; classes=${rest#*|}
+  marker=${rule%%|*}
+  rest=${rule#*|}
+  suffixes=${rest%%|*}
+  classes=${rest##*|}
 
-  case "/$REL" in *$frag*) ;; *) continue ;; esac
+  case "$marker" in
+    @src_root)
+      # modules/<m>/lib/src/<file>.dart — nothing between src/ and the file
+      [[ "$rel" =~ ^modules/[^/]+/lib/src/[^/]+\.dart$ ]] || continue
+      ;;
+    @presentation_root)
+      # modules/<m>/lib/src/presentation/<feature>/<file>.dart
+      [[ "$rel" =~ ^modules/[^/]+/lib/src/presentation/[^/]+/[^/]+\.dart$ ]] || continue
+      # presentation/widgets/ is the module-wide shared widget bucket, not a
+      # feature — same exemption as presentation/<feature>/widgets/ (rules §2).
+      [[ "$rel" =~ ^modules/[^/]+/lib/src/presentation/widgets/ ]] && continue
+      ;;
+    *)
+      case "$rel" in *"$marker"*) ;; *) continue ;; esac
+      ;;
+  esac
 
-  ok=0
-  IFS=',' read -ra want <<<"$files"
-  for s in "${want[@]}"; do case "$BASE" in *"$s") ok=1 ;; esac; done
-  [ "$ok" = 1 ] || fail "fayl nomi '$frag' uchun ruxsat etilgan suffikslardan biri bilan tugashi shart: $files"
+  matched="$marker"
+  IFS=',' read -r -a sfx <<< "$suffixes"
+  IFS=',' read -r -a cls <<< "$classes"
 
-  DECL=$(grep -oE '^(abstract interface class|abstract base class|abstract class|final class|sealed class|base class|interface class|class|mixin|enum) [A-Za-z][A-Za-z0-9_]*' <<<"$SRC" \
-         | head -1 | awk '{print $NF}')
-  [ -n "$DECL" ] || exit 0
+  hit=-1
+  for i in "${!sfx[@]}"; do
+    case "$base" in *"${sfx[$i]}") hit=$i; break ;; esac
+  done
 
-  ok=0
-  IFS=',' read -ra want <<<"$classes"
-  for s in "${want[@]}"; do case "$DECL" in *"$s") ok=1 ;; esac; done
-  [ "$ok" = 1 ] || fail "birinchi ommaviy klass '$DECL' — suffikslardan biri bo'lishi shart: $classes"
-
+  if [ "$hit" -lt 0 ]; then
+    fail "file name must end with one of: ${suffixes//,/.dart, }.dart"
+  fi
+  if ! has_decl "${cls[$hit]}"; then
+    fail "'${sfx[$hit]}.dart' must declare a class/mixin ending in '${cls[$hit]}'"
+  fi
   break
 done
+
+# --- 2. bloc specifics (rules §4) --------------------------------------------
+case "$rel" in */bloc/*) bloc_scope=1 ;; *) bloc_scope=0 ;; esac
+[ "$bloc_scope" = 1 ] && case "$base" in
+  *_bloc)
+    grep -qE "^part '" "$code" \
+      || fail "_bloc.dart must 'part' its _event.dart and _state.dart"
+    if grep -qE '\bon<[A-Za-z0-9_]+>\(' "$code" \
+       && [ "$(grep -cE '\bon<[A-Za-z0-9_]+>\(' "$code")" -ne "$(grep -c 'transformer:' "$code")" ]; then
+      fail "every on<Event>() needs an explicit transformer:"
+    fi
+    while IFS= read -r h; do
+      case "$h" in *Handler) ;; *) fail "bloc handler '$h' must be named _<verb><target>Handler" ;; esac
+    done < <(grep -ohE '\bon<[A-Za-z0-9_]+>\([[:space:]]*_[A-Za-z0-9_]+' "$code" | sed -E 's/.*\([[:space:]]*//')
+    ;;
+  *_event|*_state)
+    grep -qE '^part of ' "$code" || fail "$base.dart must be 'part of' its bloc"
+    grep -qE '^sealed class ' "$code" || fail "$base.dart root type must be a 'sealed class'"
+    ;;
+esac
+
+# --- 3. mixin shape (rules §2) -----------------------------------------------
+case "$base" in
+  *_mixin)
+    grep -qE '^mixin [A-Za-z0-9_]+Mixin on State<' "$code" \
+      || fail "must be declared as 'mixin <Name>Mixin on State<...>'"
+    ;;
+esac
+
+# --- 4. imports (rules §3) ---------------------------------------------------
+grep -qE "^import '(\.\./|\./)" "$code" \
+  && fail "relative imports are forbidden in lib/ — use package: imports"
+
+grep -qE "^import 'package:(core|components|navigation|platform_methods|base_dependencies|wiredash)/src/" "$code" \
+  && fail "never import another package's src/ — use its barrel (package:core/core.dart)"
+
+self=$(printf '%s' "$rel" | cut -d/ -f2)
+if [ -d modules ]; then
+  others=$(ls modules | grep -v "^${self}$" | tr '\n' '|' | sed 's/|$//')
+  [ -n "$others" ] && grep -qE "^import 'package:($others)/" "$code" \
+    && fail "modules/* must never import another module — use ModuleInteractor / PageFactory / WidgetFactory"
+fi
+
+grep -qE "^import 'package:flutter/material\.dart'" "$code" \
+  && fail "use package:material_ui/material_ui.dart instead of package:flutter/material.dart"
+
+# --- 5. banned APIs (rules §5, §6, §7) ---------------------------------------
+ban() { grep -qE "$1" "$code" && fail "$2"; return 0; }
+
+ban '(^|[^A-Za-z0-9_.])MediaQuery\.of\('        "MediaQuery.of() -> context.width / context.height / context.padding"
+ban '(^|[^A-Za-z0-9_.])Theme\.of\('             "Theme.of() -> context.color / context.textStyle"
+ban '(^|[^A-Za-z0-9_.])EdgeInsets\.all\('       "EdgeInsets.all() -> Dimensions.kPaddingAll*"
+ban '(^|[^a-zA-Z_.])(print|debugPrint)\('       "print()/debugPrint() -> logMessage('...', error: e, stackTrace: s)"
+ban '(^|[^A-Za-z0-9_.])(Navigator\.(push|pop)|MaterialPageRoute)' "Navigator.push/pop, MaterialPageRoute -> context.pushNamed / context.pop"
+ban '(^|[^A-Za-z0-9_.])(fromJson|toJson)\b'     "fromJson/toJson -> fromMap/toMap"
+
+grep -oE 'SizedBox\((height|width): *[0-9][^)]*\)?' "$code" | grep -qv 'child:' \
+  && fail "SizedBox(height:/width:) -> spacing: or Dimensions.kGap*"
+
+# --- 6. const new(...) constructors (rules §2) --------------------------------
+awk '
+  match($0, /^[[:space:]]*(abstract |final |sealed |base |interface |mixin )*class [A-Za-z0-9_]+/) {
+    line = $0
+    sub(/.*class /, "", line)
+    sub(/[^A-Za-z0-9_].*/, "", line)
+    cls = line
+    next
+  }
+  cls != "" && $0 ~ ("^[[:space:]]+const " cls "[[:space:]]*[(.]") { found = 1; exit }
+  END { exit found ? 1 : 0 }
+' "$code" || fail "declare constructors as 'const new(...)', not 'const <ClassName>(...)'"
 
 exit 0

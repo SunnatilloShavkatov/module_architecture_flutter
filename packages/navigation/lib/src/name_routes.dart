@@ -26,6 +26,8 @@ final class Routes {
 
   /// notifications
   static const String notifications = '/notifications';
+  static const String notificationsFilterSheet = '/notifications-filter-sheet';
+  static const String clearNotificationsDialog = '/clear-notifications-dialog';
 
   /// payment
   static const String paymentMethods = '/payment-methods';

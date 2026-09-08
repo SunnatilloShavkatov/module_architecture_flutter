@@ -45,7 +45,7 @@ class InternetConnectionPageState extends State<InternetConnectionPage> {
             style: context.textStyle.defaultW600x20.copyWith(color: context.color.textPrimary),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 12),
+          Dimensions.kGap12,
           Text(
             'Проверьте подключение к интернету',
             style: context.textStyle.defaultW400x16.copyWith(color: context.color.textSecondary),

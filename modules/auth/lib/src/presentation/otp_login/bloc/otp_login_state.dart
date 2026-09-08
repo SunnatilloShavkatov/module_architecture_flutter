@@ -1,5 +1,4 @@
-import 'package:auth/src/domain/entities/user_entity.dart';
-import 'package:core/core.dart';
+part of 'otp_login_bloc.dart';
 
 sealed class OtpLoginState extends Equatable {
   const new();
@@ -20,12 +19,12 @@ final class OtpLoginLoadingState extends OtpLoginState {
 }
 
 final class OtpLoginSuccessState extends OtpLoginState {
-  const new({required this.auth});
+  const new({required this.user});
 
-  final UserEntity auth;
+  final UserEntity user;
 
   @override
-  List<Object?> get props => [auth];
+  List<Object?> get props => [user];
 }
 
 final class OtpLoginFailureState extends OtpLoginState {

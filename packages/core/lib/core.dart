@@ -32,6 +32,7 @@ export 'src/core_container.dart';
 export 'src/di/app_injector.dart';
 export 'src/di/core_injection.dart';
 export 'src/either/either.dart';
+export 'src/entities/notification_item_args.dart';
 export 'src/enums/rest_types.dart';
 export 'src/error/failure.dart';
 export 'src/error/server_error.dart';

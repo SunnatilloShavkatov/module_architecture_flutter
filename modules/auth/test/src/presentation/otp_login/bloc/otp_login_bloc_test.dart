@@ -2,8 +2,6 @@ import 'package:auth/src/domain/entities/user_entity.dart';
 import 'package:auth/src/domain/repos/auth_repo.dart';
 import 'package:auth/src/domain/usecases/otp_login.dart';
 import 'package:auth/src/presentation/otp_login/bloc/otp_login_bloc.dart';
-import 'package:auth/src/presentation/otp_login/bloc/otp_login_event.dart';
-import 'package:auth/src/presentation/otp_login/bloc/otp_login_state.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,7 +40,7 @@ void main() {
       return otpLoginBloc;
     },
     act: (bloc) => bloc.add(const OtpLoginSubmitEvent(code: '123456')),
-    expect: () => [const OtpLoginLoadingState(), const OtpLoginSuccessState(auth: tUser)],
+    expect: () => [const OtpLoginLoadingState(), const OtpLoginSuccessState(user: tUser)],
     verify: (_) => verify(() => mockAuthRepo.otpLogin(code: '123456')).called(1),
   );
 
@@ -86,7 +84,7 @@ void main() {
         ..add(const OtpLoginSubmitEvent(code: '123456'));
     },
     wait: const Duration(milliseconds: 300),
-    expect: () => [const OtpLoginLoadingState(), const OtpLoginSuccessState(auth: tUser)],
+    expect: () => [const OtpLoginLoadingState(), const OtpLoginSuccessState(user: tUser)],
     verify: (_) => verify(() => mockAuthRepo.otpLogin(code: any(named: 'code'))).called(1),
   );
 
@@ -99,7 +97,7 @@ void main() {
     },
     seed: () => const OtpLoginFailureState(message: 'Previous error'),
     act: (bloc) => bloc.add(const OtpLoginSubmitEvent(code: '654321')),
-    expect: () => [const OtpLoginLoadingState(), const OtpLoginSuccessState(auth: tUser)],
+    expect: () => [const OtpLoginLoadingState(), const OtpLoginSuccessState(user: tUser)],
   );
 
   // ─── OtpLoginSuccessState carries correct user ─────────────────────────────────────
@@ -120,7 +118,7 @@ void main() {
     expect: () => [
       const OtpLoginLoadingState(),
       const OtpLoginSuccessState(
-        auth: UserEntity(id: 42, email: 'specific@test.com', firstName: 'Specific', lastName: 'User', role: 'STAFF'),
+        user: UserEntity(id: 42, email: 'specific@test.com', firstName: 'Specific', lastName: 'User', role: 'STAFF'),
       ),
     ],
   );

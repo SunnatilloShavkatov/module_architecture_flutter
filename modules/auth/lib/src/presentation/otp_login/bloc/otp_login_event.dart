@@ -1,4 +1,4 @@
-import 'package:core/core.dart';
+part of 'otp_login_bloc.dart';
 
 sealed class OtpLoginEvent extends Equatable {
   const new();

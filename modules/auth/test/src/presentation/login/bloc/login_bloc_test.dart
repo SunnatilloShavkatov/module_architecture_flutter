@@ -1,8 +1,6 @@
 import 'package:auth/src/domain/entities/user_entity.dart';
 import 'package:auth/src/domain/usecases/login.dart';
 import 'package:auth/src/presentation/login/bloc/login_bloc.dart';
-import 'package:auth/src/presentation/login/bloc/login_event.dart';
-import 'package:auth/src/presentation/login/bloc/login_state.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -39,7 +37,7 @@ void main() {
       return loginBloc;
     },
     act: (bloc) => bloc.add(const LoginSubmitEvent(email: 'test@test.com', password: 'password')),
-    expect: () => [const LoginLoadingState(), const LoginSuccessState(auth: tUser)],
+    expect: () => [const LoginLoadingState(), const LoginSuccessState(user: tUser)],
     verify: (_) => verify(() => mockLogin(any())).called(1),
   );
 
@@ -82,7 +80,7 @@ void main() {
         ..add(const LoginSubmitEvent(email: 'a@b.com', password: 'p'));
     },
     wait: const Duration(milliseconds: 300),
-    expect: () => [const LoginLoadingState(), const LoginSuccessState(auth: tUser)],
+    expect: () => [const LoginLoadingState(), const LoginSuccessState(user: tUser)],
     verify: (_) => verify(() => mockLogin(any())).called(1),
   );
 
@@ -95,7 +93,7 @@ void main() {
     },
     seed: () => const LoginFailureState(message: 'Previous error'),
     act: (bloc) => bloc.add(const LoginSubmitEvent(email: 'test@test.com', password: 'password')),
-    expect: () => [const LoginLoadingState(), const LoginSuccessState(auth: tUser)],
+    expect: () => [const LoginLoadingState(), const LoginSuccessState(user: tUser)],
   );
 
   // ─── LoginSuccessState contains correct user data ──────────────────────────────────
@@ -117,7 +115,7 @@ void main() {
     expect: () => [
       const LoginLoadingState(),
       const LoginSuccessState(
-        auth: UserEntity(
+        user: UserEntity(
           id: 99,
           email: 'admin@company.com',
           firstName: 'Admin',

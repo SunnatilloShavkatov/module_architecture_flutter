@@ -4,7 +4,7 @@ import 'package:core/core.dart';
 import 'package:main/src/data/datasource/main_local_data_source.dart';
 import 'package:main/src/data/datasource/main_remote_data_source.dart';
 import 'package:main/src/data/repository/main_repository_impl.dart';
-import 'package:main/src/domain/repository/main_repo.dart';
+import 'package:main/src/domain/repository/main_repository.dart';
 
 final class MainInjection implements Injection {
   const new();
@@ -16,9 +16,6 @@ final class MainInjection implements Injection {
       ..registerLazySingleton<MainLocalDataSource>(() => MainLocalDataSourceImpl(di.get()))
       ..registerLazySingleton<MainRemoteDataSource>(() => MainRemoteDataSourceImpl(di.get()))
       /// repositories
-      ..registerLazySingleton<MainRepo>(() => MainRepoImpl(di.get(), di.get()));
-
-    /// bloc
-    // ..registerFactory(() => MainBloc(di.get(), di.get(), di.get()));
+      ..registerLazySingleton<MainRepository>(() => MainRepositoryImpl(di.get(), di.get()));
   }
 }

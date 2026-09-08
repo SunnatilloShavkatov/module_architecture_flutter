@@ -46,7 +46,7 @@ mixin LoginMixin on State<LoginPage> {
         return;
       }
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('${context.l10n.loginSuccessMessage}: ${state.auth.email}')));
+          .showSnackBar(SnackBar(content: Text('${context.l10n.loginSuccessMessage}: ${state.user.email}')));
       context.goNamed(Routes.mainHome);
     }
   }
