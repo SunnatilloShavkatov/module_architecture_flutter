@@ -396,8 +396,10 @@ class ExamplePage extends StatelessWidget {
 
 ## Related Documentation
 
-- [CLAUDE.md](../../CLAUDE.md)
-- [Architecture Overview](../../docs/architecture/overview.md)
+- [Architecture rules (AGENTS.md)](../../AGENTS.md)
+- [Rules index](../../docs/README.md)
+- [UI, Dimensions & theme](../../docs/rules/ui.md)
+- [Page & mixin](../../docs/rules/page-mixin.md)
 
 ## License
 

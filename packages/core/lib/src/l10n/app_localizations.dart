@@ -500,6 +500,60 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Центр помощи'**
   String get helpCenterTitle;
+
+  /// No description provided for @cancel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отмена'**
+  String get cancel;
+
+  /// No description provided for @clearAll.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очистить'**
+  String get clearAll;
+
+  /// No description provided for @clearAllNotificationsConfirm.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы уверены, что хотите удалить все уведомления?'**
+  String get clearAllNotificationsConfirm;
+
+  /// No description provided for @markedAsRead.
+  ///
+  /// In ru, this message translates to:
+  /// **'Уведомление отмечено как прочитанное'**
+  String get markedAsRead;
+
+  /// No description provided for @allNotificationsCleared.
+  ///
+  /// In ru, this message translates to:
+  /// **'Все уведомления очищены'**
+  String get allNotificationsCleared;
+
+  /// No description provided for @filterAll.
+  ///
+  /// In ru, this message translates to:
+  /// **'Все'**
+  String get filterAll;
+
+  /// No description provided for @filterUnread.
+  ///
+  /// In ru, this message translates to:
+  /// **'Непрочитанные'**
+  String get filterUnread;
+
+  /// No description provided for @filterRead.
+  ///
+  /// In ru, this message translates to:
+  /// **'Прочитанные'**
+  String get filterRead;
+
+  /// No description provided for @noItems.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет данных'**
+  String get noItems;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

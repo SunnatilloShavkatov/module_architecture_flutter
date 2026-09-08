@@ -8,6 +8,7 @@ import 'src/domain/interactor/get_unread_notifications_count_interactor_test.dar
 import 'src/domain/usecases/get_notifications_test.dart' as usecase_test;
 import 'src/notifications_container_test.dart' as container_test;
 import 'src/presentation/notifications/bloc/notifications_bloc_test.dart' as bloc_test;
+import 'src/presentation/notifications_filter_sheet/args/notifications_filter_args_test.dart' as filter_args_test;
 import 'src/router/notifications_router_test.dart' as router_test;
 
 void main() {
@@ -21,5 +22,6 @@ void main() {
     usecase_test.main();
     interactor_test.main();
     bloc_test.main();
+    filter_args_test.main();
   });
 }

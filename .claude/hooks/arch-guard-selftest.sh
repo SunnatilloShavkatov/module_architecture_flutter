@@ -12,7 +12,7 @@ from_guard=$(awk '/^RULES=\(/{f=1;next} f&&/^\)/{f=0} f' "$GUARD" \
   | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e '/^[[:space:]]*#/d' -e '/^$/d')
 
 # §2 jadvali: 4 ustunli, birinchi ustuni `/lib/src/...` bilan boshlanadigan qatorlar
-from_doc=$(grep -E '^\| `/lib/src/' "$DOC" \
+from_doc=$(grep -E '^\| `(@|/)' "$DOC" \
   | awk -F'|' '{print $2"|"$3"|"$4}' \
   | sed -e 's/`//g' -e 's/[[:space:]]//g')
 

@@ -66,5 +66,14 @@
   "addressesTitle": "Addresses",
   "accountSectionTitle": "ACCOUNT",
   "supportSectionTitle": "SUPPORT",
-  "helpCenterTitle": "Help Center"
+  "helpCenterTitle": "Help Center",
+  "cancel": "Cancel",
+  "clearAll": "Clear",
+  "clearAllNotificationsConfirm": "Are you sure you want to clear all notifications?",
+  "markedAsRead": "Notification marked as read",
+  "allNotificationsCleared": "All notifications cleared",
+  "filterAll": "All",
+  "filterUnread": "Unread",
+  "filterRead": "Read",
+  "noItems": "No items"
 }

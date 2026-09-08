@@ -258,9 +258,11 @@ final class AuthInjection implements Injection {
 
 ## Related Documentation
 
-- [Architecture Overview](../../docs/architecture/overview.md)
-- [Dependency Injection](../../docs/architecture/dependency_injection.md)
-- [CLAUDE.md](../../CLAUDE.md)
+- [Architecture rules (AGENTS.md)](../../AGENTS.md)
+- [Rules index](../../docs/README.md)
+- [Domain layer](../../docs/rules/domain.md)
+- [Module, DI & container](../../docs/rules/module.md)
+- [Localization](../../docs/rules/l10n.md)
 
 ## License
 

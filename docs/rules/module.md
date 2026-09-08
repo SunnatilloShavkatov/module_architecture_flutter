@@ -1,25 +1,60 @@
-# module.md — Modul, DI, modullararo aloqa
+# module.md — Modul, Container, DI va Modullararo Bog'lanish
 
-> Etalon: `modules/notifications/lib/src/notifications_container.dart`, `modules/notifications/lib/src/di/notifications_injection.dart`
+> **Etalon Container:** `modules/notifications/lib/src/notifications_container.dart`
+> **Etalon DI:** `modules/notifications/lib/src/di/notifications_injection.dart`
+> **Etalon Generator:** `scripts/create_module.sh`
+> **Qoida:** Javob o'zbekcha, kod inglizcha (`AGENTS.md` §0).
 
-## 1. Modul tuzilishi
+---
+
+## 1. Joylashuv va Tuzilma
+
+Har bir modul mustaqil va izolyatsiyalangan mini-paketdir:
 
 ```
 modules/<module>/
-  lib/
-    <module>.dart                 # barrel: container + public tashqi narsalar
-    src/
-      domain/ data/ presentation/ di/ router/
-      <module>_container.dart
-  test/<module>_test.dart         # barcha test fayllarni chaqiradi
-  pubspec.yaml
+├── lib/
+│   ├── <module>.dart                 # Barrel fayl: faqat container eksport qiladi
+│   └── src/
+│       ├── <module>_container.dart   # ModuleContainer implementatsiyasi
+│       ├── data/                     # datasource, models, repository
+│       ├── di/                       # Injection implementatsiyasi
+│       ├── domain/                   # entities, repository, usecases, interactor
+│       ├── presentation/             # bloc, mixin, widgets, page
+│       └── router/                   # AppRouter implementatsiyasi
+├── test/                             # lib qatlamini 1-ga-1 takrorlovchi testlar
+└── pubspec.yaml                      # Faqat packages/* va pub paketlar
 ```
 
-`pubspec.yaml` da faqat `packages/*` va pub paketlar. **Boshqa modul — hech qachon.**
+> ⚡ **Yangi modul generatsiyasi:** Qo'lda 18 ta fayl yozmaslik uchun tayyor buyruq:
+> ```bash
+> ./scripts/create_module.sh <module_name>
+> ```
 
-## 2. Container — appga yagona kirish nuqtasi
+---
 
+## 2. Qat'iy Qoidalar (Non-negotiables)
+
+1. **Modullararo Izolyatsiya (`arch-guard`):** Hech bir modul boshqa modulni to'g'ridan-to'g'ri `import` qilishi yoki `pubspec.yaml` ga yozishi qat'iyan man etiladi.
+2. **Container Yagona Kirish Nuqtasi:** Ilova qolgan qismiga modul faqat `ModuleContainer` orqali taqdim etiladi.
+3. **Orkestratsiya:** Modul faqat `packages/merge_dependencies/lib/merge_dependencies.dart` dagi `MergeDependencies._allContainer` ro'yxatiga qo'shiladi.
+4. **Modullararo Muloqot:** 
+   - Biznes logika chaqirish uchun: `ModuleInteractor<Type, Params>` (`core`).
+   - Vidjet chaqirish uchun: `WidgetFactory<Args>` (`core`).
+   - Navigatsiya uchun: `Routes` va `XxxArgs.parse(state.extra)`.
+5. **Dart 3.47 Shorthand:** Barcha konstruktorlarda `const new()`, `new(this._dep)`.
+
+---
+
+## 3. Standart Kod Skeletlari va Namunalar
+
+### A. ModuleContainer
 ```dart
+import 'package:core/core.dart';
+import 'package:navigation/navigation.dart';
+import 'package:notifications/src/di/notifications_injection.dart';
+import 'package:notifications/src/router/notifications_router.dart';
+
 final class NotificationsContainer implements ModuleContainer {
   const new();
 
@@ -31,34 +66,31 @@ final class NotificationsContainer implements ModuleContainer {
 }
 ```
 
-Ulash: `packages/merge_dependencies/lib/merge_dependencies.dart` dagi `MergeDependencies._allContainer` ga
-`const <Module>Container()` qo'shiladi + shu paketning `pubspec.yaml` iga modul yoziladi. **Boshqa hech nima**
-modulning router/injection/page/bloc'ini nomlamaydi.
-
-Interfeyslar (`packages/core/lib/src/core_abstractions/`):
-
+### B. DI (Injection)
 ```dart
-abstract interface class ModuleContainer { const new(); AppRouter<Object>? get router => null; Injection? get injection => null; }
-abstract interface class AppRouter<T>    { const new(); List<T> getRouters(Injector di); }
-abstract interface class Injection       { const new(); FutureOr<void> registerDependencies({required Injector di}); }
-```
+import 'dart:async' show FutureOr;
+import 'package:core/core.dart';
+import 'package:notifications/src/data/datasource/notifications_remote_data_source.dart';
+import 'package:notifications/src/data/repository/notifications_repository_impl.dart';
+import 'package:notifications/src/domain/interactor/get_unread_notifications_count_interactor.dart';
+import 'package:notifications/src/domain/repository/notifications_repository.dart';
+import 'package:notifications/src/domain/usecases/get_notifications.dart';
+import 'package:notifications/src/presentation/notifications/bloc/notifications_bloc.dart';
+import 'package:notifications/src/presentation/notifications/factory/notification_item_factory.dart';
 
-## 3. DI
-
-```dart
 final class NotificationsInjection implements Injection {
   const new();
 
   @override
-  void registerDependencies({required Injector di}) {
+  FutureOr<void> registerDependencies({required Injector di}) {
     di
       /// data sources
       ..registerLazySingleton<NotificationsRemoteDataSource>(() => NotificationsRemoteDataSourceImpl(di.get()))
       /// repositories
-      ..registerLazySingleton<NotificationsRepository>(() => NotificationsRepositoryImpl(di.get(), di.get()))
+      ..registerLazySingleton<NotificationsRepository>(() => NotificationsRepositoryImpl(di.get()))
       /// usecases
       ..registerLazySingleton(() => GetNotifications(di.get()))
-      /// interactors
+      /// interactors (boshqa modullar chaqirishi uchun)
       ..registerLazySingleton<ModuleInteractor<int, NoParams>>(
         () => GetUnreadNotificationsCountInteractor(di.get()),
         instanceName: InstanceNameKeys.getUnreadNotificationsCountInteractor,
@@ -68,114 +100,40 @@ final class NotificationsInjection implements Injection {
         NotificationItemFactory.new,
         instanceName: InstanceNameKeys.notificationItemFactory,
       )
-      /// blocs
-      ..registerFactory(() => NotificationsBloc(di.get(), di.get(), di.get()));
+      /// blocs (har doim registerFactory)
+      ..registerFactory(() => NotificationsBloc(di.get()));
   }
 }
 ```
 
-| Nima | Registratsiya |
-|---|---|
-| datasource, repository, usecase, `ModuleInteractor`, `PageFactory`, `WidgetFactory` | `registerLazySingleton` |
-| bloc | `registerFactory` (har ekranga yangi nusxa) |
-
-Tartib: datasource → repository → usecase → interactor → factory → bloc.
-`/// data sources` kabi guruh yorliqlari — faqat shu DI fayllarida ruxsat.
-
-## 4. Modullararo aloqa — 3 ta yo'l
-
-Boshqa modulning usecase'ini import qilma. Uchta abstraksiyadan birini tanla:
-
-### 4.1 `ModuleInteractor<T, P>` — biznes-amal
-
+### C. Modullararo Muloqot (Iste'molchi tomonda)
 ```dart
-abstract interface class ModuleInteractor<T, P> {
-  const new();
-  Future<Either<Failure, T>> call(P params);
-}
-```
-
-Egasi implementatsiya qiladi va **nomlangan** registratsiya qiladi (kalit `InstanceNameKeys` ga qo'shiladi):
-
-```dart
-..registerLazySingleton<ModuleInteractor<int, NoParams>>(
-  () => GetUnreadNotificationsCountInteractor(di.get()),
+// Boshqa moduldan ma'lumot olish:
+final interactor = di.get<ModuleInteractor<int, NoParams>>(
   instanceName: InstanceNameKeys.getUnreadNotificationsCountInteractor,
-)
-```
+);
+final result = await interactor(const NoParams());
 
-Iste'molchi nom bo'yicha oladi, egasi modulni import qilmaydi:
-
-```dart
-final ModuleInteractor<int, NoParams> _getUnreadCount;
-// DI: di.get(instanceName: InstanceNameKeys.getUnreadNotificationsCountInteractor)
-```
-
-### 4.2 `PageFactory` — butun ekran (argumentsiz, DI dan quriladi)
-
-```dart
-abstract interface class PageFactory {
-  const new();
-  Widget create(Injector di);
-}
-
-final class HomePageFactory implements PageFactory {
-  const new();
-
-  @override
-  Widget create(Injector di) => BlocProvider<HomeBloc>(
-    create: (_) => di.get<HomeBloc>()..add(const HomeLoadEvent()),
-    child: const HomePage(),
-  );
-}
-
-// iste'molchi router:
-builder: (_, _) => di.get<PageFactory>(instanceName: InstanceNameKeys.homeFactory).create(di)
-```
-
-### 4.3 `WidgetFactory<T>` — chaqiruvchi ma'lumotini oladigan widget
-
-```dart
-abstract interface class WidgetFactory<T> {
-  const new();
-  Widget create(T args);
-}
-
-final class NotificationItemFactory implements WidgetFactory<NotificationItemArgs> {
-  const new();
-
-  @override
-  Widget create(NotificationItemArgs args) => NotificationItem(args: args);
-}
-
-// iste'molchi:
-late final WidgetFactory<NotificationItemArgs> _notificationItemFactory = di.get(
+// Boshqa modul vidjetini chizish:
+final factory = di.get<WidgetFactory<NotificationItemArgs>>(
   instanceName: InstanceNameKeys.notificationItemFactory,
 );
-// build ichida:
-_notificationItemFactory.create(NotificationItemArgs(...))
+final widget = factory.create(NotificationItemArgs(id: '1', title: 'Salom', isRead: false));
 ```
 
-Args turi ikkala modulga ko'rinishi kerak → `packages/core/lib/src/entities/`.
+---
 
-### 4.4 Umumiy entity
+## 4. Eng Ko'p Qilinadigan Xatolar (Anti-patterns)
 
-Modul chegarasini kesib o'tadigan entity `packages/core/lib/src/entities/` ga ko'chadi. **Model** (`fromMap`/`toMap`) egasi modulning data qatlamida qoladi va core entity'ni `extends` qiladi.
+- ❌ `pubspec.yaml` ga boshqa modulni `path: ../other_module` qilib yozish (`arch-guard` buziladi).
+- ❌ Bloc'ni `registerLazySingleton` bilan ro'yxatdan o'tkazish (BLoC har doim `registerFactory` bo'lishi shart).
+- ❌ Modullararo argumentlar uchun model ishlatish (argumentlar `package:core/lib/src/entities/` ga qo'yiladi).
 
-## 5. Widget'siz koddan navigatsiya
+---
 
-Interceptor, background handler, servis'da `BuildContext` yo'q → `AppNavigationService`.
-DI dan ol. Saqlangan `BuildContext` yoki o'zingning `GlobalKey` ing — taqiq.
+## 5. Tekshiruv Ro'yxati (Checklist)
 
-## 6. Paket izolyatsiyasi
-
-`core`, `components`, `navigation`, `platform_methods` bir-biriga va `modules/*` ga bog'lanmaydi.
-`merge_dependencies` — ataylab qilingan yagona istisno, hamma modulga bog'lanadi.
-
-## 7. Tekshiruv
-
-- [ ] `<Module>Container` bor va `_allContainer` ga qo'shilgan
-- [ ] `pubspec.yaml` da boshqa modul yo'q
-- [ ] DI tartibi va turi to'g'ri (bloc — `registerFactory`)
-- [ ] modullararo narsa factory/interactor orqali, `InstanceNameKeys` da kalit bor
-- [ ] umumiy entity `packages/core/lib/src/entities/` da, model modulda qolgan
+- [ ] `<Module>Container` yaratilgan va `merge_dependencies` ga qo'shilgan.
+- [ ] `pubspec.yaml` da faqat `packages/*` mavjud, begona modul yo'q.
+- [ ] BLoC `registerFactory` orqali ro'yxatdan o'tgan.
+- [ ] Modullararo aloqa faqat `ModuleInteractor` yoki `WidgetFactory` orqali qilingan.

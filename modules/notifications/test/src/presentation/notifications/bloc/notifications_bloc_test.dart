@@ -57,7 +57,9 @@ void main() {
     },
     act: (bloc) => bloc.add(const GetNotificationsEvent()),
     expect: () => [const NotificationsLoadingState(), NotificationsLoadedState(notifications: tNotifications)],
-    verify: (_) => verify(() => mockGetNotifications(const GetNotificationsParams(page: 1))).called(1),
+    verify: (_) =>
+        verify(() => mockGetNotifications(any(that: isA<GetNotificationsParams>().having((p) => p.page, 'page', 1))))
+            .called(1),
   );
 
   blocTest<NotificationsBloc, NotificationsState>(
@@ -68,7 +70,9 @@ void main() {
     },
     act: (bloc) => bloc.add(const GetNotificationsEvent()),
     expect: () => [const NotificationsLoadingState(), const NotificationsFailureState(message: 'Server error')],
-    verify: (_) => verify(() => mockGetNotifications(const GetNotificationsParams(page: 1))).called(1),
+    verify: (_) =>
+        verify(() => mockGetNotifications(any(that: isA<GetNotificationsParams>().having((p) => p.page, 'page', 1))))
+            .called(1),
   );
 
   blocTest<NotificationsBloc, NotificationsState>(
@@ -82,7 +86,9 @@ void main() {
       const NotificationsPaginationLoadingState(),
       NotificationsPaginationLoadedState(notifications: tNotifications),
     ],
-    verify: (_) => verify(() => mockGetNotifications(const GetNotificationsParams(page: 2))).called(1),
+    verify: (_) =>
+        verify(() => mockGetNotifications(any(that: isA<GetNotificationsParams>().having((p) => p.page, 'page', 2))))
+            .called(1),
   );
 
   blocTest<NotificationsBloc, NotificationsState>(
@@ -93,7 +99,9 @@ void main() {
     },
     act: (bloc) => bloc.add(const MarkNotificationAsReadEvent(id: '1')),
     expect: () => [const NotificationActionLoadingState(), const NotificationMarkReadSuccessState(id: '1')],
-    verify: (_) => verify(() => mockMarkNotificationAsRead(const MarkNotificationParams(id: '1'))).called(1),
+    verify: (_) => verify(
+      () => mockMarkNotificationAsRead(any(that: isA<MarkNotificationParams>().having((p) => p.id, 'id', '1'))),
+    ).called(1),
   );
 
   blocTest<NotificationsBloc, NotificationsState>(

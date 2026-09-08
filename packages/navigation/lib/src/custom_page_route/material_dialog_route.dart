@@ -3,7 +3,11 @@ import 'package:material_ui/material_ui.dart';
 import 'package:navigation/src/custom_page_route/material_dialog_page.dart';
 
 /// Dialog route: the builder returns the dialog content, the route wraps it in a [MaterialDialogPage].
-final class MaterialDialogRoute extends GoRoute {
+///
+/// [T] is the value the dialog pops with. It must match the generic used at the call site,
+/// e.g. `MaterialDialogRoute<bool>` is opened with `context.pushNamed<bool>(...)` and closed
+/// with `context.pop(true)`.
+final class MaterialDialogRoute<T> extends GoRoute {
   new({
     super.name,
     super.redirect,
@@ -16,7 +20,7 @@ final class MaterialDialogRoute extends GoRoute {
     Color? barrierColor,
   }) : super(
          builder: builder,
-         pageBuilder: (BuildContext context, GoRouterState state) => MaterialDialogPage(
+         pageBuilder: (BuildContext context, GoRouterState state) => MaterialDialogPage<T>(
            key: state.pageKey,
            useSafeArea: useSafeArea,
            barrierColor: barrierColor,

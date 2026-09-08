@@ -1,83 +1,68 @@
-# data-api.md — Endpoint, DataSource, Model, Repository
+# data-api.md — Data Qatlami (ApiPaths, DataSource, Model, RepositoryImpl)
 
-> Etalon: `modules/notifications/lib/src/data/` va `modules/notifications/lib/src/domain/`
+> **Etalon DataSource:** `modules/notifications/lib/src/data/datasource/notifications_remote_data_source.dart`
+> **Etalon Model:** `modules/notifications/lib/src/data/models/notification_model.dart`
+> **Etalon RepositoryImpl:** `modules/notifications/lib/src/data/repository/notifications_repository_impl.dart`
+> **Qoida:** Javob o'zbekcha, kod inglizcha (`AGENTS.md` §0).
 
-Yangi endpoint qo'shish tartibi: **ApiPaths → DataSource → Model → Repository → UseCase → DI → Bloc.**
+---
 
-## 1. ApiPaths — modul ichida
+## 1. Joylashuv va Tuzilma
 
+```
+modules/<module>/lib/src/data/
+├── datasource/
+│   ├── <module>_api_paths.dart
+│   ├── <module>_remote_data_source.dart
+│   └── <module>_remote_data_source_impl.dart    # part of '<module>_remote_data_source.dart'
+├── models/
+│   └── <module>_model.dart                       # extends <Module>Entity
+└── repository/
+    └── <module>_repository_impl.dart            # implements <Module>Repository
+```
+
+Yangi endpoint kiritish ketma-ketligi:
+**ApiPaths ➔ DataSource ➔ Model ➔ RepositoryImpl ➔ UseCase ➔ DI ➔ BLoC**.
+
+---
+
+## 2. Qat'iy Qoidalar (Non-negotiables)
+
+1. **Part-of Impl Shablon:** `*_remote_data_source.dart` ichida interfeys, `part '*_remote_data_source_impl.dart';` ichida esa implementatsiya yoziladi.
+2. **Model extends Entity:** Har bir model mos Entity dan meros oladi (`class NotificationModel extends NotificationEntity`). Entityda JSON bo'lmaydi, faqat Modelda `fromMap` va `toMap` bo'ladi.
+3. **Dart 3.47 Shorthand:** `const new(...)`, `factory fromMap(...)`, `const new _()`.
+4. **Xavfsiz Parsing (Safe Parsing):**
+   - Ro'yxat maydonlari (`List`) har doim bo'sh ro'yxat bilan boshlanadi: `(map['items'] as List?) ?? []`.
+   - String, int, double tiplar `as Type?` orqali kasting qilinadi, xom `map['id'] as int` qilinmaydi.
+5. **Xatolarni Tutish:** Remote DataSource ichida `FormatException` va `TypeError` lar `ServerException` ga o'raladi. RepositoryImpl esa ularni `Left(error.failure)` yoki `Left(ServerFailure(...))` sifatida qaytaradi.
+6. **No Direct Module Imports:** Data qatlami boshqa hech qaysi modulni to'g'ridan-to'g'ri import qilmaydi (`arch-guard`).
+
+---
+
+## 3. Standart Kod Skeletlari va Namunalar
+
+### A. ApiPaths
 ```dart
 final class NotificationsApiPaths {
   const new _();
 
   static const String clientNotifications = '/api/notifications/client';
   static const String markAsRead = '/api/notifications/client/{id}/read';
+  static const String unreadCount = '/api/notifications/unread-count';
 }
 ```
 
-Har modulda bitta `<Module>ApiPaths`, `data/datasource/` ichida, private `._()` konstruktor, hammasi
-`static const String`. Umumiy/global paths class'ga **hech qachon** qo'shma.
-
-## 2. Domain
-
-```dart
-// entity — Equatable, fromMap/toMap YO'Q, JSON yo'q
-class NotificationEntity extends Equatable {
-  const new({required this.id, required this.title, required this.isRead});
-
-  final String id;
-  final String title;
-  final bool isRead;
-
-  @override
-  List<Object?> get props => [id, title, isRead];
-}
-
-// repository — "Repository", "Repo" emas
-abstract interface class NotificationsRepository {
-  const new();
-
-  ResultFuture<List<NotificationEntity>> getNotifications({required int page, int limit = Constants.defaultPageLimit});
-}
-
-// usecase — class (mock qilish uchun), bitta amal, base class'ni EXTENDS qiladi
-class GetNotifications extends UsecaseWithParams<List<NotificationEntity>, GetNotificationsParams> {
-  const new(this._repo);
-
-  final NotificationsRepository _repo;
-
-  @override
-  ResultFuture<List<NotificationEntity>> call(GetNotificationsParams params) =>
-      _repo.getNotifications(page: params.page, limit: params.limit);
-}
-
-final class GetNotificationsParams extends Equatable {
-  const new({required this.page, this.limit = Constants.defaultPageLimit});
-
-  final int page;
-  final int limit;
-
-  @override
-  List<Object?> get props => [page, limit];
-}
-```
-
-Base class'lar (`packages/core/lib/src/usecase/usecase.dart`):
-`UsecaseWithParams<T, P>`, `UsecaseWithoutParams<T>`, `UsecaseWithParamsVoid<P>`. Har doim **`extends`**.
-
-`ResultFuture<T>` = `Future<Either<Failure, T>>` (`packages/core/lib/src/utils/typedef.dart`).
-`Either` — o'zimizniki (`packages/core/lib/src/either/either.dart`), **dartz yo'q**.
-
-## 3. DataSource — interfeys + `part` impl
-
+### B. Remote DataSource (Interfeys + Part-Impl)
 ```dart
 // notifications_remote_data_source.dart
+import 'package:core/core.dart';
+import 'package:notifications/src/data/models/notification_model.dart';
+
 part 'notifications_remote_data_source_impl.dart';
 
 abstract interface class NotificationsRemoteDataSource {
-  const new();
-
   Future<List<NotificationModel>> getNotifications({required int page, int limit = Constants.defaultPageLimit});
+  Future<void> markAsRead({required String id});
 }
 ```
 
@@ -93,20 +78,13 @@ final class NotificationsRemoteDataSourceImpl implements NotificationsRemoteData
   @override
   Future<List<NotificationModel>> getNotifications({required int page, int limit = Constants.defaultPageLimit}) async {
     try {
-      final result = await _networkProvider.fetchMethod<List<dynamic>>(
+      final response = await _networkProvider.fetchMethod<List<dynamic>>(
         NotificationsApiPaths.clientNotifications,
         methodType: RMethodTypes.get,
         queryParameters: {'page': page, 'limit': limit},
       );
-      final List<NotificationModel> notifications = [];
-      if (result.data != null && result.data is List) {
-        for (final notification in result.data!) {
-          if (notification is Map) {
-            notifications.add(NotificationModel.fromMap(Map<String, dynamic>.from(notification)));
-          }
-        }
-      }
-      return notifications;
+      final rawList = response.data ?? [];
+      return rawList.whereType<Map<String, dynamic>>().map(NotificationModel.fromMap).toList();
     } on FormatException {
       throw ServerException.formatException(locale: _networkProvider.locale);
     } on ServerException {
@@ -121,49 +99,83 @@ final class NotificationsRemoteDataSourceImpl implements NotificationsRemoteData
       throw ServerException.unknownError(locale: _networkProvider.locale);
     }
   }
+
+  @override
+  Future<void> markAsRead({required String id}) async {
+    await _networkProvider.fetchMethod<dynamic>(
+      NotificationsApiPaths.markAsRead.replaceAll('{id}', id),
+      methodType: RMethodTypes.patch,
+    );
+  }
 }
 ```
 
-`RMethodTypes`: `head, get, post, put, patch, delete`.
-DataSource **exception tashlaydi** (`ServerException.*`), `Failure` qaytarmaydi.
-
-## 4. Model
-
+### C. Model
 ```dart
+import 'package:notifications/src/domain/entities/notification_entity.dart';
+
 class NotificationModel extends NotificationEntity {
-  const new({required super.id, required super.title, required super.isRead});
+  const new({
+    required super.id,
+    required super.title,
+    required super.message,
+    required super.timestamp,
+    required super.isRead,
+    required super.type,
+    super.timeAgo,
+  });
 
   factory fromMap(Map<String, dynamic> map) => NotificationModel(
     id: '${map['id'] ?? ''}',
     title: map['title'] as String? ?? '',
+    message: map['message'] as String? ?? '',
+    timestamp: DateTime.tryParse(map['timestamp']?.toString() ?? '') ?? DateTime.now(),
     isRead: map['isRead'] as bool? ?? false,
+    type: map['type'] as String? ?? 'info',
+    timeAgo: map['timeAgo'] as String?,
   );
 
-  Map<String, dynamic> toMap() => {'id': id, 'title': title, 'isRead': isRead};
+  Map<String, dynamic> toMap() => {
+    'id': id,
+    'title': title,
+    'message': message,
+    'timestamp': timestamp.toIso8601String(),
+    'isRead': isRead,
+    'type': type,
+    'timeAgo': timeAgo,
+  };
 }
 ```
 
-- **`fromMap`/`toMap`** — `fromJson`/`toJson` emas.
-- Model entity'ni `extends` qiladi, teskarisi emas.
-- **Himoyalangan parsing**: ko'r-ko'rona cast yo'q.
-
-## 5. Repository impl — exception → Failure
-
+### D. Repository Impl
 ```dart
+import 'package:core/core.dart';
+import 'package:notifications/src/data/datasource/notifications_remote_data_source.dart';
+import 'package:notifications/src/domain/entities/notification_entity.dart';
+import 'package:notifications/src/domain/repository/notifications_repository.dart';
+
 final class NotificationsRepositoryImpl implements NotificationsRepository {
-  const new(this._remoteDataSource, this._localDataSource);
+  const new(this._remoteDataSource);
 
   final NotificationsRemoteDataSource _remoteDataSource;
-  final NotificationsLocalDataSource _localDataSource;
 
   @override
-  ResultFuture<List<NotificationEntity>> getNotifications({
-    required int page,
-    int limit = Constants.defaultPageLimit,
-  }) async {
+  ResultFuture<List<NotificationEntity>> getNotifications({required int page, int limit = Constants.defaultPageLimit}) async {
     try {
-      final result = await _remoteDataSource.getNotifications(page: page, limit: limit);
-      return Right(result);
+      final models = await _remoteDataSource.getNotifications(page: page, limit: limit);
+      return Right(models);
+    } on ServerException catch (error) {
+      return Left(error.failure);
+    } on Exception catch (error) {
+      return Left(ServerFailure(message: error.toString()));
+    }
+  }
+
+  @override
+  ResultFuture<Unit> markAsRead({required String id}) async {
+    try {
+      await _remoteDataSource.markAsRead(id: id);
+      return const Right(unit);
     } on ServerException catch (error) {
       return Left(error.failure);
     } on Exception catch (error) {
@@ -173,13 +185,20 @@ final class NotificationsRepositoryImpl implements NotificationsRepository {
 }
 ```
 
-Repository impl datasource'ni oddiy `import` bilan oladi — bu yerda `part`/`part of` **ishlatilmaydi**.
+---
 
-## 6. Tekshiruv
+## 4. Eng Ko'p Qilinadigan Xatolar (Anti-patterns)
 
-- [ ] endpoint modul-lokal `<Module>ApiPaths` da
-- [ ] entity'da `fromMap`/`toMap` yo'q; model'da ikkalasi bor
-- [ ] ro'yxat maydonlari himoyalangan parsing bilan
-- [ ] datasource `ServerException.*` tashlaydi, repository `Left(Failure)` qaytaradi
-- [ ] usecase `extends Usecase*`, bitta amal
-- [ ] DI da datasource → repository → usecase tartibi
+- ❌ `Entity` ichida `fromMap` yoki `toMap` yozish (bu faqat `Model` da bo'ladi).
+- ❌ DataSource faylini `part` va `part of` siz alohida fayl qilib yozish.
+- ❌ Xom parsing: `map['id'] as int` (serverdan `null` yoki `string` kelsa crash beradi).
+- ❌ Repository nomini `NotificationsRepoImpl` deb qisqartirish (har doim to'liq `NotificationsRepositoryImpl`).
+
+---
+
+## 5. Tekshiruv Ro'yxati (Checklist)
+
+- [ ] `*_remote_data_source.dart` va uning `part '*_remote_data_source_impl.dart'` fayli to'g'ri bog'langan.
+- [ ] Model `Entity` dan meros olgan (`extends`) va xavfsiz `fromMap`/`toMap` ga ega.
+- [ ] RepositoryImpl barcha xatoliklarni `Left(Failure)` shaklida qaytaradi (rethrow qilmaydi).
+- [ ] `Unit` qaytaruvchi amallarda `const Right(unit)` ishlatilgan.

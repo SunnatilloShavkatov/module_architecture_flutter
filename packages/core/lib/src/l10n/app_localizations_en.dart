@@ -212,4 +212,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get helpCenterTitle => 'Help Center';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get clearAll => 'Clear';
+
+  @override
+  String get clearAllNotificationsConfirm => 'Are you sure you want to clear all notifications?';
+
+  @override
+  String get markedAsRead => 'Notification marked as read';
+
+  @override
+  String get allNotificationsCleared => 'All notifications cleared';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get filterUnread => 'Unread';
+
+  @override
+  String get filterRead => 'Read';
+
+  @override
+  String get noItems => 'No items';
 }

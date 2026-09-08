@@ -162,9 +162,9 @@ This package depends on:
 
 ## Related Documentation
 
-- [Module Structure](../../docs/architecture/module_structure.md)
-- [Dependency Injection](../../docs/architecture/dependency_injection.md)
-- [CLAUDE.md](../../CLAUDE.md)
+- [Architecture rules (AGENTS.md)](../../AGENTS.md)
+- [Rules index](../../docs/README.md)
+- [Module, DI & container](../../docs/rules/module.md)
 
 ## License
 

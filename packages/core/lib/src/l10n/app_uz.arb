@@ -66,5 +66,14 @@
   "addressesTitle": "Manzillar",
   "accountSectionTitle": "HISOB",
   "supportSectionTitle": "YORDAM",
-  "helpCenterTitle": "Yordam markazi"
+  "helpCenterTitle": "Yordam markazi",
+  "cancel": "Bekor qilish",
+  "clearAll": "Tozalash",
+  "clearAllNotificationsConfirm": "Barcha bildirishnomalarni o'chirishga ishonchingiz komilmi?",
+  "markedAsRead": "Bildirishnoma o'qilgan deb belgilandi",
+  "allNotificationsCleared": "Barcha bildirishnomalar tozalandi",
+  "filterAll": "Hammasi",
+  "filterUnread": "O'qilmagan",
+  "filterRead": "O'qilgan",
+  "noItems": "Ma'lumot yo'q"
 }

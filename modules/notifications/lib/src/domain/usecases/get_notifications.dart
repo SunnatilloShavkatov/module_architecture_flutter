@@ -12,12 +12,9 @@ class GetNotifications extends UsecaseWithParams<List<NotificationEntity>, GetNo
       _repo.getNotifications(page: params.page, limit: params.limit);
 }
 
-final class GetNotificationsParams extends Equatable {
+final class GetNotificationsParams {
   const new({required this.page, this.limit = Constants.defaultPageLimit});
 
   final int page;
   final int limit;
-
-  @override
-  List<Object?> get props => [page, limit];
 }

@@ -18,7 +18,7 @@ final class MaterialSheetRoute extends GoRoute {
     Color? modalBarrierColor,
   }) : super(
          builder: builder,
-         pageBuilder: (BuildContext context, GoRouterState state) => MaterialSheetPage<void>(
+         pageBuilder: (BuildContext context, GoRouterState state) => MaterialSheetPage(
            key: state.pageKey,
            enableDrag: enableDrag,
            useSafeArea: useSafeArea,

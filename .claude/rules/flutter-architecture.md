@@ -78,19 +78,28 @@ Jadval `arch-guard.sh` dagi `RULES` bloki bilan **belgi-ba-belgi** mos. Ustunlar
 
 | papka_qismi | ruxsat_etilgan_suffikslar | klass_suffiksi | Dalil |
 |---|---|---|---|
-| `/lib/src/presentation/*/bloc/` | `_bloc.dart,_event.dart,_state.dart` | `Bloc,Event,State` | 18/18 |
-| `/lib/src/presentation/*/mixin/` | `_mixin.dart` | `Mixin` | 8/8 |
-| `/lib/src/presentation/*/args/` | `_args.dart` | `Args` | 1/1 |
-| `/lib/src/presentation/` | `_page.dart,_sheet.dart` | `Page,Sheet` | 15/15 |
-| `/lib/src/domain/entities/` | `_entity.dart` | `Entity` | 10/10 |
-| `/lib/src/domain/repository/` | `_repository.dart,_repo.dart` | `Repository,Repo` | 5/5 |
-| `/lib/src/domain/repos/` | `_repository.dart,_repo.dart` | `Repository,Repo` | 1/1 |
-| `/lib/src/data/models/` | `_model.dart` | `Model` | 10/10 |
-| `/lib/src/data/datasource/` | `_data_source.dart,_data_source_impl.dart,_api_paths.dart` | `DataSource,DataSourceImpl,ApiPaths` | 16/16 |
-| `/lib/src/data/repository/` | `_impl.dart` | `Impl` | 5/5 |
-| `/lib/src/data/repo/` | `_impl.dart` | `Impl` | 1/1 |
-| `/lib/src/router/` | `_router.dart` | `Router` | 8/8 |
-| `/lib/src/di/` | `_injection.dart` | `Injection` | 6/6 |
+| `@src_root` | `_container,_factory` | `Container,Factory` | 10/10 |
+| `@presentation_root` | `_page,_sheet,_dialog,_widget` | `Page,Sheet,Dialog,Widget` | 18/18 |
+| `/src/data/models/` | `_model` | `Model` | 10/10 |
+| `/src/data/datasource/` | `_source,_impl,_api_paths,_datasource` | `Source,Impl,ApiPaths,DataSource` | 16/16 |
+| `/src/data/repository/` | `_impl` | `RepositoryImpl` | 5/5 |
+| `/src/domain/repository/` | `_repository` | `Repository` | 5/5 |
+| `/src/domain/interactor/` | `_interactor` | `Interactor` | 1/1 |
+| `/src/di/` | `_injection` | `Injection` | 6/6 |
+| `/src/router/` | `_router` | `Router` | 8/8 |
+| `/bloc/` | `_bloc,_event,_state` | `Bloc,Event,State` | 18/18 |
+| `/mixin/` | `_mixin` | `Mixin` | 8/8 |
+| `/args/` | `_args` | `Args` | 2/2 |
+
+`@` bilan boshlanadigan markerlar — pozitsion (path substring emas):
+
+- `@src_root` — `modules/<m>/lib/src/<fayl>.dart` (src ichida, papkasiz).
+- `@presentation_root` — `modules/<m>/lib/src/presentation/<feature>/<fayl>.dart`.
+  `presentation/widgets/` — umumiy vidjet bucket, istisno.
+
+Guard doirasidan tashqarida (ataylab): `packages/**`, ildiz `lib/**`, har qanday `*/test/*`,
+`*_test.dart` va `*/test_helpers/*` — ular boshqa konvensiyalarga bo'ysunadi (§9, §10).
+Fayl boshidagi `// arch-guard: ignore <sabab>` qatori bitta faylni chetlab o'tkazadi.
 
 Guard majburlamaydigan, lekin amal qilinishi shart bo'lgan nom qoidalari:
 
@@ -187,7 +196,8 @@ Design system: `packages/components` (`Dimensions`, `CustomLoadingButton`, `Safe
 | `package:flutter/material.dart` va `package:flutter/cupertino.dart` taqiqlanadi | 0/279 |
 | `package:flutter/{widgets,services,foundation}.dart` faqat kerak bo'lganda ruxsat | 5 / 10 / 32 fayl |
 | Rang `context.color.*` yoki `context.colorScheme.*` orqali olinishi shart; `Colors.*` va `Color(0x...)` taqiqlanadi | 62 ishlatish, 0 hardcode |
-| Matn stili `context.textTheme.*` orqali olinishi shart | 38 vs `context.textStyle.*` 2 vs raw `TextStyle(` 4 → 86% |
+| Matn stili `context.textStyle.*` (asosiy, `ThemeTextStyles`) yoki `context.textTheme.*` orqali olinishi shart; raw `TextStyle(` faqat `packages/components/lib/src/theme/` ichida | modules+packages: `textTheme` 33, `textStyle` 13; `modules/*/lib` da raw `TextStyle(` 4 (hammasi `auth`, migratsiya ro'yxatida) |
+| Foydalanuvchiga ko'rinadigan matn `context.l10n.<key>` orqali olinishi shart; `Text('...')` literali taqiqlanadi (**arch-guard**) | `modules/*/lib` da 0 ta. Harfsiz literal (`'404'`, `'1.0.0'`) va interpolatsiya istisno |
 | O'lcham/bo'shliq `Dimensions.*` tokenlari orqali berilishi shart; raw `EdgeInsets`/`SizedBox` faqat token bo'lmaganda | 99 vs 4 → 96% |
 | `Dimensions.*` tokenini ishlatishdan oldin `packages/components/lib/src/utils/dimensions.dart` da mavjudligi tekshirilishi shart | — |
 | Sahifa `body` i `SafeAreaWithMinimum` bilan o'ralishi shart; `bottomNavigationBar` da plain `SafeArea` istisno | 12 vs 2 (ikkalasi ham `bottomNavigationBar`) → 86% |
@@ -209,14 +219,16 @@ Design system: `packages/components` (`Dimensions`, `CustomLoadingButton`, `Safe
 | Qoida | Dalil |
 |---|---|
 | `Navigator.push` · `Navigator.pop` · `Navigator.of(` taqiqlanadi — `context.pushNamed`/`goNamed`/`pop` | 0 `Navigator.`, 22 `context.*Named/pop` |
+| `showDialog(` · `showModalBottomSheet(` taqiqlanadi — dialog/sheet routerda `MaterialDialogRoute<T>` / `MaterialSheetRoute<T>` sifatida ro'yxatdan o'tadi (**arch-guard**) | 0/279 |
+| Sheet va dialog route'i generic bilan yozilishi shart (`MaterialSheetRoute<String>`, `MaterialDialogRoute<bool>`, qiymatsizi `<void>`); natija `context.pop(value)` ↔ `context.pushNamed<T>` orqali qaytadi, `extra` da callback uzatish taqiqlanadi | 3/3 |
 | Route klasslari faqat `package:navigation/navigation.dart` barrelidan olinishi shart | 32 fayl, `navigation/src/` 0 |
 | To'liq ekran sahifa route'i `CupertinoRoute` bo'lishi shart | 9/9 |
-| Sheet route'i `MaterialSheetRoute` bo'lishi shart | 1/1 |
+| Sheet route'i `MaterialSheetRoute<T>` bo'lishi shart | 2/2 |
 | Modul router'ida `pageBuilder:` yozish taqiqlanadi — route klassi uni o'zi boshqaradi | 0/8 router |
 | `StatefulShellBranch` ildizi va `Dimensions.kZeroBox` qaytaruvchi placeholder plain `GoRoute` bo'lishi mumkin — yagona istisno | 4/4 `GoRoute` shu holatda (`main_router.dart`) |
 | Route nomi/yo'li `Routes.*` konstantalaridan (`packages/navigation/lib/src/name_routes.dart`) olinishi shart | 1 manba |
 | Sheet route nomi `...Sheet` suffiksi bilan tugashi shart | 1/1 |
-| Kirish ma'lumoti bor route `final class <F>Args` + `state.extra! as <F>Args` ishlatishi shart; xom entity uzatish va soxta fallback taqiqlanadi | 1/1 |
+| Kirish ma'lumoti bor route `final class <F>Args` + `<F>Args.parse(state.extra, queryParameters: state.uri.queryParameters)` ishlatishi shart; xom `state.extra! as <F>Args` cast, `extra` orqali callback uzatish va xom entity uzatish taqiqlanadi | 2/2 (`edit_profile_args`, `notifications_filter_args`) |
 | Router `List<GoRoute> getRouters(Injector di)` yoki `List<RouteBase> getRouters(Injector di)` qaytarishi shart | 8/8 |
 
 ---

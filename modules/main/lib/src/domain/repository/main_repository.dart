@@ -1,3 +1,1 @@
-abstract interface class MainRepository {
-  const new();
-}
+abstract interface class MainRepository;

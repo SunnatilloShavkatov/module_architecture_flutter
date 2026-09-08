@@ -136,8 +136,10 @@ class NameRoutes {
 
 ## Related Documentation
 
-- [Module Structure](../../docs/architecture/module_structure.md)
-- [CLAUDE.md](../../CLAUDE.md)
+- [Architecture rules (AGENTS.md)](../../AGENTS.md)
+- [Rules index](../../docs/README.md)
+- [Navigation & routing](../../docs/rules/navigation.md)
+- [Module structure](../../docs/rules/module.md)
 
 ## License
 

@@ -4,21 +4,21 @@ mixin NotificationsMixin on State<NotificationsPage> {
   final ScrollController _scrollController = ScrollController();
   List<NotificationEntity> _notifications = [];
   int _page = 1;
-  bool _isPaginating = false;
-  String _selectedFilter = 'All';
+  bool _isLastPage = false;
+  String _selectedFilter = NotificationsFilterArgs.defaultFilter;
 
   void _handleStates(BuildContext context, NotificationsState state) {
     if (state is NotificationsLoadedState) {
       _notifications = state.notifications;
       if (state.notifications.length < Constants.defaultPageLimit) {
-        _isPaginating = true;
+        _isLastPage = true;
       } else {
         _page++;
       }
     } else if (state is NotificationsPaginationLoadedState) {
       _notifications = {..._notifications, ...state.notifications}.toList();
       if (state.notifications.length < Constants.defaultPageLimit) {
-        _isPaginating = true;
+        _isLastPage = true;
       } else {
         _page++;
       }
@@ -37,10 +37,10 @@ mixin NotificationsMixin on State<NotificationsPage> {
         }
         return n;
       }).toList();
-      showSuccessMessage(context, message: 'Notification marked as read');
+      showSuccessMessage(context, message: context.l10n.markedAsRead);
     } else if (state is NotificationClearAllSuccessState) {
       _notifications = [];
-      showSuccessMessage(context, message: 'All notifications cleared');
+      showSuccessMessage(context, message: context.l10n.allNotificationsCleared);
     } else if (state is NotificationActionFailureState) {
       showErrorMessage(context, message: state.message);
     } else if (state is NotificationsFailureState) {
@@ -49,7 +49,7 @@ mixin NotificationsMixin on State<NotificationsPage> {
   }
 
   void _scrollListener() {
-    if (_isPaginating || _notifications.isEmpty) {
+    if (_isLastPage || _notifications.isEmpty) {
       return;
     }
     if (_scrollController.offset >= _scrollController.position.maxScrollExtent &&
@@ -59,23 +59,20 @@ mixin NotificationsMixin on State<NotificationsPage> {
   }
 
   List<NotificationEntity> get _filteredNotifications => switch (_selectedFilter) {
-    'Unread' => _notifications.where((n) => !n.isRead).toList(),
-    'Read' => _notifications.where((n) => n.isRead).toList(),
+    NotificationsFilterArgs.unread => _notifications.where((n) => !n.isRead).toList(),
+    NotificationsFilterArgs.read => _notifications.where((n) => n.isRead).toList(),
     _ => _notifications,
   };
 
   Future<void> _showFilterSheet() async {
-    await context.pushNamed(
+    final filter = await context.pushNamed<String>(
       Routes.notificationsFilterSheet,
-      extra: {
-        'selectedFilter': _selectedFilter,
-        'onFilterSelected': (String filter) {
-          if (mounted) {
-            setState(() => _selectedFilter = filter);
-          }
-        },
-      },
+      extra: NotificationsFilterArgs(selectedFilter: _selectedFilter).toMap(),
     );
+    if (filter == null || !mounted) {
+      return;
+    }
+    setState(() => _selectedFilter = filter);
   }
 
   Future<void> _confirmClearAll() async {

@@ -5,8 +5,6 @@ import 'package:core/core.dart';
 part 'auth_remote_data_source_impl.dart';
 
 abstract interface class AuthRemoteDataSource {
-  const new();
-
   Future<UserModel> login({required String email, required String password});
 
   Future<UserModel> otpLogin({required String code});

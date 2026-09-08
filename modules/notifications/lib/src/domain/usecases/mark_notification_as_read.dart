@@ -10,11 +10,8 @@ class MarkNotificationAsRead extends UsecaseWithParams<Unit, MarkNotificationPar
   ResultFuture<Unit> call(MarkNotificationParams params) => _repo.markAsRead(id: params.id);
 }
 
-final class MarkNotificationParams extends Equatable {
+final class MarkNotificationParams {
   const new({required this.id});
 
   final String id;
-
-  @override
-  List<Object?> get props => [id];
 }

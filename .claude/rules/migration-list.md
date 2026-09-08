@@ -1,7 +1,12 @@
 # Migratsiya ro'yxati
 
 `.claude/rules/flutter-architecture.md` qoidalariga mos kelmaydigan mavjud fayllar.
-2026-09-06 holatiga ko'ra. **Bu bosqichda hech narsa tuzatilmadi.**
+**2026-09-08 holatiga ko'ra qayta o'lchandi.**
+
+Shu sanada bajarilgani: §2 va §3 (repo nomlanishi) yopildi; navigatsiya bo'yicha
+`state.extra` xom cast va `extra` orqali callback uzatish yo'q qilindi
+(`MaterialSheetRoute<T>` / `MaterialDialogRoute<T>` generic bo'ldi,
+`NotificationsFilterArgs` va `EditProfileArgs` `.parse()` ga o'tdi).
 
 `arch-guard.sh` bu ro'yxatdagi hech narsani bloklamaydi — hammasi 60–90% oraliqdagi yoki
 egasi qarori bilan tanlangan qoidalar, guard esa faqat ≥90% qatorlarni majburlaydi.
@@ -16,28 +21,20 @@ Guard bo'yicha buzilish: **0 / 279 fayl (0.00%)**.
 | `domain/repos/` → `domain/repository/` | `modules/auth/lib/src/domain/repos/auth_repo.dart` |
 | `data/repo/` → `data/repository/` | `modules/auth/lib/src/data/repo/auth_repo_impl.dart` |
 | `AuthRepo` → `AuthRepository`, `AuthRepoImpl` → `AuthRepositoryImpl` | yuqoridagi 2 fayl + `auth_injection.dart` |
-| event/state alohida `import` → bloc'ga `part` | `presentation/login/bloc/login_{bloc,event,state}.dart` |
-| event/state alohida `import` → bloc'ga `part` | `presentation/otp_login/bloc/otp_login_{bloc,event,state}.dart` |
 | DI izohlari `/// data` → `/// data sources`, `/// domain` → `/// repositories` | `src/di/auth_injection.dart` |
 | Test nomi `login_usecase_test.dart` → `login_test.dart` | `test/src/domain/usecases/login_usecase_test.dart` |
 | Test nomi `otp_login_usecase_test.dart` → `otp_login_test.dart` | `test/src/domain/usecases/otp_login_usecase_test.dart` |
-| Raw `TextStyle(color: ...)` → `context.textTheme.*.copyWith(...)` — 2 joy | `presentation/login/login_page.dart:53,111` |
-| Raw `TextStyle(color: ...)` → `context.textTheme.*.copyWith(...)` — 2 joy | `presentation/otp_login/otp_login_page.dart:65,85` |
+| Raw `TextStyle(color: ...)` → `context.textStyle.*.copyWith(...)` — 2 joy | `presentation/login/login_page.dart:51,109` |
+| Raw `TextStyle(color: ...)` → `context.textStyle.*.copyWith(...)` — 2 joy | `presentation/otp_login/otp_login_page.dart:63,83` |
 
-## 2. Repo interfeys nomlanishi (50/50 — egasi `Repository` ni tanladi)
+## 2. Repo interfeys nomlanishi — ✅ YOPILDI
 
-| Hozir | Bo'lishi kerak | Fayl |
-|---|---|---|
-| `HomeRepo` | `HomeRepository` | `modules/home/lib/src/domain/repository/home_repo.dart` |
-| `MainRepo` | `MainRepository` | `modules/main/lib/src/domain/repository/main_repo.dart` |
-| `AuthRepo` | `AuthRepository` | `modules/auth/lib/src/domain/repos/auth_repo.dart` |
+`home`, `main`, `notifications`, `payments`, `profile` — hammasi `<Module>Repository` +
+`domain/repository/` + `data/repository/`. Yagona qolgani — `auth` (§1 ga qara).
 
-## 3. Repo impl: fayl nomi ↔ klass nomi mos emas
+## 3. Repo impl: fayl nomi ↔ klass nomi — ✅ YOPILDI
 
-| Fayl | Klass | Bo'lishi kerak |
-|---|---|---|
-| `modules/home/lib/src/data/repository/home_repository_impl.dart` | `HomeRepoImpl` | `HomeRepositoryImpl` |
-| `modules/main/lib/src/data/repository/main_repository_impl.dart` | `MainRepoImpl` | `MainRepositoryImpl` |
+`HomeRepositoryImpl`, `MainRepositoryImpl` — fayl nomi bilan mos.
 
 ## 4. `final class` yetishmaydi (infratuzilma sinflari)
 
@@ -48,7 +45,6 @@ Guard bo'yicha buzilish: **0 / 279 fayl (0.00%)**.
 | `modules/profile/lib/src/data/datasource/profile_local_data_source_impl.dart:6` | `ProfileLocalDataSourceImpl` |
 | `modules/main/lib/src/data/datasource/main_local_data_source_impl.dart:3` | `MainLocalDataSourceImpl` |
 | `modules/main/lib/src/data/datasource/main_remote_data_source_impl.dart:3` | `MainRemoteDataSourceImpl` |
-| `modules/main/lib/src/data/repository/main_repository_impl.dart:5` | `MainRepoImpl` |
 
 ## 5. Event nomlash (8/9 ot-birinchi)
 

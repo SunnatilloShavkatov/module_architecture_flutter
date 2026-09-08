@@ -66,5 +66,14 @@
   "addressesTitle": "Адреса",
   "accountSectionTitle": "АККАУНТ",
   "supportSectionTitle": "ПОДДЕРЖКА",
-  "helpCenterTitle": "Центр помощи"
+  "helpCenterTitle": "Центр помощи",
+  "cancel": "Отмена",
+  "clearAll": "Очистить",
+  "clearAllNotificationsConfirm": "Вы уверены, что хотите удалить все уведомления?",
+  "markedAsRead": "Уведомление отмечено как прочитанное",
+  "allNotificationsCleared": "Все уведомления очищены",
+  "filterAll": "Все",
+  "filterUnread": "Непрочитанные",
+  "filterRead": "Прочитанные",
+  "noItems": "Нет данных"
 }

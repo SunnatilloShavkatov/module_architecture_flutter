@@ -1,12 +1,13 @@
 import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:navigation/navigation.dart';
+import 'package:notifications/src/presentation/notifications_filter_sheet/args/notifications_filter_args.dart';
 
 class NotificationsFilterSheet extends StatelessWidget {
-  const new({required this.selectedFilter, required this.onFilterSelected, super.key});
+  const new({required this.args, super.key});
 
-  final String selectedFilter;
-  final ValueChanged<String> onFilterSelected;
+  final NotificationsFilterArgs args;
 
   @override
   Widget build(BuildContext context) => SafeArea(
@@ -19,17 +20,21 @@ class NotificationsFilterSheet extends StatelessWidget {
         children: [
           Text(context.l10n.notificationsTitle, style: context.textStyle.defaultW600x20),
           Dimensions.kGap8,
-          for (final filter in ['All', 'Unread', 'Read'])
+          for (final filter in NotificationsFilterArgs.availableFilters)
             ListTile(
-              title: Text(filter, style: context.textStyle.defaultW400x16),
-              trailing: selectedFilter == filter ? Icon(Icons.check, color: context.color.primary) : null,
-              onTap: () {
-                onFilterSelected(filter);
-                Navigator.of(context).pop();
-              },
+              title: Text(_label(context, filter), style: context.textStyle.defaultW400x16),
+              trailing: args.selectedFilter == filter ? Icon(Icons.check, color: context.color.primary) : null,
+              // The sheet returns its result through pop — no callback is passed through `extra`.
+              onTap: () => context.pop(filter),
             ),
         ],
       ),
     ),
   );
+
+  String _label(BuildContext context, String filter) => switch (filter) {
+    NotificationsFilterArgs.unread => context.l10n.filterUnread,
+    NotificationsFilterArgs.read => context.l10n.filterRead,
+    _ => context.l10n.filterAll,
+  };
 }

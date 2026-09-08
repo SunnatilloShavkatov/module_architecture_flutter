@@ -20,6 +20,10 @@ set -uo pipefail
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${REPO_DIR}"
 
+export GIT_CONFIG_GLOBAL="${GIT_CONFIG_GLOBAL:-/dev/null}"
+export GIT_CONFIG_SYSTEM="${GIT_CONFIG_SYSTEM:-/dev/null}"
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-/tmp}"
+
 GUARD=".claude/hooks/arch-guard.sh"
 MIGRATION_DOC=".claude/rules/arch-migration.md"
 

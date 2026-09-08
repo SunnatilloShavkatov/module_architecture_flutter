@@ -1,251 +1,94 @@
 # Claude Code Setup Spec
 
-How this repo is configured for Claude Code, and how to drive it correctly and fast.
-
-Scope: the harness (`.claude/`), not the architecture. Architecture rules live in
-[`CLAUDE.md`](../CLAUDE.md); the working procedure lives in [`AGENTS.md`](../AGENTS.md).
+Ushbu hujjat loyihaning AI agentlar (Claude Code, Gemini, Antigravity) uchun sozlanishi, yagona SDK standarti va tezkor ishlash tartibini belgilaydi.
 
 ---
 
-## 0. Blocker — read this first
+## 1. Yagona SDK Standarti (Single Unified SDK)
 
-**The Flutter on PATH cannot build or analyze this repo.**
+Loyihada **FVM ishlatilmaydi**. Ildizdagi (root) yagona Flutter va Dart SDK butun loyiha bo'ylab qo'llaniladi.
 
-| | |
-|---|---|
-| On PATH | Flutter 3.41.9, Dart 3.11.5 (`/Users/sshovkatov/src/flutter`) |
-| Repo requires | `flutter: ">=3.47.0"`, `sdk: ">=3.13.0 <4.0.0"` (every `pubspec.yaml`) |
-| Result | `flutter analyze` fails with `version solving failed` in every package |
+| Talab           | Versiya                                  | Izoh                                                                  |
+|-----------------|------------------------------------------|-----------------------------------------------------------------------|
+| **Flutter SDK** | `>=3.47.0` (amalda `Flutter 3.47.2`)     | Barcha `pubspec.yaml` larda bir xil                                   |
+| **Dart SDK**    | `>=3.13.0 <4.0.0` (amalda `Dart 3.13.2`) | Dart 3.47 konstruktor shorthandi (`const new()`) qo'llab-quvvatlanadi |
+| **FVM holati**  | **Kerak emas**                           | Tizimdagi Flutter SDK to'g'ridan-to'g'ri ishlatiladi                  |
 
-`CLAUDE.md` §16's quality gate is therefore unrunnable right now, and so is CI parity
-locally. `~/src/flutter_macos_arm64_3.47.2-stable.zip` is downloaded but not active, and
-`fvm` is installed at `~/.pub-cache/bin/fvm`.
+Barcha modullar (`modules/*`), paketlar (`packages/*`) va ilova ildizidagi `pubspec.yaml` aynan shu yagona SDK versiyasiga sozlangan:
 
-Fix this before anything else — every other guarantee in this document depends on the
-analyzer actually running. Either extract the 3.47.2 archive and point PATH at it, or
-pin the version with fvm:
-
-```bash
-fvm use 3.47.2 --force && fvm flutter --version
+```yaml
+environment:
+  sdk: ">=3.13.0 <4.0.0"
+  flutter: ">=3.47.0"
 ```
 
-Until then the Stop hook detects the SDK-resolution failure and reports it once per
-turn instead of blocking (see §2), so the setup degrades quietly rather than nagging.
+Barcha skriptlar (`scripts/verify.sh`, `scripts/quick_check.sh` va h.k.) avtomatik ravishda tizimdagi Flutter SDK yo'lini aniqlaydi.
 
 ---
 
-## 1. What exists
+## 2. Mavjud Qoidalar va Tuzilma (File Layout)
 
-| File | State | Purpose |
-|---|---|---|
-| `CLAUDE.md` | committed, 599 lines / 47 KB | architecture rules; auto-loaded every session |
-| `AGENTS.md` | committed, 41 lines | working loop + output discipline |
-| `docs/` | committed, 16 files / 123 KB | per-topic detail, opened on demand via `CLAUDE.md` §0 |
-| `docs/template_reference.md` | committed, 37 KB | copy-paste shape of every file type |
-| `.claude/settings.json` | **new** | permissions + hook wiring |
-| `.claude/hooks/dart-guard.sh` | **new** | per-edit formatter and rule guard |
-| `.claude/hooks/dart-gate.sh` | **new** | end-of-turn `flutter analyze` gate |
-
-Deliberately absent, with reasons:
-
-- **`.mcp.json`** — no Jira/Slack/GitHub MCP need in this workflow. Adding it costs a
-  connection handshake per session and buys nothing.
-- **`.claude/agents/`** — the `caveman:cavecrew` plugin already provides
-  investigator / builder / reviewer subagents. A second set would just compete.
-- **`CLAUDE.local.md`** — single-developer repo; nothing machine-specific to separate.
-- **`.claude/commands/`** — see §4, worth adding once the rule split lands.
+| Fayl / Papka                                                    | Maqsadi                                                                                                                                             | Token samaradorligi                            |
+|-----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|
+| [`AGENTS.md`](../AGENTS.md)                                     | Asosiy qoidalar, qattiq taqiqlar jadvali va lokal etalonlar xaritasi                                                                                             | ~180 qator (har sessiyada avtomatik yuklanadi) |
+| [`CLAUDE.md`](../CLAUDE.md)                                     | `AGENTS.md` va `docs/rules/` ga yo'naltiruvchi ko'rsatkich                                                                                          | 14 qator (ortiqcha token sarflamaydi)          |
+| [`GEMINI.md`](../GEMINI.md)                                     | Gemini/Antigravity uchun yo'naltiruvchi ko'rsatkich                                                                                                 | 14 qator                                       |
+| [`docs/rules/`](rules/)                                         | Mavzulashtirilgan 9 ta aniq qoida fayli (`module.md`, `domain.md`, `data-api.md`, `bloc.md`, `page-mixin.md`, `navigation.md`, `ui.md`, `l10n.md`, `testing.md`) | Kerak bo'lgandagina ochiladi (~1-2 KB)         |
+| [`.claude/hooks/arch-guard.sh`](../.claude/hooks/arch-guard.sh) | Modullararo noqonuniy to'g'ridan-to'g'ri importlarni tekshiruvchi hook                                                                              | Avtomatlashtirilgan tekshiruv                  |
 
 ---
 
-## 2. The hooks
+## 3. Ishlatiladigan Tayyor Skriptlar (Fast Developer Tools)
 
-Instructions in `CLAUDE.md` are advisory: the model can skip them. Hooks are executed by
-the harness, so they cannot be skipped. Both hooks are wired in `.claude/settings.json`
-and were verified firing end-to-end.
+AI agent uchun har bir ish yakunida vaqtni tejovchi tayyor skriptlar yaratilgan:
 
-### `dart-guard.sh` — PostToolUse on `Write|Edit|MultiEdit`
+### 1. `scripts/verify.sh` — Yagona Tezkor Yakunlash Darvozasi (<10s)
+Har qanday kod yozish ishi tugagach yurgaziladi:
+```bash
+./scripts/verify.sh
+```
+- Faqat o'zgargan fayllarni `arch-guard`, `dart format`, `dart analyze` va o'zgargan modulning testidan o'tkazadi.
+- 5–10 soniyada tugaydi, terminalda atigi 3–4 qator qisqa hisobot chiqaradi.
+- Katta arxitekturaviy o'zgarish bo'lganda: `./scripts/verify.sh --all`
 
-Runs on every `.dart` file Claude writes. Non-Dart files exit immediately.
+### 2. `scripts/create_module.sh <name>` — Yangi Modul Generatori (1s)
+Yangi modulning 6 qatlamini (18 fayl), Dart 3.47 shorthand, router, DI va smoke-test aggregatorini 1 sekundda yaratadi:
+```bash
+./scripts/create_module.sh orders
+```
 
-1. Runs `dart format` on the file.
-2. Records the path in `$TMPDIR/claude-dart-touched-<session_id>.txt` for the Stop gate.
-3. Greps for rule violations.
+### 3. `scripts/test_module.sh <name>` — Muayyan Modul Testi (~3s)
+Butun loyihani testlash o'rniga faqat kerakli modulni tezkor tekshiradi:
+```bash
+./scripts/test_module.sh notifications
+```
 
-**Hard findings — exit 2, fed back to Claude, which must fix them:**
-
-| Rule | Pattern caught |
-|---|---|
-| §12a | `import 'package:flutter/material.dart'` / `cupertino.dart` |
-| §12, §15 | `package:{core,components,navigation,platform_methods,material_ui,cupertino_ui}/src/` from outside that package |
-| §12 | `MediaQuery.of(` |
-| §12 | `Navigator.push` / `.pop` / `.pushNamed` / `.pushReplacement` |
-| §12 | `print(` |
-| §2 | `_onXxx` handler naming in `*_bloc.dart` |
-| §5b, §9 | `pageBuilder:` in `*_router.dart` |
-
-**Soft findings — injected as context, do not block:**
-
-| Rule | Heuristic |
-|---|---|
-| §2 | `*_bloc.dart` has more `on<Event>()` registrations than `transformer:` occurrences |
-| §5b | bare `GoRoute(` in `*_router.dart` — legitimate only for shell branch roots and `Dimensions.kZeroBox` placeholders |
-
-Soft findings are heuristics on purpose: both have real exceptions in the rules, so
-blocking them would produce false positives. They surface for a judgment call instead.
-
-### `dart-gate.sh` — Stop
-
-Runs when Claude finishes a turn. Reads the touched-file ledger, walks up to each
-file's nearest `pubspec.yaml`, and runs `flutter analyze` once per package.
-
-- No Dart files touched this turn → exits silently. Q&A turns pay nothing.
-- Analyzer findings → exit 2 with the output; Claude must fix before the turn ends.
-- SDK-resolution failure (§0) → one `systemMessage`, exit 0. An environment problem is
-  not something Claude can fix by editing Dart, so blocking there would loop.
-- `stop_hook_active` guard prevents re-entry.
-- The ledger is cleared before analyzing; files re-touched while fixing get re-recorded,
-  so the gate re-runs on the next stop.
-
-Timeouts: 60 s for the guard, 600 s for the gate.
-
-### Changing them
-
-Hooks are read from `.claude/settings.json` at session start. After editing either
-script or the settings file, the change may not take effect until the config is
-reloaded — open `/hooks` once, or restart the session. `/hooks` also lists and disables
-them.
+### 4. `scripts/quick_check.sh` — Tezkor Format va Analiz (~3s)
+Faqat o'zgargan fayllarni `dart format` va `dart analyze` qiladi.
 
 ---
 
-## 3. The `CLAUDE.md` split — specified, not yet done
+## 4. Qat'iy Taqiqlar (Guardrails)
 
-**Status: not implemented.** This section is the spec for it. The original file is
-committed at `2d6ee36` and recoverable with `git show HEAD:CLAUDE.md`.
-
-### Problem
-
-`CLAUDE.md` is 47 KB, roughly 12 000 tokens, loaded before every prompt in every
-session. Adding one widget to `payments` pulls in the pagination rules, the interactor
-generics trap, and the sheet-route conventions. The file itself names the symptom — §0
-opens with "agents keep skipping this — stop skipping it".
-
-### Design
-
-Split by **how often a rule applies**, not by layer:
-
-- **Always loaded** (root `CLAUDE.md`, target ~180 lines): rules that apply to nearly
-  every file, plus a **one-line stub for every rule that moved out**. The stub is the
-  point — it prevents "I did not know the rule existed" while leaving the detail on
-  disk. Keep: §0 map, §1 priority, §2 naming + transformer table, §3 rule (not the
-  worked example), §4 placement, §5b table, §10–§16, §17.
-- **On demand** (`.claude/rules/*.md`), each a stub target:
-
-  | File | Moves | Size |
-  |---|---|---|
-  | `setstate-and-rebuilds.md` | §3's worked example and the `login_mixin` / `otp_login_mixin` narrative | ~2 KB |
-  | `route-args.md` | §5 + §5a `.parse()` | ~4 KB |
-  | `pagination.md` | §6 | ~2 KB |
-  | `cross-module-interactor.md` | §7 + §7a | ~5 KB |
-  | `cross-module-factories.md` | §8 + §8a | ~4 KB |
-  | `sheet-routes.md` | §9 | ~2 KB |
-
-Expected: ~47 KB → ~18 KB always-loaded. About 7 500 tokens saved per session.
-
-### Caveat
-
-`.claude/rules/` is not an auto-loading directory in Claude Code — it is a convention,
-and the files are read because the root `CLAUDE.md` stub points at them. Claude Code's
-real path-scoped mechanism is a nested `CLAUDE.md` in a subdirectory, which loads when
-files in that subtree are touched. That does not help here: almost all work happens
-under `modules/`, so a `modules/CLAUDE.md` would load essentially always and save
-nothing. The stub-and-pointer design is the one that actually reduces the resident
-context.
-
-The hooks in §2 are what make this split safe: the mechanical rules most likely to be
-skipped are now enforced by execution rather than by being resident in context.
+1. **APK / iOS Build Qat'iyan Taqiqlangan:** Agent hech qachon `flutter build apk`, `flutter build ios` yoki `gradlew` buyruqlarini bajarmaydi. Bu 3–5 daqiqa vaqt oladi. Build faqat foydalanuvchining o'ziga topshiriladi.
+2. **Uzoq kutishlar taqiqlangan:** Skriptlar 30–60 soniyadan oshiq vaqt olmasligi shart. Shu sababli `flutter analyze` o'rniga faqat o'zgargan fayllarda `dart analyze $FILES` ishlatiladi.
+3. **Modullararo To'g'ridan-to'g'ri Bog'liqlik Taqiqlangan:** Modullar bir-birini import qilmaydi (`arch-guard` qoidasi). Aloqa faqat `core` dagi interactor, args yoki DI orqali amalga oshiriladi.
+4. **Material.dart Import Taqiqlangan:** `package:flutter/material.dart` o'rniga faqat `package:material_ui/material_ui.dart` va `package:components/components.dart` ishlatiladi.
+5. **Xom SizedBox Taqiqlangan:** Faqat `Dimensions.kGap*`, `Dimensions.kPadding*`, `Dimensions.kRadius*` ishlatiladi.
 
 ---
 
-## 4. Optional next step — `.claude/commands/`
+## 5. Yangi Modul yoki Loyiha Ochish Qadamlari
 
-Worth adding after §3 lands, because slash commands are how the moved rule files get
-pulled in reliably:
-
-| Command | Does |
-|---|---|
-| `/new-module <name>` | reads `docs/architecture/new_module_creation.md`, scaffolds, registers in `merge_dependencies` |
-| `/new-feature <module> <feature>` | reads the bloc/page/mixin plan, builds domain → data → presentation → DI → router in order |
-| `/check` | runs the §16 gate manually and reports |
-
-Not urgent. The hooks cover the correctness floor; commands only save typing.
-
----
-
-## 5. Driving Claude fast on this repo
-
-### Give the owner module up front
-
-`AGENTS.md` step 1 makes Claude state `Owner module:` + `Reason:`. If you already know
-it, say it — that skips a `docs/architecture/module_selection.md` read and an `ls
-modules/`.
-
-- Slow: "add a saved-cards list"
-- Fast: "in `payments`, add a saved-cards list page"
-
-### Ask for a whole vertical slice, not file by file
-
-The build order is fixed (`CLAUDE.md` §14: domain → data → presentation → DI → router).
-Asking for one layer at a time forces Claude to re-read the same references each turn.
-One request for the whole feature costs one pass over the docs.
-
-### Name the file type
-
-`docs/template_reference.md` is 37 KB with per-file-type sections. Saying "a sheet" or
-"a paginated list" tells Claude which section to open instead of the whole file.
-
-### Point at the specific doc, not "the docs"
-
-"Check the docs" makes Claude guess across 16 files. "Follow
-`docs/domain_layer/usecases.md`" is one read.
-
-### Use plan mode for anything structural
-
-New module, ownership ambiguity, cross-module wiring: plan first, approve, then build.
-Cheaper than reviewing a wrong implementation.
-
-### Existing modules are not the reference
-
-`CLAUDE.md` §1.3 and `AGENTS.md` step 4: modules predate the rules. Say "follow
-`CLAUDE.md` §2, not `auth`'s bloc" when you want the current convention rather than the
-nearest example. Note that some `CLAUDE.md` examples are themselves stale —
-`auth_router.dart` is cited in §5b as a plain-`GoRoute` offender but already uses
-`CupertinoRoute`.
-
-### Delegate lookups
-
-`caveman:cavecrew` is installed. For "where is X defined" / "what calls Y", the
-`cavecrew-investigator` subagent returns a `file:line` table instead of dumping file
-contents into the main thread.
-
-### Keep `/caveman` on
-
-Also installed, active by default in this session. Roughly 75 % fewer output tokens
-with no loss of technical content. Code, commits, and security warnings stay in normal
-prose.
-
----
-
-## 6. Checklist for a new project copied from this template
-
-1. Confirm the toolchain resolves: `flutter --version` ≥ 3.47.0, then
-   `flutter analyze` clean at the root.
-2. Copy `.claude/settings.json` and `.claude/hooks/`. The hooks are path-agnostic;
-   they use `$CLAUDE_PROJECT_DIR`.
-3. Delete the modules the project does not need, then prune the `CLAUDE.md` examples
-   that referenced them — `CLAUDE.md`'s own preamble says every cited module is an
-   illustration, not a requirement.
-4. Register any new module in
-   `packages/merge_dependencies/lib/merge_dependencies.dart`'s `_allContainer`.
-   Skipping this means DI and routes silently do not load.
-5. Re-verify the hooks fire: write a `.dart` file with
-   `import 'package:flutter/material.dart';` and confirm it is blocked.
+1. Tizimdagi SDK ni tekshiring:
+   ```bash
+   flutter --version   # >= 3.47.0 bo'lishi kerak
+   ```
+2. Yangi modul kerak bo'lsa:
+   ```bash
+   ./scripts/create_module.sh <module_name>
+   ```
+3. O'zgarishlarni tekshirish uchun:
+   ```bash
+   ./scripts/verify.sh
+   ```

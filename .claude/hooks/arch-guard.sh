@@ -169,6 +169,13 @@ ban '(^|[^A-Za-z0-9_.])EdgeInsets\.all\('       "EdgeInsets.all() -> Dimensions.
 ban '(^|[^a-zA-Z_.])(print|debugPrint)\('       "print()/debugPrint() -> logMessage('...', error: e, stackTrace: s)"
 ban '(^|[^A-Za-z0-9_.])(Navigator\.(push|pop)|MaterialPageRoute)' "Navigator.push/pop, MaterialPageRoute -> context.pushNamed / context.pop"
 ban '(^|[^A-Za-z0-9_.])(fromJson|toJson)\b'     "fromJson/toJson -> fromMap/toMap"
+ban '(^|[^A-Za-z0-9_.])(showDialog|showModalBottomSheet)(<[^>]*>)?\(' "showDialog()/showModalBottomSheet() -> MaterialDialogRoute<T> / MaterialSheetRoute<T> registered in the router"
+
+# Hardcoded user-facing copy: Text('literal'). Literals with no letter ('404', '1.0.0') and
+# interpolated strings are left alone; the latter are an l10n-placeholder problem, not this rule.
+q="'"
+ban "(^|[^A-Za-z0-9_])Text\([[:space:]]*(const[[:space:]]+)?$q[^$q\$]*([A-Za-z]|[^ -~])[^$q\$]*$q" \
+    "hardcoded Text('...') -> Text(context.l10n.<key>)"
 
 grep -oE 'SizedBox\((height|width): *[0-9][^)]*\)?' "$code" | grep -qv 'child:' \
   && fail "SizedBox(height:/width:) -> spacing: or Dimensions.kGap*"

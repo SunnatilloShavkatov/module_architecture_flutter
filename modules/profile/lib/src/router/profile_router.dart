@@ -16,7 +16,7 @@ final class ProfileRouter implements AppRouter<RouteBase> {
       name: Routes.editProfile,
       builder: (_, state) => BlocProvider<ProfileBloc>(
         create: (_) => di.get(),
-        child: EditProfilePage(args: state.extra! as EditProfileArgs),
+        child: EditProfilePage(args: EditProfileArgs.parse(state.extra, queryParameters: state.uri.queryParameters)),
       ),
     ),
     CupertinoRoute(path: Routes.settings, name: Routes.settings, builder: (_, _) => const SettingsPage()),

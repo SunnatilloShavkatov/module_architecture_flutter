@@ -59,7 +59,7 @@ class InternetConnectionPageState extends State<InternetConnectionPage> {
           valueListenable: _isLoaded,
           builder: (_, bool isLoading, _) => CustomLoadingButton(
             isLoading: isLoading,
-            child: const Text('Попробовать снова'),
+            child: Text(context.l10n.retryButton),
             onPressed: () {
               _isLoaded.value = true;
               Future<void>.delayed(const Duration(milliseconds: 1), () async {

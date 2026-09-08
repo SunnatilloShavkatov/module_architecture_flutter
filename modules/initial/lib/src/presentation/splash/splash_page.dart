@@ -17,6 +17,6 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> with SplashMixin {
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: Center(child: Text('Logo', style: context.textTheme.labelLarge)),
+    body: Center(child: Text(context.l10n.appName, style: context.textStyle.defaultW600x20)),
   );
 }

@@ -212,4 +212,31 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get helpCenterTitle => 'Центр помощи';
+
+  @override
+  String get cancel => 'Отмена';
+
+  @override
+  String get clearAll => 'Очистить';
+
+  @override
+  String get clearAllNotificationsConfirm => 'Вы уверены, что хотите удалить все уведомления?';
+
+  @override
+  String get markedAsRead => 'Уведомление отмечено как прочитанное';
+
+  @override
+  String get allNotificationsCleared => 'Все уведомления очищены';
+
+  @override
+  String get filterAll => 'Все';
+
+  @override
+  String get filterUnread => 'Непрочитанные';
+
+  @override
+  String get filterRead => 'Прочитанные';
+
+  @override
+  String get noItems => 'Нет данных';
 }

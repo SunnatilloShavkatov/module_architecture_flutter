@@ -1,8 +1,8 @@
 # Flutter Module Architecture
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Flutter](https://img.shields.io/badge/Flutter-3.38+-02569B?logo=flutter)](https://flutter.dev)
-[![Architecture](https://img.shields.io/badge/Architecture-Clean_Architecture-green)](docs/architecture/clean_architecture.md)
+[![Flutter](https://img.shields.io/badge/Flutter-3.47+-02569B?logo=flutter)](https://flutter.dev)
+[![Architecture](https://img.shields.io/badge/Architecture-Clean_Architecture-green)](docs/README.md)
 [![Maintenance](https://img.shields.io/badge/Maintenace-Production--Ready-brightgreen)](CHANGELOG.md)
 
 An enterprise-grade Flutter monorepo architecture engineered for extreme modularity and multi-team scalability. This repository serves as a meta-framework and architectural blueprint for building high-stakes, long-term mobile applications.
@@ -39,6 +39,7 @@ If you are building a FinTech, E-commerce, or "Super-Apps" that must live for 3-
 .
 ├── modules/               # Independent feature modules
 │   ├── auth/              # Reference Module: Auth flow
+│   ├── notifications/     # Full Standard Reference Module
 │   ├── home/              # Main feature set
 │   └── ...                # Scalable module bucket
 ├── packages/              # Shared architectural packages
@@ -46,48 +47,41 @@ If you are building a FinTech, E-commerce, or "Super-Apps" that must live for 3-
 │   ├── components/        # Standardized UI Design System
 │   ├── navigation/        # Centralized routing & guardrails
 │   └── merge_dependencies/# The "Orchestrator" (app entry only)
-└── docs/                  # In-depth architectural documentation
+└── docs/                  # Architecture rules & agent docs (see docs/README.md)
 ```
 
 ## 🧭 Module Conventions (Real Paths)
 
-The repository contains both `repo` and `repository` naming styles.  
-AI/engineers must follow the style of the **target module** and keep it consistent.
+There is exactly one canonical repository convention — see [`AGENTS.md`](AGENTS.md) §6:
 
-### `repo` / `repos` style example
+| Layer | Folder | Interface | Implementation |
+|---|---|---|---|
+| Domain | `lib/src/domain/repository/` | `<Module>Repository` | — |
+| Data | `lib/src/data/repository/` | — | `<Module>RepositoryImpl` |
 
-- `modules/auth/lib/src/domain/repos/auth_repo.dart`
-- `modules/auth/lib/src/data/repo/auth_repo_impl.dart`
+```text
+modules/notifications/lib/src/domain/repository/notifications_repository.dart   # NotificationsRepository
+modules/notifications/lib/src/data/repository/notifications_repository_impl.dart # NotificationsRepositoryImpl
+```
 
-### `repository` style examples
+`home`, `main`, `notifications`, `payments` and `profile` all follow this. The single exception is
+**`auth`**, which still uses the legacy `domain/repos/` + `data/repo/` folders and the `AuthRepo` /
+`AuthRepoImpl` names; it is tracked in [`.claude/rules/migration-list.md`](.claude/rules/migration-list.md) §1.
 
-- `modules/home/lib/src/domain/repository/home_repo.dart`
-- `modules/home/lib/src/data/repository/home_repository_impl.dart`
-- `modules/main/lib/src/domain/repository/main_repo.dart`
-- `modules/main/lib/src/data/repository/main_repository_impl.dart`
-- `modules/more/lib/src/domain/repository/more_repository.dart`
-- `modules/more/lib/src/data/repository/more_repository_impl.dart`
+Rules:
 
-Rule:
-
-- never mix `repo` and `repository` folder styles inside the same module.
+- The file name and the class name must match: `*_repository.dart` → `*Repository`, `*_repository_impl.dart` → `*RepositoryImpl`.
+- Never introduce a new `repo` / `repos` folder or a `*Repo` class name.
 
 ---
 
-## 🔍 The Reference Module (Auth)
+## 🔍 Gold Standard Reference Modules
 
-To ensure consistency across teams, the `modules/auth` serves as the **Gold Standard Reference**. A module in this repository is only considered "Production Ready" if it includes all layers of the Clean Architecture stack without shortcuts.
+To ensure consistency across teams, the repository provides comprehensive reference implementations:
+- **`modules/notifications`**: Full 6-layer Clean Architecture reference with 100% unit & BLoC test coverage.
+- **`modules/auth`**: Reference for authentication flow and localized presentation.
 
-### Complete Flow Implementation:
-- **UI**: `LoginPage` (Presentation)
-- **State Management**: `LoginBloc` with `LoginEvent` & `LoginState` (Sealed Classes)
-- **Business Logic**: `LoginUseCase` (Domain)
-- **Abstract Contract**: `AuthRepo` (Domain)
-- **Data Implementation**: `AuthRepoImpl` (Data)
-- **Networking**: `AuthRemoteDataSource` using `NetworkProvider` (Data)
-
-### Why no shortcuts?
-We do not skip the UseCase layer, even for simple "Pass-through" calls. This ensures that as complexity grows, the business logic has a dedicated home that is not tied to the Bloc or the Repository lifecycle.
+All architectural rules and guidelines are documented under [`docs/README.md`](docs/README.md).
 
 ---
 
@@ -107,8 +101,8 @@ The architecture is designed to handle the complexity of real-world state transi
 ## 🛠️ Getting Started
 
 ### Prerequisites
-- Flutter SDK: `^3.38.0`
-- Dart SDK: `^3.10.0`
+- Flutter SDK: `^3.47.0`
+- Dart SDK: `^3.13.0`
 
 ### Installation
 ```bash

@@ -212,4 +212,31 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get helpCenterTitle => 'Yordam markazi';
+
+  @override
+  String get cancel => 'Bekor qilish';
+
+  @override
+  String get clearAll => 'Tozalash';
+
+  @override
+  String get clearAllNotificationsConfirm => 'Barcha bildirishnomalarni o\'chirishga ishonchingiz komilmi?';
+
+  @override
+  String get markedAsRead => 'Bildirishnoma o\'qilgan deb belgilandi';
+
+  @override
+  String get allNotificationsCleared => 'Barcha bildirishnomalar tozalandi';
+
+  @override
+  String get filterAll => 'Hammasi';
+
+  @override
+  String get filterUnread => 'O\'qilmagan';
+
+  @override
+  String get filterRead => 'O\'qilgan';
+
+  @override
+  String get noItems => 'Ma\'lumot yo\'q';
 }
