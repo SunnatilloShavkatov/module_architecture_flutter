@@ -16,6 +16,7 @@ class AddCardPage extends StatefulWidget {
 class _AddCardPageState extends State<AddCardPage> with AddCardMixin {
   @override
   Widget build(BuildContext context) => BlocConsumer<PaymentMethodsBloc, PaymentMethodsState>(
+    buildWhen: (prev, curr) => curr is PaymentMethodsLoadingState || prev is PaymentMethodsLoadingState,
     listenWhen: (prev, curr) =>
         curr is PaymentMethodsFailureState ||
         curr is PaymentMethodsSuccessState ||

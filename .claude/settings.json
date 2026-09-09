@@ -1,0 +1,53 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && bash .claude/hooks/slow-cmd-guard.sh",
+            "timeout": 5,
+            "statusMessage": "slow-cmd-guard"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && bash .claude/hooks/arch-guard.sh",
+            "timeout": 15,
+            "statusMessage": "arch-guard"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && bash .claude/hooks/stop-check.sh",
+            "timeout": 60,
+            "statusMessage": "format + guard"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && bash .claude/hooks/analyze-report.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

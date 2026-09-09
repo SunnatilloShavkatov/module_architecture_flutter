@@ -30,11 +30,17 @@ Barcha skriptlar (`scripts/verify.sh`, `scripts/quick_check.sh` va h.k.) avtomat
 
 | Fayl / Papka                                                    | Maqsadi                                                                                                                                             | Token samaradorligi                            |
 |-----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|
-| [`AGENTS.md`](../AGENTS.md)                                     | Asosiy qoidalar, qattiq taqiqlar jadvali va lokal etalonlar xaritasi                                                                                             | ~180 qator (har sessiyada avtomatik yuklanadi) |
-| [`CLAUDE.md`](../CLAUDE.md)                                     | `AGENTS.md` va `docs/rules/` ga yo'naltiruvchi ko'rsatkich                                                                                          | 14 qator (ortiqcha token sarflamaydi)          |
-| [`GEMINI.md`](../GEMINI.md)                                     | Gemini/Antigravity uchun yo'naltiruvchi ko'rsatkich                                                                                                 | 14 qator                                       |
-| [`docs/rules/`](rules/)                                         | Mavzulashtirilgan 9 ta aniq qoida fayli (`module.md`, `domain.md`, `data-api.md`, `bloc.md`, `page-mixin.md`, `navigation.md`, `ui.md`, `l10n.md`, `testing.md`) | Kerak bo'lgandagina ochiladi (~1-2 KB)         |
-| [`.claude/hooks/arch-guard.sh`](../.claude/hooks/arch-guard.sh) | Modullararo noqonuniy to'g'ridan-to'g'ri importlarni tekshiruvchi hook                                                                              | Avtomatlashtirilgan tekshiruv                  |
+| [`AGENTS.md`](../AGENTS.md)                                     | Asosiy qoidalar, qattiq taqiqlar jadvali, etalonlar xaritasi, slash-buyruqlar | ~230 qator (`CLAUDE.md` `@import` orqali har sessiyada yuklanadi) |
+| [`CLAUDE.md`](../CLAUDE.md)                                     | `@AGENTS.md` importi + turn siyosati (analyze/test taqiqi)                   | ~20 qator                                      |
+| [`GEMINI.md`](../GEMINI.md)                                     | Gemini / Antigravity uchun ko'rsatkich                                       | ~10 qator                                      |
+| [`docs/rules/`](rules/)                                         | 11 ta mavzuli qoida fayli (`module`, `domain`, `data-api`, `bloc`, `page-mixin`, `navigation`, `ui`, `l10n`, `service`, `packages`, `testing`) | Kerak bo'lgandagina ochiladi (~1–2 KB) |
+| [`.claude/commands/`](../.claude/commands/)                     | Slash-buyruqlar: `/bloc`, `/page`, `/endpoint`, `/l10n`, `/module`, `/test`, `/guard` | Har biri 15–25 qator, faqat kerakli etalonni ko'rsatadi |
+| [`.agents/workflows/`](../.agents/workflows/)                   | Shu buyruqlarning Antigravity/Gemini uchun nusxasi                           | Frontmatter'siz, bir xil matn                  |
+| [`.agents/rules/agent-protocol.md`](../.agents/rules/agent-protocol.md) | Agent xatti-harakati: terminal, tahrir, reja, token intizomi          | 38 qator                                       |
+| [`.claude/rules/flutter-architecture.md`](../.claude/rules/flutter-architecture.md) | Guard qoidalarining to'liq spetsifikatsiyasi             | Faqat guard o'zgartirilganda                   |
+| [`.claude/rules/arch-migration.md`](../.claude/rules/arch-migration.md) | Guard buzilishlari — `scripts/arch_guard_scan.sh --md` yozadi         | Avtomatik generatsiya                          |
+| [`.claude/rules/migration-list.md`](../.claude/rules/migration-list.md) | Guard bloklamaydigan style debt (qo'lda yuritiladi)                   | Faqat eski faylga duch kelganda                |
+| [`.claude/hooks/arch-guard.sh`](../.claude/hooks/arch-guard.sh) | Har Write/Edit dan keyin ishlaydigan arxitektura tekshiruvi (~50 ms)         | Avtomatlashtirilgan tekshiruv                  |
 
 ---
 

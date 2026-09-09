@@ -16,6 +16,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> with LoginMixin {
   @override
   Widget build(BuildContext context) => BlocConsumer<LoginBloc, LoginState>(
+    buildWhen: (prev, curr) => curr is LoginLoadingState || prev is LoginLoadingState,
     listenWhen: (prev, curr) => curr is LoginFailureState || curr is LoginSuccessState,
     listener: _handleStates,
     builder: (context, state) => Scaffold(

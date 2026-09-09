@@ -16,6 +16,7 @@ class OtpLoginPage extends StatefulWidget {
 class _OtpLoginPageState extends State<OtpLoginPage> with OtpLoginMixin {
   @override
   Widget build(BuildContext context) => BlocConsumer<OtpLoginBloc, OtpLoginState>(
+    buildWhen: (prev, curr) => curr is OtpLoginLoadingState || prev is OtpLoginLoadingState,
     listenWhen: (prev, curr) => prev.runtimeType != curr.runtimeType,
     listener: _handleStates,
     builder: (context, state) => Scaffold(

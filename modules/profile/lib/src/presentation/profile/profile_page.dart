@@ -15,6 +15,7 @@ class ProfilePage extends StatelessWidget {
     body: SafeAreaWithMinimum(
       minimum: Dimensions.kPaddingAll16,
       child: BlocBuilder<ProfileBloc, ProfileState>(
+        buildWhen: (prev, curr) => prev != curr,
         builder: (context, state) => switch (state) {
           ProfileInitialState() || ProfileLoadingState() => const Center(child: CircularProgressIndicator.adaptive()),
           ProfileUpdatedState() => _ProfileContentView(user: state.user),

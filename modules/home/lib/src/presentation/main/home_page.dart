@@ -18,6 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with HomeMixin {
   @override
   Widget build(BuildContext context) => BlocConsumer<HomeBloc, HomeState>(
+    buildWhen: (prev, curr) => prev != curr,
     listener: _stateListener,
     builder: (context, state) => Scaffold(
       key: const Key('home'),

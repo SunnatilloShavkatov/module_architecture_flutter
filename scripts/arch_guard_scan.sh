@@ -6,12 +6,13 @@
 #   scripts/arch_guard_scan.sh                   # whole repo
 #   scripts/arch_guard_scan.sh --staged          # only files staged for commit
 #   scripts/arch_guard_scan.sh --changed         # only files changed vs HEAD
-#   scripts/arch_guard_scan.sh modules/battle    # only these paths
+#   scripts/arch_guard_scan.sh modules/notifications # only these paths
 #   scripts/arch_guard_scan.sh --md              # rewrite .claude/rules/arch-migration.md
 #   scripts/arch_guard_scan.sh --quiet           # exit code only, no per-file output
 #
-# Scope is the guard's own: modules/*/lib/**/*.dart, tests excluded. Anything
-# else passed on the command line is skipped by the guard itself.
+# Scope is the guard's own: modules/*/lib/**/*.dart and packages/*/lib/**/*.dart,
+# tests excluded. Anything else passed on the command line is skipped by the
+# guard itself.
 #
 # Exit 0 = clean, 1 = violations found, 2 = bad usage.
 
@@ -53,7 +54,8 @@ collect() {
     staged)  git diff --cached --name-only --diff-filter=ACMR -- '*.dart' ;;
     changed) git diff --name-only --diff-filter=ACMR HEAD -- '*.dart' ;;
     all)
-      local roots=("${PATHS[@]:-modules}")
+      local roots=("${PATHS[@]:-}")
+      [ -z "${roots[0]}" ] && roots=(modules packages)
       find "${roots[@]}" -path '*/lib/*' -name '*.dart' -type f 2>/dev/null
       ;;
   esac | grep -v -e '/test/' -e '_test\.dart$' -e '/test_helpers/' | sort -u
@@ -117,7 +119,7 @@ if [ "${WRITE_MD}" -eq 1 ]; then
     printf 'Manba: `.claude/rules/flutter-architecture.md`\n'
     printf 'Guard: `.claude/hooks/arch-guard.sh`\n'
     printf 'Generator: `scripts/arch_guard_scan.sh --md`\n\n'
-    printf '**%d / %d fayl** — qamrov: `modules/*/lib/**/*.dart`, test'"'"'siz.\n\n' "${failed}" "${total}"
+    printf '**%d / %d fayl** — qamrov: `modules/*/lib/**/*.dart` + `packages/*/lib/**/*.dart`, test'"'"'siz.\n\n' "${failed}" "${total}"
     if [ "${failed}" -eq 0 ]; then
       printf 'Buzilish yo'"'"'q.\n'
     else

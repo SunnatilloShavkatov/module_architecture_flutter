@@ -14,7 +14,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.20.3
-  material_ui: ^1.1.1
+  material_ui: ^1.2.0
   # di
   get_it: ^9.2.1
   # equatable

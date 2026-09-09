@@ -1,42 +1,33 @@
-# Migratsiya ro'yxati
+# Style debt — guard bloklamaydigan qoldiqlar
 
-`.claude/rules/flutter-architecture.md` qoidalariga mos kelmaydigan mavjud fayllar.
-**2026-09-08 holatiga ko'ra qayta o'lchandi.**
+> Guard buzilishlari bu yerda **emas**: ular `.claude/rules/arch-migration.md` da
+> (`scripts/arch_guard_scan.sh --md` avtomatik yozadi). Bu fayl — qo'lda yuritiladigan,
+> `arch-guard` majburlamaydigan (60–90% oraliqdagi) style qoldiqlari ro'yxati.
 
-Shu sanada bajarilgani: §2 va §3 (repo nomlanishi) yopildi; navigatsiya bo'yicha
-`state.extra` xom cast va `extra` orqali callback uzatish yo'q qilindi
-(`MaterialSheetRoute<T>` / `MaterialDialogRoute<T>` generic bo'ldi,
-`NotificationsFilterArgs` va `EditProfileArgs` `.parse()` ga o'tdi).
+**Guard holati: 0 / 269 fayl buzilish** (`modules/*/lib` + `packages/*/lib`, test'siz).
+Oxirgi tekshiruv: 2026-09-10.
 
-`arch-guard.sh` bu ro'yxatdagi hech narsani bloklamaydi — hammasi 60–90% oraliqdagi yoki
-egasi qarori bilan tanlangan qoidalar, guard esa faqat ≥90% qatorlarni majburlaydi.
-Guard bo'yicha buzilish: **0 / 279 fayl (0.00%)**.
+Yangi kod bu ro'yxatga qo'shilmaydi — shablon shu holda klonlanadi va debt faqat kamayadi.
+Agent qoidasi: **shu fayldagi eski patternni namuna qilib ko'chirma**, etalon `notifications`
+moduli (`AGENTS.md` §3).
 
 ---
 
-## 1. `auth` moduli — yagona «eski» modul
+## 1. `auth` — yagona «eski» modul
 
 | Nima | Fayl |
 |---|---|
 | `domain/repos/` → `domain/repository/` | `modules/auth/lib/src/domain/repos/auth_repo.dart` |
 | `data/repo/` → `data/repository/` | `modules/auth/lib/src/data/repo/auth_repo_impl.dart` |
-| `AuthRepo` → `AuthRepository`, `AuthRepoImpl` → `AuthRepositoryImpl` | yuqoridagi 2 fayl + `auth_injection.dart` |
-| DI izohlari `/// data` → `/// data sources`, `/// domain` → `/// repositories` | `src/di/auth_injection.dart` |
-| Test nomi `login_usecase_test.dart` → `login_test.dart` | `test/src/domain/usecases/login_usecase_test.dart` |
-| Test nomi `otp_login_usecase_test.dart` → `otp_login_test.dart` | `test/src/domain/usecases/otp_login_usecase_test.dart` |
-| Raw `TextStyle(color: ...)` → `context.textStyle.*.copyWith(...)` — 2 joy | `presentation/login/login_page.dart:51,109` |
-| Raw `TextStyle(color: ...)` → `context.textStyle.*.copyWith(...)` — 2 joy | `presentation/otp_login/otp_login_page.dart:63,83` |
+| `AuthRepo` → `AuthRepository`, `AuthRepoImpl` → `AuthRepositoryImpl` | yuqoridagi 2 fayl + `src/di/auth_injection.dart` |
+| Test nomi `login_usecase_test.dart` → `login_test.dart` | `modules/auth/test/src/domain/usecases/` |
+| Test nomi `otp_login_usecase_test.dart` → `otp_login_test.dart` | `modules/auth/test/src/domain/usecases/` |
+| Raw `TextStyle(color: ...)` → `context.textStyle.*.copyWith(...)` | `login_page.dart:52,110`, `otp_login_page.dart:64,84` |
 
-## 2. Repo interfeys nomlanishi — ✅ YOPILDI
+Qolgan modullar (`home`, `main`, `notifications`, `payments`, `profile`, `system`) —
+`<Module>Repository` + `domain/repository/` + `data/repository/` bilan to'g'ri.
 
-`home`, `main`, `notifications`, `payments`, `profile` — hammasi `<Module>Repository` +
-`domain/repository/` + `data/repository/`. Yagona qolgani — `auth` (§1 ga qara).
-
-## 3. Repo impl: fayl nomi ↔ klass nomi — ✅ YOPILDI
-
-`HomeRepositoryImpl`, `MainRepositoryImpl` — fayl nomi bilan mos.
-
-## 4. `final class` yetishmaydi (infratuzilma sinflari)
+## 2. `final class` yetishmaydi (infratuzilma sinflari)
 
 | Fayl:qator | Klass |
 |---|---|
@@ -46,75 +37,44 @@ Guard bo'yicha buzilish: **0 / 279 fayl (0.00%)**.
 | `modules/main/lib/src/data/datasource/main_local_data_source_impl.dart:3` | `MainLocalDataSourceImpl` |
 | `modules/main/lib/src/data/datasource/main_remote_data_source_impl.dart:3` | `MainRemoteDataSourceImpl` |
 
-## 5. Event nomlash (8/9 ot-birinchi)
+## 3. Event nomlash
 
 | Hozir | Bo'lishi kerak | Fayl |
 |---|---|---|
 | `UpdateProfilePressedEvent` | `ProfileUpdateEvent` | `modules/profile/lib/src/presentation/profile/bloc/profile_event.dart` |
 
-Ta'sir: `profile_bloc.dart:13,33`, `profile_bloc_test.dart`, `edit_profile_mixin.dart`.
+Ta'sir: `profile_bloc.dart`, `profile_bloc_test.dart`, `edit_profile_mixin.dart`.
 
-## 6. Private `State` klassi
+## 4. Private `State` klassi
 
 | Hozir | Bo'lishi kerak | Fayl |
 |---|---|---|
 | `InternetConnectionPageState` | `_InternetConnectionPageState` | `modules/system/lib/src/presentation/internet_connection/internet_connection_page.dart` |
 
-## 7. Hardcoded matn → `context.l10n.*`
-
-| Matn | Fayl:qator |
-|---|---|
-| `'Logo'` | `modules/initial/lib/src/presentation/splash/splash_page.dart:20` |
-| `'1.0.0'` | `modules/profile/lib/src/presentation/profile/profile_page.dart:38` |
-| `'404'` | `modules/system/lib/src/presentation/not_found/not_found_page.dart:13` |
-| `'Попробовать снова'` (rus, kirill) | `modules/system/lib/src/presentation/internet_connection/internet_connection_page.dart:62` |
-
-## 8. Design system tokenlari
+## 5. Design system tokenlari
 
 | Nima | Fayl:qator |
 |---|---|
-| `ElevatedButton` → `CustomLoadingButton` | `modules/profile/lib/src/presentation/profile/profile_page.dart:127,134` |
-| `EdgeInsets.only(right: 8)` → `Dimensions.*` | `modules/notifications/lib/src/presentation/notifications/notifications_page.dart:67` |
-| `EdgeInsets.only(bottom: 8, left: 4)` → `Dimensions.*` | `modules/profile/lib/src/presentation/profile/profile_page.dart:185` |
-| `EdgeInsets.zero` → `Dimensions.*` | `modules/profile/lib/src/presentation/profile/profile_page.dart:207` |
-| `SizedBox(height: 12)` → `Dimensions.kGap12` | `modules/system/lib/src/presentation/internet_connection/internet_connection_page.dart:48` |
+| `ElevatedButton` → `CustomLoadingButton` | `modules/profile/lib/src/presentation/profile/profile_page.dart:128,135` |
+| `EdgeInsets.only(bottom: 8, left: 4)` → `Dimensions.*` | `modules/profile/.../profile_page.dart:186` |
+| `EdgeInsets.zero` → `Dimensions.*` | `modules/profile/.../profile_page.dart:208` |
 
-`bottomNavigationBar: SafeArea(` — 2 joy (`system` moduli, `internet_connection_page.dart:56`,
-`not_found_page.dart:14`). Qoidada istisno sifatida qayd etilgan, tuzatish talab qilinmaydi.
+## 6. Raqamli literal matn (past prioritet)
 
-## 9. Klassik `const <ClassName>(` konstruktori → `const new(`
+`Text('1.0.0')` (`profile_page.dart:39`), `Text('404')` (`not_found_page.dart:13`).
+Guard faqat harfli literalni bloklaydi; bularni ham `context.l10n.*` ga o'tkazish afzal.
 
-`modules/` va `packages/` da 15 fayl (`const new(` ishlatadigan 199 faylga qarshi):
+## 7. Klassik `const <ClassName>(` konstruktori — faqat testlarda
 
-```
-modules/initial/lib/src/presentation/welcome/welcome_page.dart
-modules/main/lib/src/presentation/main/main_page.dart
-modules/payments/lib/src/presentation/payment_methods/payment_methods_page.dart
-modules/system/lib/src/presentation/internet_connection/internet_connection_page.dart
-packages/components/lib/src/bottom_navigation/bottom_indicator_bar.dart
-packages/components/lib/src/bottom_sheet/update_app_sheet.dart
-packages/platform_methods/example/lib/main.dart
-modules/auth/test/src/presentation/login/bloc/login_bloc_test.dart
-modules/auth/test/src/presentation/otp_login/bloc/otp_login_bloc_test.dart
-modules/home/test/src/presentation/main/bloc/home_bloc_test.dart
-modules/notifications/test/src/presentation/notifications/bloc/notifications_bloc_test.dart
-modules/payments/test/src/presentation/payment_methods/bloc/payment_methods_bloc_test.dart
-modules/profile/test/src/presentation/profile/bloc/profile_bloc_test.dart
-packages/components/test/src/buttons/custom_loading_button_test.dart
-packages/components/test/src/gap/gap_test.dart
-```
+`lib/` toza (guard majburlaydi). Qoldiq — 8 ta test fayli:
+`auth`, `home`, `notifications`, `payments`, `profile` bloc testlari va
+`packages/components/test/src/{gap/gap_test.dart,buttons/custom_loading_button_test.dart}`.
 
-## 10. Test qamrovi
+## 8. Test qamrovi
 
-| Modul | Test holati |
+| Modul | Test soni |
 |---|---|
-| `auth` | to'liq (10 test: datasource, model, repo, di, 2 usecase, 2 bloc, router) |
-| `home`, `notifications`, `payments`, `profile` | faqat bloc testi (1 tadan) |
-| `initial`, `main`, `system` | test yo'q |
-
-## 11. Konfiguratsiya
-
-- **`.cursorrules`** (42 qator) — kodga zid konvensiya tasvirlardi
-  (`fromJson`/`toJson`, `*UseCase` suffiksi, `datasources/`+`repositories/`+`pages/` papkalari).
-  Kodda bularning hech biri yo'q. **O'chirildi.**
-- **`CLAUDE.md`** — 4 zid nuqta moslashtirildi (§2 event nomi, §2 state nomi, §10 usecase `final class`, §12 `textStyle`). Tafsilot: `flutter-architecture.md` §11.
+| `notifications` | 11 — to'liq etalon |
+| `auth` | 10 |
+| `home`, `payments`, `profile` | 1 (faqat bloc) |
+| `initial`, `main`, `system` | 0 |

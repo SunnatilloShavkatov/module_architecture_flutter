@@ -1,14 +1,19 @@
 # CLAUDE.md
 
-Barcha asosiy arxitektura va kodlash qoidalari `AGENTS.md` va `docs/rules/` papkasida jamlangan.
+@AGENTS.md
 
-- Asosiy qoidalar: [`AGENTS.md`](AGENTS.md)
-- Modul arxitekturasi: [`docs/rules/module.md`](docs/rules/module.md)
-- Domain qatlami: [`docs/rules/domain.md`](docs/rules/domain.md)
-- Data va Remote Data Source: [`docs/rules/data-api.md`](docs/rules/data-api.md)
-- BLoC va State: [`docs/rules/bloc.md`](docs/rules/bloc.md)
-- Sahifa va Mixin: [`docs/rules/page-mixin.md`](docs/rules/page-mixin.md)
-- Navigatsiya va Routing: [`docs/rules/navigation.md`](docs/rules/navigation.md)
-- UI va Tematizatsiya: [`docs/rules/ui.md`](docs/rules/ui.md)
-- Lokalizatsiya: [`docs/rules/l10n.md`](docs/rules/l10n.md)
-- Testlash: [`docs/rules/testing.md`](docs/rules/testing.md)
+## Turn siyosati
+
+- Turn ichida **hech qachon**: `flutter analyze`, `flutter test`, `flutter pub get`,
+  `flutter clean`, `flutter build`, `dart format ./`, `dart fix --apply`.
+  Sifat: PostToolUse guard (har edit) → Stop hook (format + scan) → pre-commit → CI (to'liq).
+- Guard xabari kelsa: faqat ko'rsatilgan qatorni tuzat, faylni qayta o'qima.
+- Bir faylni ikki marta o'qima. Qidiruv: `rg` — `find` / `ls -R` emas.
+- Reja va variantlar ro'yxati yozma — ish qil, 3–5 qator xulosa + tegilgan fayllar ro'yxati.
+
+## Tayyor buyruqlar
+
+`/bloc`, `/page`, `/endpoint`, `/l10n`, `/module`, `/test`, `/guard` — `.claude/commands/`.
+Har biri kerakli etalon + rules faylini o'zi ko'rsatadi, ortiqcha fayl o'qilmaydi.
+
+**Javob o'zbek tilida. Kod, kommentariya, commit va PR matni ingliz tilida.**

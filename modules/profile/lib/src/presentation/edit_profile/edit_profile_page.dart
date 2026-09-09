@@ -19,6 +19,7 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> with EditProfileMixin {
   @override
   Widget build(BuildContext context) => BlocConsumer<ProfileBloc, ProfileState>(
+    buildWhen: (prev, curr) => curr is ProfileUpdatingState || prev is ProfileUpdatingState,
     listenWhen: (prev, curr) => curr is ProfileUpdatedState || curr is ProfileFailureState,
     listener: _handleStates,
     builder: (context, state) => Scaffold(

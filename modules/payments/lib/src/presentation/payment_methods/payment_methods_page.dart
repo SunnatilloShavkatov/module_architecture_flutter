@@ -10,6 +10,7 @@ class PaymentMethodsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocConsumer<PaymentMethodsBloc, PaymentMethodsState>(
+    buildWhen: (prev, curr) => prev != curr,
     listenWhen: (prev, curr) => curr is PaymentMethodsActionSuccessState || curr is PaymentMethodsFailureState,
     listener: (context, state) {
       if (state is PaymentMethodsFailureState) {

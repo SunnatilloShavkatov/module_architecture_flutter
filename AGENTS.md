@@ -1,11 +1,13 @@
 # AGENTS.md — Modular Architecture Standarti va Qoidalari
 
-> **YAGONA MANBA.** Boshqa barcha rules fayllari (`GEMINI.md`, `CLAUDE.MD`, `README.md`, `docs/rules/`) shu faylga ko'rsatkich.
-> Bu loyiha — mustaqil etalon shablon (template). Barcha etalonlar shu loyihaning o'zida to'liq implement qilingan.
+> **YAGONA MANBA.** `CLAUDE.md`, `GEMINI.md`, `.agents/rules/` — shu faylga ko'rsatkich.
+> Bu loyiha — yangi mobil ilovalar uchun **mustaqil etalon shablon (template/boilerplate)**.
+> Ziddiyat bo'lsa: **shu fayl > real kod > qolgan doc**. Guard qoidalari:
+> [`.claude/rules/flutter-architecture.md`](.claude/rules/flutter-architecture.md).
 
 ---
 
-## 0. Muloqot Tili va Ish Uslubi
+## 0. Muloqot Tili va Uslubi
 
 - Foydalanuvchiga **javob har doim o'zbek tilida**. Texnik atamalar (bloc, mixin, transformer, sealed, route) ingliz tilida qoladi.
 - **Kod, kommentariya, commit message, PR matni, identifikatorlar — ingliz tilida.**
@@ -20,7 +22,15 @@
 2. O'zgartiradigan faylni **to'liq** o'qi + yonidagi 1 ta qo'shni faylni.
 3. §2 router bo'yicha **faqat kerakli** rules faylini o'qi. Hammasini o'qish shart emas.
 4. Yoz. Minimal diff. Aloqasiz kodga tegma.
-5. §7 sifat gate'ni ishga tushir (`./scripts/verify.sh`).
+5. Guard xabari kelsa — o'sha qatorni tuzat. **Hech qanday analyze/test buyrug'i yo'q** (§7).
+
+### Token qoidalari
+
+- Bir faylni ikki marta o'qima; o'qigan joyingni yodda tut.
+- `rg` bilan qidir. `find`, `ls -R`, butun papkani o'qish — yo'q.
+- Fayl 400 qatordan uzun bo'lsa, kerakli qismini `offset/limit` bilan o'qi.
+- Guard (`arch-guard`) xabari — tayyor diagnoz. Qayta tekshirma, to'g'ridan-to'g'ri tuzat.
+- Reja/variant ro'yxati yozma. Javob: nima qilingani (3–5 qator) + tegilgan fayllar.
 
 ---
 
@@ -36,13 +46,23 @@
 | route, navigatsiya, args, bottom sheet, dialog | `docs/rules/navigation.md` |
 | UI, spacing, padding, rang, shrift, komponent | `docs/rules/ui.md` |
 | matn, tarjima, yangi l10n key | `docs/rules/l10n.md` |
+| websocket, audio, uzoq yashovchi servis | `docs/rules/service.md` |
+| `packages/*` ichida ish (component, tema, konstanta) | `docs/rules/packages.md` |
 | test (unit, bloc, repo, mocktail) | `docs/rules/testing.md` |
+| guard xabari, yangi tekshiruv qo'shish | `.claude/rules/flutter-architecture.md` |
+| yangi modul skeleti (skript) | `docs/rules/module.md` + `./scripts/create_module.sh <name>` |
+| «bu fayl nega qoidaga zid?» — eski pattern | `.claude/rules/migration-list.md` (style debt) |
+| agentning o'zini tutishi (terminal, tahrir, reja) | `.agents/rules/agent-protocol.md` |
+| bilmasang | shu fayl + eng yaqin etalon fayl |
 
 ---
 
 ## 3. Etalon Fayllar — Ko'chiriladigan Namuna
 
-Loyihadagi barcha haqiqiy etalon fayllar:
+Loyihadagi barcha haqiqiy etalon fayllar. **`notifications` — bosh etalon modul.**
+`auth` modulida eski nomlanish qoldiqlari bor (`domain/repos/`, `AuthRepo`) —
+undan faqat forma/OTP page+mixin patternini ol, nomlanishni emas
+(`.claude/rules/migration-list.md`).
 
 | Nima yozyapsan | Etalon Fayl |
 |---|---|
@@ -77,6 +97,7 @@ packages/              # Umumiy paketlar (modullarga bog'liq emas)
   core/                # entity, Either, usecase base, network, l10n, Constants, DI interfeyslari
   components/          # UI: Dimensions (kGap*, kPadding*, kRadius*), tugmalar, snackbar, theme
   navigation/          # Routes, CupertinoRoute, MaterialSheetRoute, MaterialDialogRoute, args
+  platform_methods/    # native kanal
   merge_dependencies/  # Yagona orkestrator: hamma modulni yig'adi (_allContainer)
 
 modules/<module>/lib/src/
@@ -90,7 +111,10 @@ modules/<module>/lib/src/
   <module>_container.dart
 ```
 
-**Qat'iy Chegara:** Modullar bir-birini **hech qachon** to'g'ridan-to'g'ri import qilmaydi yoki `pubspec.yaml` ga yozmaydi (`arch-guard`). Muloqot faqat `ModuleInteractor`, `WidgetFactory` yoki `Routes` orqali bo'ladi.
+**Qat'iy Chegara:**
+- `modules/*` bir-birini **hech qachon** to'g'ridan-to'g'ri import qilmaydi yoki `pubspec.yaml` ga yozmaydi (`arch-guard`).
+- Modullararo muloqot faqat `ModuleInteractor`, `PageFactory`, `WidgetFactory<T>` yoki `Routes` orqali bo'ladi.
+- Boshqa paketning `src/` iga hech qachon kirma — faqat barrel: `package:core/core.dart`.
 
 ---
 
@@ -114,7 +138,17 @@ modules/<module>/lib/src/
 | `Theme.of(context)` | `context.color`, `context.textStyle`, `context.textTheme` | Theme tokens (`arch-guard`) |
 | `extra` orqali callback uzatish | `context.pop(value)` + `await context.pushNamed<T>(...)` | Callback deep link/restore da yo'qoladi |
 | Modulni `pubspec.yaml` ga qo'shish | `ModuleInteractor` / `WidgetFactory` | Modullararo izolyatsiya |
-| `flutter build apk`, `flutter build ios`, `gradlew` | Hech qachon yurgazma | 3-5 daqiqa vaqt oladi, faqat foydalanuvchiga tegishli |
+| Turn ichida `flutter analyze`, `flutter test` | Turn ichida yo'q (§7), faqat hook va pre-commit | Vaqt va token tejamkorligi |
+
+### Istisno kerak bo'lsa
+
+Guard bitta qoidani fayl uchun o'chirishga ruxsat beradi — sabab majburiy:
+```dart
+// arch-guard: allow l10n-text — 'Visa' is a brand name, identical in every locale
+```
+Id'lar: `l10n-text`, `bloc-mutable`, `bloc-public-dep`, `build-when`, `import-order`.
+Butun faylni chiqarish (parked kod): `// arch-guard: ignore — <sabab>`, birinchi 3 qatorda.
+Istisno — oxirgi chora: avval kodni qoidaga moslashtir.
 
 ---
 
@@ -136,53 +170,59 @@ modules/<module>/lib/src/
 - `final class`: Implementatsiyalar (`*Impl`), BLoC, Router, Container, Injection, Interactor, Args, `*Params`, `*ApiPaths`.
 - `abstract interface class`: Repository va DataSource shartnomalari.
 - `class` (modifikatorsiz): Entity, Model, **UseCase**, StatefulWidget page, Mocktail mocklar.
-  > UseCase `final class` bo'lsa, Mocktail uni boshqa kutubxonadan `implements` qila olmaydi — test yozib bo'lmaydi (`docs/rules/domain.md` §2.4).
 - Konstruktor: **`const new(...)`** / **`new(...)`** (Dart 3.47 shorthand). Class nomini takrorlash taqiqlangan.
 
----
-
-## 7. Ish Yakunlash Darvozasi (Verification Gate)
-
-Har qanday o'zgarishdan so'ng terminalda quyidagi yagona tezkor buyruq (<10 sekund) to'liq o'tishi shart:
-```bash
-./scripts/verify.sh            # Faqat o'zgargan fayllar va o'zgargan modul testini tekshiradi (<10s)
-```
-> Katta o'zgarish bo'lganda yoki foydalanuvchi so'raganda to'liq chuqur tekshiruv:
-> `./scripts/verify.sh --all` — arch-guard (butun loyiha) + guard/qoida selftest + `dart format` +
-> `dart analyze` + barcha modul va paket testlari.
->
-> Flutter SDK PATH da bo'lmasa `FLUTTER_ROOT` ni belgila — skriptlarda hech qanday shaxsiy yo'l yo'q.
-
-### Tugallanganlik Cheklisti:
-- [ ] Etalon fayl ochilgan va uslub ko'chirilgan.
-- [ ] §5 jadvalidan birorta ham ❌ yo'q.
-- [ ] BLoC da mutable field yo'q, dependency'lar private final.
-- [ ] Har bir `on<Event>()` da `transformer:` bor, loading handlerda guard bor.
-- [ ] UI ma'lumoti mixin'da yashaydi, `_handleStates` ichida o'zgaradi, hosila qiymat — getter.
-- [ ] Har bir `BlocBuilder` da `buildWhen` bor va sealed subfamily'ni nomlaydi.
-- [ ] Barcha modal va dialoglar alohida Route (`MaterialSheetRoute`, `MaterialDialogRoute<T>`) sifatida ochilgan.
-- [ ] Modullararo bog'liqlik qo'shilmagan (`arch-guard` toza).
-- [ ] Hardcoded matn yo'q, barchasi `context.l10n.*` orqali olingan.
-- [ ] `./scripts/verify.sh` muvaffaqiyatli o'tgan (<10s).
+Import tartibi: `dart:` bloki → bo'sh qator → barcha `package:` importlari **bitta alfavit ro'yxatda**
+(o'z moduli ham shu ro'yxatda, alohida emas). `arch-guard` shuni tekshiradi.
 
 ---
 
-## 8. Agent / Antigravity Ishlash Protokoli
+## 7. Sifat Gate — Turn Ichida YO'Q
 
-1. **Terminal va buyruqlar (`run_command`):**
-   - Hech qachon `cd` ishlatma (`NEVER cd`). Har doim `Cwd` parametrini ko'rsat.
-   - Tezkor skriptlardan foydalan: `./scripts/verify.sh`, `./scripts/quick_check.sh`, `./scripts/test_module.sh <name>`, `./scripts/create_module.sh <name>`.
-   - Standart sandbox rejimida bajar (`BypassSandbox: false`). Faqat tashqi Flutter SDK yoki tarmoq zarur bo'lgandagina bypass so'ra.
-2. **Fayl tahrirlash (`replace_file_content`):**
-   - Tahrirlashdan oldin faylni `view_file` orqali ko'rib, qator raqami va aniq bo'sh joylarni (indentation) tekshir.
-   - Bitta faylga parallel bir nechta tahrirlash chaqiruvlarini qilma.
-   - Katta fayllarni to'liq o'chirib qayta yozma, faqat kerakli qismini almashtir.
-3. **Planning Mode Chegarasi:**
-   - Kichik va aniq topshiriqlar (bug fix, l10n, UI styling, bitta fayl refaktori, qoida yangilash) uchun ortiqcha reja tuzib to'xtab qolma — to'g'ridan-to'g'ri bajar.
-   - Faqat yangi modul yaratish yoki katta arxitekturaviy refaktoring uchun reja tuz.
-4. **Auto-import va taqiqlar filtri:**
-   - Har bir tahrirdan keyin importlarni tekshir: tasodifan `package:flutter/material.dart` kirmasin (faqat `package:material_ui/material_ui.dart`).
-   - Modullararo chegarani buzma (`modules/*` dan boshqa modulga to'g'ridan-to'g'ri import taqiqlangan).
-   - Konstruktorlarda `const new(...)` shakliga qat'iy rioya qil.
-5. **Avtomatik sifat tekshiruvi:**
-   - Har bir ish yakunida `./scripts/verify.sh` ni yurgaz va toza ekaniga ishonch hosil qil.
+Turn ichida bu buyruqlar **taqiqlanadi** (`PreToolUse` hook bloklaydi):
+`flutter analyze`, `dart analyze`, `flutter test`, `dart test`, `scripts/run_tests.sh`,
+`flutter pub get`, `flutter clean`, `flutter build`, `dart format ./`, `dart fix --apply`.
+
+Sabab: Ko'p modulli loyihalarda har turn'da 2–5 daqiqa kutish va token isrofini yo'qotish.
+
+| Bosqich | Nima | Qachon | Vaqt |
+|---|---|---|---|
+| PostToolUse hook | `arch-guard.sh` (§5 taqiqlar, §2 struktura) | har Write/Edit | ~50 ms |
+| Stop hook | `dart format` + guard scan — faqat o'zgargan fayl | turn oxiri | ~2 s |
+| pre-commit | format check + `dart analyze` (faqat tegilgan paket) | `git commit` | 5–25 s |
+| CI | to'liq testlar + `flutter analyze` | PR | fon |
+
+Turn ichida ruxsat etilgan yagona tekshiruv — guard skani (~1 s, flutter chaqirmaydi):
+`bash scripts/arch_guard_scan.sh --changed`.
+Dasturchi xohlasa qo'lda: `bash scripts/analyze_changed.sh` yoki `./scripts/verify.sh`.
+
+### Turn tugaganda model o'zi tekshiradi (buyruqsiz)
+
+- [ ] Etalon fayl ochilgan, style ko'chirilgan
+- [ ] §5 jadvalidan birorta ❌ yo'q
+- [ ] BLoC'da mutable field yo'q, dependency'lar `private final`
+- [ ] Har bir `on<Event>()` da `transformer:`; Loading emit qiluvchi handler'da guard
+- [ ] UI ma'lumoti mixin'da; hosila qiymat — getter
+- [ ] Har bir `BlocBuilder` da `buildWhen`, sealed subfamily nomlangan
+- [ ] Barcha modal va dialoglar alohida Route (`MaterialSheetRoute`, `MaterialDialogRoute<T>`)
+- [ ] Modullararo bog'liqlik qo'shilmagan (`pubspec.yaml`)
+- [ ] Barcha matn `context.l10n.*`
+- [ ] Javobda tegilgan fayllar ro'yxati bor
+
+---
+
+## 8. Tayyor Buyruqlar (Slash Commands / Workflows)
+
+Har biri kerakli etalon + rules faylini o'zi ko'rsatadi — ortiqcha fayl o'qilmaydi.
+
+| Buyruq | Nima qiladi | Claude Code | Boshqa agentlar |
+|---|---|---|---|
+| `/bloc <module> <feature>` | bloc + event + state | `.claude/commands/bloc.md` | `.agents/workflows/bloc.md` |
+| `/page <module> <feature>` | page + mixin + route | `.claude/commands/page.md` | `.agents/workflows/page.md` |
+| `/endpoint <module> <endpoint>` | api_paths + datasource + model + repo + usecase | `.claude/commands/endpoint.md` | `.agents/workflows/endpoint.md` |
+| `/l10n <key> "<matn>"` | 3 ta `.arb` + ishlatilishi | `.claude/commands/l10n.md` | `.agents/workflows/l10n.md` |
+| `/module <name>` | yangi modul skeleti + orkestratsiya | `.claude/commands/module.md` | `.agents/workflows/module.md` |
+| `/test <module> <target>` | test + aggregator ulanishi | `.claude/commands/test.md` | `.agents/workflows/test.md` |
+| `/guard` | guard buzilishlarini skanlab tuzatish | `.claude/commands/guard.md` | `.agents/workflows/guard.md` |
+
+Buyruqsiz ishlayotgan bo'lsang ham shu fayllarni o'qish mumkin — ular §1–§6 ning qisqartmasi.

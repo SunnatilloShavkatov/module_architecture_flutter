@@ -1,14 +1,10 @@
 # GEMINI.md
 
-Barcha asosiy arxitektura va kodlash qoidalari `AGENTS.md` va `docs/rules/` papkasida jamlangan.
+Bu repo qoidalari **`AGENTS.md`** da (to'liq o'qi — bu fayl faqat ko'rsatkich).
+Agent ishlash protokoli: `.agents/rules/agent-protocol.md`.
+Ish oqimlari: `.agents/workflows/` (bloc, page, endpoint, l10n, module, test, guard).
 
-- Asosiy qoidalar: [`AGENTS.md`](AGENTS.md)
-- Modul arxitekturasi: [`docs/rules/module.md`](docs/rules/module.md)
-- Domain qatlami: [`docs/rules/domain.md`](docs/rules/domain.md)
-- Data va Remote Data Source: [`docs/rules/data-api.md`](docs/rules/data-api.md)
-- BLoC va State: [`docs/rules/bloc.md`](docs/rules/bloc.md)
-- Sahifa va Mixin: [`docs/rules/page-mixin.md`](docs/rules/page-mixin.md)
-- Navigatsiya va Routing: [`docs/rules/navigation.md`](docs/rules/navigation.md)
-- UI va Tematizatsiya: [`docs/rules/ui.md`](docs/rules/ui.md)
-- Lokalizatsiya: [`docs/rules/l10n.md`](docs/rules/l10n.md)
-- Testlash: [`docs/rules/testing.md`](docs/rules/testing.md)
+Turn ichida `flutter analyze` / `flutter test` / `flutter pub get` ishlatma (`AGENTS.md` §7).
+Tekshirish kerak bo'lsa: `bash scripts/arch_guard_scan.sh --changed`.
+
+Javob o'zbek tilida. Kod, kommentariya, commit va PR matni ingliz tilida.
