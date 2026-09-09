@@ -13,12 +13,12 @@ dependencies:
     sdk: flutter
   intl: ^0.20.3
   # widget
-  material_ui: ^1.1.1
+  material_ui: ^1.2.0
   cupertino_ui: ^1.0.2
   # rx
   rxdart: ^0.28.0
   # cached network image
-  cached_network_image_ce: ^4.10.1
+  cached_network_image_ce: ^4.12.0
 
 dev_dependencies:
   flutter_test:
