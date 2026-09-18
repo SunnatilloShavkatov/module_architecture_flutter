@@ -1,38 +1,38 @@
-# Agent ishlash protokoli (Antigravity / avtonom agentlar)
+# Agent conduct protocol (Antigravity / autonomous agents)
 
-> Qoidalar manbasi: `AGENTS.md`. Bu fayl faqat **agentning o'zini tutishi** haqida.
-> Antigravity `.agents/rules/` ni avtomatik yuklaydi.
+> Rules source: `AGENTS.md`. This file is only about **the agent's own conduct**.
+> Antigravity autoloads `.agents/rules/`.
 
 ## 1. Terminal (`run_command`)
 
-- Hech qachon `cd` ishlatma. Har doim `Cwd` parametrini ber.
-- Standart sandbox: `BypassSandbox: false`. Faqat tarmoq kerak bo'lsa bypass so'ra.
-- Buyruqlarni `&&` bilan uzun zanjirlama — prefix-matchable, bitta maqsadli buyruq.
-- **Taqiqlangan buyruqlar (turn ichida):** `flutter analyze`, `dart analyze`, `flutter test`,
+- Never use `cd`. Always pass the `Cwd` parameter.
+- Default sandbox: `BypassSandbox: false`. Only request bypass when network access is needed.
+- Don't chain commands with `&&` into a long sequence — one prefix-matchable, single-purpose command.
+- **Banned commands (during a turn):** `flutter analyze`, `dart analyze`, `flutter test`,
   `flutter pub get`, `flutter clean`, `flutter build`, `dart format ./`, `dart fix --apply`.
-  Sifat: guard → pre-commit → CI (`AGENTS.md` §7). Kerak bo'lsa:
+  Quality gate: guard → pre-commit → CI (`AGENTS.md` §7). If needed:
   `bash scripts/arch_guard_scan.sh --changed` (~1 s).
 
-## 2. Fayl tahrirlash (`replace_file_content`)
+## 2. Editing files (`replace_file_content`)
 
-- Tahrirdan oldin `view_file` — qator raqami va indentatsiyani tekshir.
-- Bitta faylga parallel bir nechta tahrir chaqiruvi qilma.
-- `write_to_file` bilan mavjud katta faylni bosib ketma — faqat kerakli qismni almashtir.
+- `view_file` before editing — check the line number and indentation.
+- Don't fire multiple parallel edit calls at the same file.
+- Don't overwrite a large existing file with `write_to_file` — replace only the needed part.
 
-## 3. Rejalashtirish
+## 3. Planning
 
-- Bug fix, l10n, UI styling, bitta fayl refaktori → **reja tuzma**, to'g'ridan-to'g'ri bajar.
-- Reja faqat: yangi modul yoki katta arxitektura refaktoringi uchun.
+- Bug fix, l10n, UI styling, single-file refactor → **don't write a plan**, just do it.
+- A plan is only for: a new module or a large architectural refactor.
 
-## 4. Har tahrirdan keyin (o'zing tekshir, buyruqsiz)
+## 4. After every edit (self-check, no command)
 
-- Import'ga `package:flutter/material.dart` kirib qolmadimi (faqat `material_ui`).
-- `modules/*` dan boshqa modulga import yo'q.
-- Konstruktor `const new(...)` shaklida.
-- Matn `context.l10n.*`, `BlocBuilder` da `buildWhen` bor.
+- Did `package:flutter/material.dart` sneak into an import (only `material_ui` allowed)?
+- No import of another module from `modules/*`.
+- Constructor uses `const new(...)` form.
+- Text via `context.l10n.*`, `BlocBuilder` has `buildWhen`.
 
-## 5. Token intizomi
+## 5. Token discipline
 
-- Bir faylni ikki marta o'qima; `rg` bilan qidir.
-- Uzun faylni to'liq emas, kerakli oralig'ini o'qi.
-- Javob: nima qilinganini 3–5 qator + tegilgan fayllar. Reja/variant ro'yxati yo'q.
+- Don't read one file twice; search with `rg`.
+- Don't read a long file in full — only the needed range.
+- Response: what was done in 3–5 lines + touched files. No plan/option list.

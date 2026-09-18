@@ -1,80 +1,80 @@
-# Style debt — guard bloklamaydigan qoldiqlar
+# Style debt — remnants the guard doesn't block
 
-> Guard buzilishlari bu yerda **emas**: ular `.claude/rules/arch-migration.md` da
-> (`scripts/arch_guard_scan.sh --md` avtomatik yozadi). Bu fayl — qo'lda yuritiladigan,
-> `arch-guard` majburlamaydigan (60–90% oraliqdagi) style qoldiqlari ro'yxati.
+> Guard violations are **not** here: they live in `.claude/rules/arch-migration.md`
+> (auto-written by `scripts/arch_guard_scan.sh --md`). This file is a manually
+> maintained list of style remnants (in the 60–90% range) that `arch-guard` does not enforce.
 
-**Guard holati: 0 / 269 fayl buzilish** (`modules/*/lib` + `packages/*/lib`, test'siz).
-Oxirgi tekshiruv: 2026-09-10.
+**Guard status: 0 / 269 files in violation** (`modules/*/lib` + `packages/*/lib`, excluding tests).
+Last checked: 2026-09-10.
 
-Yangi kod bu ro'yxatga qo'shilmaydi — shablon shu holda klonlanadi va debt faqat kamayadi.
-Agent qoidasi: **shu fayldagi eski patternni namuna qilib ko'chirma**, etalon `notifications`
-moduli (`AGENTS.md` §3).
+New code must not be added to this list — the template is cloned in this state
+and debt only decreases. Agent rule: **don't copy an old pattern from this file as an example**,
+use the `notifications` reference module instead (`AGENTS.md` §3).
 
 ---
 
-## 1. `auth` — yagona «eski» modul
+## 1. `auth` — the one "legacy" module
 
-| Nima | Fayl |
-|---|---|
-| `domain/repos/` → `domain/repository/` | `modules/auth/lib/src/domain/repos/auth_repo.dart` |
-| `data/repo/` → `data/repository/` | `modules/auth/lib/src/data/repo/auth_repo_impl.dart` |
-| `AuthRepo` → `AuthRepository`, `AuthRepoImpl` → `AuthRepositoryImpl` | yuqoridagi 2 fayl + `src/di/auth_injection.dart` |
-| Test nomi `login_usecase_test.dart` → `login_test.dart` | `modules/auth/test/src/domain/usecases/` |
-| Test nomi `otp_login_usecase_test.dart` → `otp_login_test.dart` | `modules/auth/test/src/domain/usecases/` |
-| Raw `TextStyle(color: ...)` → `context.textStyle.*.copyWith(...)` | `login_page.dart:52,110`, `otp_login_page.dart:64,84` |
+| What                                                                 | File                                                  |
+|----------------------------------------------------------------------|-------------------------------------------------------|
+| `domain/repos/` → `domain/repository/`                               | `modules/auth/lib/src/domain/repos/auth_repo.dart`    |
+| `data/repo/` → `data/repository/`                                    | `modules/auth/lib/src/data/repo/auth_repo_impl.dart`  |
+| `AuthRepo` → `AuthRepository`, `AuthRepoImpl` → `AuthRepositoryImpl` | the 2 files above + `src/di/auth_injection.dart`      |
+| Test name `login_usecase_test.dart` → `login_test.dart`              | `modules/auth/test/src/domain/usecases/`              |
+| Test name `otp_login_usecase_test.dart` → `otp_login_test.dart`      | `modules/auth/test/src/domain/usecases/`              |
+| Raw `TextStyle(color: ...)` → `context.textStyle.*.copyWith(...)`    | `login_page.dart:52,110`, `otp_login_page.dart:64,84` |
 
-Qolgan modullar (`home`, `main`, `notifications`, `payments`, `profile`, `system`) —
-`<Module>Repository` + `domain/repository/` + `data/repository/` bilan to'g'ri.
+Remaining modules (`home`, `main`, `notifications`, `payments`, `profile`, `system`) —
+correctly use `<Module>Repository` + `domain/repository/` + `data/repository/`.
 
-## 2. `final class` yetishmaydi (infratuzilma sinflari)
+## 2. Missing `final class` (infrastructure classes)
 
-| Fayl:qator | Klass |
-|---|---|
-| `modules/profile/lib/src/presentation/profile/bloc/profile_bloc.dart:10` | `ProfileBloc` |
-| `modules/home/lib/src/data/datasource/home_local_data_source_impl.dart:3` | `HomeLocalDataSourceImpl` |
+| File:line                                                                       | Class                        |
+|---------------------------------------------------------------------------------|------------------------------|
+| `modules/profile/lib/src/presentation/profile/bloc/profile_bloc.dart:10`        | `ProfileBloc`                |
+| `modules/home/lib/src/data/datasource/home_local_data_source_impl.dart:3`       | `HomeLocalDataSourceImpl`    |
 | `modules/profile/lib/src/data/datasource/profile_local_data_source_impl.dart:6` | `ProfileLocalDataSourceImpl` |
-| `modules/main/lib/src/data/datasource/main_local_data_source_impl.dart:3` | `MainLocalDataSourceImpl` |
-| `modules/main/lib/src/data/datasource/main_remote_data_source_impl.dart:3` | `MainRemoteDataSourceImpl` |
+| `modules/main/lib/src/data/datasource/main_local_data_source_impl.dart:3`       | `MainLocalDataSourceImpl`    |
+| `modules/main/lib/src/data/datasource/main_remote_data_source_impl.dart:3`      | `MainRemoteDataSourceImpl`   |
 
-## 3. Event nomlash
+## 3. Event naming
 
-| Hozir | Bo'lishi kerak | Fayl |
-|---|---|---|
+| Now                         | Should be            | File                                                                   |
+|-----------------------------|----------------------|------------------------------------------------------------------------|
 | `UpdateProfilePressedEvent` | `ProfileUpdateEvent` | `modules/profile/lib/src/presentation/profile/bloc/profile_event.dart` |
 
-Ta'sir: `profile_bloc.dart`, `profile_bloc_test.dart`, `edit_profile_mixin.dart`.
+Impact: `profile_bloc.dart`, `profile_bloc_test.dart`, `edit_profile_mixin.dart`.
 
-## 4. Private `State` klassi
+## 4. Private `State` class
 
-| Hozir | Bo'lishi kerak | Fayl |
-|---|---|---|
+| Now                           | Should be                      | File                                                                                    |
+|-------------------------------|--------------------------------|-----------------------------------------------------------------------------------------|
 | `InternetConnectionPageState` | `_InternetConnectionPageState` | `modules/system/lib/src/presentation/internet_connection/internet_connection_page.dart` |
 
-## 5. Design system tokenlari
+## 5. Design system tokens
 
-| Nima | Fayl:qator |
-|---|---|
-| `ElevatedButton` → `CustomLoadingButton` | `modules/profile/lib/src/presentation/profile/profile_page.dart:128,135` |
-| `EdgeInsets.only(bottom: 8, left: 4)` → `Dimensions.*` | `modules/profile/.../profile_page.dart:186` |
-| `EdgeInsets.zero` → `Dimensions.*` | `modules/profile/.../profile_page.dart:208` |
+| What                                                   | File:line                                                                |
+|--------------------------------------------------------|--------------------------------------------------------------------------|
+| `ElevatedButton` → `CustomLoadingButton`               | `modules/profile/lib/src/presentation/profile/profile_page.dart:128,135` |
+| `EdgeInsets.only(bottom: 8, left: 4)` → `Dimensions.*` | `modules/profile/.../profile_page.dart:186`                              |
+| `EdgeInsets.zero` → `Dimensions.*`                     | `modules/profile/.../profile_page.dart:208`                              |
 
-## 6. Raqamli literal matn (past prioritet)
+## 6. Numeric literal text (low priority)
 
 `Text('1.0.0')` (`profile_page.dart:39`), `Text('404')` (`not_found_page.dart:13`).
-Guard faqat harfli literalni bloklaydi; bularni ham `context.l10n.*` ga o'tkazish afzal.
+Guard only blocks alphabetic literals; moving these to `context.l10n.*` too is preferred.
 
-## 7. Klassik `const <ClassName>(` konstruktori — faqat testlarda
+## 7. Classic `const <ClassName>(` constructor — tests only
 
-`lib/` toza (guard majburlaydi). Qoldiq — 8 ta test fayli:
-`auth`, `home`, `notifications`, `payments`, `profile` bloc testlari va
+`lib/` is clean (guard enforces it). Remaining — 8 test files:
+bloc tests in `auth`, `home`, `notifications`, `payments`, `profile`, and
 `packages/components/test/src/{gap/gap_test.dart,buttons/custom_loading_button_test.dart}`.
 
-## 8. Test qamrovi
+## 8. Test coverage
 
-| Modul | Test soni |
-|---|---|
-| `notifications` | 11 — to'liq etalon |
-| `auth` | 10 |
-| `home`, `payments`, `profile` | 1 (faqat bloc) |
-| `initial`, `main`, `system` | 0 |
+| Module                        | Test count          |
+|-------------------------------|---------------------|
+| `notifications`               | 11 — full reference |
+| `auth`                        | 10                  |
+| `home`, `payments`, `profile` | 1 (bloc only)       |
+| `initial`, `main`, `system`   | 0                   |

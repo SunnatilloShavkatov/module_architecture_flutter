@@ -1,20 +1,19 @@
 ---
-description: Yangi modul yaratish (skript + orkestratsiyaga ulash)
+description: Create a new module (script + wire into orchestration)
 argument-hint: <module_name>
 allowed-tools: Read, Edit, Write, Grep, Glob, Bash(./scripts/create_module.sh:*)
 ---
 
-Qoida: `docs/rules/module.md`. Etalon modul: `modules/notifications/`.
+Rules: `docs/rules/module.md`. Reference module: `modules/notifications/`.
 
-1. `./scripts/create_module.sh <module_name>` — skeletni skript yaratadi (qo'lda papka ochma).
-2. Orkestratsiya: `packages/merge_dependencies/lib/merge_dependencies.dart` ga
-   `<Pascal>Container()` qo'sh.
-3. Route nomlari `packages/navigation` dagi `Routes` ga qo'shiladi.
-4. Modul kontenti: container → injection → router — `modules/notifications/` dagi tartibda.
+1. `./scripts/create_module.sh <module_name>` — the script creates the skeleton (don't create folders by hand).
+2. Orchestration: add `<Pascal>Container()` to `packages/merge_dependencies/lib/merge_dependencies.dart`.
+3. Add route names to `Routes` in `packages/navigation`.
+4. Module content order: container → injection → router — matching `modules/notifications/`.
 
-Qat'iy: `modules/*` boshqa modulni import qilmaydi va `pubspec.yaml` ga yozmaydi.
-Modullararo aloqa: `ModuleInteractor`, `PageFactory`, `WidgetFactory<T>`, `Routes`.
+Hard rule: `modules/*` never imports another module or lists it in `pubspec.yaml`.
+Cross-module communication: `ModuleInteractor`, `PageFactory`, `WidgetFactory<T>`, `Routes`.
 
-Skript `flutter pub get` ni o'zi chaqiradi — bu yagona istisno; boshqa flutter buyrug'ini yozma.
+The script calls `flutter pub get` itself — that is the one exception; don't run any other flutter command.
 
-Topshiriq: $ARGUMENTS
+Task: $ARGUMENTS

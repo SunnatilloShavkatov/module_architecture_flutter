@@ -1,15 +1,15 @@
 ---
-description: arch-guard buzilishlarini topib tuzatish
+description: Find and fix arch-guard violations
 allowed-tools: Read, Edit, Bash(bash scripts/arch_guard_scan.sh:*), Grep
 ---
 
-1. `bash scripts/arch_guard_scan.sh --changed` ishga tushir.
-2. Har bir xabar uchun **faqat ko'rsatilgan qatorni** tuzat — faylni to'liq qayta o'qima.
-3. Tozalanmaguncha takrorla (maksimum 3 marta), keyin qolganini xabar qil.
+1. Run `bash scripts/arch_guard_scan.sh --changed`.
+2. For each message, fix **only the indicated line** — don't re-read the whole file.
+3. Repeat until clean (max 3 times), then report what remains.
 
-Qoida tegishli bo'lmasa — istisno izohi (sabab majburiy):
-`// arch-guard: allow <id> — <sabab>` (`AGENTS.md` §5).
+If the rule doesn't apply — exception comment (reason mandatory):
+`// arch-guard: allow <id> — <reason>` (`.claude/skills/flutter-conventions/SKILL.md`).
 
-`flutter analyze` ishlatma — guard yetarli.
+Don't use `flutter analyze` — guard is enough.
 
 $ARGUMENTS

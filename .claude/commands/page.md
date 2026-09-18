@@ -1,24 +1,24 @@
 ---
-description: Yangi page + mixin (to'liq ekran)
+description: New page + mixin (full screen)
 argument-hint: <module> <feature>
 allowed-tools: Read, Edit, Write, Grep, Glob
 ---
 
-Etalon (topshiriqqa mos bittasini tanla, butun papkani emas — page + mixin juftini o'qi):
-- ro'yxat + paginatsiya → `modules/notifications/lib/src/presentation/notifications/`
-- forma + validatsiya → `modules/auth/lib/src/presentation/login/`
-- forma tahrirlash + args + pop result → `modules/profile/lib/src/presentation/edit_profile/`
+Reference (pick the one matching the task, not the whole folder — read the page + mixin pair):
+- list + pagination → `modules/notifications/lib/src/presentation/notifications/`
+- form + validation → `modules/auth/lib/src/presentation/login/`
+- edit form + args + pop result → `modules/profile/lib/src/presentation/edit_profile/`
 
-Qoida: `docs/rules/page-mixin.md` TL;DR bloki.
+Rules: `docs/rules/page-mixin.md` TL;DR block.
 
-Talab:
-- `mixin <Name>Mixin on State<...>`; UI ma'lumoti mixin'da, `_handleStates` ichida o'zgaradi
-- hosila qiymat — getter, `setState` bilan hisoblanmaydi
-- har `BlocBuilder` / `BlocConsumer` da `buildWhen` + sealed subfamily nomi
+Requirements:
+- `mixin <Name>Mixin on State<...>`; UI data lives in the mixin, changes inside `_handleStates`
+- derived value is a getter, never computed with `setState`
+- every `BlocBuilder` / `BlocConsumer` has `buildWhen` + the sealed subfamily name
 - `context.l10n.*`, `Dimensions.*`, `context.color` / `context.textStyle`
-- navigatsiya: `context.pushNamed` / `context.pop`; modal — `MaterialSheetRoute` / `MaterialDialogRoute<T>`
-- route'ni `modules/<module>/lib/src/router/<module>_router.dart` ga qo'sh
+- navigation: `context.pushNamed` / `context.pop`; modal — `MaterialSheetRoute` / `MaterialDialogRoute<T>`
+- add the route to `modules/<module>/lib/src/router/<module>_router.dart`
 
-Turn ichida analyze/test ishlatma.
+Don't use analyze/test during the turn.
 
-Topshiriq: $ARGUMENTS
+Task: $ARGUMENTS

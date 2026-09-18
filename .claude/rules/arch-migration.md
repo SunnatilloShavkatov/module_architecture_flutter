@@ -1,9 +1,9 @@
-# Migratsiya ro'yxati — arch-guard buzilishlari
+# Migration list — arch-guard violations
 
-Manba: `.claude/rules/flutter-architecture.md`
+Source: `.claude/rules/flutter-architecture.md`
 Guard: `.claude/hooks/arch-guard.sh`
 Generator: `scripts/arch_guard_scan.sh --md`
 
-**0 / 269 fayl** — qamrov: `modules/*/lib/**/*.dart` + `packages/*/lib/**/*.dart`, test'siz.
+**0 / 269 files** — scope: `modules/*/lib/**/*.dart` + `packages/*/lib/**/*.dart`, excluding tests.
 
-Buzilish yo'q.
+No violations.

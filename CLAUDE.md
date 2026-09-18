@@ -1,19 +1,20 @@
 # CLAUDE.md
 
-@AGENTS.md
+Full rules: `AGENTS.md` — read on demand, not autoloaded.
+Ban/naming table: `.claude/skills/flutter-conventions/SKILL.md` (autoloads on any Dart file edit).
 
-## Turn siyosati
+## Turn Policy
 
-- Turn ichida **hech qachon**: `flutter analyze`, `flutter test`, `flutter pub get`,
+- Never during a turn: `flutter analyze`, `flutter test`, `flutter pub get`,
   `flutter clean`, `flutter build`, `dart format ./`, `dart fix --apply`.
-  Sifat: PostToolUse guard (har edit) → Stop hook (format + scan) → pre-commit → CI (to'liq).
-- Guard xabari kelsa: faqat ko'rsatilgan qatorni tuzat, faylni qayta o'qima.
-- Bir faylni ikki marta o'qima. Qidiruv: `rg` — `find` / `ls -R` emas.
-- Reja va variantlar ro'yxati yozma — ish qil, 3–5 qator xulosa + tegilgan fayllar ro'yxati.
+  Quality gate: PostToolUse guard (every edit) → Stop hook (format + scan) → pre-commit → CI (full).
+- On a guard message: fix only the indicated line, don't re-read the file.
+- Don't read one file twice. Search with `rg` — not `find` / `ls -R`.
+- Don't write plans or option lists — do the work, 3–5 line summary + list of touched files.
 
-## Tayyor buyruqlar
+## Ready Commands
 
 `/bloc`, `/page`, `/endpoint`, `/l10n`, `/module`, `/test`, `/guard` — `.claude/commands/`.
-Har biri kerakli etalon + rules faylini o'zi ko'rsatadi, ortiqcha fayl o'qilmaydi.
+Each shows its own needed reference + rules file, no extra file reads.
 
-**Javob o'zbek tilida. Kod, kommentariya, commit va PR matni ingliz tilida.**
+Communicate with the user in Uzbek. Rules and code comments stay English.

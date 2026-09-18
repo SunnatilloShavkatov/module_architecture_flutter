@@ -1,228 +1,149 @@
-# AGENTS.md — Modular Architecture Standarti va Qoidalari
+# AGENTS.md — Modular Architecture Standard and Rules
 
-> **YAGONA MANBA.** `CLAUDE.md`, `GEMINI.md`, `.agents/rules/` — shu faylga ko'rsatkich.
-> Bu loyiha — yangi mobil ilovalar uchun **mustaqil etalon shablon (template/boilerplate)**.
-> Ziddiyat bo'lsa: **shu fayl > real kod > qolgan doc**. Guard qoidalari:
+> **SINGLE SOURCE OF TRUTH.** `CLAUDE.md`, `GEMINI.md`, `.agents/rules/` point here.
+> This project is a standalone reference template (template/boilerplate) for new mobile apps.
+> On conflict: **this file > actual code > other docs**. Guard rules:
 > [`.claude/rules/flutter-architecture.md`](.claude/rules/flutter-architecture.md).
 
 ---
 
-## 0. Muloqot Tili va Uslubi
+## 0. Communication Language and Style
 
-- Foydalanuvchiga **javob har doim o'zbek tilida**. Texnik atamalar (bloc, mixin, transformer, sealed, route) ingliz tilida qoladi.
-- **Kod, kommentariya, commit message, PR matni, identifikatorlar — ingliz tilida.**
-- Xato/log matnini tarjima qilma, asl holida ko'rsat.
-- Qisqa yoz. Reja/variantlar ro'yxati kerak emas — ish qil, keyin nima qilganingni 3-5 qatorda ayt.
-
----
-
-## 1. Ish Tartibi — Har Bir Topshiriqda
-
-1. **Etalon faylni o'qi** (§3 jadval) — o'ylab topma, mavjud style'ni ko'chir.
-2. O'zgartiradigan faylni **to'liq** o'qi + yonidagi 1 ta qo'shni faylni.
-3. §2 router bo'yicha **faqat kerakli** rules faylini o'qi. Hammasini o'qish shart emas.
-4. Yoz. Minimal diff. Aloqasiz kodga tegma.
-5. Guard xabari kelsa — o'sha qatorni tuzat. **Hech qanday analyze/test buyrug'i yo'q** (§7).
-
-### Token qoidalari
-
-- Bir faylni ikki marta o'qima; o'qigan joyingni yodda tut.
-- `rg` bilan qidir. `find`, `ls -R`, butun papkani o'qish — yo'q.
-- Fayl 400 qatordan uzun bo'lsa, kerakli qismini `offset/limit` bilan o'qi.
-- Guard (`arch-guard`) xabari — tayyor diagnoz. Qayta tekshirma, to'g'ridan-to'g'ri tuzat.
-- Reja/variant ro'yxati yozma. Javob: nima qilingani (3–5 qator) + tegilgan fayllar.
+- Always answer the user in Uzbek. Keep technical terms (bloc, mixin, transformer, sealed, route) in English.
+- Write code, comments, commit messages, PR text, and identifiers in English.
+- Do not translate error/log text — show it verbatim.
+- Write tersely. Skip plan/option lists — do the work, then report what you did in 3–5 lines.
 
 ---
 
-## 2. Qoidalar Routeri (Rules Map)
+## 1. Workflow — Every Task
 
-| Topshiriq | O'qi (faqat shuni) |
-|---|---|
-| bloc / event / state / transformer | `docs/rules/bloc.md` |
-| page / mixin / widget / setState / paginatsiya | `docs/rules/page-mixin.md` |
-| yangi modul, DI, container, modullararo aloqa | `docs/rules/module.md` |
-| endpoint, datasource, model, repository impl | `docs/rules/data-api.md` |
-| domain (entity, repository, usecase, interactor) | `docs/rules/domain.md` |
-| route, navigatsiya, args, bottom sheet, dialog | `docs/rules/navigation.md` |
-| UI, spacing, padding, rang, shrift, komponent | `docs/rules/ui.md` |
-| matn, tarjima, yangi l10n key | `docs/rules/l10n.md` |
-| websocket, audio, uzoq yashovchi servis | `docs/rules/service.md` |
-| `packages/*` ichida ish (component, tema, konstanta) | `docs/rules/packages.md` |
-| test (unit, bloc, repo, mocktail) | `docs/rules/testing.md` |
-| guard xabari, yangi tekshiruv qo'shish | `.claude/rules/flutter-architecture.md` |
-| yangi modul skeleti (skript) | `docs/rules/module.md` + `./scripts/create_module.sh <name>` |
-| «bu fayl nega qoidaga zid?» — eski pattern | `.claude/rules/migration-list.md` (style debt) |
-| agentning o'zini tutishi (terminal, tahrir, reja) | `.agents/rules/agent-protocol.md` |
-| bilmasang | shu fayl + eng yaqin etalon fayl |
+1. **Read the reference file** (table in §3) — don't invent, copy the existing style.
+2. Read the file you're changing **in full** + one neighboring file.
+3. Per the §2 router, read **only the needed** rules file. Reading all of them is not required.
+4. Write. Minimal diff. Don't touch unrelated code.
+5. On a guard message — fix that exact line. **No analyze/test command at all** (§7).
+
+### Token rules
+
+- Don't read one file twice; remember what you've already read.
+- Search with `rg`. Not `find`, `ls -R`, or reading a whole folder.
+- If a file exceeds 400 lines, read only the needed part via `offset/limit`.
+- A guard (`arch-guard`) message is a ready-made diagnosis. Don't re-check — fix it directly.
+- Don't write a plan/option list. Response: what was done (3–5 lines) + touched files.
 
 ---
 
-## 3. Etalon Fayllar — Ko'chiriladigan Namuna
+## 2. Rules Router (Rules Map)
 
-Loyihadagi barcha haqiqiy etalon fayllar. **`notifications` — bosh etalon modul.**
-`auth` modulida eski nomlanish qoldiqlari bor (`domain/repos/`, `AuthRepo`) —
-undan faqat forma/OTP page+mixin patternini ol, nomlanishni emas
+| Task                                                    | Read (only this)                                             |
+|---------------------------------------------------------|--------------------------------------------------------------|
+| bloc / event / state / transformer                      | `docs/rules/bloc.md`                                         |
+| page / mixin / widget / setState / pagination           | `docs/rules/page-mixin.md`                                   |
+| new module, DI, container, cross-module communication   | `docs/rules/module.md`                                       |
+| endpoint, datasource, model, repository impl            | `docs/rules/data-api.md`                                     |
+| domain (entity, repository, usecase, interactor)        | `docs/rules/domain.md`                                       |
+| route, navigation, args, bottom sheet, dialog           | `docs/rules/navigation.md`                                   |
+| UI, spacing, padding, color, font, component            | `docs/rules/ui.md`                                           |
+| text, translation, new l10n key                         | `docs/rules/l10n.md`                                         |
+| websocket, audio, long-lived service                    | `docs/rules/service.md`                                      |
+| work inside `packages/*` (component, theme, constant)   | `docs/rules/packages.md`                                     |
+| test (unit, bloc, repo, mocktail)                       | `docs/rules/testing.md`                                      |
+| guard message, adding a new check                       | `.claude/rules/flutter-architecture.md`                      |
+| new module skeleton (script)                            | `docs/rules/module.md` + `./scripts/create_module.sh <name>` |
+| "why does this file violate the rule?" — legacy pattern | `.claude/rules/migration-list.md` (style debt)               |
+| agent's own conduct (terminal, editing, planning)       | `.agents/rules/agent-protocol.md`                            |
+| unsure                                                  | this file + the nearest reference file                       |
+
+---
+
+## 3. Reference Files — Pattern to Copy
+
+All real reference files in the project. **`notifications` is the primary reference module.**
+The `auth` module has legacy naming remnants (`domain/repos/`, `AuthRepo`) —
+take only the form/OTP page+mixin pattern from it, not the naming
 (`.claude/rules/migration-list.md`).
 
-| Nima yozyapsan | Etalon Fayl |
-|---|---|
-| bloc + event + state | `modules/notifications/lib/src/presentation/notifications/bloc/notifications_bloc.dart` |
-| ko'p-operatsiyali sealed state | `modules/notifications/lib/src/presentation/notifications/bloc/notifications_state.dart` |
-| paginatsiyali ro'yxat + set-union | `modules/notifications/lib/src/presentation/notifications/notifications_page.dart` & `mixin/notifications_mixin.dart` |
-| forma + validatsiya + auth | `modules/auth/lib/src/presentation/login/login_page.dart` & `mixin/login_mixin.dart` |
-| OTP / tasdiqlash kiritish | `modules/auth/lib/src/presentation/otp_login/otp_login_page.dart` & `mixin/otp_login_mixin.dart` |
-| forma tahrirlash + args + pop result | `modules/profile/lib/src/presentation/edit_profile/edit_profile_page.dart` & `mixin/edit_profile_mixin.dart` |
-| karta kiritish / formatlash | `modules/payments/lib/src/presentation/add_card/add_card_page.dart` & `mixin/add_card_mixin.dart` |
-| dashboard / ko'p-bo'limli ekran | `modules/home/lib/src/presentation/main/home_page.dart` & `mixin/home_mixin.dart` |
-| splash / app bootstrap | `modules/initial/lib/src/presentation/splash/splash_page.dart` & `mixin/splash_mixin.dart` |
-| navigation shell / tablar | `modules/main/lib/src/presentation/main/main_page.dart` & `mixin/main_mixin.dart` |
-| bottom sheet (route orqali) | `modules/notifications/lib/src/presentation/notifications_filter_sheet/notifications_filter_sheet.dart` |
-| dialog (route orqali) | `modules/notifications/lib/src/presentation/clear_notifications_dialog/clear_notifications_dialog.dart` |
-| router (CupertinoRoute, Sheet, Dialog)| `modules/notifications/lib/src/router/notifications_router.dart` |
-| args + `.parse()` | `modules/notifications/lib/src/presentation/notifications_filter_sheet/args/notifications_filter_args.dart` |
-| domain (entity, repo, usecases) | `modules/notifications/lib/src/domain/` |
-| datasource + model + repo impl | `modules/notifications/lib/src/data/` |
-| DI (injection) | `modules/notifications/lib/src/di/notifications_injection.dart` |
-| module container | `modules/notifications/lib/src/notifications_container.dart` |
-| widget factory | `modules/notifications/lib/src/presentation/notifications/factory/notification_item_factory.dart` |
-| module interactor | `modules/notifications/lib/src/domain/interactor/get_unread_notifications_count_interactor.dart` |
-| to'liq test to'plami | `modules/notifications/test/notifications_test.dart` |
+| What you're writing                    | Reference File                                                                                                        |
+|----------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| bloc + event + state                   | `modules/notifications/lib/src/presentation/notifications/bloc/notifications_bloc.dart`                               |
+| multi-operation sealed state           | `modules/notifications/lib/src/presentation/notifications/bloc/notifications_state.dart`                              |
+| paginated list + set-union             | `modules/notifications/lib/src/presentation/notifications/notifications_page.dart` & `mixin/notifications_mixin.dart` |
+| form + validation + auth               | `modules/auth/lib/src/presentation/login/login_page.dart` & `mixin/login_mixin.dart`                                  |
+| OTP / confirmation input               | `modules/auth/lib/src/presentation/otp_login/otp_login_page.dart` & `mixin/otp_login_mixin.dart`                      |
+| edit form + args + pop result          | `modules/profile/lib/src/presentation/edit_profile/edit_profile_page.dart` & `mixin/edit_profile_mixin.dart`          |
+| card entry / formatting                | `modules/payments/lib/src/presentation/add_card/add_card_page.dart` & `mixin/add_card_mixin.dart`                     |
+| dashboard / multi-section screen       | `modules/home/lib/src/presentation/main/home_page.dart` & `mixin/home_mixin.dart`                                     |
+| splash / app bootstrap                 | `modules/initial/lib/src/presentation/splash/splash_page.dart` & `mixin/splash_mixin.dart`                            |
+| navigation shell / tabs                | `modules/main/lib/src/presentation/main/main_page.dart` & `mixin/main_mixin.dart`                                     |
+| bottom sheet (via route)               | `modules/notifications/lib/src/presentation/notifications_filter_sheet/notifications_filter_sheet.dart`               |
+| dialog (via route)                     | `modules/notifications/lib/src/presentation/clear_notifications_dialog/clear_notifications_dialog.dart`               |
+| router (CupertinoRoute, Sheet, Dialog) | `modules/notifications/lib/src/router/notifications_router.dart`                                                      |
+| args + `.parse()`                      | `modules/notifications/lib/src/presentation/notifications_filter_sheet/args/notifications_filter_args.dart`           |
+| domain (entity, repo, usecases)        | `modules/notifications/lib/src/domain/`                                                                               |
+| datasource + model + repo impl         | `modules/notifications/lib/src/data/`                                                                                 |
+| DI (injection)                         | `modules/notifications/lib/src/di/notifications_injection.dart`                                                       |
+| module container                       | `modules/notifications/lib/src/notifications_container.dart`                                                          |
+| widget factory                         | `modules/notifications/lib/src/presentation/notifications/factory/notification_item_factory.dart`                     |
+| module interactor                      | `modules/notifications/lib/src/domain/interactor/get_unread_notifications_count_interactor.dart`                      |
+| full test suite                        | `modules/notifications/test/notifications_test.dart`                                                                  |
 
 ---
 
-## 4. Tuzilma va Modul Chegarasi
+## 4–6. Structure, Hard Bans, Naming
 
-```
-packages/              # Umumiy paketlar (modullarga bog'liq emas)
-  core/                # entity, Either, usecase base, network, l10n, Constants, DI interfeyslari
-  components/          # UI: Dimensions (kGap*, kPadding*, kRadius*), tugmalar, snackbar, theme
-  navigation/          # Routes, CupertinoRoute, MaterialSheetRoute, MaterialDialogRoute, args
-  platform_methods/    # native kanal
-  merge_dependencies/  # Yagona orkestrator: hamma modulni yig'adi (_allContainer)
-
-modules/<module>/lib/src/
-  domain/              # entities/, repository/, usecases/, interactor/ (sof Dart, zero Flutter)
-  data/                # datasource/ (+impl part), models/, repository/
-  presentation/<feature>/
-    <feature>_page.dart
-    bloc/ mixin/ widgets/ args/
-  di/<module>_injection.dart
-  router/<module>_router.dart
-  <module>_container.dart
-```
-
-**Qat'iy Chegara:**
-- `modules/*` bir-birini **hech qachon** to'g'ridan-to'g'ri import qilmaydi yoki `pubspec.yaml` ga yozmaydi (`arch-guard`).
-- Modullararo muloqot faqat `ModuleInteractor`, `PageFactory`, `WidgetFactory<T>` yoki `Routes` orqali bo'ladi.
-- Boshqa paketning `src/` iga hech qachon kirma — faqat barrel: `package:core/core.dart`.
+Module folder structure, module boundary rules, the `❌/✅` ban table, and naming/class
+modifier rules live in the `.claude/skills/flutter-conventions/SKILL.md` skill
+(autoloads on every Dart file edit — not duplicated here).
 
 ---
 
-## 5. Qattiq Taqiqlar — Nol Tolerantlik
+## 7. Quality Gate — NOT During the Turn
 
-| ❌ Yozma | ✅ Yoz | Sabab |
-|---|---|---|
-| `package:flutter/material.dart` | `package:material_ui/material_ui.dart` va `package:components/components.dart` | Arxitektura standarti (`arch-guard`) |
-| `Navigator.push/pop`, `MaterialPageRoute` | `context.pushNamed(...)`, `context.pop(value)` | go_router navigatsiyasi |
-| `showDialog`, `showModalBottomSheet` | `MaterialDialogRoute<T>`, `MaterialSheetRoute<T>` | Barcha modal va dialoglar router stackida yashashi shart (`arch-guard`) |
-| `MediaQuery.of(context)` | `context.width` / `context.height` / `context.padding` / `context.viewInsets` | Core extensionlar |
-| `print()`, `debugPrint()` | `logMessage('...', error: e, stackTrace: s)` | Xavfsiz loglash |
-| `Text('Login')` hardcoded | `Text(context.l10n.login)` | Lokalizatsiya (l10n) (`arch-guard`) |
-| `EdgeInsets.all(16)` | `Dimensions.kPaddingAll16` | UI Design System |
-| `SizedBox(height: 16)` oraliq uchun | `Dimensions.kGap16` yoki `spacing: 16` | UI Design System |
-| BLoC ichida `List _items = []` yoki `int _page` | mixin fieldi (`docs/rules/page-mixin.md`) | BLoC stateless dvigatel, Mixin ma'lumot egasi |
-| BLoC'da public usecase | `final GetXxx _getXxx;` (private final) | Enkapsulyatsiya |
-| `_onXxx` handler nomi | `_getXxxHandler` (`_<verb><target>Handler`) | Nomlash standarti |
-| `transformer:` siz `on<Event>()` | har doim aniq transformer (`droppable()`, `throttle()`, `debounce()`) | Duplikat so'rovlarning oldini olish |
-| `fromJson` / `toJson` | `fromMap` / `toMap` | Model standarti |
-| `Theme.of(context)` | `context.color`, `context.textStyle`, `context.textTheme` | Theme tokens (`arch-guard`) |
-| `extra` orqali callback uzatish | `context.pop(value)` + `await context.pushNamed<T>(...)` | Callback deep link/restore da yo'qoladi |
-| Modulni `pubspec.yaml` ga qo'shish | `ModuleInteractor` / `WidgetFactory` | Modullararo izolyatsiya |
-| Turn ichida `flutter analyze`, `flutter test` | Turn ichida yo'q (§7), faqat hook va pre-commit | Vaqt va token tejamkorligi |
-
-### Istisno kerak bo'lsa
-
-Guard bitta qoidani fayl uchun o'chirishga ruxsat beradi — sabab majburiy:
-```dart
-// arch-guard: allow l10n-text — 'Visa' is a brand name, identical in every locale
-```
-Id'lar: `l10n-text`, `bloc-mutable`, `bloc-public-dep`, `build-when`, `import-order`.
-Butun faylni chiqarish (parked kod): `// arch-guard: ignore — <sabab>`, birinchi 3 qatorda.
-Istisno — oxirgi chora: avval kodni qoidaga moslashtir.
-
----
-
-## 6. Nomlash va Class Modifikatorlari
-
-| Nima | Qoida | Misol |
-|---|---|---|
-| fayl / papka | snake_case | `notifications_page.dart` |
-| class | PascalCase | `NotificationsBloc` |
-| private field | `_camelCase` | `_getNotifications` |
-| event | `<Verb><Noun>Event` | `GetNotificationsEvent` |
-| state | `<Noun><Holat>State` | `NotificationsLoadingState` |
-| handler | `_<verb><target>Handler` | `_getNotificationsHandler` |
-| usecase | `<Verb><Noun>` | `GetNotifications` |
-| repository | `<Noun>Repository` | `NotificationsRepository` |
-| api paths | `<Module>ApiPaths` | `NotificationsApiPaths` |
-
-- `sealed class`: Event va State ildizlari (va subfamilies).
-- `final class`: Implementatsiyalar (`*Impl`), BLoC, Router, Container, Injection, Interactor, Args, `*Params`, `*ApiPaths`.
-- `abstract interface class`: Repository va DataSource shartnomalari.
-- `class` (modifikatorsiz): Entity, Model, **UseCase**, StatefulWidget page, Mocktail mocklar.
-- Konstruktor: **`const new(...)`** / **`new(...)`** (Dart 3.47 shorthand). Class nomini takrorlash taqiqlangan.
-
-Import tartibi: `dart:` bloki → bo'sh qator → barcha `package:` importlari **bitta alfavit ro'yxatda**
-(o'z moduli ham shu ro'yxatda, alohida emas). `arch-guard` shuni tekshiradi.
-
----
-
-## 7. Sifat Gate — Turn Ichida YO'Q
-
-Turn ichida bu buyruqlar **taqiqlanadi** (`PreToolUse` hook bloklaydi):
+These commands are **banned** during a turn (`PreToolUse` hook blocks them):
 `flutter analyze`, `dart analyze`, `flutter test`, `dart test`, `scripts/run_tests.sh`,
 `flutter pub get`, `flutter clean`, `flutter build`, `dart format ./`, `dart fix --apply`.
 
-Sabab: Ko'p modulli loyihalarda har turn'da 2–5 daqiqa kutish va token isrofini yo'qotish.
+Reason: in a multi-module project, this wastes 2–5 minutes and tokens every turn.
 
-| Bosqich | Nima | Qachon | Vaqt |
-|---|---|---|---|
-| PostToolUse hook | `arch-guard.sh` (§5 taqiqlar, §2 struktura) | har Write/Edit | ~50 ms |
-| Stop hook | `dart format` + guard scan — faqat o'zgargan fayl | turn oxiri | ~2 s |
-| pre-commit | format check + `dart analyze` (faqat tegilgan paket) | `git commit` | 5–25 s |
-| CI | to'liq testlar + `flutter analyze` | PR | fon |
+| Stage            | What                                                           | When             | Time       |
+|------------------|----------------------------------------------------------------|------------------|------------|
+| PostToolUse hook | `arch-guard.sh` (flutter-conventions skill bans, §2 structure) | every Write/Edit | ~50 ms     |
+| Stop hook        | `dart format` + guard scan — changed file only                 | end of turn      | ~2 s       |
+| pre-commit       | format check + `dart analyze` (touched package only)           | `git commit`     | 5–25 s     |
+| CI               | full tests + `flutter analyze`                                 | PR               | background |
 
-Turn ichida ruxsat etilgan yagona tekshiruv — guard skani (~1 s, flutter chaqirmaydi):
+The only check allowed during a turn — guard scan (~1 s, doesn't invoke flutter):
 `bash scripts/arch_guard_scan.sh --changed`.
-Dasturchi xohlasa qo'lda: `bash scripts/analyze_changed.sh` yoki `./scripts/verify.sh`.
+Manual, if the developer wants: `bash scripts/analyze_changed.sh` or `./scripts/verify.sh`.
 
-### Turn tugaganda model o'zi tekshiradi (buyruqsiz)
+### Self-check at end of turn (model does this itself, no command)
 
-- [ ] Etalon fayl ochilgan, style ko'chirilgan
-- [ ] §5 jadvalidan birorta ❌ yo'q
-- [ ] BLoC'da mutable field yo'q, dependency'lar `private final`
-- [ ] Har bir `on<Event>()` da `transformer:`; Loading emit qiluvchi handler'da guard
-- [ ] UI ma'lumoti mixin'da; hosila qiymat — getter
-- [ ] Har bir `BlocBuilder` da `buildWhen`, sealed subfamily nomlangan
-- [ ] Barcha modal va dialoglar alohida Route (`MaterialSheetRoute`, `MaterialDialogRoute<T>`)
-- [ ] Modullararo bog'liqlik qo'shilmagan (`pubspec.yaml`)
-- [ ] Barcha matn `context.l10n.*`
-- [ ] Javobda tegilgan fayllar ro'yxati bor
+- [ ] Reference file opened, style copied
+- [ ] Nothing from the `flutter-conventions` skill's ❌ table present
+- [ ] No mutable field in BLOC, dependencies are `private final`
+- [ ] Every `on<Event>()` has a `transformer:`; loading-emitting handler has a guard
+- [ ] UI data lives in the mixin; derived value is a getter
+- [ ] Every `BlocBuilder` has `buildWhen`, sealed subfamily is named
+- [ ] Every modal and dialog is a separate Route (`MaterialSheetRoute`, `MaterialDialogRoute<T>`)
+- [ ] No cross-module dependency added (`pubspec.yaml`)
+- [ ] All text via `context.l10n.*`
+- [ ] Response includes the list of touched files
 
 ---
 
-## 8. Tayyor Buyruqlar (Slash Commands / Workflows)
+## 8. Ready-Made Commands (Slash Commands / Workflows)
 
-Har biri kerakli etalon + rules faylini o'zi ko'rsatadi — ortiqcha fayl o'qilmaydi.
+Each shows its own needed reference + rules file — no extra file reads.
 
-| Buyruq | Nima qiladi | Claude Code | Boshqa agentlar |
-|---|---|---|---|
-| `/bloc <module> <feature>` | bloc + event + state | `.claude/commands/bloc.md` | `.agents/workflows/bloc.md` |
-| `/page <module> <feature>` | page + mixin + route | `.claude/commands/page.md` | `.agents/workflows/page.md` |
+| Command                         | What it does                                    | Claude Code                    | Other agents                    |
+|---------------------------------|-------------------------------------------------|--------------------------------|---------------------------------|
+| `/bloc <module> <feature>`      | bloc + event + state                            | `.claude/commands/bloc.md`     | `.agents/workflows/bloc.md`     |
+| `/page <module> <feature>`      | page + mixin + route                            | `.claude/commands/page.md`     | `.agents/workflows/page.md`     |
 | `/endpoint <module> <endpoint>` | api_paths + datasource + model + repo + usecase | `.claude/commands/endpoint.md` | `.agents/workflows/endpoint.md` |
-| `/l10n <key> "<matn>"` | 3 ta `.arb` + ishlatilishi | `.claude/commands/l10n.md` | `.agents/workflows/l10n.md` |
-| `/module <name>` | yangi modul skeleti + orkestratsiya | `.claude/commands/module.md` | `.agents/workflows/module.md` |
-| `/test <module> <target>` | test + aggregator ulanishi | `.claude/commands/test.md` | `.agents/workflows/test.md` |
-| `/guard` | guard buzilishlarini skanlab tuzatish | `.claude/commands/guard.md` | `.agents/workflows/guard.md` |
+| `/l10n <key> "<text>"`          | 3 `.arb` files + usage                          | `.claude/commands/l10n.md`     | `.agents/workflows/l10n.md`     |
+| `/module <name>`                | new module skeleton + orchestration             | `.claude/commands/module.md`   | `.agents/workflows/module.md`   |
+| `/test <module> <target>`       | test + aggregator wiring                        | `.claude/commands/test.md`     | `.agents/workflows/test.md`     |
+| `/guard`                        | scan and fix guard violations                   | `.claude/commands/guard.md`    | `.agents/workflows/guard.md`    |
 
-Buyruqsiz ishlayotgan bo'lsang ham shu fayllarni o'qish mumkin — ular §1–§6 ning qisqartmasi.
+You may read these files even without a command — they are a shorthand for §1–§3.

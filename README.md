@@ -52,12 +52,12 @@ If you are building a FinTech, E-commerce, or "Super-Apps" that must live for 3-
 
 ## 🧭 Module Conventions (Real Paths)
 
-There is exactly one canonical repository convention — see [`AGENTS.md`](AGENTS.md) §6:
+There is exactly one canonical repository convention — see [`.claude/skills/flutter-conventions/SKILL.md`](.claude/skills/flutter-conventions/SKILL.md):
 
-| Layer | Folder | Interface | Implementation |
-|---|---|---|---|
-| Domain | `lib/src/domain/repository/` | `<Module>Repository` | — |
-| Data | `lib/src/data/repository/` | — | `<Module>RepositoryImpl` |
+| Layer  | Folder                       | Interface            | Implementation           |
+|--------|------------------------------|----------------------|--------------------------|
+| Domain | `lib/src/domain/repository/` | `<Module>Repository` | —                        |
+| Data   | `lib/src/data/repository/`   | —                    | `<Module>RepositoryImpl` |
 
 ```text
 modules/notifications/lib/src/domain/repository/notifications_repository.dart   # NotificationsRepository
@@ -78,7 +78,7 @@ Rules:
 ## 🔍 Gold Standard Reference Modules
 
 To ensure consistency across teams, the repository provides comprehensive reference implementations:
-- **`modules/notifications`**: Full 6-layer Clean Architecture reference with 100% unit & BLoC test coverage.
+- **`modules/notifications`**: Full 6-layer Clean Architecture reference with 100% unit & BLOC test coverage.
 - **`modules/auth`**: Reference for authentication flow and localized presentation.
 
 All architectural rules and guidelines are documented under [`docs/README.md`](docs/README.md).

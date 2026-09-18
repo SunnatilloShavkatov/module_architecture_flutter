@@ -1,22 +1,22 @@
 # /bloc
 
-Faqat shu ikki manbani o'qi, boshqasini emas:
-1. `modules/notifications/lib/src/presentation/notifications/bloc/notifications_bloc.dart` — etalon
-   (ko'p-operatsiyali sealed state kerak bo'lsa: yonidagi `notifications_state.dart`)
-2. `docs/rules/bloc.md` — TL;DR bloki (davomini faqat yangi pattern kerak bo'lsa)
+Read only these two sources, nothing else:
+1. `modules/notifications/lib/src/presentation/notifications/bloc/notifications_bloc.dart` — reference
+   (need a multi-operation sealed state? also `notifications_state.dart` next to it)
+2. `docs/rules/bloc.md` — TL;DR block (read the rest only if you need a new pattern)
 
-Yoz: `modules/<module>/lib/src/presentation/<feature>/bloc/<feature>_bloc.dart`
-+ `part` qilingan `_event.dart` va `_state.dart`.
+Write: `modules/<module>/lib/src/presentation/<feature>/bloc/<feature>_bloc.dart`
++ `part`-ed `_event.dart` and `_state.dart`.
 
-Talab:
-- event `<Verb><Noun>Event`, state `<Noun><Holat>State`, handler `_<verb><target>Handler`
-- har `on<Event>()` da aniq `transformer:` (`droppable()`, `throttle()`, `debounce()`)
-- dependency'lar `private final`, bloc ichida mutable field yo'q (ma'lumot mixin'da)
-- event/state ildizi `sealed class` + `part of`; bloc `final class`
-- konstruktor `const new(...)` (bloc konstruktori `const` emas)
+Requirements:
+- event `<Verb><Noun>Event`, state `<Noun><Status>State`, handler `_<verb><target>Handler`
+- every `on<Event>()` has an explicit `transformer:` (`droppable()`, `throttle()`, `debounce()`)
+- dependencies `private final`, no mutable field in the bloc (data lives in the mixin)
+- event/state root is `sealed class` + `part of`; bloc is `final class`
+- constructor `const new(...)` (bloc's own constructor is not `const`)
 
-Turn ichida analyze/test ishlatma. Guard xabari kelsa — o'sha qatorni tuzat.
+Don't use analyze/test during the turn. On a guard message — fix that exact line.
 
-Topshiriq foydalanuvchidan olinadi.
+Task is taken from the user.
 
-Qoidalar manbasi: `AGENTS.md`. Turn ichida analyze/test/pub get yo'q (§7).
+Rules source: `AGENTS.md`. No analyze/test/pub get during a turn (§7).

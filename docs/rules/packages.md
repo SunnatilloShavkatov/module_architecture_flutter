@@ -15,7 +15,7 @@
 > - `packages/*` hech qachon `modules/*` ni import qilmaydi. `core`, `components`, `navigation`,
 >   `platform_methods` bir-biriga ham bog'lanmaydi. Yagona istisno — `merge_dependencies`.
 > - `package:flutter/material.dart` bu yerda ham taqiq — `material_ui`.
-> - §5 taqiqlar (`AGENTS.md`) va §6 nomlash paketlarda ham amal qiladi.
+> - Taqiqlar va nomlash (`.claude/skills/flutter-conventions/SKILL.md`) paketlarda ham amal qiladi.
 
 ## 1. Qaysi paketga qo'shiladi
 
