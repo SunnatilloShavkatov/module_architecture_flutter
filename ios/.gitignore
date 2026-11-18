@@ -33,3 +33,5 @@ Runner/GeneratedPluginRegistrant.*
 !default.pbxuser
 !default.perspectivev3
 Podfile.lock
+/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved

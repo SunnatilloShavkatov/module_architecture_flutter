@@ -19,6 +19,10 @@ class _MyAppState extends State<MyApp> {
   bool isLoading = false;
 
   void _setError(Object error) {
+    if (error is ReviewException) {
+      status = '[${error.code}] ${error.message}';
+      return;
+    }
     if (error is PlatformException) {
       status = '[${error.code}] ${error.message ?? 'Unknown platform error'}';
       return;
@@ -26,10 +30,7 @@ class _MyAppState extends State<MyApp> {
     status = error.toString();
   }
 
-  Future<void> _run(
-    Future<void> Function() action, {
-    String? successMessage,
-  }) async {
+  Future<void> _run(Future<void> Function() action, {String? successMessage}) async {
     setState(() {
       isLoading = true;
       status = null;
@@ -81,8 +82,7 @@ class _MyAppState extends State<MyApp> {
       status = null;
     });
     try {
-      final bool isAvailable = await PlatformMethods.instance
-          .isReviewAvailable();
+      final bool isAvailable = await PlatformMethods.instance.isReviewAvailable();
       setState(() {
         status = 'Review available: $isAvailable';
       });
@@ -118,10 +118,7 @@ class _MyAppState extends State<MyApp> {
             children: [
               if (id != null) SelectableText('ID: $id'),
               if (status != null) SelectableText(status!),
-              ElevatedButton(
-                onPressed: isLoading ? null : _loadDeviceId,
-                child: const Text('Get ID'),
-              ),
+              ElevatedButton(onPressed: isLoading ? null : _loadDeviceId, child: const Text('Get ID')),
               ElevatedButton(
                 onPressed: isLoading ? null : _checkReviewAvailability,
                 child: const Text('Check Review Availability'),
@@ -129,19 +126,13 @@ class _MyAppState extends State<MyApp> {
               ElevatedButton(
                 onPressed: isLoading
                     ? null
-                    : () => _run(
-                        PlatformMethods.instance.requestReview,
-                        successMessage: 'Review flow requested',
-                      ),
+                    : () => _run(PlatformMethods.instance.requestReview, successMessage: 'Review flow requested'),
                 child: const Text('Request Review'),
               ),
               ElevatedButton(
                 onPressed: isLoading
                     ? null
-                    : () => _run(
-                        PlatformMethods.instance.openStoreListing,
-                        successMessage: 'Store listing opened',
-                      ),
+                    : () => _run(PlatformMethods.instance.openStoreListing, successMessage: 'Store listing opened'),
                 child: const Text('Open Store Listing'),
               ),
             ],

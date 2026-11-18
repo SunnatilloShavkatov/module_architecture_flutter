@@ -17,6 +17,7 @@ let package = Package(
         .target(
             name: "platform_methods",
             dependencies: [
+                "platform_methods_objc_gen",
                 .product(name: "KeychainAccess", package: "KeychainAccess"),
                 .product(name: "FlutterFramework", package: "FlutterFramework"),
             ],
@@ -24,6 +25,13 @@ let package = Package(
             resources: [
                 .process("Resources/PrivacyInfo.xcprivacy"),
             ]
+        ),
+        // Objective-C glue emitted by Pigeon (useFfi) for the async host methods.
+        .target(
+            name: "platform_methods_objc_gen",
+            dependencies: [],
+            path: "Sources/platform_methods_objc_gen",
+            publicHeadersPath: "."
         ),
     ]
 )

@@ -13,7 +13,8 @@ A new Flutter project.
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'platform_methods/Sources/platform_methods/**/*.swift'
+  # Includes Pigeon Native Interop output: Swift + the ObjC glue in platform_methods_objc_gen.
+  s.source_files = 'platform_methods/Sources/**/*.{swift,m,h}'
   s.resource_bundles = {
     'platform_methods_privacy' => ['platform_methods/Sources/platform_methods/Resources/PrivacyInfo.xcprivacy']
   }

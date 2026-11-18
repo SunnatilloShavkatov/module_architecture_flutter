@@ -9,14 +9,27 @@ environment:
   flutter: ">=3.47.0"
 
 dependencies:
+  ffi: ^2.2.0
   flutter:
     sdk: flutter
+  jni: ^1.1.1
+  meta: ^1.10.0
+  # 9.6.3 has a simulator bug; same pin as pigeon's own native-interop example.
+  objective_c: ">=9.6.2 <9.6.3"
   plugin_platform_interface: ^2.1.8
 
 dev_dependencies:
+  analysis_lints: ^1.1.0
+  # Exact pin required by pigeon 30.x.
+  ffigen: 22.0.0
   flutter_test:
     sdk: flutter
-  analysis_lints: ^1.1.0
+  jnigen: ^1.0.1
+  path: ^1.9.0
+  pigeon: ^30.0.4
+  pub_semver: ^2.1.4
+  swift2objc: 0.3.1
+  swiftgen: 0.2.0
 
 flutter:
   plugin:

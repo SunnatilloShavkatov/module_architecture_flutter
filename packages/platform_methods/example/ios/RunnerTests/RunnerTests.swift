@@ -2,26 +2,33 @@ import Flutter
 import UIKit
 import XCTest
 
-
 @testable import platform_methods
 
-// This demonstrates a simple unit test of the Swift portion of this plugin's implementation.
-//
-// See https://developer.apple.com/documentation/xctest for more information about using XCTest.
+// Unit tests of the Swift host API implementation (Native Interop, no channels).
+// See https://developer.apple.com/documentation/xctest for more information about XCTest.
 
 class RunnerTests: XCTestCase {
 
-  func testIsPhysicalDevice() {
+  func testIsEmulatorMatchesBuildEnvironment() async throws {
     let plugin = PlatformMethodsPlugin()
 
-    let call = FlutterMethodCall(methodName: "isPhysicalDevice", arguments: [])
+    let isEmulator = try await plugin.isEmulator()
 
-    let resultExpectation = expectation(description: "result block must be called.")
-    plugin.handle(call) { result in
-      XCTAssertTrue(result as! Bool)
-      resultExpectation.fulfill()
-    }
-    waitForExpectations(timeout: 1)
+    #if targetEnvironment(simulator)
+    XCTAssertTrue(isEmulator)
+    #else
+    XCTAssertFalse(isEmulator)
+    #endif
   }
 
+  func testOpenStoreListingWithoutAppStoreIdThrows() async {
+    let plugin = PlatformMethodsPlugin()
+
+    do {
+      try await plugin.openStoreListing(appStoreId: nil)
+      XCTFail("Expected PlatformMethodsError")
+    } catch {
+      XCTAssertTrue(error is PlatformMethodsError)
+    }
+  }
 }

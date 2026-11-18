@@ -116,7 +116,6 @@
 				97C146EF1CF9000F007C117D /* Products */,
 				331C8082294A63A400263BE5 /* RunnerTests */,
 				F87241227449654024E8293C /* GoogleService-Info.plist */,
-				FA1439307CBB646D24048D49 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -142,13 +141,6 @@
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 			);
 			path = Runner;
-			sourceTree = "<group>";
-		};
-		FA1439307CBB646D24048D49 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

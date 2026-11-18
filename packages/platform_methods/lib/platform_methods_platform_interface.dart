@@ -1,4 +1,4 @@
-import 'package:platform_methods/platform_methods_method_channel.dart';
+import 'package:platform_methods/src/platform_methods_native_interop.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 abstract class PlatformMethodsPlatform extends PlatformInterface {
@@ -7,11 +7,11 @@ abstract class PlatformMethodsPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static PlatformMethodsPlatform _instance = MethodChannelPlatformMethods();
+  static PlatformMethodsPlatform _instance = NativeInteropPlatformMethods();
 
   /// The default instance of [PlatformMethodsPlatform] to use.
   ///
-  /// Defaults to [MethodChannelPlatformMethods].
+  /// Defaults to [NativeInteropPlatformMethods].
   static PlatformMethodsPlatform get instance => _instance;
 
   /// Platform-specific implementations should set this with their own

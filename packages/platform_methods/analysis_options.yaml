@@ -7,4 +7,10 @@ analyzer:
     - windows/**
     - macos/**
     - linux/**
+    # Pigeon-generated (dart run pigeon --input pigeons/messages.dart) — do not lint.
+    - tool/pigeon/**
+    - lib/src/messages.g.dart
+    - lib/src/messages.g.ffi.dart
+    - lib/src/messages.g.jni.dart
+    - lib/src/messages.native_interop.g.dart
 include: package:analysis_lints/analysis_options.yaml

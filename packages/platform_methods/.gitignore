@@ -32,3 +32,5 @@ migrate_working_dir/
 /build/
 /coverage/
 example/android/.kotlin/
+# Pigeon Native Interop build artifacts
+ios/platform_methods/Sources/platform_methods_objc_gen/*.o

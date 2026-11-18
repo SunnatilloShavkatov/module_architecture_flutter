@@ -46,7 +46,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  material_ui: ^1.2.0
+  material_ui: ^1.11.1
   core:
     path: ../../packages/core
   components:
